@@ -1,4 +1,3 @@
-import { FileQuestionIcon } from "lucide-react";
 
 type MessageViewCardProps = {
   profileImgUrl?: string;
