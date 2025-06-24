@@ -1,4 +1,4 @@
-import { Pencil, X, Palette, Plus } from "lucide-react";
+import { Pencil, X, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 type CreateTopicProps = {
@@ -101,6 +101,10 @@ const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
                   />
                 </div>
               </div>
+
+              <button className="w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg bg-blue-500 hover:bg-blue-600 hover:scale-[1.01] cursor-pointer active:scale-[0.98] transition duration-200">
+                Create topic
+              </button>
             </div>
           </motion.div>
         </>

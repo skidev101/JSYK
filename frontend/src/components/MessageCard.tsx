@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Copy, DownloadCloudIcon, Link } from "lucide-react";
 
 type MessageCardProps = {
@@ -8,8 +9,12 @@ type MessageCardProps = {
 }
 
 const MessageCard : React.FC<MessageCardProps> = ({ username, topic, message, link }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className="rounded-lg bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200">
+    <div 
+      onClick={() => navigate('/view')}
+      className="rounded-lg bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200">
       <div className="flex justify-between py-2 mb-1">
         <div className="flex items-center gap-2">
           <div className="grid place-items-center w-8 h-8 sm:w-10 sm:h-10 bg-gray-400 outline-4 outline-gray-200 rounded-full">
