@@ -20,10 +20,10 @@ const ViewMessage = () => {
       </div>
 
       <FadeIn>
-        <div className="flex flex-col justify-center items-center min-h-screen">
+        <div className="w-full flex flex-col justify-center items-center min-h-screen">
           <div
             ref={messageRef}
-            className="w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-gray-100"
+            className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-gray-100"
           >
             <MessageViewCard
               profileImgUrl="/form.webp"
