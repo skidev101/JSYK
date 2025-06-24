@@ -10,15 +10,17 @@ import {
 import ProfileDrawer from "../components/ProfileDrawer";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
+import CreateTopicModal from "../components/CreateTopicModal";
 
 
 const Dashboard = () => {
   const [showProfile, setShowProfile] = useState(false);
+  const [showTopicModal, setShowTopicModal] = useState(false);
 
   return (
     <div className="w-full min-h-screen">
       <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-md p-4 backdrop-blur-md rounded-b-4xl">
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">me</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">JSYK</h1>
 
         <div className="flex items-center gap-4 sm:gap-8">
           <div
@@ -75,6 +77,7 @@ const Dashboard = () => {
 
               <button
                 type="button"
+                onClick={() => setShowTopicModal((prev) => !prev)}
                 className="flex items-center justify-center flex-col w-full sm:w-50 sm:h-50 p-4 rounded-xl sm:rounded-4xl hover:scale-[1.01] bg-pink-500 hover:bg-pink-300 active:scale-[0.95] active:bg-pink-600 transition duration-300 cursor-pointer"
               >
                 <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
@@ -85,6 +88,10 @@ const Dashboard = () => {
             </div>
           </div>
         </FadeDown>
+            <CreateTopicModal
+              isOpen={showTopicModal}
+              onClose={() => setShowTopicModal((prev) => !prev)}
+            />
 
         <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full">
           <FadeDown>

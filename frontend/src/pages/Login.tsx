@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Lock, EyeOff, Eye } from "lucide-react";
+import { Mail, Lock, EyeOff, Eye, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -51,7 +51,7 @@ const Login = () => {
       console.log('Login successful:', { email, password });
       // Redirect or show success message
       navigate('/dashboard')
-    }, 3000);
+    }, 10000);
 
 
   }
@@ -73,7 +73,7 @@ const Login = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500 focus:border-blue-500' : 'border-gray-300'} rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                className={`w-full pl-10 pr-4 py-2 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-md outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Enter your email"
               />
             </div>
@@ -110,10 +110,15 @@ const Login = () => {
 
           <button 
             type="submit"
+            onClick={handleLogin}
             disabled={loading}
-            className={`w-full ${loading ? 'bg-blue-300' : 'bg-blue-600 hover:bg-blue-700'} text-white font-bold py-2 my-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
+            className={`flex justify-center items-center w-full ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'} text-white font-bold py-2 my-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            {loading ? (
+              <Loader2 size={18} className="animate-spin"/>
+            ) : (
+              'Login'
+            )}
           </button>
         </form>
 

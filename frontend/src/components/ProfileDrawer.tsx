@@ -24,7 +24,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({ show, onClose, username, 
                         onClick={onClose}
                     />
 
-                    <FadeRight className='fixed top-0 right-0 w-72 h-full bg-white z-50 p-4 shadow-lg flex flex-col'>
+                    <FadeRight className='fixed top-0 right-0 w-72 h-full bg-white z-60 p-4 shadow-lg flex flex-col'>
                         <div className="flex justify-between items-center mb-4 py-2 border-b-2 border-gray-300">
                             <h2 className="text-lg font-semibold">Profile</h2>
                             <X className="cursor-pointer" onClick={onClose} />

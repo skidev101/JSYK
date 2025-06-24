@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Mail, Lock, EyeOff, Eye, User } from "lucide-react";
+import { Mail, Lock, EyeOff, Eye, User, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -20,7 +20,7 @@ const Register = () => {
 
   const validate = () => {
     const newErrors: typeof errors = {};
-    if (!username || !username.trim()) {
+    if (!username.trim()) {
         newErrors.username = 'Username is required'
     }
 
@@ -168,9 +168,13 @@ const Register = () => {
           <button 
             type="submit"
             disabled={loading}
-            className={`w-full ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'} text-white font-bold py-2 my-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
+            className={`flex justify-center items-center w-full ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700 cursor-pointer'} text-white font-bold py-2 my-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
           >
-            {loading ? 'Creating account...' : 'Sign up'}
+            {loading ? (
+              <Loader2 size={18} className="animate-spin"/>
+            ) : (
+              'Sign up'
+            )}
           </button>
         </form>
 

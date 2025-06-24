@@ -12,3 +12,19 @@
 body{
     font-family: 'Poppins', sans-serif;
 }
+
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type='color']::-webkit-color-swatch {
+  border: none;
+  border-radius: 9999px;
+}
+input[type='color'] {
+  padding: 0;
+  border: none;
+  border-radius: 9999px;
+  width: 1.8rem;
+  height: 1.8rem;
+  cursor: pointer;
+}
