@@ -63,9 +63,9 @@ const Login = () => {
         <h2 className="text-2xl my-1">Login to continue</h2>
         <form onSubmit={handleLogin}>
           <div className="my-4">
-            <label htmlFor="email" className="block text-gray-700 py-1">
+            {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
-            </label>
+            </label> */}
             <div className="relative">
               <Mail size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
@@ -81,9 +81,9 @@ const Login = () => {
           </div>
 
           <div className="my-4">
-            <label htmlFor="password" className="block text-gray-700 py-1">
+            {/* <label htmlFor="password" className="block text-gray-700 py-1">
               Password
-            </label>
+            </label> */}
             <div className="relative">
               <Lock size={20} className="absolute top-3 left-3 text-gray-500" />
               <input

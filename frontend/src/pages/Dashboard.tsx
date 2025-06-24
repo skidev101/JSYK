@@ -11,6 +11,7 @@ import ProfileDrawer from "../components/ProfileDrawer";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
 
+
 const Dashboard = () => {
   const [showProfile, setShowProfile] = useState(false);
 
@@ -91,32 +92,16 @@ const Dashboard = () => {
               <MessageCircle size={20} />
               <h1 className="text-lg sm:text-xl">Messages</h1>
             </div>
-            <div className="grid columns-auto rounded-lg bg-gray-200 gap-2 p-2 sm:p-4">
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
-              <MessageCard />
+            <div className="grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4">
+              {Array.from({ length: 24 }).map((_, i) => (
+                <MessageCard 
+                  key={i}
+                  username="ethan"
+                  topic="JSYK"
+                  message="stuffs always happens. did u know that?"
+                  link="https://jsyk.vercel.app"
+                 />
+              ))}
             </div>
           </FadeDown>
         </div>

@@ -78,9 +78,9 @@ const Register = () => {
         <h1 className="text-2xl font-bold my-1">Sign up to continue</h1>
         <form onSubmit={handleRegister}>
           <div className="my-4">
-            <label htmlFor="username" className="block text-gray-700 py-1">
+            {/* <label htmlFor="username" className="block text-gray-700 py-1">
               Username
-            </label>
+            </label> */}
             <div className="relative">
               <User size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
@@ -96,9 +96,9 @@ const Register = () => {
           </div>
 
           <div className="my-4">
-            <label htmlFor="email" className="block text-gray-700 py-1">
+            {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
-            </label>
+            </label> */}
             <div className="relative">
               <Mail size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
@@ -114,9 +114,9 @@ const Register = () => {
           </div>
 
           <div className="my-4">
-            <label htmlFor="password" className="block text-gray-700 py-1">
+            {/* <label htmlFor="password" className="block text-gray-700 py-1">
               Password
-            </label>
+            </label> */}
             <div className="relative">
               <Lock size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
@@ -138,9 +138,9 @@ const Register = () => {
           </div>
 
           <div className="my-4">
-            <label htmlFor="confirm-password" className="block text-gray-700 py-1">
+            {/* <label htmlFor="confirm-password" className="block text-gray-700 py-1">
               Confirm Password
-            </label>
+            </label> */}
             <div className="relative">
               <Lock size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
