@@ -26,7 +26,7 @@ const LogoutModal: React.FC<LogoutProps> = ({ isOpen, onClose }) => {
       {isOpen && (
         <>
           <motion.div
-            className="fixed inset-0 backdrop-blur-sm z-40"
+            className="fixed inset-0 backdrop-blur-sm z-[998] bg-black/20"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -34,7 +34,7 @@ const LogoutModal: React.FC<LogoutProps> = ({ isOpen, onClose }) => {
           />
 
           <motion.div
-            className="fixed inset-0 flex justify-center items-center px-4 sm:px-10 rounded-xl z-50"
+            className="fixed inset-0 z-[999] flex items-center justify-center p-4"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}

@@ -76,7 +76,10 @@ const Register = () => {
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-2xl font-bold my-1">Sign up to continue</h1>
-        <form onSubmit={handleRegister}>
+        <form 
+         onSubmit={handleRegister}
+         className="pt-2"
+        >
           <div className="my-4">
             {/* <label htmlFor="username" className="block text-gray-700 py-1">
               Username

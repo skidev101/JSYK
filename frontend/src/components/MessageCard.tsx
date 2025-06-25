@@ -41,6 +41,7 @@ const MessageCard : React.FC<MessageCardProps> = ({ username, topic, message, li
           <Link size={18} />
           <p>Link</p>
         </div>
+        
         <div className="relative flex justify-between items-center w-full text-gray-600 bg-gray-100 p-2.5 mb-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
           <p className="text-sm sm:text-base ">{link}</p>
           <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">

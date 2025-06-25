@@ -1,5 +1,6 @@
-import { Pencil, X, Plus } from "lucide-react";
+import { Pencil, X, Plus, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
 
 type CreateTopicProps = {
   isOpen: boolean;
@@ -8,6 +9,15 @@ type CreateTopicProps = {
 
 const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
+  const [loading, setLoading] = useState(false);
+
+  const createNewTopic = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false)
+      console.log('new topic created');
+    }, 3000)
+  }
 
   return (
     <AnimatePresence>
@@ -22,7 +32,7 @@ const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
           />
 
           <motion.div
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md p-10 mt-2 sm:p-10 shadow-md rounded-xl bg-white z-50"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] max-w-md p-6 mt-2 sm:p-10 shadow-md rounded-xl bg-white z-50"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
@@ -63,7 +73,7 @@ const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
               <div className="flex flex-col mb-4">
                 <label
                   htmlFor="color"
-                  className="block text-sm font-medium mb-1"
+                  className="block text-sm font-medium mb-1 text-gray-700"
                 >
                   Color
                 </label>
@@ -80,16 +90,16 @@ const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
               </div>
 
               <div className="flex flex-col mb-4">
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-gray-700">
                   Add image
                 </label>
-                <div className="relative w-1/2 h-25 sm:h-28 border-dashed border-2 border-gray-500 bg-gray-200 rounded-lg flex items-center justify-center">
+                <div className="relative w-1/2 h-22 sm:h-28 border-dashed border-2 border-gray-400 bg-gray-100 rounded-lg flex items-center justify-center">
                   <label
                     htmlFor="imageUpload"
                     className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
                   >
                     <Plus size={30} className="text-gray-500" />
-                    <p className="text-sm text-gray-500 mt-2">
+                    <p className="text-sm sm:text-base text-gray-500 mt-2">
                       Click to upload
                     </p>
                   </label>
@@ -102,8 +112,16 @@ const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
                 </div>
               </div>
 
-              <button className="w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg bg-blue-500 hover:bg-blue-600 hover:scale-[1.01] cursor-pointer active:scale-[0.98] transition duration-200">
-                Create topic
+              <button 
+               disabled={loading}
+               onClick={createNewTopic}
+               className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 cursor-pointer'} hover:scale-[1.01] active:scale-[0.98] transition duration-200`}
+               >
+                {loading ? (
+                  <Loader2 size={18} className="animate-spin" />
+                ) : (
+                  'Create topic'
+                )}
               </button>
             </div>
           </motion.div>

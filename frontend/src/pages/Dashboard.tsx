@@ -1,97 +1,125 @@
-  import { useState } from "react";
-  import {
-    LogOut,
-    UserCircle2,
-    User2,
-    MessageCircle,
-    Plus,
-    Copy,
-  } from "lucide-react";
-  import ProfileDrawer from "../components/ProfileDrawer";
-  import MessageCard from "../components/MessageCard";
-  import { FadeDown } from "../components/MotionWrappers";
-  import CreateTopicModal from "../components/CreateTopicModal";
-  import LogoutModal from "../components/LogoutModal";
+import { useState } from "react";
+import { MessageCircle, Plus, Copy, Link } from "lucide-react";
+import MessageCard from "../components/MessageCard";
+import { FadeDown } from "../components/MotionWrappers";
+import CreateTopicModal from "../components/CreateTopicModal";
 
-  const Dashboard = () => {
-    const [showProfile, setShowProfile] = useState(false);
-    const [showTopicModal, setShowTopicModal] = useState(false);
-    const [showLogoutModal, setShowLogoutModal] = useState(false);
+const Dashboard = () => {
+  const [showTopicModal, setShowTopicModal] = useState(false);
 
-    return (
+  return (
+    <section>
       <div className="w-full min-h-screen">
-        <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-md p-4 backdrop-blur-md rounded-b-4xl">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">JSYK</h1>
-
-          <div className="flex items-center gap-4 sm:gap-8">
-            <button
-              onClick={() => setShowProfile((prev) => !prev)}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-200 flex items-center justify-center hover:bg-gray-400 transition duration-200"
-            >
-              <User2
-                size={26}
-                className="text-gray-800 px-0.5 hover:cursor-pointer active:scale-[0.95]"
-              />
-            </button>
-
-            <div
-              onClick={() => setShowLogoutModal((prev) => !prev)}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center hover:bg-gray-200 transition duration-200"
-            >
-              <LogOut
-                size={26}
-                className="text-red-700 px-0.5 hover:cursor-pointer active:scale-[0.95]"
-              />
-            </div>
-          </div>
-        </header>
-
-        <ProfileDrawer
-          show={showProfile}
-          onClose={() => setShowProfile((prev) => !prev)}
-          username="ski101"
-          email="skidev101@gmail.com"
-          bio="Just a chill guy but if u play with me, you won't like it. i love chess football and others. I LOVE GOD"
-        />
-
         <div className="relative flex justify-between flex-col bg-gray-300 md:flex-row w-full gap-5 rounded-xl mt-20 p-2 pt-4 sm:mt-20 sm:p-6">
           <FadeDown>
-            <div className="sticky top-20 flex flex-col bg-white w-full max-w-lg p-4 sm:p-6 rounded-xl">
-              <div className="flex items-center gap-2 w-full rounded-lg">
-                <UserCircle2 size={25} />
-                <div className="flex flex-col">
-                  <h1 className="text-lg sm:text-xl font-bold">@ski101</h1>
-                  <p className="text-sm sm:text-base text-gray-800">
-                    skidev101@gmail.com
-                  </p>
+            <div className="flex flex-col sm:justify-between gap-2">
+              <div className="flex flex-col bg-white w-full max-w-lg p-4 sm:p-6 rounded-xl">
+                <div className="flex items-center gap-2 w-full rounded-lg">
+                  <img
+                    src="/form.webp"
+                    alt="profile"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover object-center"
+                  />
+                  <div className="flex flex-col w-full">
+                    <h1 className="text-lg sm:text-xl font-bold">@ski101</h1>
+                    <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 ">
+                      <p>jsyk.vercel.app/ski101</p>
+                      <Copy
+                        size={18}
+                        className="text-gray-500 cursor-pointer"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <p className="pt-2 text-sm sm:text-base text-gray-700">
+                  Click on a card to create preferred anonymous link
+                </p>
+
+                <div className="flex items-center flex-col sm:justify-evenly sm:flex-row gap-3 my-2">
+                  <button
+                    type="button"
+                    className="flex items-center justify-center flex-col w-full shadow-lg sm:w-50 sm:h-30 p-4 sm:p-4 rounded-lg sm:rounded-2xl hover:scale-[1.01] bg-emerald-500 hover:bg-emerald-300 active:scale-[0.95] active:bg-emerald-600 transition duration-300 cursor-pointer"
+                  >
+                    <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
+                      Copy anon link with image
+                    </p>
+                    <Copy size={20} className="text-white" />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => setShowTopicModal((prev) => !prev)}
+                    className="flex items-center justify-center flex-col w-full shadow-lg sm:w-50 sm:h-30 p-4 rounded-lg sm:rounded-2xl hover:scale-[1.01] bg-pink-500 hover:bg-pink-300 active:scale-[0.95] active:bg-pink-600 transition duration-300 cursor-pointer"
+                  >
+                    <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
+                      Create anon link with topic
+                    </p>
+                    <Plus size={20} className="text-white" />
+                  </button>
                 </div>
               </div>
 
-              <p className="pt-2 text-sm sm:text-base text-gray-700">
-                Click on a card to create preferred anonymous link
-              </p>
-
-              <div className="flex items-center flex-col sm:justify-evenly sm:flex-row gap-3 my-2">
-                <button
-                  type="button"
-                  className="flex items-center justify-center flex-col w-full sm:w-50 sm:h-50 p-4 sm:p-4 rounded-xl sm:rounded-4xl hover:scale-[1.01]  bg-emerald-500 hover:bg-emerald-300 active:scale-[0.95] active:bg-emerald-600 transition duration-300 cursor-pointer"
-                >
-                  <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
-                    Copy anon link with image
-                  </p>
-                  <Copy size={35} className="text-white" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => setShowTopicModal((prev) => !prev)}
-                  className="flex items-center justify-center flex-col w-full sm:w-50 sm:h-50 p-4 rounded-xl sm:rounded-4xl hover:scale-[1.01] bg-pink-500 hover:bg-pink-300 active:scale-[0.95] active:bg-pink-600 transition duration-300 cursor-pointer"
-                >
-                  <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
-                    Create anon link with topic
-                  </p>
-                  <Plus size={35} className="text-white" />
-                </button>
+              <div className="flex mt-2 flex-col bg-white w-full p-4 sm:p-6 rounded-xl">
+                <h1 className="block text-lg sm:text-xl">Recent links</h1>
+                <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl">
+                  Today
+                </p>
+                <div className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <Link size={18} />
+                    <p className="text-sm sm:text-base">
+                      https://jsyk.vercel.app
+                    </p>
+                  </div>
+                  <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">
+                    <Copy size={18} />
+                  </button>
+                </div>
+                <div className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <Link size={18} />
+                    <p className="text-sm sm:text-base">
+                      https://jsyk.vercel.app
+                    </p>
+                  </div>
+                  <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">
+                    <Copy size={18} />
+                  </button>
+                </div>
+                <div className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <Link size={18} />
+                    <p className="text-sm sm:text-base">
+                      https://jsyk.vercel.app
+                    </p>
+                  </div>
+                  <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">
+                    <Copy size={18} />
+                  </button>
+                </div>
+                <div className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <Link size={18} />
+                    <p className="text-sm sm:text-base">
+                      https://jsyk.vercel.app
+                    </p>
+                  </div>
+                  <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">
+                    <Copy size={18} />
+                  </button>
+                </div>
+                <div className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
+                  <div className="flex items-center gap-2">
+                    <Link size={18} />
+                    <p className="text-sm sm:text-base">
+                      https://jsyk.vercel.app
+                    </p>
+                  </div>
+                  <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">
+                    <Copy size={18} />
+                  </button>
+                </div>
               </div>
             </div>
           </FadeDown>
@@ -101,12 +129,7 @@
             onClose={() => setShowTopicModal((prev) => !prev)}
           />
 
-          <LogoutModal
-            isOpen={showLogoutModal}
-            onClose={() => setShowLogoutModal((prev) => !prev)}
-          />
-
-          <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full">
+          <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full md:max-h-[100vh] md:overflow-y-auto">
             <FadeDown>
               <div className="flex items-center gap-1 pb-1.5">
                 <MessageCircle size={20} />
@@ -127,7 +150,8 @@
           </div>
         </div>
       </div>
-    );
-  };
+    </section>
+  );
+};
 
-  export default Dashboard;
+export default Dashboard;

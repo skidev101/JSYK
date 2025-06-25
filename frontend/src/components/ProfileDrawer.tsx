@@ -54,7 +54,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                 <img
                   src={avatarUrl}
                   alt="Avatar"
-                  className="w-24 h-24 rounded-full object-cover mb-2 p-2 outline-5 outline-gray-200"
+                  className="w-24 h-24 rounded-full object-cover mb-2 p-1.5 outline-5 outline-gray-200"
                 />
               ) : (
                 <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center bg-blue-500 mb-2 p-2 sm:p-8">
