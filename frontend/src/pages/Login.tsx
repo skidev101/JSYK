@@ -46,7 +46,7 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
       console.log("Login successful:", { email, password });
-      navigate("/dashboard");
+      navigate("/");
     }, 3000);
   };
 

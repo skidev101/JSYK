@@ -8,7 +8,7 @@ type LogoutProps = {
   onClose: () => void;
 };
 
-const LogoutModal: React.FC<LogoutProps> = ({ isOpen, onClose }) => {
+const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 

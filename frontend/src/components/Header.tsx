@@ -3,7 +3,12 @@ import ProfileDrawer from "../components/ProfileDrawer";
 import { LogOut, User2 } from "lucide-react";
 import LogoutModal from "../components/LogoutModal";
 
-const Header = () => {
+type HeaderProps = {
+  onLogoutClick?: () => void; 
+  onShowProfile?: () => void;
+};
+
+const Header = ({ onLogoutClick, onShowProfile }: HeaderProps) => {
   const [showProfile, setShowProfile] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
@@ -13,7 +18,7 @@ const Header = () => {
 
       <div className="flex items-center gap-4 sm:gap-8">
         <button
-          onClick={() => setShowProfile((prev) => !prev)}
+          onClick={onShowProfile}
           className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-200 flex items-center justify-center hover:bg-gray-400 transition duration-200"
         >
           <User2
@@ -23,7 +28,7 @@ const Header = () => {
         </button>
 
         <div
-          onClick={() => setShowLogoutModal((prev) => !prev)}
+          onClick={onLogoutClick}
           className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center hover:bg-gray-200 transition duration-200"
         >
           <LogOut

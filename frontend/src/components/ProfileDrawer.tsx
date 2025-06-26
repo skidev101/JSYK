@@ -11,14 +11,14 @@ type ProfileDrawerProps = {
   bio?: string;
 };
 
-const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
+const ProfileDrawer = ({
   show,
   onClose,
   username,
   email,
   avatarUrl,
   bio,
-}) => {
+}: ProfileDrawerProps) => {
   return (
     <AnimatePresence>
       {show && (

@@ -7,7 +7,7 @@ type CreateTopicProps = {
   onClose: () => void;
 };
 
-const CreateTopicModal: React.FC<CreateTopicProps> = ({ isOpen, onClose }) => {
+const CreateTopicModal= ({ isOpen, onClose }: CreateTopicProps) => {
   if (!isOpen) return null;
   const [loading, setLoading] = useState(false);
 

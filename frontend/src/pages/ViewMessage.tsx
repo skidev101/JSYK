@@ -10,9 +10,9 @@ const ViewMessage = () => {
 
   return (
     <div className="relative">
-      <div className="w-full fixed top-0 left-0 flex items-center p-2 sm:p-4">
+      <div className="w-full fixed top-0 left-0 flex items-center p-2 sm:p-4 mt-20">
         <button
-          onClick={() => navigate("/dashboard")}
+          onClick={() => navigate("/")}
           className="grid place-items-center rounded-lg p-1 sm:p-3 bg-gray-200 hover:bg-gray-300 cursor-pointer transition duration-200"
         >
           <ChevronLeft size={22} />
