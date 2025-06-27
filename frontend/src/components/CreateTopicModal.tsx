@@ -1,23 +1,50 @@
 import { Pencil, X, Plus, Loader2 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
+import toast from "react-hot-toast";
 
 type CreateTopicProps = {
   isOpen: boolean;
   onClose: () => void;
 };
 
-const CreateTopicModal= ({ isOpen, onClose }: CreateTopicProps) => {
+const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
   if (!isOpen) return null;
-  const [loading, setLoading] = useState(false);
 
-  const createNewTopic = () => {
+  const [newTopic, setNewTopic] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [topicImgFile, setTopicImgFile] = useState<File | null>(null);
+  const [topicImgPreview, setTopicImgPreview] = useState<string | null>(null);
+
+  const topicImageRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const maxFileSize = 2 * 1024 * 1024;
+    if (file.size > maxFileSize) {
+      toast.error("Image size exceeds 2MB limit.");
+      return;
+    }
+
+    setTopicImgFile(file);
+    setTopicImgPreview(URL.createObjectURL(file));
+  };
+
+  const handleNewTopic = () => {
     setLoading(true);
+
+    const formData = new FormData();
+    if (topicImgFile) formData.append("topicImg", topicImgFile);
+
     setTimeout(() => {
-      setLoading(false)
-      console.log('new topic created');
-    }, 3000)
-  }
+      setLoading(false);
+      toast.success("New topic created successfully!");
+      setNewTopic("");
+      console.log("new topic created");
+    }, 3000);
+  };
 
   return (
     <AnimatePresence>
@@ -63,6 +90,8 @@ const CreateTopicModal= ({ isOpen, onClose }: CreateTopicProps) => {
                   />
                   <input
                     type="text"
+                    value={newTopic}
+                    onChange={(e) => setNewTopic(e.target.value)}
                     id="topic"
                     placeholder="Create a new topic"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
@@ -75,52 +104,69 @@ const CreateTopicModal= ({ isOpen, onClose }: CreateTopicProps) => {
                   htmlFor="color"
                   className="block text-sm font-medium mb-1 text-gray-700"
                 >
-                  Color
+                  Pick a color
                 </label>
                 <div className="relative">
                   {/* <Palette
                   size={18}
                   className="absolute top-3 left-3 text-gray-500"
                 /> */}
-                  <input
-                    type="color"
-                    id="color"
-                    />
+                  <input type="color" id="color" />
                 </div>
               </div>
 
               <div className="flex flex-col mb-4">
-                <label className="block text-sm font-medium mb-1 text-gray-700">
-                  Add image
-                </label>
-                <div className="relative w-1/2 h-22 sm:h-28 border-dashed border-2 border-gray-400 bg-gray-100 rounded-lg flex items-center justify-center">
-                  <label
-                    htmlFor="imageUpload"
-                    className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
-                  >
-                    <Plus size={30} className="text-gray-500" />
-                    <p className="text-sm sm:text-base text-gray-500 mt-2">
-                      Click to upload
-                    </p>
-                  </label>
-                  <input
-                    type="file"
-                    id="imageUpload"
-                    accept="image/*"
-                    className="hidden"
-                  />
+                <div className="flex justify-between items-center text-sm font-medium mb-1 text-gray-700 py-2">
+                  <p>Add image</p>
+                  <p>2mb max</p>
+                </div>
+                <div
+                  className={`relative w-1/2 h-22 sm:h-28 ${
+                    topicImgPreview ? "border" : "border-dashed"
+                  } border-2 border-gray-400 bg-gray-100 rounded-lg flex items-center justify-center`}
+                >
+                  {topicImgPreview ? (
+                    <img
+                      src={topicImgPreview}
+                      alt="topic preview image"
+                      className="w-full h-full object-cover object-center"
+                    />
+                  ) : (
+                    <>
+                      <button
+                        onClick={() => topicImageRef.current?.click()}
+                        className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
+                      >
+                        <Plus size={30} className="text-gray-500" />
+                        <p className="text-sm sm:text-base text-gray-500 mt-2">
+                          Click to upload
+                        </p>
+                      </button>
+                      <input
+                        type="file"
+                        ref={topicImageRef}
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="hidden"
+                      />
+                    </>
+                  )}
                 </div>
               </div>
 
-              <button 
-               disabled={loading}
-               onClick={createNewTopic}
-               className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg ${loading ? 'bg-blue-300 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600 cursor-pointer'} hover:scale-[1.01] active:scale-[0.98] transition duration-200`}
-               >
+              <button
+                disabled={loading}
+                onClick={handleNewTopic}
+                className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg ${
+                  loading
+                    ? "bg-blue-300 cursor-not-allowed"
+                    : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                } hover:scale-[1.01] active:scale-[0.98] transition duration-200`}
+              >
                 {loading ? (
                   <Loader2 size={18} className="animate-spin" />
                 ) : (
-                  'Create topic'
+                  "Create topic"
                 )}
               </button>
             </div>

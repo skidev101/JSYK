@@ -44,8 +44,10 @@ const Login = () => {
     }
 
     setTimeout(() => {
+      // simulate login
       setLoading(false);
       console.log("Login successful:", { email, password });
+      
       navigate("/");
     }, 3000);
   };

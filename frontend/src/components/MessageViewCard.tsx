@@ -7,9 +7,9 @@ type MessageViewCardProps = {
   message?: string;
 };
 
-const MessageViewCard: React.FC<MessageViewCardProps> = ({ profileImgUrl, username, topic, topicImgUrl, message }) => {
+const MessageViewCard = ({ profileImgUrl, username, topic, topicImgUrl, message }: MessageViewCardProps) => {
   return (
-    <div className="w-full bg-white rounded-lg shadow-md p-4">
+    <div className="w-full bg-white rounded-3xl shadow-md p-4">
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img
@@ -48,7 +48,7 @@ const MessageViewCard: React.FC<MessageViewCardProps> = ({ profileImgUrl, userna
             placeholder="Enter your message here" //TODO Enable changing placeholder
             className="w-full min-h-30  p-2 my-3 bg-gray-100 focus:ring-2 focus:ring-blue-500 border-none outline-none rounded-md"
           />
-          <button className="w-full py-2 text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-lg cursor-pointer transition duration-200">
+          <button className="w-full py-2 text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full cursor-pointer transition duration-200">
             SEND
           </button>
         </>

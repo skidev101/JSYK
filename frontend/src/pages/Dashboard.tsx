@@ -3,8 +3,10 @@ import { MessageCircle, Plus, Copy, Link } from "lucide-react";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
 import CreateTopicModal from "../components/CreateTopicModal";
+import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const [showTopicModal, setShowTopicModal] = useState(false);
 
   return (
@@ -16,14 +18,14 @@ const Dashboard = () => {
               <div className="flex flex-col bg-white w-full max-w-lg p-4 sm:p-6 rounded-xl">
                 <div className="flex items-center gap-2 w-full rounded-lg">
                   <img
-                    src="/form.webp"
+                    src={user?.profileImgUrl}
                     alt="profile"
                     className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover object-center"
                   />
                   <div className="flex flex-col w-full">
-                    <h1 className="text-lg sm:text-xl font-bold">@ski101</h1>
+                    <h1 className="text-lg sm:text-xl font-bold">{user?.username}</h1>
                     <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 ">
-                      <p>jsyk.vercel.app/ski101</p>
+                      <p>{user?.jsykLink}</p>
                       <Copy
                         size={18}
                         className="text-gray-500 cursor-pointer"

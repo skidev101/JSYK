@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, X } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 type LogoutProps = {
   isOpen: boolean;
@@ -9,12 +10,15 @@ type LogoutProps = {
 };
 
 const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
+  const { logout } = useAuth();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleLogout = () => {
     setLoading(true);
-
+    //simulate logout process
+    logout();
     setTimeout(() => {
       setLoading(false);
       navigate("/login");

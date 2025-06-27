@@ -1,6 +1,9 @@
-import { AlertTriangle, Pencil, X } from "lucide-react";
+import { useState, useRef } from "react";
+import type { ChangeEvent } from "react";
+import { AlertTriangle, Pencil, X, Link, Loader2, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "./MotionWrappers";
+import toast from "react-hot-toast";
 
 type ProfileDrawerProps = {
   show: boolean;
@@ -19,6 +22,51 @@ const ProfileDrawer = ({
   avatarUrl,
   bio,
 }: ProfileDrawerProps) => {
+  const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    username,
+    email,
+    bio: bio || "",
+  });
+  const [previewImg, setPreviewImg] = useState<string | null>(
+    avatarUrl || null
+  );
+  const [imgFile, setImgFile] = useState<File | null>(null);
+  const profileImgRef = useRef<HTMLInputElement | null>(null);
+
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setImgFile(file);
+    setPreviewImg(URL.createObjectURL(file));
+  };
+
+  const handleProfileEdit = () => {
+    setLoading(true);
+
+    const formPayload = new FormData();
+    formPayload.append("username", formData.username);
+    formPayload.append("email", formData.email);
+    formPayload.append("bio", formData.bio);
+    if (imgFile) formPayload.append("avatarUrl", imgFile);
+
+    setTimeout(() => {
+      console.log("updated profile:", formPayload);
+      setEditMode(false);
+      setLoading(false);
+      toast.success("Profile updated successfully!");
+      onClose();
+    }, 3000);
+  };
+
   return (
     <AnimatePresence>
       {show && (
@@ -42,49 +90,164 @@ const ProfileDrawer = ({
               </button>
             </div>
 
-            <div className="flex justify-end px-2">
-              <button className="flex items-center rounded-full px-3 py-1 text-white bg-blue-500 transition duration-200 cursor-pointer active:scale-[0.95]">
-                <p className="px-1 text-sm">Edit</p>
-                <Pencil size={15} />
-              </button>
-            </div>
+            {!editMode && (
+              <div className="flex justify-end px-2">
+                <button
+                  onClick={() => {
+                    setEditMode(true);
+                  }}
+                  className="flex items-center rounded-full px-3 py-1 text-white bg-blue-500 transition duration-200 cursor-pointer active:scale-[0.95]"
+                >
+                  <p className="px-1 text-sm">Edit</p>
+                  <Pencil size={15} />
+                </button>
+              </div>
+            )}
 
             <div className="flex flex-col items-center gap-2">
-              {avatarUrl ? (
-                <img
-                  src={avatarUrl}
-                  alt="Avatar"
-                  className="w-24 h-24 rounded-full object-cover mb-2 p-1.5 outline-5 outline-gray-200"
+              <div className="relative group">
+                {previewImg ? (
+                  <img
+                    src={previewImg}
+                    alt="avatar"
+                    className="w-24 h-24 rounded-full object-cover mb-2 p-1.5 outline-5 outline-gray-200"
+                  />
+                ) : (
+                  <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center bg-blue-500 mb-2 p-2 sm:p-8">
+                    {formData.username.charAt(0).toUpperCase()}
+                  </div>
+                )}
+
+                {editMode && (
+                  <button
+                    onClick={() => profileImgRef.current?.click()}
+                    className="absolute bottom-0 right-0 bg-gray-200 p-2 rounded-full hover:bg-gray-300 outline-4 outline-white cursor-pointer active:scale-[0.98] transition duration-150"
+                  >
+                    <Upload size={17} />
+                  </button>
+                )}
+
+                <input
+                  type="file"
+                  ref={profileImgRef}
+                  accept="image/*"
+                  className="hidden"
+                  onChange={handleImageChange}
                 />
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-center items-center min-h-max mt-5 p-2">
+              {editMode ? (
+                <>
+                  <label
+                    htmlFor="username"
+                    className="w-full mt-2 text-gray-700"
+                  >
+                    Username
+                  </label>
+                  <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    placeholder="Username"
+                    className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  />
+                  <p className="hidden w-full text-red-500 text-[13px]">
+                    Username already taken!
+                  </p>
+                </>
               ) : (
-                <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center bg-blue-500 mb-2 p-2 sm:p-8">
-                  {username.charAt(0).toUpperCase()}
+                <h3 className="text-xl font-semibold mt-2">{username}</h3>
+              )}
+
+              {editMode ? (
+                <>
+                  <label htmlFor="email" className="w-full mt-2 text-gray-700">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
+                  />
+                </>
+              ) : (
+                <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 sm:px-4 sm:py-1 rounded-full">
+                  {email}
+                </p>
+              )}
+
+              {editMode ? (
+                <>
+                  <label htmlFor="bio" className="w-full mt-2 text-gray-500">
+                    Bio
+                  </label>
+                  <textarea
+                    name="bio"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    placeholder="Bio"
+                    className="resize-none text-sm w-full min-h-20 p-2 bg-gray-100 scrollbar-none focus:ring-2 focus:ring-blue-500 border-none outline-none rounded-md"
+                  />
+                </>
+              ) : (
+                <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-2 mt-2 sm:mt-4 sm:px-3 sm:py-2 rounded-lg">
+                  {bio || "No Bio yet"}
+                </p>
+              )}
+
+              {!editMode && (
+                <div className="flex justify-center items-center flex-col mt-3">
+                  <div className="flex items-center gap-1 text-gray-600">
+                    <Link size={15} />
+                    <p>Link</p>
+                  </div>
+                  <p className="text-sm text-gray-800 bg-gray-100 max-w-max mt-1 px-3 sm:px-4 sm:py-1 rounded-full">
+                    jsyk-me/ski101.vercel.app
+                  </p>
                 </div>
               )}
             </div>
 
-            <div className="flex flex-col justify-center items-center">
-              <h3 className="text-lg font-semibold mt-2">{username}</h3>
-              <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 sm:px-4 sm:py-1 rounded-full">
-                {email}
-              </p>
-              {bio ? (
-                <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-2 mt-2 sm:mt-4 sm:px-3 sm:py-2 rounded-lg">
-                  {bio}
-                </p>
-              ) : (
-                <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:mt-4 sm:px-4 sm:py-1 rounded-full">
-                  No Bio yet
-                </p>
-              )}
-            </div>
+            {editMode && (
+              <>
+                <button
+                  disabled={loading}
+                  onClick={handleProfileEdit}
+                  className={`${
+                    loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"
+                  } flex justify-center items-center w-full p-2 mt-8 rounded-full font-semibold text-white hover:scale-[1.01] hover:bg-blue-400 active:scale-[0.98] transition duration-200 cursor-pointer`}
+                >
+                  {loading ? (
+                    <Loader2 size={18} className="animate-spin" />
+                  ) : (
+                    "Save"
+                  )}
+                </button>
 
-            <div className="fixed bottom-2 py-2 text-red-600 flex items-center border-t-1 border-gray-300">
-              <button className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150">
-                <AlertTriangle size={18} />
-                <p className="text-sm sm:text-base px-2">Delete account</p>
-              </button>
-            </div>
+                <button
+                  disabled={loading}
+                  onClick={() => setEditMode(false)}
+                  className="flex justify-center items-center w-full p-2 mt-2 rounded-full bg-gray-300 font-semibold text-gray-700 hover:text-white hover:scale-[1.01] hover:bg-gray-400 active:scale-[0.98] transition duration-200 cursor-pointer"
+                >
+                  Cancel
+                </button>
+              </>
+            )}
+
+            {!editMode && (
+              <div className="py-2 text-red-600 flex items-center border-t-1 border-gray-300">
+                <button className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150">
+                  <AlertTriangle size={18} />
+                  <p className="text-sm sm:text-base px-2">Delete account</p>
+                </button>
+              </div>
+            )}
           </FadeRight>
         </>
       )}

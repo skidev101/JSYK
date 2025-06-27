@@ -8,7 +8,7 @@ type MessageCardProps = {
   link: string
 }
 
-const MessageCard : React.FC<MessageCardProps> = ({ username, topic, message, link }) => {
+const MessageCard = ({ username, topic, message, link }: MessageCardProps) => {
   const navigate = useNavigate();
 
   return (
