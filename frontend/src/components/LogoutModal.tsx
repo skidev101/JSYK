@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-type LogoutProps = {
+interface LogoutProps {
   isOpen: boolean;
   onClose: () => void;
 };

@@ -2,7 +2,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 import { useEffect, useRef } from "react";
 import type { ReactNode } from "react"; 
 
-type AnimationProps = {
+interface AnimationProps {
   children: ReactNode;
   duration?: number;
   delay?: number;

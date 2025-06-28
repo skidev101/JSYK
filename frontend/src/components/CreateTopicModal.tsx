@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useRef, useState, type ChangeEvent } from "react";
 import toast from "react-hot-toast";
 
-type CreateTopicProps = {
+interface CreateTopicProps {
   isOpen: boolean;
   onClose: () => void;
 };

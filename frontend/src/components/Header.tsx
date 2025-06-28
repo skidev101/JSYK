@@ -3,7 +3,7 @@ import ProfileDrawer from "../components/ProfileDrawer";
 import { LogOut, User2 } from "lucide-react";
 import LogoutModal from "../components/LogoutModal";
 
-type HeaderProps = {
+interface HeaderProps {
   onLogoutClick?: () => void; 
   onShowProfile?: () => void;
 };

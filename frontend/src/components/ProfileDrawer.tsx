@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "./MotionWrappers";
 import toast from "react-hot-toast";
 
-type ProfileDrawerProps = {
+interface ProfileDrawerProps {
   show: boolean;
   onClose: () => void;
   username: string;

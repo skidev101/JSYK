@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Copy, DownloadCloudIcon, Link } from "lucide-react";
 
-type MessageCardProps = {
+interface MessageCardProps {
   username: string,
   topic: string,
   message: string,

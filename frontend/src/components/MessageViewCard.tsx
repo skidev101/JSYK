@@ -1,5 +1,5 @@
 
-type MessageViewCardProps = {
+interface MessageViewCardProps {
   profileImgUrl?: string;
   username: string;
   topic: string;
