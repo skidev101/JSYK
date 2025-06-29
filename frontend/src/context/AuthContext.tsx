@@ -7,12 +7,11 @@ import {
 } from 'firebase/auth';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { auth } from '../firebase';
-import axios from 'axios';
 
 interface User {
    username: string;
    email: string;
-   jsykLink: string,
+   jsykLink?: string,
    profileImgUrl?: string;
    bio?: string;
    idToken?: string;
@@ -38,27 +37,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
          if (firebaseUser) {
             try {
                const idToken = await getIdToken(firebaseUser);
+               console.log('AuthContext ID token:', idToken)
 
-               const response = await axios.post('/api/auth/user', {}, {
-                  headers: {
-                     Authorization: `Bearer ${idToken}`
-                  }
-               });
+               // const response = await axios.post('/api/auth/user', {}, {
+               //    headers: {
+               //       Authorization: `Bearer ${idToken}`
+               //    }
+               // });
 
-               const userData: User = {
-                  username: response.data.username,
-                  email: response.data.email,
-                  jsykLink: response.data.jsykLink,
-                  profileImgUrl: response.data.profileImgUrl,
-                  bio: response.data.bio,
-                  idToken 
-               };
+               // const userData: User = {
+               //    username: response.data.username,
+               //    email: response.data.email,
+               //    jsykLink: response.data.jsykLink,
+               //    profileImgUrl: response.data.profileImgUrl,
+               //    bio: response.data.bio,
+               //    idToken 
+               // };
 
-               setUser(userData);
+               // setUser(response.data);
 
 
-            } catch (error) {
-               console.error('Error fetching user data:', error);
+            } catch (err: any) {
+               console.error('Error fetching user data:', err);
             }  
          } else {
             setUser(null);

@@ -1,12 +1,23 @@
 import { useState } from "react";
 import { Mail, Lock, EyeOff, Eye, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth } from "../firebase";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  // const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{
     email?: string;
@@ -31,25 +42,83 @@ const Login = () => {
     return newErrors;
   };
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleGoogleSignin = async (e: React.FormEvent) => {
+    const provider = new GoogleAuthProvider();
+
     e.preventDefault();
     setLoading(true);
     setErrors({});
 
-    const validationErrors = validate();
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
+
+      const response = await axios.post(
+        "http://127.0.0.1:3000/api/auth",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+          withCredentials: true, // Ensure cookies are sent with the request
+        }
+      );
+
+      console.log(response);
+
+      const userData = response.data;
+      login(userData);
+
+      console.log("ID token", idToken);
+      console.log(result.user);
+      setLoading(false);
+      navigate("/");
+      toast.success("Login successful");
+    } catch (err: any) {
+      toast.error(err.message);
+      setLoading(false);
+      console.log("google signin error", err.message);
+    }
+  };
+
+  const handleEmailSignin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setErrors({});
+
+    const validationErrors = validate(); // validate for errors
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setLoading(false);
       return;
     }
 
-    setTimeout(() => {
-      // simulate login
-      setLoading(false);
-      console.log("Login successful:", { email, password });
-      
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      const idToken = await result.user.getIdToken();
+
+      console.log("User logged in:", result.user);
+      console.log("ID Token:", idToken);
+
+      // const response = await axios.post('api/auth/login', {}, {
+      //   headers: {
+      //     Authorization: `Bearer ${idToken}`
+      //   }
+      // });
+
+      // console.log(response.data);
+
+      // login({ ...response.data });
+
+      toast.success("login successful");
+
       navigate("/");
-    }, 3000);
+    } catch (err: any) {
+      //setErrors({ general: err });
+      toast.error(err.message || "Login failed");
+      setLoading(false);
+      console.error("login error", err);
+    }
   };
 
   return (
@@ -57,7 +126,7 @@ const Login = () => {
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-3xl font-bold my-2">Welcome back</h1>
         <h2 className="text-2xl my-1">Login to continue</h2>
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleEmailSignin}>
           <div className="my-4">
             {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
@@ -121,7 +190,7 @@ const Login = () => {
 
           <button
             type="submit"
-            onClick={handleLogin}
+            onClick={handleEmailSignin}
             disabled={loading}
             className={`flex justify-center items-center w-full ${
               loading
@@ -135,7 +204,20 @@ const Login = () => {
 
         <p className="text-center text-gray-500 py-1">or</p>
 
-        <button className="w-full py-1 mt-1  rounded-md border-2 border-gray-500 hover:border-white cursor-pointer hover:bg-blue-600 hover:text-white focus:outline-none focus:border-none focus:ring-2 focus:ring-blue-500 transition duration-200">
+        <button
+          disabled={loading}
+          onClick={handleGoogleSignin}
+          className={`flex justify-center items-center w-full ${
+            loading
+              ? "bg-blue-300 cursor-not-allowed"
+              : "bg-gray-300 hover:bg-gray-400 text-white"
+          } font-bold py-2 my-2 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
+        >
+          <img
+            src="/google-icon.svg"
+            alt="Google Icon"
+            className="inline-block mr-2 w-5 h-5"
+          />
           Sign in with Google
         </button>
 

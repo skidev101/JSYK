@@ -7,6 +7,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Dashboard = () => {
   const { user } = useAuth();
+  console.log('user', user);
   const [showTopicModal, setShowTopicModal] = useState(false);
 
   return (
