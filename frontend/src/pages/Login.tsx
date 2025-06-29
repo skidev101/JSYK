@@ -67,6 +67,7 @@ const Login = () => {
       console.log(response);
 
       const userData = response.data;
+      console.log('userData:', userData)
       login(userData);
 
       console.log("ID token", idToken);
@@ -209,16 +210,16 @@ const Login = () => {
           onClick={handleGoogleSignin}
           className={`flex justify-center items-center w-full ${
             loading
-              ? "bg-blue-300 cursor-not-allowed"
-              : "bg-gray-300 hover:bg-gray-400 text-white"
-          } font-bold py-2 my-2 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
+              ? "cursor-not-allowed"
+              : "cursor-pointer"
+          } bg-transparent hover:bg-gray-300 text-gray-500 font-bold py-2 my-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
         >
           <img
             src="/google-icon.svg"
             alt="Google Icon"
             className="inline-block mr-2 w-5 h-5"
           />
-          Sign in with Google
+          Continue with Google
         </button>
 
         <p className="text-center text-gray-600 mt-5">

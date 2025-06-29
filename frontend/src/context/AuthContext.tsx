@@ -7,6 +7,7 @@ import {
 } from 'firebase/auth';
 import type { User as FirebaseUser } from 'firebase/auth';
 import { auth } from '../firebase';
+import axios from 'axios';
 
 interface User {
    username: string;
@@ -39,22 +40,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                const idToken = await getIdToken(firebaseUser);
                console.log('AuthContext ID token:', idToken)
 
-               // const response = await axios.post('/api/auth/user', {}, {
-               //    headers: {
-               //       Authorization: `Bearer ${idToken}`
-               //    }
-               // });
+               const response = await axios.post('/api/auth/user', {}, {
+                  headers: {
+                     Authorization: `Bearer ${idToken}`
+                  }
+               });
 
-               // const userData: User = {
-               //    username: response.data.username,
-               //    email: response.data.email,
-               //    jsykLink: response.data.jsykLink,
-               //    profileImgUrl: response.data.profileImgUrl,
-               //    bio: response.data.bio,
-               //    idToken 
-               // };
-
-               // setUser(response.data);
+               setUser(response.data);
 
 
             } catch (err: any) {

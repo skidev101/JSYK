@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Mail, Lock, EyeOff, Eye, User, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth } from "../firebase";
 import toast from "react-hot-toast";
 
@@ -12,7 +12,6 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [googleLoading, setGoogleLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{
     username?: string;
@@ -68,25 +67,40 @@ const Register = () => {
       }, 8000);
     } catch (err: any) {
       toast.error(err.message);
+      setLoading(false);
       console.error("google sign up error:", err);
     }
   };
 
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    setGoogleLoading(true);
+    setLoading(true);
     setErrors({});
 
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setGoogleLoading(false);
+      setLoading(false);
       return;
+    }
+
+    try {
+      const result = await signInWithEmailAndPassword(auth, email, password);
+      const idToken = result.user.getIdToken();
+
+      console.log("User logged in:", result.user);
+      console.log("ID Token:", idToken);
+
+
+    } catch (err: any) {
+      toast.error(err.message || "Sign up failed");
+      setLoading(false);
+      console.error("signup error:", err);
     }
 
     // Simulate API call
     setTimeout(() => {
-      setGoogleLoading(false);
+      setLoading(false);
       // Here you would typically handle the Google login logic
       console.log("Google sign up successful:", { email, password });
       // Redirect or show success message
@@ -239,13 +253,11 @@ const Register = () => {
         <p className="text-center text-gray-500 py-1">or</p>
 
         <button
+          disabled={loading}
           onClick={handleGoogleSignup}
-          disabled={googleLoading}
           className={`flex justify-center items-center w-full ${
-            googleLoading
-              ? "cursor-not-allowed"
-              : "bg-gray-300 hover:bg-gray-400"
-          } text-white font-bold py-2 my-2 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
+            loading ? "cursor-not-allowed" : "cursor-pointer"
+          } bg-transparent hover:bg-gray-300 text-gray-500 font-bold py-2 my-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
         >
           <img
             src="/google-icon.svg"
