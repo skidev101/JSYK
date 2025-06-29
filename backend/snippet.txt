@@ -1,0 +1,5 @@
+username: response.data.username,
+email: response.data.email,
+jsykLink: response.data.jsykLink,
+profileImgUrl: response.data.profileImgUrl,
+bio: response.data.bio,
