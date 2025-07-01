@@ -1,17 +1,11 @@
-require('dotenv').config();
-const express = require('express');
-const app = express();
 const PORT = process.env.PORT || 3000;
+const app = require('./src/app');
 const DBConnect = require('./src/config/db');
 
 DBConnect().then(() => {
-   console.log('Database connected successfully');
-   app.listen(PORT, () => {
-      console.log(`app is running on port ${PORT}`);
-   });
-}).catch((err) => {
-   console.error('Database connection failed:', err);
+  app.listen(PORT, () => {
+    console.log(`🔥 Server running on http://localhost:${PORT}`);
+  });
 });
-app.get('/', (req, res) => {
-   res.send('Hello, World!');
-});
+// This is the entry point of the application. It imports the app from src/app.js and starts the server on the specified port.
+// The server listens for incoming requests and logs a message to the console when it starts successfully.

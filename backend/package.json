@@ -1,27 +1,56 @@
 {
+
   "name": "jsyk-backend",
+
   "version": "1.0.0",
+
   "main": "index.js",
+
   "scripts": {
+
     "start": "node server",
+
     "dev": "nodemon server",
+
     "vercel-build": "echo hello world"
+
   },
+
   "keywords": [],
+
   "author": "Inedu Ojomona Ethan [skidev101]",
+
   "license": "ISC",
+
   "description": "",
+
   "dependencies": {
+
     "@supabase/supabase-js": "^2.50.2",
+
     "cors": "^2.8.5",
+
     "dotenv": "^16.5.0",
+
     "express": "^5.1.0",
+
     "firebase-admin": "^13.4.0",
+
     "mongoose": "^8.16.0",
+
+    "morgan": "^1.10.0",
+
     "multer": "^2.0.1",
+
     "node-cron": "^4.1.1"
+
   },
+
   "devDependencies": {
+
     "nodemon": "^3.1.10"
+
   }
+
 }
+
