@@ -4,10 +4,12 @@ const User = require('../models/User');
 const handleAuth = async (req, res) => {
    const { uid, username, email, profileImgUrl } = req.user;
 
+   console.log(req.user);
+
    try {
       // Check if user already exists
-      let user = await User.find ({ uid });
-      if (!user) {   
+      let user = await User.findOne({ uid });
+      if (!user) {
          // Create a new user if not found
          user = await User.create({
             uid,

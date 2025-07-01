@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
    },
    profileImgUrl: {
       type: String,
-      required: true
+      default: ''
    },
    jsykLink : {
       type: String,
