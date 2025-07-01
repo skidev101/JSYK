@@ -19,7 +19,7 @@ const Dashboard = () => {
               <div className="flex flex-col bg-white w-full max-w-lg p-4 sm:p-6 rounded-xl">
                 <div className="flex items-center gap-2 w-full rounded-lg">
                   <img
-                    src={user?.profileImgUrl}
+                    src={user?.profileImgUrl || '/default-pfp.webp'}
                     alt="profile"
                     className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover object-center"
                   />
