@@ -20,6 +20,7 @@ interface User {
 
 interface AuthContextType {
    user: User | null;
+   loading: boolean;
    login: (user : User) => void;
    logout: () => void;
 }
@@ -28,6 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
    const [user, setUser] = useState<User | null>(null);
+   const [loading, setLoading] = useState(true);
 
    const login = (user: User) => {
       setUser(user);
@@ -38,15 +40,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
          if (firebaseUser) {
             try {
                const idToken = await getIdToken(firebaseUser);
-               console.log('AuthContext ID token:', idToken)
+               console.log('AuthContext ID token gotten')
 
-               const response = await axios.post('/api/auth/user', {}, {
+               const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
                   headers: {
                      Authorization: `Bearer ${idToken}`
                   }
                });
 
-               setUser(response.data);
+               setUser(response.data.user);
 
 
             } catch (err: any) {
@@ -55,6 +57,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
          } else {
             setUser(null);
          }
+
+         setLoading(false);
       })
 
       return () => unsubscribe();
@@ -66,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
    }
 
    return(
-      <AuthContext.Provider value={{ user, login, logout}}>
+      <AuthContext.Provider value={{ user, loading, login, logout}}>
          {children}
       </AuthContext.Provider>
    );

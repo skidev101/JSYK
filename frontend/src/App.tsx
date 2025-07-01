@@ -6,13 +6,21 @@ import ViewMessage from "./pages/ViewMessage";
 import MainLayout from "./layout/MainLayout";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
     <>
       <Toaster position="top-center" />
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route path="/" element={<Dashboard />} />
           <Route path="/view" element={<ViewMessage />} />
         </Route>

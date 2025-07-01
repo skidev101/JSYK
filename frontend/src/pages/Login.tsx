@@ -53,25 +53,16 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      const response = await axios.post(
-        "http://127.0.0.1:3000/api/auth",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-          withCredentials: true, // Ensure cookies are sent with the request
+      const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
+        headers: {
+          Authorization: `Bearer ${idToken}`
         }
-      );
+      });
 
-      console.log(response);
+      console.log("Response to google signin from backend:", response.data);
 
-      const userData = response.data;
-      console.log('userData:', userData)
-      login(userData);
 
-      console.log("ID token", idToken);
-      console.log(result.user);
+      login(response.data.user);
       setLoading(false);
       navigate("/");
       toast.success("Login successful");
@@ -101,15 +92,15 @@ const Login = () => {
       console.log("User logged in:", result.user);
       console.log("ID Token:", idToken);
 
-      // const response = await axios.post('api/auth/login', {}, {
-      //   headers: {
-      //     Authorization: `Bearer ${idToken}`
-      //   }
-      // });
+      const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      });
 
-      // console.log(response.data);
+      console.log("Response to email signin from backend:", response.data);
 
-      // login({ ...response.data });
+      login(response.data.user);
 
       toast.success("login successful");
 

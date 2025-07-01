@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Mail, Lock, EyeOff, Eye, User, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, type UserCredential } from "firebase/auth";
 import { auth } from "../firebase";
 import toast from "react-hot-toast";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
@@ -60,11 +63,18 @@ const Register = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      console.log("ID token:", idToken);
-      console.log(result.user);
-      setTimeout(() => {
-        navigate("/");
-      }, 8000);
+      const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      });
+
+      console.log("Response to email signin from backend:", response.data);
+      login(response.data.user);
+
+      navigate("/");
+      toast.success("Sign up successful");
+      
     } catch (err: any) {
       toast.error(err.message);
       setLoading(false);
@@ -84,29 +94,36 @@ const Register = () => {
       return;
     }
 
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      const idToken = result.user.getIdToken();
+    let result: UserCredential | null =  null;
 
-      console.log("User logged in:", result.user);
-      console.log("ID Token:", idToken);
+    try {
+      result = await createUserWithEmailAndPassword(auth, email, password);
+      const idToken = await result.user.getIdToken();
+      console.log('id token gotten at email register:', idToken);
+
+      const response = await axios.post('http://127.0.0.1:3000/api/auth', { username }, {
+        headers: {
+          Authorization: `Bearer ${idToken}`
+        }
+      });
+
+      console.log("Response to email signin from backend:", response.data);
+      login(response.data.user);
+
+      navigate("/");
+      toast.success("Sign up successful");
 
 
     } catch (err: any) {
+      if (result?.user) {
+        await result.user.delete(); // delete the user if signup fails
+      }
       toast.error(err.message || "Sign up failed");
       setLoading(false);
       console.error("signup error:", err);
     }
 
-    // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      // Here you would typically handle the Google login logic
-      console.log("Google sign up successful:", { email, password });
-      // Redirect or show success message
-
-      navigate("/");
-    }, 3000);
+    
   };
 
   return (
