@@ -1,17 +1,24 @@
 const admin = require("../config/firebase");
-const verifyToken = (req, res, next) => {
-  const token = req.headers.Authorization?.split(" ")[1];
 
-  if (!token) {
-    return res.status(401).json({ error: "No token provided" });
+
+const verifyToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Unauthorized: No token provided" });
   }
 
+  const idToken = authHeader.split(" ")[1];
+
+
   try {
-    const decodedToken = admin.auth().verifyIdToken(token);
-    const firebaseUser = admin.auth().getUser(decodedToken.uid);
+    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    console.log("Decoded Token:", decodedToken);
+    const firebaseUser = await admin.auth().getUser(decodedToken.uid);
+    console.log("Firebase User:", firebaseUser);
     req.user = {
       uid: decodedToken.uid,
-      username: firebaseUser.displayName || "Anonymous",
+      username: firebaseUser.displayName || req.body.username,
       email: firebaseUser.email || "",
       profileImgUrl: firebaseUser.photoURL || "",
     };

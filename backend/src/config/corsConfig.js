@@ -1,6 +1,6 @@
 const allowedOrigins = process.env.CLIENT_URL?.split(",").map(origin => origin.trim());
 
-const corsOptions = {
+const corsConfig = {
   origin: function (origin, callback) {
     // allow requests with no origin (like Postman or curl)
     if (!origin || allowedOrigins.includes(origin)) {
@@ -12,4 +12,4 @@ const corsOptions = {
   credentials: true, // if you're using cookies or sessions
 };
 
-module.exports = corsOptions;
+module.exports = corsConfig;

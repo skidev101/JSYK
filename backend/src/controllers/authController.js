@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/User');
 
-const handleAuth = async () => {
+const handleAuth = async (req, res) => {
    const { uid, username, email, profileImgUrl } = req.user;
 
    try {
@@ -17,6 +17,8 @@ const handleAuth = async () => {
          });
       }
 
+      console.log('User authenticated:', user);
+
       res.status(200).json({
          success: true,
          user: {
@@ -30,7 +32,8 @@ const handleAuth = async () => {
       console.error('Error handling authentication:', error);
       res.status(500).json({
          success: false,
-         message: 'Internal server error'
+         message: 'Internal server error',
+         error: error.message
       });
    }
 }
