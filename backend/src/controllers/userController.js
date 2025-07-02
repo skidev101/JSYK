@@ -15,15 +15,16 @@ const checkUsername = async (req, res) => {
         return res.status(400).json({ 
          success: false, 
          available: false,
-         message: 'Username must be between 3 and 10 characters long' 
-      
+         message: 'username must be between 3 and 10 characters long' 
+         
       });
    }
 
    const user = await User.findOne({ username });
    res.status(200).json({ 
+      success: true,
       available: !user, 
-      message: !user ? 'Username is available' : 'Username is already taken' 
+      message: !user ? 'username is available' : 'username is already taken' 
    }); 
 }
 
