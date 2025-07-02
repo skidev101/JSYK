@@ -1,35 +1,48 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const useUsernameCheck = (username: string) => {
-  const [isAvailable, setIsAvailable] = useState<boolean | null>(null);
-  const [loading, setLoading] = useState(false);
-    
+  const [status, setStatus] = useState<
+    "idle" | "checking" | "available" | "taken" | "error"
+  >("idle");
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
-   if (!username.trim()) return setIsAvailable(null);
+    if (!username || username.trim().length < 3 || username.trim().length > 10) {
+      setStatus("idle");
+      setMessage("Enter at least 3 characters");
+      return;
+    }
 
-   const delay = setTimeout(async () => {
-      setLoading(true);
+    const debounceDelay = setTimeout(async () => {
+      setStatus("checking");
+
       try {
-         const response = await axios.get('http://127.0.0.1:3000/api/auth/check-username', {
-            params: { username }
-         });
-      
-         setIsAvailable(response.data.available);
-      } catch (error) {
-         console.error('Error checking username:', error);
-         setIsAvailable(null);
-      } finally {
-         setLoading(false);
-      }
-   }, 500);
+        const response = await axios.get(
+          "http://127.0.0.1:3000/api/user",
+          {
+            params: { username },
+          }
+        );
 
-   return () => clearTimeout(delay);
+        if (response.data.available === true) {
+          setStatus("available");
+          setMessage("Username is available");
+
+        } else {
+          setStatus("taken");
+          setMessage("Username is already taken");
+
+        }
+
+      } catch (error) {
+        console.error("Error checking username:", error);
+        setStatus("error");
+      }
+    }, 700);
+
+    return () => clearTimeout(debounceDelay);
   }, [username]);
 
-   return { isAvailable, loading };
-}
-
-        
-
-  
+  return { status, message };
+};

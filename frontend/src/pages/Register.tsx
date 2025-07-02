@@ -1,16 +1,19 @@
 import { useState } from "react";
-import { Mail, Lock, EyeOff, Eye, User, Loader2 } from "lucide-react";
+import { Mail, Lock, EyeOff, Eye, User, Loader2, CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, type UserCredential } from "firebase/auth";
 import { auth } from "../firebase";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import { useUsernameCheck } from "../hooks/useUsernameCheck";
+import { validateUsername } from "../utils/validateUsername";
 
 const Register = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const { status, message } = useUsernameCheck(username);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -18,6 +21,7 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState<{
     username?: string;
+    available?: string;
     email?: string;
     password?: string;
     confirmPassword?: string;
@@ -26,10 +30,10 @@ const Register = () => {
 
   const validate = () => {
     const newErrors: typeof errors = {};
-    if (!username.trim()) {
-      newErrors.username = "Username is required";
-    }
 
+    const usernameError = validateUsername(username);
+    if (usernameError) newErrors.username = usernameError;
+    
     if (!email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -90,6 +94,9 @@ const Register = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      if (status === "taken") {
+        setErrors((prev) => ({ ...prev, username: "Username is already taken"}))
+      }
       setLoading(false);
       return;
     }
@@ -101,7 +108,11 @@ const Register = () => {
       const idToken = await result.user.getIdToken();
       console.log('id token gotten at email register:', idToken);
 
-      const response = await axios.post('http://127.0.0.1:3000/api/auth', { username }, {
+      const response = await axios.post('http://127.0.0.1:3000/api/auth', 
+      { 
+        username: username.trim()
+      }, 
+      {
         headers: {
           Authorization: `Bearer ${idToken}`
         }
@@ -141,7 +152,15 @@ const Register = () => {
                 type="text"
                 id="username"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setUsername(value);
+                  const usernameErrors = validateUsername(value);
+                  setErrors((prev) => ({
+                    ...prev,
+                    username: usernameErrors || undefined
+                  }))
+                }}
                 className={`w-full pl-10 pr-4 py-2 border ${
                   errors.username
                     ? "border-red-500 focus:border-blue-500"
@@ -149,7 +168,17 @@ const Register = () => {
                 } rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Create a username"
               />
+              {status === "checking" ? (
+                <Loader2 size={18} className="animate-spin absolute top-3 right-3 text-gray-500" />
+              ) : status === "available" ? (
+                <CheckCircle2Icon size={18} className="absolute top-3 right-3 text-green-500"/>
+              ) : status === "taken" ? (
+                <XCircleIcon size={18} className="absolute top-3 right-3 text-red-500"/>
+              ) : null}
             </div>
+            {status === "taken" && (
+              <p className="text-red-500 text-sm mt-1">{message}</p>
+            )}  
             {errors.username && (
               <p className="text-red-500 text-sm mt-1">{errors.username}</p>
             )}
@@ -252,7 +281,7 @@ const Register = () => {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || status === "checking" || status === "taken"}
             className={`flex justify-center items-center w-full ${
               loading
                 ? "bg-blue-300 cursor-not-allowed"

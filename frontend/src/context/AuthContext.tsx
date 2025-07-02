@@ -42,13 +42,14 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                const idToken = await getIdToken(firebaseUser);
                console.log('AuthContext ID token gotten')
 
-               const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
+               const response = await axios.get('http://127.0.0.1:3000/api/auth', {
                   headers: {
                      Authorization: `Bearer ${idToken}`
                   }
                });
-
+               
                setUser(response.data.user);
+               console.log(response.data.user);
 
 
             } catch (err: any) {
