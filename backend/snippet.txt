@@ -3,3 +3,8 @@ email: response.data.email,
 jsykLink: response.data.jsykLink,
 profileImgUrl: response.data.profileImgUrl,
 bio: response.data.bio,
+
+okay so heres the thing. i wanna create an anonymous message platform on the frontend i have react, tailwind, firebase and backend, theres express, mongo and firebase admin.
+so when a user signs up, i wanna create their profile link(i call it jsyk link, because the platform is called jsyk.) and save it to mongo and then after that i can stor other relevant info gottn from firebase.
+then when a new user signs up, well do the normal auth flow-frontend sends firebase id token to the back for verification and then back checks if user exists and then create he user with his jsyk link.
+i wanna structure this, the way senior devs do. do they still use classes? i wanna make this also easy to understand. do this inline with how senior devs do it while maintaining scalability and show me the file tree so i can structure it properly 

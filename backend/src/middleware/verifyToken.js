@@ -1,4 +1,5 @@
 const admin = require("../config/firebase");
+const { sanitizeDisplayName } = require("../utils/usernameUtils");
 
 
 const verifyToken = async (req, res, next) => {
@@ -17,9 +18,14 @@ const verifyToken = async (req, res, next) => {
     console.log("Decoded Token:", decodedToken);
     const firebaseUser = await admin.auth().getUser(decodedToken.uid);
     console.log("Firebase User:", firebaseUser);
+
+    const rawDisplayName = firebaseUser.displayName || "";
+    const fallbackUsername = `user${Math.floor(Math.random() * 10000)}`;
+    const username = req.body?.username || sanitizeDisplayName(rawDisplayName) || fallbackUsername;
+
     req.user = {
       uid: decodedToken.uid,
-      username: firebaseUser.displayName || (req.body && req.body.username) || "",
+      username,
       email: firebaseUser.email || "",
       profileImgUrl: firebaseUser.photoURL || "",
     };
