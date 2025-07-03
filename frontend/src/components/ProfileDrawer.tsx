@@ -1,39 +1,47 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
 import { AlertTriangle, Pencil, X, Link, Loader2, Upload } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "./MotionWrappers";
 import toast from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 interface ProfileDrawerProps {
   show: boolean;
   onClose: () => void;
-  username: string;
-  email: string;
-  avatarUrl?: string;
-  bio?: string;
-};
+}
 
-const ProfileDrawer = ({
-  show,
-  onClose,
-  username,
-  email,
-  avatarUrl,
-  bio,
-}: ProfileDrawerProps) => {
+const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
+  const { user } = useAuth();
+
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    username,
-    email,
-    bio: bio || "",
+    username: "",
+    email: "",
+    bio: "",
   });
-  const [previewImg, setPreviewImg] = useState<string | null>(
-    avatarUrl || null
-  );
+  const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [imgFile, setImgFile] = useState<File | null>(null);
   const profileImgRef = useRef<HTMLInputElement | null>(null);
+
+  //sync state with user data onchange
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        username: user.username || "",
+        email: user.email || "",
+        bio: user.bio || "",
+      });
+      setPreviewImg(user?.profileImgUrl || null);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    console.log("User:", user);
+    console.log("User profileImgUrl:", user?.profileImgUrl);
+    console.log("PreviewImg:", previewImg);
+  }, [user, previewImg]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -56,7 +64,7 @@ const ProfileDrawer = ({
     formPayload.append("username", formData.username);
     formPayload.append("email", formData.email);
     formPayload.append("bio", formData.bio);
-    if (imgFile) formPayload.append("avatarUrl", imgFile);
+    if (imgFile) formPayload.append("profileImgUrl", imgFile);
 
     setTimeout(() => {
       console.log("updated profile:", formPayload);
@@ -80,168 +88,175 @@ const ProfileDrawer = ({
           />
 
           <FadeRight className="fixed top-0 right-0 w-72 h-full bg-white z-60 p-4 shadow-lg flex flex-col">
-            <div className="flex justify-between items-center mb-4 py-2 border-b-2 border-gray-300">
-              <h2 className="text-lg font-semibold">Profile</h2>
-              <button
-                onClick={onClose}
-                className="grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-md hover:bg-gray-200 cursor-pointer active:scale-[0.97] transition duration-200"
-              >
-                <X className="cursor-pointer" />
-              </button>
-            </div>
-
-            {!editMode && (
-              <div className="flex justify-end px-2">
+            <div className="flex-grow overflow-y-auto">
+              <div className="flex justify-between items-center mb-4 py-2 border-b-2 border-gray-300">
+                <h2 className="text-lg font-semibold">Profile</h2>
                 <button
-                  onClick={() => {
-                    setEditMode(true);
-                  }}
-                  className="flex items-center rounded-full px-3 py-1 text-white bg-blue-500 transition duration-200 cursor-pointer active:scale-[0.95]"
+                  onClick={onClose}
+                  className="grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-md hover:bg-gray-200 cursor-pointer active:scale-[0.97] transition duration-200"
                 >
-                  <p className="px-1 text-sm">Edit</p>
-                  <Pencil size={15} />
+                  <X className="cursor-pointer" />
                 </button>
               </div>
-            )}
-
-            <div className="flex flex-col items-center gap-2">
-              <div className="relative group">
-                {previewImg ? (
-                  <img
-                    src={previewImg}
-                    alt="avatar"
-                    className="w-24 h-24 rounded-full object-cover mb-2 p-1.5 outline-5 outline-gray-200"
-                  />
-                ) : (
-                  <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center bg-blue-500 mb-2 p-2 sm:p-8">
-                    {formData.username.charAt(0).toUpperCase()}
-                  </div>
-                )}
-
-                {editMode && (
-                  <button
-                    onClick={() => profileImgRef.current?.click()}
-                    className="absolute bottom-0 right-0 bg-gray-200 p-2 rounded-full hover:bg-gray-300 outline-4 outline-white cursor-pointer active:scale-[0.98] transition duration-150"
-                  >
-                    <Upload size={17} />
-                  </button>
-                )}
-
-                <input
-                  type="file"
-                  ref={profileImgRef}
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleImageChange}
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-col justify-center items-center min-h-max mt-5 p-2">
-              {editMode ? (
-                <>
-                  <label
-                    htmlFor="username"
-                    className="w-full mt-2 text-gray-700"
-                  >
-                    Username
-                  </label>
-                  <input
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    placeholder="Username"
-                    className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
-                  />
-                  <p className="hidden w-full text-red-500 text-[13px]">
-                    Username already taken!
-                  </p>
-                </>
-              ) : (
-                <h3 className="text-xl font-semibold mt-2">{username}</h3>
-              )}
-
-              {editMode ? (
-                <>
-                  <label htmlFor="email" className="w-full mt-2 text-gray-700">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Email"
-                    className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
-                  />
-                </>
-              ) : (
-                <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 sm:px-4 sm:py-1 rounded-full">
-                  {email}
-                </p>
-              )}
-
-              {editMode ? (
-                <>
-                  <label htmlFor="bio" className="w-full mt-2 text-gray-500">
-                    Bio
-                  </label>
-                  <textarea
-                    name="bio"
-                    value={formData.bio}
-                    onChange={handleChange}
-                    placeholder="Bio"
-                    className="resize-none text-sm w-full min-h-20 p-2 bg-gray-100 scrollbar-none focus:ring-2 focus:ring-blue-500 border-none outline-none rounded-md"
-                  />
-                </>
-              ) : (
-                <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-2 mt-2 sm:mt-4 sm:px-3 sm:py-2 rounded-lg">
-                  {bio || "No Bio yet"}
-                </p>
-              )}
 
               {!editMode && (
-                <div className="flex justify-center items-center flex-col mt-3">
-                  <div className="flex items-center gap-1 text-gray-600">
-                    <Link size={15} />
-                    <p>Link</p>
-                  </div>
-                  <p className="text-sm text-gray-800 bg-gray-100 max-w-max mt-1 px-3 sm:px-4 sm:py-1 rounded-full">
-                    jsyk-me/ski101.vercel.app
-                  </p>
+                <div className="flex justify-end px-2">
+                  <button
+                    onClick={() => {
+                      setEditMode(true);
+                    }}
+                    className="flex items-center rounded-full px-3 py-1 text-white bg-blue-500 transition duration-200 cursor-pointer active:scale-[0.95]"
+                  >
+                    <p className="px-1 text-sm">Edit</p>
+                    <Pencil size={15} />
+                  </button>
                 </div>
+              )}
+
+              <div className="flex flex-col items-center gap-2">
+                <div className="relative group">
+                  {previewImg ? (
+                    <img
+                      src={previewImg}
+                      alt="avatar"
+                      className="w-24 h-24 rounded-full object-cover mb-2 p-1.5 border border-gray-200"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center text-white font-bold bg-blue-500 mb-2 p-2 sm:p-8">
+                      {user?.username?.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+
+                  {editMode && (
+                    <button
+                      onClick={() => profileImgRef.current?.click()}
+                      className="absolute bottom-0 right-0 bg-gray-200 p-2 rounded-full hover:bg-gray-300 outline-4 outline-white cursor-pointer active:scale-[0.98] transition duration-150"
+                    >
+                      <Upload size={17} />
+                    </button>
+                  )}
+
+                  <input
+                    type="file"
+                    ref={profileImgRef}
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handleImageChange}
+                  />
+                </div>
+              </div>
+
+              <div className="flex flex-col justify-center items-center min-h-max mt-5 p-2">
+                {editMode ? (
+                  <>
+                    <label
+                      htmlFor="username"
+                      className="w-full mt-2 text-gray-700"
+                    >
+                      Username
+                    </label>
+                    <input
+                      type="text"
+                      name="username"
+                      value={formData.username}
+                      onChange={handleChange}
+                      placeholder="Username"
+                      className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
+                    />
+                    <p className="hidden w-full text-red-500 text-[13px]">
+                      Username already taken!
+                    </p>
+                  </>
+                ) : (
+                  <h3 className="text-xl font-semibold mt-2">
+                    {user?.username}
+                  </h3>
+                )}
+
+                {editMode ? (
+                  <>
+                    <label
+                      htmlFor="email"
+                      className="w-full mt-2 text-gray-700"
+                    >
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="Email"
+                      className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
+                    />
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 sm:px-4 sm:py-1 rounded-full">
+                    {user?.email}
+                  </p>
+                )}
+
+                {editMode ? (
+                  <>
+                    <label htmlFor="bio" className="w-full mt-2 text-gray-500">
+                      Bio
+                    </label>
+                    <textarea
+                      name="bio"
+                      value={formData.bio}
+                      onChange={handleChange}
+                      placeholder="Bio"
+                      className="resize-none text-sm w-full min-h-20 p-2 bg-gray-100 scrollbar-none focus:ring-2 focus:ring-blue-500 border-none outline-none rounded-md"
+                    />
+                  </>
+                ) : (
+                  <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-2 mt-2 sm:mt-4 sm:px-3 sm:py-2 rounded-lg">
+                    {user?.bio || "No Bio yet"}
+                  </p>
+                )}
+
+                {!editMode && (
+                  <div className="flex justify-center items-center flex-col mt-4">
+                    <div className="flex items-center gap-1 text-gray-600">
+                      <Link size={15} />
+                      <p>Link</p>
+                    </div>
+                    <p className="text-sm text-gray-800 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
+                      jsyk-me/ski101.vercel.app
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {editMode && (
+                <>
+                  <button
+                    disabled={loading}
+                    onClick={handleProfileEdit}
+                    className={`${
+                      loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"
+                    } flex justify-center items-center w-full p-2 mt-8 rounded-full font-semibold text-white hover:scale-[1.01] hover:bg-blue-400 active:scale-[0.98] transition duration-200 cursor-pointer`}
+                  >
+                    {loading ? (
+                      <Loader2 size={18} className="animate-spin" />
+                    ) : (
+                      "Save"
+                    )}
+                  </button>
+
+                  <button
+                    disabled={loading}
+                    onClick={() => setEditMode(false)}
+                    className="flex justify-center items-center w-full p-2 mt-2 rounded-full bg-gray-300 font-semibold text-gray-700 hover:text-white hover:scale-[1.01] hover:bg-gray-400 active:scale-[0.98] transition duration-200 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                </>
               )}
             </div>
 
-            {editMode && (
-              <>
-                <button
-                  disabled={loading}
-                  onClick={handleProfileEdit}
-                  className={`${
-                    loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"
-                  } flex justify-center items-center w-full p-2 mt-8 rounded-full font-semibold text-white hover:scale-[1.01] hover:bg-blue-400 active:scale-[0.98] transition duration-200 cursor-pointer`}
-                >
-                  {loading ? (
-                    <Loader2 size={18} className="animate-spin" />
-                  ) : (
-                    "Save"
-                  )}
-                </button>
-
-                <button
-                  disabled={loading}
-                  onClick={() => setEditMode(false)}
-                  className="flex justify-center items-center w-full p-2 mt-2 rounded-full bg-gray-300 font-semibold text-gray-700 hover:text-white hover:scale-[1.01] hover:bg-gray-400 active:scale-[0.98] transition duration-200 cursor-pointer"
-                >
-                  Cancel
-                </button>
-              </>
-            )}
-
             {!editMode && (
-              <div className="py-2 text-red-600 flex items-center border-t-1 border-gray-300">
+              <div className="py-1 text-red-500 flex items-center border-t-1 border-gray-300">
                 <button className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150">
                   <AlertTriangle size={18} />
                   <p className="text-sm sm:text-base px-2">Delete account</p>

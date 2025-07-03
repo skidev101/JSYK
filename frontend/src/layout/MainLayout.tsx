@@ -34,10 +34,6 @@ const MainLayout = () => {
       <ProfileDrawer 
          show={showProfileDrawer}
          onClose={() => setShowProfileDrawer(false)}
-         username="@ski101"
-         avatarUrl="/form.webp"
-         email="skidev101@gmail.com"
-         bio="Just a chill guy but if u play with me, you won't like it. I love chess, football, and others. I LOVE GOD"
       />
 
       <Footer />
