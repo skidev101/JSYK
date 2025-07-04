@@ -12,7 +12,7 @@ import axios from 'axios';
 interface User {
    username: string;
    email: string;
-   jsykLink?: string,
+   profileLink?: string,
    profileImgUrl?: string;
    bio?: string;
    idToken?: string;

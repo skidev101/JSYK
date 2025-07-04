@@ -26,7 +26,7 @@ const Dashboard = () => {
                   <div className="flex flex-col w-full">
                     <h1 className="text-lg sm:text-xl font-bold">{user?.username}</h1>
                     <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 ">
-                      <p>{user?.jsykLink}</p>
+                      <p>{user?.profileLink}</p>
                       <Copy
                         size={18}
                         className="text-gray-500 cursor-pointer"

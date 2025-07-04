@@ -37,12 +37,6 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log("User:", user);
-    console.log("User profileImgUrl:", user?.profileImgUrl);
-    console.log("PreviewImg:", previewImg);
-  }, [user, previewImg]);
-
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -221,8 +215,8 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                       <Link size={15} />
                       <p>Link</p>
                     </div>
-                    <p className="text-sm text-gray-800 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
-                      jsyk-me/ski101.vercel.app
+                    <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
+                      {user?.profileLink}
                     </p>
                   </div>
                 )}

@@ -106,7 +106,7 @@ const Register = () => {
     try {
       result = await createUserWithEmailAndPassword(auth, email, password);
       const idToken = await result.user.getIdToken();
-      console.log('id token gotten at email register:', idToken);
+      console.log('id token gotten at email register');
 
       const response = await axios.post('http://127.0.0.1:3000/api/auth', 
       { 
