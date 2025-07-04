@@ -32,6 +32,7 @@ const handleAuth = async (req, res) => {
         username,
         email,
         profileImgUrl,
+        profileLink: `https://jsyk.vercel.app/${encodeURIComponent(username)}`
       });
     }
 

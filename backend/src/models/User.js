@@ -8,7 +8,8 @@ const userSchema = new mongoose.Schema({
    },
    username: {
       type: String,
-      required: true
+      required: true,
+      unique: true
    },
    email: {
       type: String,
@@ -19,9 +20,13 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: ''
    },
-   jsykLink : {
+   profileLink : {
       type: String,
-      default: ''
+      required: true
+   },
+   createdAt: {
+      type: Date,
+      default: Date.now
    }
 });
 
