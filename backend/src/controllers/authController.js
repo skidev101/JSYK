@@ -45,6 +45,7 @@ const handleAuth = async (req, res) => {
         username: user.username,
         email: user.email,
         profileImgUrl: user.profileImgUrl,
+        profileLink: user.profileLink
       },
     });
   } catch (error) {

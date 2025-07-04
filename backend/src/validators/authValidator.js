@@ -1,5 +1,6 @@
 const { body } = require('express-validator');
 const emojiRegex = require('emoji-regex');
+const emojiPattern = emojiRegex();
 
 exports.validateUsername = [
   body("username")
