@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const { toLinkSlug, generateUniqueSlug } = require("../utils/usernameUtils");
 
 const getCurrentUser = async (req, res) => {
   const { uid } = req.user;
@@ -26,13 +27,20 @@ const handleAuth = async (req, res) => {
     // Check if user already exists
     let user = await User.findOne({ uid });
     if (!user) {
-      // Create a new user if not found
+      const baseSlug = toLinkSlug(username);
+      const jsykLink = await generateUniqueSlug(baseSlug, User);
+
+      if (!jsykLink) return res.status(400).json({
+        success: false,
+        message: "username not allowed"
+      })
+
       user = await User.create({
         uid,
         username,
         email,
         profileImgUrl,
-        profileLink: `https://jsyk.vercel.app/${encodeURIComponent(username)}`
+        jsykLink,
       });
     }
 
@@ -45,7 +53,7 @@ const handleAuth = async (req, res) => {
         username: user.username,
         email: user.email,
         profileImgUrl: user.profileImgUrl,
-        profileLink: user.profileLink
+        jsykLink: user.jsykLink,
       },
     });
   } catch (error) {

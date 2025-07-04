@@ -20,9 +20,10 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: ''
    },
-   profileLink : {
+   jsykLink : {
       type: String,
-      required: true
+      required: true,
+      unique: true
    },
    createdAt: {
       type: Date,
