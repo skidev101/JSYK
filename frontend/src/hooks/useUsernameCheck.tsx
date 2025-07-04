@@ -8,7 +8,7 @@ export const useUsernameCheck = (username: string) => {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    if (!username || username.trim().length < 3 || username.trim().length > 10) {
+    if (!username || username.trim().length < 3) {
       setStatus("idle");
       setMessage("Enter at least 3 characters");
       return;
@@ -39,7 +39,7 @@ export const useUsernameCheck = (username: string) => {
         console.error("Error checking username:", error);
         setStatus("error");
       }
-    }, 700);
+    }, 800);
 
     return () => clearTimeout(debounceDelay);
   }, [username]);

@@ -169,9 +169,9 @@ const Register = () => {
                 placeholder="Create a username"
               />
               {status === "checking" ? (
-                <Loader2 size={18} className="animate-spin absolute top-3 right-3 text-gray-500" />
+                <Loader2 size={18} className={`animate-spin absolute ${errors.username && 'hidden'} top-3 right-3 text-gray-500`} />
               ) : status === "available" ? (
-                <CheckCircle2Icon size={18} className="absolute top-3 right-3 text-green-500"/>
+                <CheckCircle2Icon size={18} className={`absolute ${errors.username && 'hidden'} top-3 right-3 text-green-500`} />
               ) : status === "taken" ? (
                 <XCircleIcon size={18} className="absolute top-3 right-3 text-red-500"/>
               ) : null}
