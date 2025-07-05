@@ -11,7 +11,7 @@ exports.sanitizeDisplayName = (displayName) => {
 
 exports.toLinkSlug = (username) => {
   return username
-    .toLowercase()
+    .toLowerCase()
     .normalize('NFKD')
     .replace(/[^\w\-]/g, '')
     .substring(0, 10)
