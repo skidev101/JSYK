@@ -5,6 +5,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+const messageRoutes = require('./routes/message');
 const corsConfig = require('./config/corsConfig');
 
 app.use(cors(corsConfig));
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
+app.use('/api/messages', messageRoutes);
 
 app.get('/', (req, res) => {
     res.send('jsyk API is now live!');

@@ -10,7 +10,8 @@ const checkUsername = async (req, res) => {
       return res.status(400).json({ 
          success: false,
          available: false, 
-         message: 'username is required' 
+         message: 'username is required',
+         code: "USERNAME_REQUIRED"
       });
     }
        
