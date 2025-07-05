@@ -29,3 +29,9 @@ export const validateUsername = (value: string): string | null => {
 
   return null;
 };
+
+export const validateEmail = (value: string) => {
+  const email = value.trim()
+  if (!email.trim()) return "Email is required";
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return "Enter a valid email address";
+}

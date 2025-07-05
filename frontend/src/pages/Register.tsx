@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useUsernameCheck } from "../hooks/useUsernameCheck";
-import { validateUsername } from "../utils/validateUsername";
+import { validateUsername, validateEmail } from "../utils/validateUserInput";
 
 const Register = () => {
   const { login } = useAuth();
@@ -34,11 +34,8 @@ const Register = () => {
     const usernameError = validateUsername(username);
     if (usernameError) newErrors.username = usernameError;
     
-    if (!email.trim()) {
-      newErrors.email = "Email is required";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      newErrors.email = "Enter a valid email address";
-    }
+    const emailError = validateEmail(email);
+    if (emailError) newErrors.email = emailError;
 
     if (!password.trim()) {
       newErrors.password = "Password is required";
@@ -50,7 +47,7 @@ const Register = () => {
       newErrors.confirmPassword = "Password is required";
     } else if (confirmPassword.length < 6) {
       newErrors.confirmPassword = "Password must be at least 6 characters";
-    } else if (confirmPassword != password) {
+    } else if (confirmPassword !== password.trim()) {
       newErrors.confirmPassword = "Passwords do not match";
     }
 

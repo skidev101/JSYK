@@ -216,7 +216,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                       <p>Link</p>
                     </div>
                     <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
-                      {user?.profileLink}
+                      {`jsyk.com/${user?.jsykLink}`}
                     </p>
                   </div>
                 )}

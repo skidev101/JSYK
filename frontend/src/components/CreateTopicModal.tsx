@@ -13,6 +13,7 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
 
   const [newTopic, setNewTopic] = useState("");
   const [loading, setLoading] = useState(false);
+  const [themeColor, setThemeColor] = useState("#000")
   const [topicImgFile, setTopicImgFile] = useState<File | null>(null);
   const [topicImgPreview, setTopicImgPreview] = useState<string | null>(null);
 
