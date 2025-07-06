@@ -1,5 +1,6 @@
 const Message = require('../models/Message');
 const { validationResult } = require('express-validator');
+const { hashSender } = require('../utils/ipHash');
 
 
 const sendMessage = async (req, res) => {
@@ -22,16 +23,16 @@ const sendMessage = async (req, res) => {
          senderHash,
          isRead: false
       }
-
+      
       let userMessages = await Message.findOne({ uid });
 
       if (!userMessages) {
          userMessages = new Message({
             uid,
-            message: [messageData]
+            messages: [messageData]
          });
       } else {
-         userMessages.messages.push(messageData);
+         userMessages.messages.addMessage(messageData);
       }
 
       await userMessages.save();
@@ -59,7 +60,7 @@ const getMyMessages = async (req, res) => {
       const { uid } = req.user
 
       const userMessages = await Message.findOne({ uid });
-      if (!userMessages || userMessages.length === 0) {
+      if (!userMessages || userMessages.messages.length === 0) {
          return res.status(200).json({
             success: true,
             messages: [],
@@ -106,7 +107,7 @@ const getMyMessages = async (req, res) => {
 const markAsRead = async (req, res) => {
    try {
       const { uid } = req.user;
-      const messageId = req.params;
+      const { messageId } = req.params;
 
       const userMessages = await Message.findOne({ uid });
       if (!userMessages) {
@@ -116,7 +117,7 @@ const markAsRead = async (req, res) => {
          });
       }
 
-      const success = userMessages.markAsRead(userMessages);
+      const success = userMessages.markAsRead(messageId);
 
       if (!success) {
          return res.status(404).json({
@@ -155,29 +156,21 @@ const deleteMessage = async (req, res) => {
       }
       
       await userMessages. deleteMessage(messageId);
+      res.status(200).json({
+         success: true,
+         message: 'Message deleted',
+         totalMessages: userMessages.totalMessages
+      });
    } catch (err) {
-      
+      console.error('Error deleting message:', err);
+      res.status(500).json({
+         success: false,
+         message: 'Server error'
+      });
    }
 
    
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 const getAllMessages = async (req, res) => {
@@ -201,12 +194,15 @@ const getAllMessages = async (req, res) => {
    } catch (err) {
       res.status(500).json({
          success: false,
-         message: "Internal server error",
-         code: "SERVER_ERROR"
+         message: "Internal server error"
       })
    }
 }
 
 module.exports = {
+   sendMessage,
+   getMyMessages,
+   markAsRead,
+   deleteMessage,
    getAllMessages
 }
