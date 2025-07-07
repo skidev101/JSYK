@@ -1,18 +1,9 @@
 const Message = require('../models/Message');
-const { validationResult } = require('express-validator');
 const { hashSender } = require('../utils/ipHash');
 
 
 const sendMessage = async (req, res) => {
    try {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-         return res.status(400).json({
-            success: false,
-            errors: errors.array()
-         })
-      }
-
       const { uid } = req.params;
       const { content } = req.body;
 

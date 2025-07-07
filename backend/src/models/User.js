@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
       username: {
          type: String,
          required: true,
-         unique: true
       },
       email: {
          type: String,
@@ -20,18 +19,23 @@ const userSchema = new mongoose.Schema({
          type: String,
          default: ''
       },
-      jsykLink : {
+      profileSlug : {
          type: String,
          required: true,
          unique: true
+      },
+      profileViews: {
+         type: Number,
+         default: ''
+      },
+      lastProfileView: {
+         type: Date,
+         default: ''
       }
    }, {
       timestamps: true
 });
 
-
-userSchema.index({ uid: 1 });
-userSchema.index({ useername: 1 });
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

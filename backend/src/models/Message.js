@@ -23,8 +23,7 @@ const messageSchema = new mongoose.Schema({
    uid: {
       type: String,
       required: true,
-      unique: true,
-      index: true
+      unique: true
    },
    messages: [individualMessageSchema],
    totalMessages: {

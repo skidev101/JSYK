@@ -3,7 +3,7 @@ const { redisClient } = require('../config/redis');
 const RATE_LIMIT = 5;
 const TIME_WINDOW = 60;
 
-const reteLimiter = async (req, res, next) => {
+const rateLimiter = async (req, res, next) => {
    try {
       const ip = req.ip || req.connection.remoteAddress
       const key = `rate-limit${ip}`

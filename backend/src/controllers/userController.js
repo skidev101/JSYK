@@ -1,36 +1,31 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 const checkUsername = async (req, res) => {
+  try {
     const username = req.query.username?.trim();
 
-    console.log(req.query)
-
-    if (!username) {
-      console.log('no username')
-      return res.status(400).json({ 
-         success: false,
-         available: false, 
-         message: 'username is required',
-         code: "USERNAME_REQUIRED"
+    const user = await User.findOne({ username });
+    if (user) {
+      return res.status(200).json({
+         success: true,
+         available: false,
+         message: "username is already taken",
       });
     }
-       
-   //  if (username.length < 3 || username.length > 10) {
-   //    console.log('username must be between 3 and 10 characters long')
-   //      return res.status(400).json({ 
-   //       success: false, 
-   //       available: false,
-   //       message: 'username must be between 3 and 10 characters long' 
-         
-   //    });
-   // }
 
-   const user = await User.findOne({ username });
-   res.status(200).json({ 
+    res.status(200).json({
       success: true,
-      available: !user, 
-      message: !user ? 'username is available' : 'username is already taken' 
-   }); 
-}
+      available: true,
+      message: "username is available",
+   });
+  } catch (err) {
+    console.error("Error checking username availability:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      code: "INTERNAL_SERVER_ERROR",
+    });
+  }
+};
 
-module.exports = { checkUsername }
+module.exports = { checkUsername };

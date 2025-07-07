@@ -13,7 +13,7 @@ exports.validateUsername = [
       const textWithoutEmojis = value.replace(emojiPattern, '');
       const visualLength = emojiMatches.length + textWithoutEmojis.length;
 
-      // Check length
+      // check length
       if (visualLength < 3) {
         throw new Error("Username must be at least 3 characters");
       }
@@ -21,7 +21,7 @@ exports.validateUsername = [
         throw new Error("Username must be less than 10 characters");
       }
 
-      // Check for invalid characters
+      // check for invalid characters
       const withoutEmojis = value.replace(emojiPattern, '');
       const hasValidChars = /^[\p{L}\p{N}_-]*$/u.test(withoutEmojis);
       

@@ -1,46 +1,64 @@
 const User = require("../models/User");
-const { toLinkSlug, generateUniqueSlug } = require("../utils/usernameUtils");
+const { generateUniqueSlug } = require("../utils/usernameUtils");
 
 const getCurrentUser = async (req, res) => {
   const { uid } = req.user;
 
   try {
     const user = await User.findOne({ uid });
-    if (!user) return res.status(404).json({ message: "user not found" });
+    if (!user) {
+      return res.status(200).json({
+        success: true,
+        message: "No active user or user does not exist"
+      })
+    }
 
     res.status(200).json({
       success: true,
-      user,
+      data: {
+        uid: user.uid,
+        username: user.username,
+        email: user.email,
+        profileImgUrl: user.profileImgUrl,
+        jsykLink: user.profileSlug,
+        memberSince: user.createdAt
+      }
     });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Internal server error" });
+    console.error("authentication error:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      code: "INTERNAL_SERVER_ERROR"
+    });
   }
 };
 
 const handleAuth = async (req, res) => {
   const { uid, username, email, profileImgUrl } = req.user;
 
-  console.log(req.user);
 
   try {
     // Check if user already exists
     let user = await User.findOne({ uid });
     if (!user) {
-      const baseSlug = toLinkSlug(username);
-      const jsykLink = await generateUniqueSlug(baseSlug, User);
+      const profileSlug = await generateUniqueSlug(username, User);
+      console.log('profile slug at sign up:', profileSlug)
 
-      if (!jsykLink) return res.status(400).json({
-        success: false,
-        message: "username not allowed"
-      })
+      if (!profileSlug) {
+        return res.status(400).json({
+          success: false,
+          message: "Invalid username",
+          code: "FORBIDDEN_USERNAME"
+        })
+      }
 
       user = await User.create({
         uid,
         username,
         email,
         profileImgUrl,
-        jsykLink,
+        profileSlug,
       });
     }
 
@@ -48,20 +66,21 @@ const handleAuth = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      user: {
+      data: {
         uid: user.uid,
         username: user.username,
         email: user.email,
         profileImgUrl: user.profileImgUrl,
         jsykLink: user.jsykLink,
-      },
+        memberSince: user.createdAt
+      }
     });
-  } catch (error) {
-    console.error("Error handling authentication:", error);
+  } catch (err) {
+    console.error("Error handling authentication:", err);
     res.status(500).json({
       success: false,
       message: "Internal server error",
-      error: error.message,
+      code: "INTERNAL_SERVER_ERROR"
     });
   }
 };

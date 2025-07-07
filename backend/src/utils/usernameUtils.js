@@ -9,23 +9,28 @@ exports.sanitizeDisplayName = (displayName) => {
     .substring(0, 10); // Max 10 chars
 };
 
-exports.toLinkSlug = (username) => {
-  return username
+
+exports.generateUniqueSlug = async (username, UserModel) => {
+  username
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[^\w\-]/g, '')
     .substring(0, 10)
-}
 
-exports.generateUniqueSlug = async (baseSlug, UserModel) => {
-  if (reservedWords.includes(baseSlug)) return null;
+  if (reservedWords.includes(username)) {
+    return res.status(403).json({
+      success: false,
+      message: "Invalid username",
+      code: "FORBIDDEN_USERNAME"
+    })
+  }
 
-  let slug = baseSlug;
+  let slug = username;
   let counter = 0;
 
-  while (await UserModel.findOne({ jsykLink: slug })) {
+  while (await UserModel.findOne({ profileSlug: slug })) {
     counter++;
-    slug = `{baseSlug}{counter}`
+    slug = `{username}{counter}`
   }
 
   return slug;

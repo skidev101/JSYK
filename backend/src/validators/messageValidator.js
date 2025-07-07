@@ -1,12 +1,15 @@
-const { body } = require('express-validator');
+const { body, param } = require('express-validator');
 
-const validateSendMessage = [
+exports.validateSendMessage = [
    body("content")
       .trim()
       .notEmpty()
       .withMessage("Mesage content is required")
 ];
 
-module.exports = {
-   validateSendMessage
-}
+exports.validateMessageAction = [
+   param("messageId")
+      .trim()
+      .notEmpty()
+      .withMessage("message ID is required")
+]
