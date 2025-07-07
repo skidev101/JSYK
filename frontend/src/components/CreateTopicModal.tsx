@@ -13,9 +13,9 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
 
   const [newTopic, setNewTopic] = useState("");
   const [loading, setLoading] = useState(false);
-  const [themeColor, setThemeColor] = useState("#000")
-  const [topicImgFile, setTopicImgFile] = useState<File | null>(null);
-  const [topicImgPreview, setTopicImgPreview] = useState<string | null>(null);
+  const [themeColor, setThemeColor] = useState("#c7e90a")
+  const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
+  const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
 
   const topicImageRef = useRef<HTMLInputElement | null>(null);
 
@@ -29,15 +29,24 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
       return;
     }
 
-    setTopicImgFile(file);
-    setTopicImgPreview(URL.createObjectURL(file));
+    setTopicImgFiles((prev) => [...prev, file]);
+    setTopicImgPreviews((prev) => [...prev, URL.createObjectURL(file)]);
   };
+
+  const removeImage = (index: number) => {
+    const updatedFiles = [...topicImgFiles];
+    const updatedPreviews = [...topicImgPreviews];
+    updatedFiles.splice(index, 1);
+    updatedPreviews.splice(index, 1);
+    setTopicImgFiles(updatedFiles);
+    setTopicImgPreviews(updatedPreviews);
+  }
 
   const handleNewTopic = () => {
     setLoading(true);
 
-    const formData = new FormData();
-    if (topicImgFile) formData.append("topicImg", topicImgFile);
+    // const formData = new FormData();
+    // if (topicImgFiles) formData.append("topicImg", topicImgFiles));
 
     setTimeout(() => {
       setLoading(false);
@@ -79,7 +88,7 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
             <div className="flex flex-col">
               <div className="flex flex-col mb-4">
                 <label
-                  htmlFor="topic"
+                  
                   className="block text-sm font-medium mb-1 text-gray-700"
                 >
                   Topic
@@ -93,7 +102,7 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
                     type="text"
                     value={newTopic}
                     onChange={(e) => setNewTopic(e.target.value)}
-                    id="topic"
+                   
                     placeholder="Create a new topic"
                     className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -102,7 +111,7 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
 
               <div className="flex flex-col mb-4">
                 <label
-                  htmlFor="color"
+                  
                   className="block text-sm font-medium mb-1 text-gray-700"
                 >
                   Pick a color
@@ -112,7 +121,11 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
                   size={18}
                   className="absolute top-3 left-3 text-gray-500"
                 /> */}
-                  <input type="color" id="color" />
+                  <input 
+                   type="color" 
+                   value={themeColor} 
+                   onChange={(e) => setThemeColor(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -121,27 +134,35 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
                   <p>Add image</p>
                   <p>2mb max</p>
                 </div>
-                <div
-                  className={`relative w-1/2 h-22 sm:h-28 ${
-                    topicImgPreview ? "border" : "border-dashed"
-                  } border-2 border-gray-400 bg-gray-100 rounded-lg flex items-center justify-center`}
-                >
-                  {topicImgPreview ? (
-                    <img
-                      src={topicImgPreview}
-                      alt="topic preview image"
-                      className="w-full h-full object-cover object-center"
-                    />
-                  ) : (
+                
+                <div className="flex gap-2 sm:gap-4 mb-4">
+                  {topicImgPreviews.map((src, index) => (
+                    <div
+                      key={index}
+                      className="relative w-1/2 h-22 sm:h-24 border border-gray-300 rounded-lg overflow-hidden"
+                    >
+                      <img
+                        src={src}
+                        alt={`preview-${index}`}
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1 right-1 bg-white rounded-full p-1 shadow-md cursor-pointer hover:bg-gray-500 hover:text-white transition"
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+
+                  {topicImgPreviews.length < 2 && (
                     <>
                       <button
                         onClick={() => topicImageRef.current?.click()}
-                        className="w-full h-full flex flex-col items-center justify-center cursor-pointer"
+                        className="w-1/2 h-24 border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center cursor-pointer text-gray-500 hover:border-gray-600"
                       >
-                        <Plus size={30} className="text-gray-500" />
-                        <p className="text-sm sm:text-base text-gray-500 mt-2">
-                          Click to upload
-                        </p>
+                        <Plus size={20} />
+                        <span className="text-xs mt-1">Add image</span>
                       </button>
                       <input
                         type="file"

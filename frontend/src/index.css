@@ -18,13 +18,13 @@ input[type='color']::-webkit-color-swatch-wrapper {
 }
 input[type='color']::-webkit-color-swatch {
   border: none;
-  border-radius: 9999px;
+  border-radius: 10px;
 }
 input[type='color'] {
   padding: 0;
   border: none;
-  border-radius: 9999px;
-  width: 1.8rem;
-  height: 1.8rem;
+  border-radius: 10px;
+  width: 2rem;
+  height: 2rem;
   cursor: pointer;
 }
