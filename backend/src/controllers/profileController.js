@@ -4,7 +4,7 @@ const getPublicProfile = async (req, res) => {
   try {
     const { profileSlug: slug } = req.params;
 
-    const user = await User.findOne(profileSlug);
+    const user = await User.findOne({ profileSlug });
     if (!user) {
       return res.status(404).json({
         success: false,
