@@ -19,7 +19,7 @@ export const useUsernameCheck = (username: string) => {
 
       try {
         const response = await axios.get(
-          "http://127.0.0.1:3000/api/user",
+          "http://127.0.0.1:3000/api/profile",
           {
             params: { username },
           }

@@ -71,7 +71,7 @@ const Register = () => {
       });
 
       console.log("Response to email signin from backend:", response.data);
-      login(response.data.user);
+      login(response.data.data);
 
       navigate("/");
       toast.success("Sign up successful");
@@ -116,7 +116,7 @@ const Register = () => {
       });
 
       console.log("Response to email signin from backend:", response.data);
-      login(response.data.user);
+      login(response.data.data);
 
       navigate("/");
       toast.success("Sign up successful");

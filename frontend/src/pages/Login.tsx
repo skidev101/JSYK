@@ -62,7 +62,7 @@ const Login = () => {
       console.log("Response to google signin from backend:", response.data);
 
 
-      login(response.data.user);
+      login(response.data.data);
       setLoading(false);
       navigate("/");
       toast.success("Login successful");
@@ -100,7 +100,7 @@ const Login = () => {
 
       console.log("Response to email signin from backend:", response.data);
 
-      login(response.data.user);
+      login(response.data.data);
 
       toast.success("login successful");
 
