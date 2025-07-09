@@ -1,24 +1,29 @@
-const { redisClient } = require('../config/redis');
+const { redis } = require('../config/redis');
+const crypto = require('crypto;')
 
-const RATE_LIMIT = 5;
+const MAX_REQUESTS = 5;
 const TIME_WINDOW = 60;
+const IP_SALT = process.env.IP_SALT || 'salty_salt';
 
 const rateLimiter = async (req, res, next) => {
    try {
-      const ip = req.ip || req.connection.remoteAddress
-      const key = `rate-limit${ip}`
+      const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+      const hashedIP = crypto.createHash('sha256').update(ip + IP_SALT).digest('hex');
+      const key = `rate:${hashedIP}`
 
-      const count = await redisClient.incr(key);
+      const count = await redis.incr(key);
       if (count === 1) {
-         await redisClient.expire(key, TIME_WINDOW);
+         await redis.expire(key, TIME_WINDOW);
       }
 
-      if (count > RATE_LIMIT) {
+      if (count > MAX_REQUESTS) {
          return res.status(429).json({
             success: false,
-            message: 'Too many requests. Try again later'
+            message: 'Too many requests. Try again later',
+            code: 'TOO_MANY_REQUESTS'
          })
       }
+      req.ipHash = hashedIP
       next();
    } catch (err) {
       console.error('Rate limiter error:', err);

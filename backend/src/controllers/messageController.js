@@ -38,51 +38,58 @@ const sendMessage = async (req, res) => {
 
 
 
-const getMyMessages = async (req, res) => {
+const getUserMessages = async (req, res) => {
    try {
-      const { page = 1, limit = 20 } = req.query;
-      const { uid } = req.user
+      const { uid } = req.user;
+      const page = parseInt(req.query.page);
+      const limit = parseInt(req.query.limit);
 
-      const userMessages = await Message.findOne({ uid });
-      if (!userMessages || userMessages.messages.length === 0) {
+      const skip = (page - 1) * limit;
+
+      const topic = req.query.topic || null;
+      const filter = { uid };
+      if (topic) filter.topic = topic;
+
+      const [messages, totalCount, unreadCount] = await Promise.all([
+         Message.find(filter)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(limit),
+         Message.countDocuments(filter),
+         Message.countDocuments({ ...filter, isRead: false})  
+      ])
+      if (!messages || messages.length === 0) {
          return res.status(200).json({
             success: true,
             messages: [],
             unreadCount: 0,
             pagination: {
-               page: parseInt(page),
-               limit: parseInt(limit),
+               page,
+               limit,
                total: 0,
                pages: 0
             }
          });
       } 
 
-      const sortedMessages = userMessages.messages.sort((a, b) => 
-         new Date(b.createdAt) - new Date(a.createdAt)
-      );
-
-      const startIndex = (page - 1) * limit;
-      const endIndex = startIndex + parseInt(limit);
-      const paginatedMessages = sortedMessages.slice(startIndex, endIndex);
-
       res.status(200).json({
          success: true,
-         messages: paginatedMessages,
-         unreadCount: userMessages.unreadCount,
+         messages,
          pagination: {
-            page: parseInt(page),
-            limit: parseInt(limit),
-            total: userMessages.totalMessages,
-            pages: Math.ceil(userMessages.totalMessages / limit)
-         }
+            page,
+            limit,
+            total: totalCount,
+            pages: Math.ceil(totalCount / limit)
+         },
+         unreadCount
       })
 
    } catch (err) {
       console.error("Error getting messages:", err)
       res.status(500).json({
          success: false,
-         message: 'Server error'
+         message: 'Internal server error',
+         code: "INTERNAL_SERVER_ERROR"
       })
    }
 }
@@ -93,33 +100,39 @@ const markAsRead = async (req, res) => {
       const { uid } = req.user;
       const { messageId } = req.params;
 
-      const userMessages = await Message.findOne({ uid });
-      if (!userMessages) {
+      const message = await Message.find({ uid, _id: messageId });
+      if (!message) {
          return res.status(404).json({
             success: false,
-            message: 'User not found'
+            message: 'Message not found',
+            code: 'MESSAGE_NOT_FOUND'
          });
       }
 
-      const success = userMessages.markAsRead(messageId);
-
-      if (!success) {
-         return res.status(404).json({
-            success: false,
-            message: 'Message not found'
-         });
+      if (message.isRead) {
+         return res.status(200).json({
+            success: true,
+            message: 'Messsage already marked as read'
+         })
       }
+
+      message.isRead = true;
+      console.log('Message marked as read')
+      await message.save();
+
+      const unreadCount = await Message.countDocuments({ uid, isRead: false });
 
       res.status(200).json({
          success: true,
          message: 'Message marked as read',
-         unreadCount: userMessages.unreadCount
+         unreadCount
       })
    } catch (err) {
       console.error('Error marking message as read:', err);
       res.status(500).json({
          success: false,
-         message: 'Server error'
+         message: 'Internal server error',
+         code: "INTERNAL_SERVER_ERROR"
       })
    }
 }
@@ -149,7 +162,8 @@ const deleteMessage = async (req, res) => {
       console.error('Error deleting message:', err);
       res.status(500).json({
          success: false,
-         message: 'Server error'
+         message: 'Internal server error',
+         code: "INTERNAL_SERVER_ERROR"
       });
    }
 
@@ -185,7 +199,7 @@ const getAllMessages = async (req, res) => {
 
 module.exports = {
    sendMessage,
-   getMyMessages,
+   getUserMessages,
    markAsRead,
    deleteMessage,
    getAllMessages
