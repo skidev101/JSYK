@@ -1,32 +1,24 @@
 const Message = require('../models/Message');
+const User = require('../models/User');
 const { hashSender } = require('../utils/ipHash');
 
 
 const sendMessage = async (req, res) => {
    try {
-      const { uid } = req.params;
-      const { content } = req.body;
+      const { topic, content, profileSlug } = req.body;
+      const user = await User.findOne({ profileSlug });
+      if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+      // const senderHash = hashSender(req.ip, req.get('User-Agent'));
 
-      const senderHash = hashSender(req.ip, req.get('User-Agent'));
-
-      const messageData = {
+      const newMessage = await Message.create({
+         uid,
+         profileSlug,
+         topic: topic || null,
          content,
-         senderHash,
-         isRead: false
-      }
+         senderInfo: req.senderInfo
+      });
       
-      let userMessages = await Message.findOne({ uid });
-
-      if (!userMessages) {
-         userMessages = new Message({
-            uid,
-            messages: [messageData]
-         });
-      } else {
-         userMessages.messages.addMessage(messageData);
-      }
-
-      await userMessages.save();
+      console.log("new message created successfully:", newMessage)
 
       res.status(201).json({
          success: true,
@@ -37,7 +29,8 @@ const sendMessage = async (req, res) => {
       console.error('send message error:', err)
       res.status(500).json({
          success: false,
-         message: "Server error"
+         message: "Internal Server error",
+         code: "INTERNAL_SERVER_ERROR"
       })
    }
 }
