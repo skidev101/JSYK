@@ -30,10 +30,6 @@ const messageSchema = new mongoose.Schema({
          type: String,
          required: true
       },
-      ipRaw: {
-         type: String,
-         required: true
-      },
       userAgent: {
          type: String
       },

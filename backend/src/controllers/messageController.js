@@ -5,17 +5,20 @@ const { hashSender } = require('../utils/ipHash');
 
 const sendMessage = async (req, res) => {
    try {
-      const { topic, content, profileSlug } = req.body;
+      // const { uid } = req.user;
+      const { uid, topic, content, profileSlug } = req.body;
       const user = await User.findOne({ profileSlug });
       if (!user) return res.status(404).json({ success: false, message: 'User not found' });
-      // const senderHash = hashSender(req.ip, req.get('User-Agent'));
 
       const newMessage = await Message.create({
          uid,
          profileSlug,
          topic: topic || null,
          content,
-         senderInfo: req.senderInfo
+         senderInfo: { 
+            ipHash: req.ipHash, 
+            ...req.senderInfo 
+         }
       });
       
       console.log("new message created successfully:", newMessage)
@@ -40,7 +43,7 @@ const sendMessage = async (req, res) => {
 
 const getUserMessages = async (req, res) => {
    try {
-      const { uid } = req.user;
+      const { uid } = req.body;
       const page = parseInt(req.query.page);
       const limit = parseInt(req.query.limit);
 
@@ -54,7 +57,8 @@ const getUserMessages = async (req, res) => {
          Message.find(filter)
             .sort({ createdAt: -1 })
             .skip(skip)
-            .limit(limit),
+            .limit(limit)
+            .select('-senderInfo'),
          Message.countDocuments(filter),
          Message.countDocuments({ ...filter, isRead: false})  
       ])
@@ -97,10 +101,10 @@ const getUserMessages = async (req, res) => {
 
 const markAsRead = async (req, res) => {
    try {
-      const { uid } = req.user;
+      const { uid } = req.body;
       const { messageId } = req.params;
 
-      const message = await Message.find({ uid, _id: messageId });
+      const message = await Message.findOne({ uid, _id: messageId });
       if (!message) {
          return res.status(404).json({
             success: false,
@@ -140,23 +144,27 @@ const markAsRead = async (req, res) => {
 
 const deleteMessage = async (req, res) => {
    try{
-      const { uid } = req.user;
+      const { uid } = req.body;
       const { messageId } = req.params;
 
-      const userMessages = await Message.findOne({ uid });
+      const message = await Message.findOneAndDelete({ uid, _id: messageId });
 
-      if (!userMessages) {
+      if (!message) {
          return res.status(404).json({
             success: false,
-            message: 'User not found'
+            message: 'Message not found'
          });
       }
       
-      await userMessages. deleteMessage(messageId);
+
+      const unreadCount = await Message.countDocuments({ uid, isRead: false });
+      const totalMessages = await Message.countDocuments({ uid });
+
       res.status(200).json({
          success: true,
          message: 'Message deleted',
-         totalMessages: userMessages.totalMessages
+         unreadCount,
+         totalMessages
       });
    } catch (err) {
       console.error('Error deleting message:', err);
@@ -166,41 +174,11 @@ const deleteMessage = async (req, res) => {
          code: "INTERNAL_SERVER_ERROR"
       });
    }
-
-   
-}
-
-
-const getAllMessages = async (req, res) => {
-   const { uid } = req.user;
-
-   try {
-      const user = await Message.findOne({ uid });
-      if (!user) {
-         return res.status(200).json({
-            success: true,
-            messages: [],
-            message: "no messages yet"
-         })
-      }
-
-      res.status(200).json({
-         success: true,
-         messages: [...user.messages]
-      })
-
-   } catch (err) {
-      res.status(500).json({
-         success: false,
-         message: "Internal server error"
-      })
-   }
 }
 
 module.exports = {
    sendMessage,
    getUserMessages,
    markAsRead,
-   deleteMessage,
-   getAllMessages
+   deleteMessage
 }
