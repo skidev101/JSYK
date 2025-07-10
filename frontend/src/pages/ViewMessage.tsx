@@ -28,9 +28,9 @@ const ViewMessage = () => {
             <MessageViewCard
               profileImgUrl="/form.webp"
               username="ski101"
-              topic="How to cook"
-              topicImgUrl="/form.webp"
-             // message="I wanna define what the term invention means. the other day at the convention, you said invention means doing stuff to make stuff work"
+              // topic="#JSYK"
+              // topicImgUrl="/form.webp"
+              message="I wanna define what the term invention means. the other day at the convention, you said invention means doing stuff to make stuff work"
             />
           </div>
         </div>

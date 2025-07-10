@@ -2,7 +2,7 @@
 interface MessageViewCardProps {
   profileImgUrl?: string;
   username: string;
-  topic: string;
+  topic?: string;
   topicImgUrl?: string;
   message?: string;
 };
@@ -24,28 +24,32 @@ const MessageViewCard = ({ profileImgUrl, username, topic, topicImgUrl, message 
         <p className="text-sm sm:text-base text-gray-500">JSYK</p>
       </div>
 
-      <div className="max-w-max px-2 py-1 my-3 sm:px-3 bg-gray-100 rounded-xl">
-        <p className={`text-sm sm:text-base ${topic.trim() == '#JSYK' ? 'text-gray-500' : 'text-gray-800'}`}>
-          {topic}
-        </p>
-      </div>
+      {topic && (
+        <div className="max-w-max px-2 py-1 my-3 sm:px-3 bg-gray-100 rounded-xl">
+          <p className={`text-sm sm:text-base ${topic?.trim() == '#JSYK' ? 'text-gray-500' : 'text-gray-800'}`}>
+            {topic}
+          </p>
+        </div>
+      )}
 
-      <img
-        src={topicImgUrl}
-        alt=""
-        className="w-full h-20 my-2 rounded-lg object-contain object-center"
-      />
+      {topicImgUrl && (
+        <img
+          src={topicImgUrl}
+          alt=""
+          className="w-full h-20 my-2 rounded-lg object-contain object-center cursor-pointer"
+        />
+      )}
 
       {message ? (
         <>
-          <div className="w-full max-h-max p-2 bg-gray-100 rounded-md">
+          <div className="w-full max-h-max p-2 sm:p-3 mt-6 sm:mt-8 bg-gray-100 rounded-2xl">
             <p className="text-sm sm:text-base">{message}</p>
           </div>
         </>
       ) : (
         <>
           <textarea
-            placeholder="Enter your message here" //TODO Enable changing placeholder
+            placeholder="Enter your message here" //TODO Enable changing placeholder and enable random messages
             className="w-full min-h-30  p-2 my-3 bg-gray-100 focus:ring-2 focus:ring-blue-500 border-none outline-none rounded-md"
           />
           <button className="w-full py-2 text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full cursor-pointer transition duration-200">
