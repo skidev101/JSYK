@@ -2,3 +2,6 @@
 
 messageSchema.index({ uid: 1, 'messages.createdAt': -1 });
  she_is_from_jupiter
+
+ const topicSlugWithId = "i-love-jollof-jd83kxl2";
+const topicId = topicSlugWithId.split('-').at(-1);

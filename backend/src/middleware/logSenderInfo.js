@@ -10,7 +10,6 @@ const logSenderInfo = (req, res, next) => {
       os: ua.os.name || 'unknown',
       userAgent
    };
-   console.log(req.senderInfo)
    next();
 }
 

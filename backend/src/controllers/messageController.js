@@ -1,19 +1,37 @@
 const Message = require('../models/Message');
 const User = require('../models/User');
-const { hashSender } = require('../utils/ipHash');
+const Topic = require('../models/Topic');
 
 
 const sendMessage = async (req, res) => {
    try {
-      // const { uid } = req.user;
-      const { uid, topic, content, profileSlug } = req.body;
+      const { topicId = null, content, profileSlug } = req.body;
       const user = await User.findOne({ profileSlug });
-      if (!user) return res.status(404).json({ success: false, message: 'User not found' });
+      if (!user) {
+         return res.status(404).json({ 
+            success: false, 
+            message: 'User not found' 
+         });
+      }
 
+      let topicData = null;
+
+      if (topicId) {
+         topicData = await Topic.findOne({ topicId, uid: user.uid });
+         if (!topicData) {
+            return res.status(404).json({ 
+               success: false, 
+               message: 'Topic not found' 
+            })
+         }
+      }
+      
       const newMessage = await Message.create({
-         uid,
+         uid: user.uid,
          profileSlug,
-         topic: topic || null,
+         topic: topicData?.topic || null,
+         topicSlug: topicData?.slug || null,
+         topicId: topicData?.topicId || null,
          content,
          senderInfo: { 
             ipHash: req.ipHash, 
@@ -98,11 +116,51 @@ const getUserMessages = async (req, res) => {
    }
 }
 
+const getMessage = async (req, res) => {
+   try {
+      const { messageId } = req.query;
+
+      const message = await Message.findOne({ uid, _id: messageId });
+      if (!message) {
+         return res.status(404).json({
+            success: false,
+            message: 'Message does not exist',
+            code: 'MESSAGE_NOT_FOUND'
+         })
+      }
+
+      message.isRead = true;
+      await message.save();
+      console.log('Message marked as read')
+
+      const unreadCount = await Message.countDocuments({ uid, isRead: false });
+
+      res.status(200).json({
+         success: true,
+         data: {
+            topic: message.topic,
+            topicSlug: message.topicSlug,
+            content: message.content,
+            createdAt: message.createdAt
+         }
+      })
+
+
+   } catch (err) {
+      console.error("Error getting messages:", err)
+      res.status(500).json({
+         success: false,
+         message: 'Internal server error',
+         code: "INTERNAL_SERVER_ERROR"
+      })
+   }
+}
+
 
 const markAsRead = async (req, res) => {
    try {
       const { uid } = req.body;
-      const { messageId } = req.params;
+      const { messageId } = req.query;
 
       const message = await Message.findOne({ uid, _id: messageId });
       if (!message) {
@@ -145,7 +203,7 @@ const markAsRead = async (req, res) => {
 const deleteMessage = async (req, res) => {
    try{
       const { uid } = req.body;
-      const { messageId } = req.params;
+      const { messageId } = req.query;
 
       const message = await Message.findOneAndDelete({ uid, _id: messageId });
 
@@ -179,6 +237,7 @@ const deleteMessage = async (req, res) => {
 module.exports = {
    sendMessage,
    getUserMessages,
+   getMessage,
    markAsRead,
    deleteMessage
 }

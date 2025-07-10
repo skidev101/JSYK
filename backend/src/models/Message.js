@@ -13,6 +13,10 @@ const messageSchema = new mongoose.Schema({
       type: String,
       default: null
    },
+   topicSlug: {
+      type: String,
+      default: null
+   },
    topic: {
       type: String,
       default: null

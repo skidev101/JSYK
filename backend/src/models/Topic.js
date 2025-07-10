@@ -6,18 +6,22 @@ const topicSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  profileSlug: {
-    type: String,
-    required: true
-  },
   topic: {
     type: String,
     required: true,
     maxLength: 100
   },
-  themeColor: {
+  slug: {
     type: String,
     required: true
+  },
+  topicId: {
+    type: String,
+    required: true
+  },
+  themeColor: {
+    type: String,
+    default: null
   },
   topicImgUrl: {
     type: String,
@@ -35,5 +39,7 @@ const topicSchema = new mongoose.Schema({
   timestamps: true
 });
 
+
+topicSchema.index({ profileSlug: 1, topicId: 1 })
 
 module.exports = mongoose.model("Topic", topicSchema);

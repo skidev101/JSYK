@@ -7,10 +7,11 @@ const rateLimiter = require('../middleware/rateLimiter');
 const logSenderInfo = require('../middleware/logSenderInfo');
 const { validateSendMessage, validateMessageAction } = require('../validators/messageValidator');
 
-router.get('/', getUserMessages)
-router.patch('/:messageId', markAsRead)
-router.post('/', rateLimiter, logSenderInfo, sendMessage)
-router.delete('/:messageId', deleteMessage)
+router
+   .get('/', getUserMessages)
+   .patch('/', markAsRead)
+   .post('/', rateLimiter, logSenderInfo, sendMessage)
+   .delete('/', deleteMessage)
 
 
 
