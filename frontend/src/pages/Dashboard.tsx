@@ -141,12 +141,12 @@ const Dashboard = () => {
                 <h1 className="text-lg sm:text-xl">Messages</h1>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4">
-                {Array.from({ length: 24 }).map((_, i) => (
+                {Array.from({ length: 2 }).map((_, i) => (
                   <MessageCard
                     key={i}
                     username="ethan"
-                    topic="JSYK"
-                    message="stuffs always happens. did u know that?"
+                    topic="omo God is great."
+                    message="stuffs always happens. did u know that? what else do u think u know that i dont already know huh"
                     link="https://jsyk.vercel.app"
                   />
                 ))}
