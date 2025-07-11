@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext'
 import axios from 'axios'
 import type { User } from "firebase/auth";
 
@@ -25,9 +24,7 @@ interface DashboardData {
    messages: Message[]
 }
 
-const useDashboardData = (user: User) => {
-   if (!user) return;
-
+export const useDashboardData = (user: User | null) => {
    const [data, setData] = useState<DashboardData>({
       recentLinks: [],
       messages: []
@@ -35,13 +32,14 @@ const useDashboardData = (user: User) => {
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState(null);
 
-   useEffect(() => {
-      const fetchMessages = async () => {
+   const fetchdashboardData = async () => {
+      if (!user) return;
+
          try {
             setLoading(true);
             setError(null);
-
-            const idToken = user.idToken;
+            
+            const idToken = await user.getIdToken()
 
             const config = {
                headers: {
@@ -60,7 +58,14 @@ const useDashboardData = (user: User) => {
             })
          } catch (err) {
 
+         } finally {
+            setLoading(false)
          }
-      }
-   }, [])
+   }
+
+   useEffect(() => {
+      fetchdashboardData()
+   }, [user]);
+
+   return { data, loading, error, refetch: fetchdashboardData }
 }
