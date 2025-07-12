@@ -6,8 +6,8 @@ const { validateCreateTopic, validateDeleteTopic } = require('../validators/topi
 const validateRequest = require('../middleware/validateRequest');
 
 router
-   .get('/', getUserTopics)
-   .post('/', validateCreateTopic, validateRequest, createTopic)
+   .get('/', verifyToken, getUserTopics)
+   .post('/', verifyToken, validateCreateTopic, validateRequest, createTopic)
    .delete('/:id', validateDeleteTopic, validateRequest, deleteTopic);
 
 module.exports = router;

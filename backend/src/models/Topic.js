@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 
-
 const topicSchema = new mongoose.Schema({
   uid: {
+    type: String,
+    required: true,
+  },
+  profileSlug: {
     type: String,
     required: true,
   },
@@ -16,6 +19,10 @@ const topicSchema = new mongoose.Schema({
     required: true
   },
   topicId: {
+    type: String,
+    required: true
+  },
+  topicLink: {
     type: String,
     required: true
   },
@@ -36,10 +43,9 @@ const topicSchema = new mongoose.Schema({
     default: null
   }
 }, {
-  timestamps: true
+  timestamps: true 
 });
 
-
-topicSchema.index({ profileSlug: 1, topicId: 1 })
+topicSchema.index({ profileSlug: 1, topicId: 1 });
 
 module.exports = mongoose.model("Topic", topicSchema);

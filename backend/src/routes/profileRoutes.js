@@ -7,8 +7,9 @@ const logSenderInfo = require('../middleware/logSenderInfo');
 const rateLimiter = require('../middleware/rateLimiter');
 const { validateUsername } = require('../validators/authValidator');
 
-router.get('/:slug', logSenderInfo, rateLimiter, validateRequest, getPublicProfile);
-router.get('/', validateUsername, checkUsernameAvailability);
-router.patch('/', verifyToken, updateProfile);
+router
+   .get('/:slug', logSenderInfo, rateLimiter, getPublicProfile)
+   .get('/', validateUsername, validateRequest, checkUsernameAvailability)
+   .patch('/', verifyToken, updateProfile);
 
 module.exports = router

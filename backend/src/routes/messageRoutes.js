@@ -8,11 +8,11 @@ const logSenderInfo = require('../middleware/logSenderInfo');
 const { validateSendMessage, validateMessageAction } = require('../validators/messageValidator');
 
 router
-   .get('/', getUserMessages)
-   .get('/:id', getMessage)
-   .patch('/', validateMessageAction, validateRequest, markAsRead)
+   .get('/', verifyToken, getUserMessages)
+   .get('/:id', verifyToken, getMessage)
+   .patch('/', verifyToken, validateMessageAction, validateRequest, markAsRead)
    .post('/', rateLimiter, logSenderInfo, validateSendMessage, validateRequest, sendMessage)
-   .delete('/:id', validateMessageAction, validateRequest, deleteMessage)
+   .delete('/:id', verifyToken, validateMessageAction, validateRequest, deleteMessage)
 
 
 

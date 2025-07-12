@@ -22,4 +22,6 @@ app.get('/', (req, res) => {
     res.send('jsyk API is now live!');
 });
 
+
+
 module.exports = app;
