@@ -5,7 +5,7 @@ interface MessageCardProps {
   username: string,
   topic: string,
   message: string,
-  link: string
+  link?: string
 }
 
 const MessageCard = ({ username, topic, message, link }: MessageCardProps) => {

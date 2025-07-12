@@ -1,8 +1,8 @@
 interface RecentLink {
    _id: string;
-   url: string,
-   createdAt: string,
-   topic: string
+   url: string;
+   createdAt: string;
+   topic: string;
 }
 
 export const groupLinksByDate = (links: RecentLink[]): Record<string, RecentLink[]> => {
