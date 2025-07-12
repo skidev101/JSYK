@@ -37,8 +37,10 @@ const createTopic = async (req, res) => {
 
       res.status(201).json({
          success: true,
+         topicId: topicId,
+         topic: topic,
+         link: clientLink,
          message: 'Topic created successfully',
-         link: clientLink
       })
 
    } catch (err) {

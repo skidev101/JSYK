@@ -118,7 +118,8 @@ const getUserMessages = async (req, res) => {
 
 const getMessage = async (req, res) => {
    try {
-      const { messageId } = req.query;
+      const { uid } = req.body;
+      const { messageId } = req.params;
 
       const message = await Message.findOne({ uid, _id: messageId });
       if (!message) {
@@ -129,11 +130,11 @@ const getMessage = async (req, res) => {
          })
       }
 
-      message.isRead = true;
-      await message.save();
-      console.log('Message marked as read')
-
-      const unreadCount = await Message.countDocuments({ uid, isRead: false });
+      if (!message.isRead) {
+         message.isRead = true;
+         await message.save();
+         console.log('Message marked as read')
+      }
 
       res.status(200).json({
          success: true,

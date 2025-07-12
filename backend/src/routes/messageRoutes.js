@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getUserMessages, sendMessage, markAsRead, deleteMessage } = require('../controllers/messageController');
+const { getUserMessages, getMessage, sendMessage, markAsRead, deleteMessage } = require('../controllers/messageController');
 const verifyToken = require('../middleware/verifyToken');
 const validateRequest = require('../middleware/validateRequest');
 const rateLimiter = require('../middleware/rateLimiter');
@@ -9,9 +9,10 @@ const { validateSendMessage, validateMessageAction } = require('../validators/me
 
 router
    .get('/', getUserMessages)
-   .patch('/', markAsRead)
-   .post('/', rateLimiter, logSenderInfo, sendMessage)
-   .delete('/', deleteMessage)
+   .get('/:id', getMessage)
+   .patch('/', validateMessageAction, validateRequest, markAsRead)
+   .post('/', rateLimiter, logSenderInfo, validateSendMessage, validateRequest, sendMessage)
+   .delete('/:id', validateMessageAction, validateRequest, deleteMessage)
 
 
 
