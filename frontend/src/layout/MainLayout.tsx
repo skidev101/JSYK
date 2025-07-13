@@ -3,12 +3,10 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LogoutModal from "../components/LogoutModal";
-import CreateTopicModal from "../components/CreateTopicModal";
 import ProfileDrawer from "../components/ProfileDrawer";
 
 const MainLayout = () => {
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  const [showTopicModal, setShowTopicModal] = useState(false);
   const [showProfileDrawer, setShowProfileDrawer] = useState(false);
 
   return (
@@ -27,10 +25,7 @@ const MainLayout = () => {
         isOpen={showLogoutModal}
         onClose={() => setShowLogoutModal(false)}
       />
-      <CreateTopicModal
-        isOpen={showTopicModal}
-        onClose={() => setShowTopicModal(false)}
-      />
+      
       <ProfileDrawer 
          show={showProfileDrawer}
          onClose={() => setShowProfileDrawer(false)}

@@ -1,18 +1,17 @@
-import { useState } from "react";
 import { MessageCircle, Plus, Copy, Link, Loader2 } from "lucide-react";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
-import CreateTopicModal from "../components/CreateTopicModal";
 import { useAuth } from "../context/AuthContext";
 import { useDashboardData } from "../hooks/useDashboardData";
 import { groupLinksByDate } from "../utils/groupByDate";
+import { useNavigate } from "react-router-dom";
 
 
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
   const { data, loading, error } = useDashboardData(firebaseUser);
+  const navigate = useNavigate();
   console.log('data at dashboard:', data)
-  const [showTopicModal, setShowTopicModal] = useState(false);
   
   if (loading) return <Loader2 size={40} className="animate-spin mt-50 mr-4" />;
   if (error) return <div className="mt-50 mr-4 p-4 text-red-500">Error loading dashboard</div>;
@@ -39,7 +38,7 @@ const Dashboard = () => {
                     <h1 className="text-lg sm:text-xl font-bold">
                       {user?.username}
                     </h1>
-                    <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 ">
+                    <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
                       <p>{`jsyk.com/${user?.jsykLink}`}</p>
                       <Copy
                         size={18}
@@ -66,7 +65,7 @@ const Dashboard = () => {
 
                   <button
                     type="button"
-                    onClick={() => setShowTopicModal((prev) => !prev)}
+                    onClick={() => navigate('/new')}
                     className="flex items-center justify-center flex-col w-full shadow-md sm:w-50 sm:h-30 p-4 rounded-lg sm:rounded-2xl hover:scale-[1.01] bg-pink-500 hover:bg-pink-300 active:scale-[0.95] active:bg-pink-600 transition duration-300 cursor-pointer"
                   >
                     <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
@@ -124,11 +123,6 @@ const Dashboard = () => {
               </div>
             </div>
           </FadeDown>
-
-          <CreateTopicModal
-            isOpen={showTopicModal}
-            onClose={() => setShowTopicModal((prev) => !prev)}
-          />
 
           <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full md:max-h-[100vh] md:overflow-y-auto">
             <FadeDown>

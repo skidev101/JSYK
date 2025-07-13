@@ -45,9 +45,6 @@ const CreateTopicModal = ({ isOpen, onClose }: CreateTopicProps) => {
   const handleNewTopic = () => {
     setLoading(true);
 
-    // const formData = new FormData();
-    // if (topicImgFiles) formData.append("topicImg", topicImgFiles));
-
     setTimeout(() => {
       setLoading(false);
       toast.success("New topic created successfully!");

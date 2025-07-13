@@ -1,43 +1,65 @@
-
 interface MessageViewCardProps {
   profileImgUrl?: string;
-  username: string;
+  username?: string;
   topic?: string;
-  topicImgUrl?: string;
+  topicImgUrls?: string[];
   message?: string;
-};
+  preview: boolean;
+  onImageClick?: (url: string) => void;
+}
 
-const MessageViewCard = ({ profileImgUrl, username, topic, topicImgUrl, message }: MessageViewCardProps) => {
+const MessageViewCard = ({
+  profileImgUrl,
+  username,
+  topic,
+  topicImgUrls,
+  message,
+  preview,
+  onImageClick
+}: MessageViewCardProps) => {
   return (
-    <div className="w-full bg-white rounded-3xl shadow-md p-4">
+    <div className="relative w-full bg-white rounded-3xl shadow-md p-4">
+      <div className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 bg-neutral-400 rounded-t-3xl">
+
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-2">
           <img
-            src={profileImgUrl}
+            src={profileImgUrl || '/default-pfp.webp'}
             alt=""
             className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
           />
-          <h1 className="text-md sm:text-lg font-semibold text-gray-600">
+          <h1 className="text-md sm:text-lg font-semibold text-white">
             @{username}
           </h1>
         </div>
-        <p className="text-sm sm:text-base text-gray-500">JSYK</p>
+        <p className="text-sm sm:text-base text-neutral-200">JSYK</p>
+      </div>
       </div>
 
-      {topic && (
-        <div className="max-w-max px-2 py-1 my-3 sm:px-3 bg-gray-100 rounded-xl">
-          <p className={`text-sm sm:text-base ${topic?.trim() == '#JSYK' ? 'text-gray-500' : 'text-gray-800'}`}>
+      <div className="mt-18">
+        {topic && (
+        <div className="max-w-max px-2 py-1 sm:px-3 bg-gray-100 rounded-xl">
+          <p
+            className={`text-sm sm:text-base ${
+              topic?.trim() == "#JSYK" ? "text-gray-500" : "text-gray-800"
+            }`}
+          >
             {topic}
           </p>
         </div>
       )}
 
-      {topicImgUrl && (
-        <img
-          src={topicImgUrl}
-          alt=""
-          className="w-full h-20 my-2 rounded-lg object-contain object-center cursor-pointer"
-        />
+      {topicImgUrls && topicImgUrls.length > 0 && (
+        <div className="flex flex-row gap-2 overflow-hidden">
+          {topicImgUrls.map((src, index) => (
+            <img
+              src={src}
+              alt={`preview-${index}`}
+              onClick={() => onImageClick?.(src)}
+              className="w-[49%] sm:w-24 h-20 my-2 rounded-xl object-contain object-center cursor-pointer transition-all hover:scale-[1.01]"
+            />
+          ))}
+        </div>
       )}
 
       {message ? (
@@ -49,15 +71,21 @@ const MessageViewCard = ({ profileImgUrl, username, topic, topicImgUrl, message 
       ) : (
         <>
           <textarea
+            readOnly={preview}
             placeholder="Enter your message here" //TODO Enable changing placeholder and enable random messages
             className="w-full min-h-30  p-2 my-3 bg-gray-100 focus:ring-2 focus:ring-blue-500 border-none outline-none rounded-md"
           />
-          <button className="w-full py-2 text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full cursor-pointer transition duration-200">
+          <button
+            disabled={preview}
+            className="w-full py-2 text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full cursor-pointer transition duration-200"
+          >
             SEND
           </button>
         </>
       )}
+      </div>
     </div>
+    
   );
 };
 

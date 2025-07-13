@@ -6,7 +6,8 @@ import ViewMessage from "./pages/ViewMessage";
 import MainLayout from "./layout/MainLayout";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./pages/NotFound";
-import ProtectedRoute from "./components/ProtectedRoute";
+import NewTopic from "./pages/NewTopic";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
   return (
@@ -16,14 +17,13 @@ const App = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
 
               <MainLayout />
-            </ProtectedRoute>
             
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="/new" element={<NewTopic />} />
           <Route path="/view" element={<ViewMessage />} />
         </Route>
         

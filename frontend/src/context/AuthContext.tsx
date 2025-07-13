@@ -8,10 +8,10 @@ import axios from "axios";
 interface User {
   username: string;
   email: string;
-  jsykLink?: string;
+  jsykLink: string;
   profileImgUrl?: string;
   bio?: string;
-  idToken?: string;
+  idToken: string;
 }
 
 interface AuthContextType {
@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               },
             });
 
-            setUser(response.data.data);
+            setUser({ ...response.data.data, idToken});
             setFirebaseUser(firebaseUser)
             console.log(response.data.data);
           } catch (err: any) {
