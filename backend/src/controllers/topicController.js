@@ -7,8 +7,8 @@ const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 8);
 
 const createTopic = async (req, res) => {
   try {
-    // const { uid } = req.user;
-    const { uid, topic, themeColor, topicImgUrl } = req.body;
+    const { uid } = req.user;
+    const { topic, themeColor, topicImgUrl } = req.body;
     const user = await User.findOne({ uid });
     if (!user) {
       return res.status(404).json({
@@ -21,8 +21,7 @@ const createTopic = async (req, res) => {
     const rawSlug = slugify(topic, { lowercase: true, strict: true });
     const truncatedSlug = rawSlug.substring(0, 50);
     const topicId = nanoid();
-    const topicLink =
-      `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
+    const topicLink = `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
 
     const newTopic = await Topic.create({
       uid,
