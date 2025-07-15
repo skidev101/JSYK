@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
-import MessageViewCard from "../components/MessageViewCard";
+import ViewMessageCard from "../components/ViewMessageCard";
 import { FadeIn } from "../components/MotionWrappers";
 
 const ViewMessage = () => {
@@ -25,11 +25,13 @@ const ViewMessage = () => {
             ref={messageRef}
             className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-gray-100"
           >
-            <MessageViewCard
+            <ViewMessageCard
               profileImgUrl="/form.webp"
               username="ski101"
-              // topicImgUrl="/form.webp" heloo
-              // message="I wanna define what the term invention means. the other day at the convention, you said invention means doing stuff to make stuff work"
+              preview={true}
+              // topicImgUrl="/form.webp"
+              topic="hello world"
+              message="I wanna define what the term invention means. the other day at the convention, you said invention means doing stuff to make stuff work"
             />
           </div>
         </div>

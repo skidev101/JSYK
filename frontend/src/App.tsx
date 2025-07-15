@@ -7,6 +7,7 @@ import MainLayout from "./layout/MainLayout";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./pages/NotFound";
 import NewTopic from "./pages/NewTopic";
+import SendMessage from "./pages/SendMessage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -19,7 +20,7 @@ const App = () => {
           element={
 
               <MainLayout />
-            
+
           }
         >
           <Route index element={<Dashboard />} />
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/view" element={<ViewMessage />} />
         </Route>
         
+        <Route path="/m/:username/:slug" element={<SendMessage />} />  
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />

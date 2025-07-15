@@ -11,15 +11,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "../components/MotionWrappers";
 import toast from "react-hot-toast";
-import MessageViewCard from "../components/MessageViewCard";
+import ViewMessageCard from "../components/ViewMessageCard";
 import { toSlug } from "../utils/slugify";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 
 const NewTopic = () => {
   const { user } = useAuth();
-  console.log('user at create topic:', user)
   const [newTopic, setNewTopic] = useState("");
+  const [topicError, setTopicError] = useState("");
   const [loading, setLoading] = useState(false);
   const [themeColor, setThemeColor] = useState("#c7e90a");
   const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
@@ -53,7 +53,13 @@ const NewTopic = () => {
   };
 
   const handleNewTopic = async () => {
+    if (!newTopic.trim()) {
+      setTopicError("Topic is required");
+      setLoading(false);
+      return;
+    }
     setLoading(true);
+    setTopicError("");
 
     try {
       const formData = new FormData();
@@ -62,22 +68,27 @@ const NewTopic = () => {
       // topicImgFiles.forEach((file) => {
       //   formData.append("images", file);
       // });
-
-      const response = await axios.post("http://127.0.0.1:3000/api/topic", formData, {
-        headers: {
-          "Authorization": `Bearer ${user?.idToken}`,
-          "Content-Type": "multipart/form-data"
+      const response = await axios.post(
+        "http://127.0.0.1:3000/api/topic",
+        {
+          topic: newTopic,
+          themeColor: themeColor,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.idToken}`,
+            "Content-Type": "application/json",
+          },
         }
-      });
+      );
 
-      console.log('red from new topic:', response)
+      console.log("res from new topic:", response);
 
       toast.success("New topic created successfully");
       setNewTopic("");
       setTopicImgFiles([]);
       setTopicImgPreviews([]);
-      navigate('/')
-
+      navigate("/");
     } catch (err: any) {
       console.error(err);
       toast.error("Failed to create topic");
@@ -114,12 +125,16 @@ const NewTopic = () => {
                     />
                     <input
                       type="text"
+                      required
                       value={newTopic}
                       onChange={(e) => setNewTopic(e.target.value)}
                       placeholder="Create a new topic"
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </div>
+                  {topicError && (
+                    <p className="text-sm text-red-500">{topicError}</p>
+                  )}
                 </div>
 
                 <div className="flex flex-col mb-4">
@@ -216,13 +231,13 @@ const NewTopic = () => {
                     <Home size={20} className="text-gray-600" />
                     <div className="w-full px-2 py-2 bg-gray-200 rounded-full min-w-[150px] max-w-[250px]">
                       <p className="text-gray-600 text-sm truncate">
-                        jsykme.vercel.app/{toSlug(newTopic) || 'your-topic'}
+                        jsykme.vercel.app/{toSlug(newTopic) || "your-topic"}
                       </p>
                     </div>
                     <EllipsisVertical size={20} className="text-gray-600" />
                   </div>
                   <div className="w-full mt-5">
-                    <MessageViewCard
+                    <ViewMessageCard
                       username={user?.username}
                       profileImgUrl={user?.profileImgUrl}
                       topic={newTopic}

@@ -6,20 +6,15 @@ import { useDashboardData } from "../hooks/useDashboardData";
 import { groupLinksByDate } from "../utils/groupByDate";
 import { useNavigate } from "react-router-dom";
 
-
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
   const { data, loading, error } = useDashboardData(firebaseUser);
   const navigate = useNavigate();
-  console.log('data at dashboard:', data)
-  
-  if (loading) return <Loader2 size={40} className="animate-spin mt-50 mr-4" />;
-  if (error) return <div className="mt-50 mr-4 p-4 text-red-500">Error loading dashboard</div>;
+
+
 
   const groupedLinks = groupLinksByDate(data.recentLinks);
-  console.log('grouped links:', groupedLinks);
   const messages = data.messages;
-  console.log('user messages:', messages);
 
   return (
     <section>
@@ -65,7 +60,7 @@ const Dashboard = () => {
 
                   <button
                     type="button"
-                    onClick={() => navigate('/new')}
+                    onClick={() => navigate("/new")}
                     className="flex items-center justify-center flex-col w-full shadow-md sm:w-50 sm:h-30 p-4 rounded-lg sm:rounded-2xl hover:scale-[1.01] bg-pink-500 hover:bg-pink-300 active:scale-[0.95] active:bg-pink-600 transition duration-300 cursor-pointer"
                   >
                     <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
@@ -79,27 +74,33 @@ const Dashboard = () => {
               <div className="flex mt-2 flex-col bg-white w-full p-4 sm:p-6 rounded-xl">
                 <h1 className="block text-lg sm:text-xl">Recent links</h1>
                 {/* Recent Links */}
-                {Object.entries(groupedLinks).map(([date, links]) => (
-                  <div key={date}>
-                    <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
-                      {date}
-                    </p>
-                    {links.map((link) => (
-                      <div
-                        key={link._id}
-                        className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
-                      >
-                        <div className="flex items-center gap-2">
-                          <Link size={18} />
-                          <p className="text-sm sm:text-base">{link.url}</p>
+                {loading ? (
+                  <Loader2 size={30} className="bg-transparent text-black animate-spin" />
+                ) : error ? (
+                  <div className="mt-50 mr-4 p-4 text-red-500">Error loading dashboard</div>
+                ) : (
+                  Object.entries(groupedLinks).map(([date, links]) => (
+                    <div key={date}>
+                      <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
+                        {date}
+                      </p>
+                      {links.map((link) => (
+                        <div
+                          key={link._id}
+                          className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Link size={18} />
+                            <p className="text-sm sm:text-base">{link.url}</p>
+                          </div>
+                          <button className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 transition">
+                            <Copy size={18} />
+                          </button>
                         </div>
-                        <button className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 transition">
-                          <Copy size={18} />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                ))}
+                      ))}
+                    </div>
+                  ))
+                )}
 
                 {/* {Object.entries(groupedLinks).map(([date, links]) => {
                   <div key={date}>
@@ -131,7 +132,11 @@ const Dashboard = () => {
                 <h1 className="text-lg sm:text-xl">Messages</h1>
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4">
-                 {messages.length === 0 ? (
+                {loading ? (
+                  <Loader2 size={30} className="bg-transparent text-black animate-spin"/>
+                ) : error ? (
+                  <div className="mt-50 mr-4 p-4 text-red-500">Error loading dashboard</div>
+                ) : messages.length === 0 ? (
                   <p className="text-sm text-gray-500">No messages yet.</p>
                 ) : (
                   messages.map((message) => (

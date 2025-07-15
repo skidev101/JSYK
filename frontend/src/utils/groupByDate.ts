@@ -10,7 +10,11 @@ export const groupLinksByDate = (links: RecentLink[]): Record<string, RecentLink
    const todayStr = new Date().toDateString();
    const yesterdayStr = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString();
 
-   links.forEach(link => {
+   const sortedLinks = [...links].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+   const topFive = sortedLinks.slice(0, 5);
+
+   topFive.forEach(link => {
       const linkDateStr = new Date(link.createdAt).toDateString();
       let dateLabel: string;
 
