@@ -1,4 +1,4 @@
-import { MessageCircle, Plus, Copy, Link, Loader2 } from "lucide-react";
+import { MessageCircle, Plus, Copy, Link, Loader2, AlertTriangleIcon, RefreshCcw } from "lucide-react";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
 import { useAuth } from "../context/AuthContext";
@@ -8,11 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
-  const { data, loading, error } = useDashboardData(firebaseUser);
+  const { data, loading, error, refetch } = useDashboardData(firebaseUser);
+
   const navigate = useNavigate();
-
-
-
   const groupedLinks = groupLinksByDate(data.recentLinks);
   const messages = data.messages;
 
@@ -135,16 +133,25 @@ const Dashboard = () => {
                 {loading ? (
                   <Loader2 size={30} className="bg-transparent text-black animate-spin"/>
                 ) : error ? (
-                  <div className="mt-50 mr-4 p-4 text-red-500">Error loading dashboard</div>
+                  <div className="w-full flex items-center">
+                    <AlertTriangleIcon size={30} />
+                    <p>An unknown error occured while loading messages</p>
+                    <button 
+                      onClick={() => refetch()}
+                      className="border-0 outline-0">
+                      <RefreshCcw size={20} />
+                    </button>
+                  </div>
                 ) : messages.length === 0 ? (
-                  <p className="text-sm text-gray-500">No messages yet.</p>
+                  <p className="text-sm text-gray-500">No messages yet. Share your link to get started</p>
                 ) : (
                   messages.map((message) => (
                     <MessageCard
                       key={message._id}
-                      username={user?.username || "Anonymous"}
-                      topic={message.topic || "No Topic"}
+                      messageId={message._id}
+                      topic={message.topic}
                       message={message.content}
+                      isRead={message.isRead}
                     />
                   ))
                 )}

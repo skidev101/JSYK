@@ -1,26 +1,31 @@
 import { useNavigate } from "react-router-dom";
-import { Copy, DownloadCloudIcon, Link } from "lucide-react";
+import { DownloadCloudIcon } from "lucide-react";
 
 interface MessageCardProps {
-  username: string,
-  topic: string,
-  message: string,
-  link?: string
+  messageId: string;
+  topic?: string;
+  message: string;
+  isRead: boolean;
 }
 
-const MessageCard = ({ username, topic, message, link }: MessageCardProps) => {
+const MessageCard = ({
+  messageId,
+  topic,
+  message,
+  isRead,
+}: MessageCardProps) => {
   const navigate = useNavigate();
 
   return (
-    <div 
-      onClick={() => navigate('/view')}
+    <div
+      onClick={() => navigate(`/view/:${messageId}`)}
       className="relative rounded-lg bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200"
     >
-      <div 
-        className="hidden absolute top-0 left-0 w-full h-full opacity-[0.3] bg-gray-50 rounded-lg z-50"
-      >
-        {/* opaque bg for read messages */}
-      </div>
+      {isRead && (
+        <div className="hidden absolute top-0 left-0 w-full h-full opacity-[0.3] bg-gray-50 rounded-lg z-50">
+          {/* opaque bg for read messages */}
+        </div>
+      )}
       <div className="flex justify-between py-2">
         <div className="flex items-center gap-2">
           <div className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 outline-4 outline-gray-100 rounded-full">
@@ -34,13 +39,11 @@ const MessageCard = ({ username, topic, message, link }: MessageCardProps) => {
       </div>
 
       <div className="flex flex-col gap-1">
-        {/* <p className="text-sm sm:text-base max-w-max rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">
+        <p className="text-sm sm:text-base max-w-max rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">
           {topic}
-        </p> */}
+        </p>
         <div className="w-full bg-gray-100 p-3 mt-1 rounded-xl">
-          <p className="text-sm sm:text-base">
-            {message}
-          </p>
+          <p className="text-sm sm:text-base">{message}</p>
         </div>
         {/* <div className="flex items-center gap-2 mt-2">
           <p className="text-sm max-w-max rounded-xl text-gray-500 bg-gray-100 px-2 sm:px-3">

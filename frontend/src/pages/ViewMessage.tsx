@@ -1,12 +1,46 @@
-import { useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
 import ViewMessageCard from "../components/ViewMessageCard";
 import { FadeIn } from "../components/MotionWrappers";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+
+interface MessageData {
+  topic?: string;
+  content: string;
+  profileImgUrl: string;
+  topicImgUrls: string[];
+  createdAt: string;
+}
 
 const ViewMessage = () => {
+  const { messageId } = useParams();
+  const { user } = useAuth();
+  const [data, setData] = useState<MessageData | null>(null)
+  const [loading, setLoading] = useState(true);
+
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMessage = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:3000/api/message/${messageId}`, {
+          headers: {
+            "Authorization": `Bearer ${user?.idToken}`
+          }
+        });
+        setData(response.data.data);
+      } catch (err: any) {
+        console.error('Error while fetching full message:', err)
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMessage();
+  }, [messageId])
 
   return (
     <div className="relative">
@@ -26,12 +60,11 @@ const ViewMessage = () => {
             className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-gray-100"
           >
             <ViewMessageCard
-              profileImgUrl="/form.webp"
-              username="ski101"
-              preview={true}
-              // topicImgUrl="/form.webp"
+              profileImgUrl={data?.profileImgUrl}
+              topicImgUrls={data?.topicImgUrls}
               topic="hello world"
-              message="I wanna define what the term invention means. the other day at the convention, you said invention means doing stuff to make stuff work"
+              message={data?.content}
+              preview={true}
             />
           </div>
         </div>

@@ -57,12 +57,10 @@ export const useDashboardData = (user: FirebaseUser | null) => {
       console.log("API Response - Topics:", recentLinksRes.data);
       console.log("API Response - Messages:", messagesRes.data);
 
-      // Transform topics to match RecentLink interface
-      // Based on your controller, the response structure is { success: true, topics: [...], topicsCount: number }
       const topics = recentLinksRes.data.topics || [];
       const transformedTopics = topics.map((topic: any) => ({
         _id: topic._id,
-        url: topic.topicLink, // Map topicLink to url
+        url: topic.topicLink,
         createdAt: topic.createdAt,
         topic: topic.topic
       }));
