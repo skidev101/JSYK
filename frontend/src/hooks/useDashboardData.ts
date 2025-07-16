@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import type { User as FirebaseUser } from "firebase/auth";
+import toast from "react-hot-toast";
 
 interface RecentLink {
   _id: string;
-  url: string; // This should match what groupLinksByDate expects
+  url: string;
   createdAt: string;
   topic: string;
 }
@@ -26,7 +27,7 @@ interface DashboardData {
 export const useDashboardData = (user: FirebaseUser | null) => {
   const [data, setData] = useState<DashboardData>({
     recentLinks: [],
-    messages: [],
+    messages: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -45,17 +46,14 @@ export const useDashboardData = (user: FirebaseUser | null) => {
 
       const config = {
         headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
+          Authorization: `Bearer ${idToken}`
+        }
       };
 
       const [recentLinksRes, messagesRes] = await Promise.all([
         axios.get("http://127.0.0.1:3000/api/topic", config),
-        axios.get("http://127.0.0.1:3000/api/messages?page=1&limit=20", config), // Add pagination params
+        axios.get("http://127.0.0.1:3000/api/messages?page=1&limit=20", config)
       ]);
-
-      console.log("API Response - Topics:", recentLinksRes.data);
-      console.log("API Response - Messages:", messagesRes.data);
 
       const topics = recentLinksRes.data.topics || [];
       const transformedTopics = topics.map((topic: any) => ({
@@ -72,6 +70,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
       setError("Failed to load dashboard data");
+      toast.error("Failed to load dashboard data");
     } finally {
       setLoading(false);
     }

@@ -44,8 +44,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             const response = await axios.get("http://127.0.0.1:3000/api/auth", {
               headers: {
-                Authorization: `Bearer ${idToken}`,
-              },
+                Authorization: `Bearer ${idToken}`
+              }
             });
 
             setUser({ ...response.data.data, idToken});

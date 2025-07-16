@@ -12,7 +12,6 @@ interface TopicDataProps {
   topicImgUrls?: string[];
 }
 
-
 const SendMessage = () => {
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
@@ -23,17 +22,26 @@ const SendMessage = () => {
 
   useEffect(() => {
     const fetchTopicData = async () => {
+      if (!profileSlug) return;
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/api/topic/${profileSlug}/${topicId}`);
-        setTopicData(response.data.data);
+        if (topicId) {
+          const response = await axios.get(
+            `http://127.0.0.1:3000/api/topic/${profileSlug}/${topicId}`
+          );
+          setTopicData(response.data.data);
+        } else {
+          const response = await axios.get(
+            `http://127.0.0.1:3000/api/profile/${profileSlug}`
+          );
+          setTopicData(response.data.data);
+        }
       } catch (err: any) {
-        console.log('Error fetching topic info:', err);
-        
+        console.log("Error fetching topic info:", err);
       }
-    }
+    };
 
     fetchTopicData();
-  }, [topicId])
+  }, [topicId]);
 
   const handleSendMessage = async () => {
     if (!messageToSend.trim()) {
@@ -44,14 +52,14 @@ const SendMessage = () => {
     try {
       setLoading(true);
 
-      await axios.post('http://127.0.0.1:3000/api/message', {
+      await axios.post("http://127.0.0.1:3000/api/message", {
+        profileSlug,
         topicId,
-        content: messageToSend
+        content: messageToSend,
       });
 
       toast.success("Message sent");
       setMessageToSend("");
-
     } catch (err: any) {
       console.log("Error sending message:", err);
       toast.error("An error occured");
@@ -59,12 +67,6 @@ const SendMessage = () => {
       setLoading(false);
       setMessageToSend("");
     }
-
-    setTimeout(() => {
-      console.log("message sent");
-      toast.success("Message sent successfully");
-      setLoading(false);
-    }, 3000);
   };
 
   return (

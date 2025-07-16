@@ -21,7 +21,7 @@ const NewTopic = () => {
   const [newTopic, setNewTopic] = useState("");
   const [topicError, setTopicError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [themeColor, setThemeColor] = useState("#c7e90a");
+  const [themeColor, setThemeColor] = useState("#3570F8");
   const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
   const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -226,7 +226,7 @@ const NewTopic = () => {
               </div>
 
               <div className="flex justify-center items-center w-full mt-4">
-                <div className="flex flex-col w-full max-w-sm h-auto bg-gray-100 rounded-2xl p-4">
+                <div className="flex flex-col w-full max-w-sm h-auto bg-gray-100 rounded-2xl p-2 sm:p-4">
                   <div className="flex justify-center items-center gap-4 border-b-1 pb-2 border-gray-300">
                     <Home size={20} className="text-gray-600" />
                     <div className="w-full px-2 py-2 bg-gray-200 rounded-full min-w-[150px] max-w-[250px]">
@@ -243,7 +243,9 @@ const NewTopic = () => {
                       topic={newTopic}
                       topicImgUrls={topicImgPreviews}
                       preview={true}
+                      inView={false}
                       onImageClick={(url) => setSelectedImage(url)}
+                      themeColor={themeColor}
                     />
                   </div>
                 </div>

@@ -2,9 +2,9 @@ const User = require("../models/User");
 
 const getPublicProfile = async (req, res) => {
   try {
-    const { slug } = req.params;
+    const { profileSlug } = req.params;
 
-    const user = await User.findOne({ profileSlug: slug });
+    const user = await User.findOne({ profileSlug });
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -23,9 +23,8 @@ const getPublicProfile = async (req, res) => {
       success: true,
       data: {
         username: user.username,
-        email: user.email,
         profileImgUrl: user.profileImgUrl,
-        jsykLink: user.profileSlug,
+        jsykLink: user.profileSlug
       },
     });
   } catch (err) {

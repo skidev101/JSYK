@@ -5,6 +5,8 @@ import {
   Link,
   Loader2,
   RefreshCcw,
+  Link2,
+  ChevronRight,
 } from "lucide-react";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
@@ -38,7 +40,7 @@ const Dashboard = () => {
         <div className="relative flex justify-between flex-col bg-gray-300 md:flex-row w-full gap-5 rounded-xl mt-20 p-2 pt-4 sm:mt-20 sm:p-6">
           <FadeDown>
             <div className="flex flex-col sm:justify-between gap-2">
-              <div className="flex flex-col bg-white w-full max-w-lg p-4 sm:p-6 rounded-xl">
+              <div className="flex flex-col bg-white w-full max-w-md p-4 sm:p-6 rounded-xl">
                 <div className="flex items-center gap-2 w-full rounded-lg">
                   <img
                     src={user?.profileImgUrl || "/default-pfp.webp"}
@@ -91,7 +93,18 @@ const Dashboard = () => {
               </div>
 
               <div className="flex mt-2 flex-col bg-white w-full p-4 sm:p-6 rounded-xl">
-                <h1 className="block text-lg sm:text-xl">Recent links</h1>
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center gap-1 pb-1.5">
+                    <Link2 size={20} />
+                    <h1 className="text-lg sm:text-xl">Recent Topics</h1>
+                  </div>
+                  <button
+                    onClick={() => navigate('/topics')}
+                    className="flex items-center gap-1 text-sm px-2 py-1 hover:bg-gray-200 hover:text-blue-500 transition-all rounded-md cursor-pointer active:scale-95">
+                    See all
+                    <ChevronRight size={18} />
+                  </button>
+                </div>
                 {/* Recent Links */}
                 {loading ? (
                   <Loader2
@@ -105,7 +118,7 @@ const Dashboard = () => {
                 ) : Object.keys(groupedLinks).length === 0 ? (
                   <div className="flex flex-col items-center justify-center text-center py-10">
                     <img
-                      src="/empty-box.jpeg" 
+                      src="/empty-box.jpeg"
                       alt="No links"
                       className="w-36 h-36 mb-4 opacity-80"
                     />
@@ -148,26 +161,6 @@ const Dashboard = () => {
                     </div>
                   ))
                 )}
-
-                {/* {Object.entries(groupedLinks).map(([date, links]) => {
-                  <div key={date}>
-                     <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl">
-                      {date}
-                    </p>
-                    <div className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden">
-                      <div className="flex items-center gap-2">
-                        <Link size={18} />
-                        <p className="text-sm sm:text-base">
-                          https://jsyk.vercel.app
-                        </p>
-                      </div>
-                      <button className="absolute right-2 w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 hover:text-gray-700 hover:scale-[1.01] active:scale-[0.97] transition duration-150">
-                        <Copy size={18} />
-                      </button>
-                    </div>
-                
-                  </div>
-                })} */}
               </div>
             </div>
           </FadeDown>
@@ -178,7 +171,13 @@ const Dashboard = () => {
                 <MessageCircle size={20} />
                 <h1 className="text-lg sm:text-xl">Messages</h1>
               </div>
-              <div className={` ${messages.length === 0 ? 'flex flex-col items-center justify-center text-center' : ''}grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4`}>
+              <div
+                className={` ${
+                  messages.length === 0
+                    ? "flex flex-col items-center justify-center text-center"
+                    : ""
+                }grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4`}
+              >
                 {loading ? (
                   <Loader2
                     size={30}
@@ -186,19 +185,15 @@ const Dashboard = () => {
                   />
                 ) : error ? (
                   <div className="w-full flex justify-center flex-col items-center p-4">
-                    
                     <p className="text-red-500">An unknown error occured</p>
-                    <button
-                      onClick={() => refetch()}
-                      className="pt-4"
-                    >
+                    <button onClick={() => refetch()} className="pt-4">
                       <RefreshCcw size={20} />
                     </button>
                   </div>
                 ) : messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center text-center py-10">
                     <img
-                      src="/empty.jpeg" 
+                      src="/empty.jpeg"
                       alt="No links"
                       className="w-36 h-36 mb-4 opacity-80"
                     />

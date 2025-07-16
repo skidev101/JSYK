@@ -1,7 +1,4 @@
-import { useState } from "react";
-import ProfileDrawer from "../components/ProfileDrawer";
 import { LogOut, User2 } from "lucide-react";
-import LogoutModal from "../components/LogoutModal";
 
 interface HeaderProps {
   onLogoutClick?: () => void; 
@@ -9,11 +6,9 @@ interface HeaderProps {
 };
 
 const Header = ({ onLogoutClick, onShowProfile }: HeaderProps) => {
-  const [showProfile, setShowProfile] = useState(false);
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
 
   return (
-    <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-md p-4 backdrop-blur-md rounded-b-4xl">
+    <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-sm p-4 backdrop-blur-md ">
       <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">JSYK</h1>
 
       <div className="flex items-center gap-4 sm:gap-8">
@@ -37,19 +32,6 @@ const Header = ({ onLogoutClick, onShowProfile }: HeaderProps) => {
           />
         </div>
       </div>
-      <LogoutModal
-        isOpen={showLogoutModal}
-        onClose={() => setShowLogoutModal((prev) => !prev)}
-      />
-
-      <ProfileDrawer
-        show={showProfile}
-        onClose={() => setShowProfile((prev) => !prev)}
-        username="ski101"
-        avatarUrl="/form.webp"
-        email="skidev101@gmail.com"
-        bio="Just a chill guy but if u play with me, you won't like it. i love chess football and others. I LOVE GOD"
-      />
     </header>
   );
 };

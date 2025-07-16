@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import { AlertTriangle, Pencil, X, Link, Loader2, Upload } from "lucide-react";
+import { AlertTriangle, Pencil, X, Loader2, Upload, Link2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "./MotionWrappers";
 import toast from "react-hot-toast";
@@ -212,7 +212,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                 {!editMode && (
                   <div className="flex justify-center items-center flex-col mt-4">
                     <div className="flex items-center gap-1 text-gray-600">
-                      <Link size={15} />
+                      <Link2 size={15} />
                       <p>Link</p>
                     </div>
                     <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">

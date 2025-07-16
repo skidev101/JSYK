@@ -13,6 +13,7 @@ interface ViewMessageCardProps {
   loading?: boolean;
   onImageClick?: (url: string) => void;
   onSend?: () => void;
+  themeColor?: string;
 }
 
 const ViewMessageCard = ({
@@ -28,18 +29,22 @@ const ViewMessageCard = ({
   messageToSend,
   setMessageToSend,
   onSend,
+  themeColor
 }: ViewMessageCardProps) => {
   return (
     <div className="relative w-full bg-white rounded-3xl shadow-md p-4">
-      <div className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 bg-neutral-400 rounded-t-3xl">
+      <div 
+        className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 rounded-t-3xl"
+        style={{ backgroundColor: themeColor}}
+      >
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <img
               src={profileImgUrl || "/default-pfp.webp"}
               alt=""
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full"
+              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 p-[1.4px] border-white"
             />
-            <h1 className="text-md sm:text-lg font-semibold text-white">
+            <h1 className={`text-md sm:text-lg font-semibold ${themeColor === '#ffffff' ? 'text-black' : 'text-white'}`}>
               @{username}
             </h1>
           </div>
@@ -64,6 +69,7 @@ const ViewMessageCard = ({
           <div className="flex flex-row gap-2 overflow-hidden">
             {topicImgUrls.map((src, index) => (
               <img
+                key={index}
                 src={src}
                 alt={`preview-${index}`}
                 onClick={() => onImageClick?.(src)}
@@ -96,6 +102,7 @@ const ViewMessageCard = ({
               className={`flex justify-center items-center w-full py-2 ${
                 loading ? "cursor-not-allowed" : "cursor-pointer"
               } ${inView ? 'hidden' : ''} text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full transition duration-200`}
+              style={{ backgroundColor: themeColor }}
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />

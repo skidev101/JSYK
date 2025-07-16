@@ -11,6 +11,7 @@ const sendMessage = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: "User not found",
+        code: "USER_NOT_FOUND"
       });
     }
 
@@ -22,6 +23,7 @@ const sendMessage = async (req, res) => {
         return res.status(404).json({
           success: false,
           message: "Topic not found",
+          code: "TOPIC_NOT_FOUND"
         });
       }
     }

@@ -8,7 +8,7 @@ const rateLimiter = require('../middleware/rateLimiter');
 const { validateUsername } = require('../validators/authValidator');
 
 router
-   .get('/:slug', logSenderInfo, rateLimiter, getPublicProfile)
+   .get('/:profileSlug', logSenderInfo, rateLimiter, getPublicProfile)
    .get('/', validateUsername, validateRequest, checkUsernameAvailability)
    .patch('/', verifyToken, updateProfile);
 
