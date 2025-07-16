@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
-app.use('/api/messages', messageRoutes);
+app.use('/api/message', messageRoutes);
 app.use('/api/topic', topicRoutes);
 
 app.get('/', (req, res) => {

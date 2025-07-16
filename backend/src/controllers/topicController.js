@@ -91,12 +91,12 @@ const getTopic = async (req, res) => {
     res.status(200).json({
       success: true,
       data: {
-        user: topic.username,
+        username: user.username,
         profileImgUrl: user.profileImgUrl,
         topic: topic.topic,
         topicId: topic.topicId,
         themeColor: topic.themeColor,
-        topicImgUrl: topicImgUrl
+        topicImgUrl: topic.topicImgUrls
       }
     })
   } catch (err) {

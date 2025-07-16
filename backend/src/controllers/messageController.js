@@ -5,6 +5,7 @@ const Topic = require("../models/Topic");
 const sendMessage = async (req, res) => {
   try {
     const { topicId = null, content, profileSlug } = req.body;
+    console.log(profileSlug)
     const user = await User.findOne({ profileSlug });
     if (!user) {
       return res.status(404).json({
