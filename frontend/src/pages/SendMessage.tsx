@@ -14,7 +14,7 @@ interface TopicDataProps {
 
 
 const SendMessage = () => {
-  const { slug } = useParams();
+  const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
 
   const [messageToSend, setMessageToSend] = useState("");
@@ -24,7 +24,7 @@ const SendMessage = () => {
   useEffect(() => {
     const fetchTopicData = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/api/topic/${topicId}`)
+        const response = await axios.get(`http://127.0.0.1:3000/api/topic/${profileSlug}/${topicId}`);
         setTopicData(response.data.data);
       } catch (err: any) {
         console.log('Error fetching topic info:', err);
@@ -77,6 +77,7 @@ const SendMessage = () => {
             topicImgUrls={topicData?.topicImgUrls}
             topic={topicData?.topic}
             preview={false}
+            inView={false}
             loading={loading}
             messageToSend={messageToSend}
             setMessageToSend={setMessageToSend}

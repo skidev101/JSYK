@@ -90,7 +90,7 @@ const Login = () => {
       const idToken = await result.user.getIdToken();
 
       console.log("User logged in:", result.user);
-      console.log("ID Token:", idToken);
+      console.log("ID Token gotten at login");
 
       const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
         headers: {

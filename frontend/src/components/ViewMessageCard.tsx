@@ -9,6 +9,7 @@ interface ViewMessageCardProps {
   messageToSend?: string;
   setMessageToSend?: (msg: string) => void;
   preview: boolean;
+  inView: boolean;
   loading?: boolean;
   onImageClick?: (url: string) => void;
   onSend?: () => void;
@@ -21,6 +22,7 @@ const ViewMessageCard = ({
   topicImgUrls,
   message,
   preview,
+  inView,
   loading,
   onImageClick,
   messageToSend,
@@ -86,14 +88,14 @@ const ViewMessageCard = ({
               placeholder="Enter your message here" //TODO Enable changing placeholder and enable random messages
               className={`flex justify-center items-center w-full min-h-30 p-2 my-3 bg-gray-100 ${
                 preview ? '' : "focus:ring-2 focus:ring-blue-500"
-              } border-none outline-none rounded-md`}
+              } border-none outline-none rounded-lg`}
             />
             <button
               onClick={onSend}
               disabled={preview || loading}
               className={`flex justify-center items-center w-full py-2 ${
                 loading ? "cursor-not-allowed" : "cursor-pointer"
-              } text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full transition duration-200`}
+              } ${inView ? 'hidden' : ''} text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full transition duration-200`}
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />

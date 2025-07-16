@@ -25,10 +25,10 @@ const App = () => {
         >
           <Route index element={<Dashboard />} />
           <Route path="/new" element={<NewTopic />} />
-          <Route path="/view" element={<ViewMessage />} />
+          <Route path="/view/:messageId" element={<ViewMessage />} />
         </Route>
         
-        <Route path="/m/:username/:slug" element={<SendMessage />} />  
+        <Route path="/m/:profileSlug/:slug" element={<SendMessage />} />  
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />

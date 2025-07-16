@@ -1,10 +1,19 @@
-import { MessageCircle, Plus, Copy, Link, Loader2, AlertTriangleIcon, RefreshCcw } from "lucide-react";
+import {
+  MessageCircle,
+  Plus,
+  Copy,
+  Link,
+  Loader2,
+  RefreshCcw,
+} from "lucide-react";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
 import { useAuth } from "../context/AuthContext";
 import { useDashboardData } from "../hooks/useDashboardData";
 import { groupLinksByDate } from "../utils/groupByDate";
 import { useNavigate } from "react-router-dom";
+import { copyToClipboard } from "../utils/copyToClipboard";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
@@ -13,6 +22,15 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const groupedLinks = groupLinksByDate(data.recentLinks);
   const messages = data.messages;
+
+  const handleCopy = async () => {
+    const success = await copyToClipboard(`https://jsyk.me/hii`);
+    if (success) {
+      toast.success("Copied!");
+    } else {
+      toast.error("Error copying");
+    }
+  };
 
   return (
     <section>
@@ -33,10 +51,13 @@ const Dashboard = () => {
                     </h1>
                     <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
                       <p>{`jsyk.com/${user?.jsykLink}`}</p>
-                      <Copy
-                        size={18}
-                        className="text-gray-500 cursor-pointer"
-                      />
+                      <button
+                        onClick={handleCopy}
+                        title="copy link"
+                        className="text-gray-500 cursor-pointer active:scale-[0.90] transition-all"
+                      >
+                        <Copy size={18} />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -73,9 +94,34 @@ const Dashboard = () => {
                 <h1 className="block text-lg sm:text-xl">Recent links</h1>
                 {/* Recent Links */}
                 {loading ? (
-                  <Loader2 size={30} className="bg-transparent text-black animate-spin" />
+                  <Loader2
+                    size={30}
+                    className="bg-transparent text-black animate-spin"
+                  />
                 ) : error ? (
-                  <div className="mt-50 mr-4 p-4 text-red-500">Error loading dashboard</div>
+                  <div className="flex justify-center items-center p-2 text-red-500">
+                    An error occured
+                  </div>
+                ) : Object.keys(groupedLinks).length === 0 ? (
+                  <div className="flex flex-col items-center justify-center text-center py-10">
+                    <img
+                      src="/empty-box.jpeg" 
+                      alt="No links"
+                      className="w-36 h-36 mb-4 opacity-80"
+                    />
+                    <h2 className="text-lg font-semibold text-gray-700">
+                      No links yet
+                    </h2>
+                    <p className="text-sm text-gray-500 max-w-xs mt-2">
+                      Create an anonymous link to see links here
+                    </p>
+                    <button
+                      onClick={() => navigate("/new")}
+                      className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+                    >
+                      Create New Link
+                    </button>
+                  </div>
                 ) : (
                   Object.entries(groupedLinks).map(([date, links]) => (
                     <div key={date}>
@@ -91,7 +137,10 @@ const Dashboard = () => {
                             <Link size={18} />
                             <p className="text-sm sm:text-base">{link.url}</p>
                           </div>
-                          <button className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer hover:bg-gray-300 transition">
+                          <button
+                            onClick={handleCopy}
+                            className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
+                          >
                             <Copy size={18} />
                           </button>
                         </div>
@@ -123,27 +172,49 @@ const Dashboard = () => {
             </div>
           </FadeDown>
 
-          <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full md:max-h-[100vh] md:overflow-y-auto">
+          <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full md:overflow-y-auto">
             <FadeDown>
               <div className="flex items-center gap-1 pb-1.5">
                 <MessageCircle size={20} />
                 <h1 className="text-lg sm:text-xl">Messages</h1>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4">
+              <div className={` ${messages.length === 0 ? 'flex flex-col items-center justify-center text-center' : ''}grid grid-cols-1 lg:grid-cols-2 rounded-lg bg-gray-200 gap-2 p-2 sm:p-4`}>
                 {loading ? (
-                  <Loader2 size={30} className="bg-transparent text-black animate-spin"/>
+                  <Loader2
+                    size={30}
+                    className="bg-transparent text-black animate-spin"
+                  />
                 ) : error ? (
-                  <div className="w-full flex items-center">
-                    <AlertTriangleIcon size={30} />
-                    <p>An unknown error occured while loading messages</p>
-                    <button 
+                  <div className="w-full flex justify-center flex-col items-center p-4">
+                    
+                    <p className="text-red-500">An unknown error occured</p>
+                    <button
                       onClick={() => refetch()}
-                      className="border-0 outline-0">
+                      className="pt-4"
+                    >
                       <RefreshCcw size={20} />
                     </button>
                   </div>
                 ) : messages.length === 0 ? (
-                  <p className="text-sm text-gray-500">No messages yet. Share your link to get started</p>
+                  <div className="flex flex-col items-center justify-center text-center py-10">
+                    <img
+                      src="/empty.jpeg" 
+                      alt="No links"
+                      className="w-36 h-36 mb-4 opacity-80"
+                    />
+                    <h2 className="text-lg font-semibold text-gray-700">
+                      No messages yet
+                    </h2>
+                    <p className="text-sm text-gray-500 max-w-xs mt-2">
+                      Share your anonymous to get started
+                    </p>
+                    <button
+                      onClick={handleCopy}
+                      className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+                    >
+                      Share Link
+                    </button>
+                  </div>
                 ) : (
                   messages.map((message) => (
                     <MessageCard

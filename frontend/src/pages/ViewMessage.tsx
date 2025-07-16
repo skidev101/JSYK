@@ -26,7 +26,7 @@ const ViewMessage = () => {
   useEffect(() => {
     const fetchMessage = async () => {
       try {
-        const response = await axios.get(`http://127.0.0.1:3000/api/message/${messageId}`, {
+        const response = await axios.get(`http://127.0.0.1:3000/api/messages/${messageId}`, {
           headers: {
             "Authorization": `Bearer ${user?.idToken}`
           }
@@ -41,6 +41,8 @@ const ViewMessage = () => {
 
     fetchMessage();
   }, [messageId])
+
+  if (loading) return <div className="text-md mt-40 mr-20">Loading...</div>
 
   return (
     <div className="relative">
@@ -62,9 +64,10 @@ const ViewMessage = () => {
             <ViewMessageCard
               profileImgUrl={data?.profileImgUrl}
               topicImgUrls={data?.topicImgUrls}
-              topic="hello world"
+              topic={data?.topic}
               message={data?.content}
               preview={true}
+              inView={true}
             />
           </div>
         </div>

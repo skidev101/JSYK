@@ -18,7 +18,7 @@ const MessageCard = ({
 
   return (
     <div
-      onClick={() => navigate(`/view/:${messageId}`)}
+      onClick={() => navigate(`/view/${messageId}`)}
       className="relative rounded-lg bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200"
     >
       {isRead && (
