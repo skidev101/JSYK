@@ -4,7 +4,6 @@ const { sanitizeDisplayName } = require("../utils/usernameUtils");
 
 const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
-  console.log(authHeader)
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ error: "Unauthorized: No token provided" });
@@ -15,9 +14,7 @@ const verifyToken = async (req, res, next) => {
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
-    console.log("Decoded Token:", decodedToken);
     const firebaseUser = await admin.auth().getUser(decodedToken.uid);
-    console.log("Firebase User:", firebaseUser);
 
     const rawDisplayName = firebaseUser.displayName || "";
     const fallbackUsername = `user${Math.floor(Math.random() * 10000)}`;

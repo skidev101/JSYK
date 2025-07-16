@@ -65,14 +65,49 @@ const getUserTopics = async (req, res) => {
       message: topics.length ? undefined : "No topics yet",
     });
   } catch (err) {
-    console.error("Error fetchiing topics:", err);
+    console.error("Error fetching topics:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server error",
+      code: "INTERNAL_SERVER_ERROR"
+    });
+  }
+};
+
+const getTopic = async (req, res) => {
+  try {
+    const { profileSlug, topicId } = req.params;
+    const topic = await Topic.findOne({ profileSlug, topicId });
+    const user = await User.findOne({ profileSlug });
+
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        message: "Topic not found",
+        code: "INVALID_TOPIC"
+      })
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        user: topic.username,
+        profileImgUrl: user.profileImgUrl,
+        topic: topic.topic,
+        topicId: topic.topicId,
+        themeColor: topic.themeColor,
+        topicImgUrl: topicImgUrl
+      }
+    })
+  } catch (err) {
+    console.error("Error fetching topic:", err);
     res.status(500).json({
       success: false,
       message: "Internal Server error",
       code: "INTERNAL_SERVER_ERROR",
     });
   }
-};
+}
 
 const deleteTopic = async (req, res) => {
   try {
@@ -107,5 +142,6 @@ const deleteTopic = async (req, res) => {
 module.exports = {
   createTopic,
   getUserTopics,
+  getTopic,
   deleteTopic,
 };

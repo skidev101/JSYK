@@ -57,8 +57,8 @@ const sendMessage = async (req, res) => {
 const getUserMessages = async (req, res) => {
   try {
     const { uid } = req.user;
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
+    const page = parseInt(req.query.page || 1);
+    const limit = parseInt(req.query.limit || 20);
 
     const skip = (page - 1) * limit;
 
@@ -137,6 +137,7 @@ const getMessage = async (req, res) => {
         topicSlug: message.topicSlug,
         content: message.content,
         createdAt: message.createdAt,
+        isRead: message.isRead
       },
     });
   } catch (err) {

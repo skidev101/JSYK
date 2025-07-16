@@ -12,7 +12,7 @@ const topicSchema = new mongoose.Schema({
   topic: {
     type: String,
     required: true,
-    maxLength: 100
+    maxLength: 80
   },
   slug: {
     type: String,
@@ -30,9 +30,9 @@ const topicSchema = new mongoose.Schema({
     type: String,
     default: null
   },
-  topicImgUrl: {
-    type: String,
-    default: null
+  topicImgUrls: {
+    type: [String],
+    default: undefined
   },
   isActive: {
     type: Boolean,
