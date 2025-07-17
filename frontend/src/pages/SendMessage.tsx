@@ -10,6 +10,7 @@ interface TopicDataProps {
   profileImgUrl: string;
   topic: string;
   topicImgUrls?: string[];
+  themeColor?: string;
 }
 
 const SendMessage = () => {
@@ -84,6 +85,7 @@ const SendMessage = () => {
             messageToSend={messageToSend}
             setMessageToSend={setMessageToSend}
             onSend={handleSendMessage}
+            themeColor={topicData?.themeColor}
           />
         </div>
       </div>

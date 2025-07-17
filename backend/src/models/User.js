@@ -27,11 +27,11 @@ const userSchema = new mongoose.Schema(
     },
     profileViews: {
       type: Number,
-      default: "",
+      default: 0,
     },
     lastProfileView: {
       type: Date,
-      default: "",
+      default: null,
     },
   },
   {

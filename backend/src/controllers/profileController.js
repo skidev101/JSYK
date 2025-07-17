@@ -14,6 +14,8 @@ const getPublicProfile = async (req, res) => {
     }
 
     // increase profile views
+    await cd frontend
+    git add .
     User.findByIdAndUpdate(user._id, {
       $inc: { profileViews: 1 },
       $set: { lastProfileView: new Date() }

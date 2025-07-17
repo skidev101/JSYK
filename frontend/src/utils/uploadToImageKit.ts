@@ -6,27 +6,37 @@ interface UploadOptions {
    folder?: string;
 }
 
-export const uploadToImageKit = async ({ file, folder }: UploadOptions): Promise<string | null> => {
+export interface UploadResult {
+   success: boolean;
+   url?: string;
+   file?: File;
+   error?: string
+}
+
+
+export const uploadToImageKit = async ({ file, folder }: UploadOptions): Promise<UploadResult> => {
    try {
       const { data } = await axios.get('http://127.0.0.1:3000/api/image/sign');
+      console.log('image sign successfull')
 
       const imageKit = new ImageKit({
-         publicKey: data.token,
-         urlEndpoint: '', // from env
-         authenticationEndpoint: ''
+         publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
+         urlEndpoint: import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT 
       });
+
 
       const result = await imageKit.upload({
          file,
          fileName: file.name,
          signature: data.signature,
-         timestamp: Math.floor(Date.now() / 1000),
-         folder: folder
+         token: data.token,
+         expire: data.expire,
+         folder
       });   
 
-      return result.url;
+      return { success: true, url: result.url };
    } catch (err: any) {
       console.error("ImageKit Upload Error:", err);
-      return null;
+      return { success: false, file, error: err?.message || "Unknown error" }
    }
 }

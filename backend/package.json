@@ -42,6 +42,8 @@
 
     "firebase-admin": "^13.4.0",
 
+    "imagekit": "^6.0.0",
+
     "mongoose": "^8.16.0",
 
     "morgan": "^1.10.0",

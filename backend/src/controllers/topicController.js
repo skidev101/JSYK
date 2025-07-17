@@ -96,7 +96,7 @@ const getTopic = async (req, res) => {
         topic: topic.topic,
         topicId: topic.topicId,
         themeColor: topic.themeColor,
-        topicImgUrl: topic.topicImgUrls
+        topicImgUrls: topic.topicImgUrls
       }
     })
   } catch (err) {

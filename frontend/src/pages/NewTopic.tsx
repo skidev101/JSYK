@@ -15,6 +15,7 @@ import ViewMessageCard from "../components/ViewMessageCard";
 import { toSlug } from "../utils/slugify";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
+import { uploadToImageKit, type UploadResult } from "../utils/uploadToImageKit";
 
 const NewTopic = () => {
   const { user } = useAuth();
@@ -62,17 +63,35 @@ const NewTopic = () => {
     setTopicError("");
 
     try {
-      const formData = new FormData();
-      formData.append("topic", newTopic);
-      formData.append("themeColor", themeColor);
-      // topicImgFiles.forEach((file) => {
-      //   formData.append("images", file);
-      // });
+      const successfulUrls: string[] = [];
+      const failedUploads: UploadResult[] = [];
+      if (topicImgFiles?.length) {
+        const results = await Promise.all(
+          topicImgFiles?.map((file) =>
+            uploadToImageKit({ file, folder: "jsyk/topicImages" })
+          )
+        );
+
+        for (const res of results) {
+          if (res.success && res.url) {
+            successfulUrls.push(res.url);
+          } else {
+            failedUploads.push(res);
+          }
+        }
+      }
+      if (failedUploads.length > 0) {
+        toast.error(
+          `${failedUploads.length} image(s) failed to upload. You can retry.`
+        );
+      }
+
       const response = await axios.post(
         "http://127.0.0.1:3000/api/topic",
         {
           topic: newTopic,
           themeColor: themeColor,
+          topicImgUrls: successfulUrls
         },
         {
           headers: {

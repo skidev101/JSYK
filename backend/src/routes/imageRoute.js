@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router(); 
-const { getImageUploadSignature } = require('../services/imageKitService')
+const { getImageUploadSignature } = require('../controllers/imageController')
 
 router.get('/', getImageUploadSignature);
 

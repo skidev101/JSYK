@@ -52,7 +52,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
 
       const [recentLinksRes, messagesRes] = await Promise.all([
         axios.get("http://127.0.0.1:3000/api/topic", config),
-        axios.get("http://127.0.0.1:3000/api/messages?page=1&limit=20", config)
+        axios.get("http://127.0.0.1:3000/api/message?page=1&limit=20", config)
       ]);
 
       const topics = recentLinksRes.data.topics || [];

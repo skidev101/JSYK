@@ -12,8 +12,9 @@ const getImageUploadSignature = async (req, res) => {
 
       res.status(200).json({
          success: true,
-         data: result
+         ...result
       })
+      console.log(result)
    } catch (err) {
       console.error('ImageKit signature error:', err);
       res.status(500).json({
@@ -22,3 +23,5 @@ const getImageUploadSignature = async (req, res) => {
       });
    }
 }
+
+module.exports = { getImageUploadSignature }
