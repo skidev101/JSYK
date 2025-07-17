@@ -14,9 +14,7 @@ const getPublicProfile = async (req, res) => {
     }
 
     // increase profile views
-    await cd frontend
-    git add .
-    User.findByIdAndUpdate(user._id, {
+    await User.findByIdAndUpdate(user._id, {
       $inc: { profileViews: 1 },
       $set: { lastProfileView: new Date() }
     }).exec();
@@ -82,19 +80,17 @@ const updateProfile = async (req, res) => {
          })
       }
 
-      if (username) {
-         user.username = username;
-      } else if (email) {
-         user.email = email;
-      } else if (bio) {
-         user.bio = bio;
-      }
+      if (username !== undefined) user.username = username; 
+      if (email !== undefined) user.email = email;
+      if (bio !== undefined) user.bio = bio;
+      if (profileImgUrl !== undefined) user.profileImgUrl = profileImgUrl;
 
-      const updatedUser = await user.save();
-      console.log("successfully updated user:", updatedUser);
+      await user.save();
+      console.log("successfully updated user");
 
       res.status(200).json({
          success: true,
+         message: 'Profile updated successfully'
          data: {
             username: user.username,
             email: user.email,

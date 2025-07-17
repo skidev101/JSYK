@@ -12,7 +12,7 @@ const sendMessage = async (req, res) => {
         success: false,
         message: "User not found",
         code: "USER_NOT_FOUND"
-      });
+      }); 
     }
 
     let topicData = null;
