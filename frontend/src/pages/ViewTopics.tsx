@@ -3,11 +3,11 @@ import { useAuth } from "../context/AuthContext";
 import { useDashboardData } from "../hooks/useDashboardData";
 import { copyToClipboard } from "../utils/copyToClipboard";
 import { groupLinksByDate } from "../utils/groupByDate";
-import { Copy, Link2, Loader2 } from "lucide-react";
+import { Copy, Link2, Loader2, RefreshCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const ViewTopics = () => {
-  const { user, firebaseUser } = useAuth();
+  const { firebaseUser } = useAuth();
   const { data, loading, error, refetch } = useDashboardData(firebaseUser);
   const groupedLinks = groupLinksByDate(data.recentLinks);
   const navigate = useNavigate();
@@ -15,8 +15,8 @@ const ViewTopics = () => {
   if (loading) return <div className="text-md">Loading...</div>;
   if (error) return <div className="text-md">An error occured</div>;
 
-  const handleCopy = async () => {
-    const success = await copyToClipboard(`https://jsyk.me/hii`);
+  const handleCopy = async (url: string) => {
+    const success = await copyToClipboard(`https://jsyk.me/${url}`);
     if (success) {
       toast.success("Copied!");
     } else {
@@ -27,12 +27,18 @@ const ViewTopics = () => {
   return (
     <div className="flex justify-center items-center w-full min-h-[100vh] flex-col">
       <div className="w-full max-w-3xl ">
-
-        <div className="w-full p-2">
-          <h1 className="text-lg sm:text-2xl font-bold">Topics</h1>
-          <p className="text-sm">All Topics you have created</p>
+        <div className="flex justify-between items-center w-full py-2">
+          <div>
+            <h1 className="text-lg sm:text-2xl bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">Your Topics</h1>
+            {/* <p className="text-sm bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">All Topics you have created</p> */}
+          </div>
+          <button 
+            onClick={() => refetch()}
+            className="bg-gray-100 rounded-full p-2 text-gray-700 font-bold cursor-pointer transition-all active:scale-95">
+            <RefreshCcw size={18} className={loading ? 'animate-spin' : ''}/>
+          </button>
         </div>
-        <div className="w-full bg-gray-100 rounded-2xl p-4 shadow-md">
+        <div className="w-full rounded-2xl p-4 border-1 border-gray-100 shadow-md">
           {loading ? (
             <Loader2
               size={30}
@@ -45,7 +51,7 @@ const ViewTopics = () => {
           ) : Object.keys(groupedLinks).length === 0 ? (
             <div className="flex flex-col items-center justify-center text-center py-10">
               <img
-                src=""
+                src="/box.png"
                 alt="No links"
                 className="w-36 h-36 mb-4 opacity-80"
               />
@@ -78,7 +84,7 @@ const ViewTopics = () => {
                       <p className="text-sm sm:text-base">{link.url}</p>
                     </div>
                     <button
-                      onClick={handleCopy}
+                      onClick={() => handleCopy(link.url)}
                       className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
                     >
                       <Copy size={18} />

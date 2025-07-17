@@ -67,6 +67,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
         recentLinks: transformedTopics,
         messages: messagesRes.data.messages || []
       });
+
     } catch (err) {
       console.error("Error fetching dashboard data:", err);
       setError("Failed to load dashboard data");

@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import NewTopic from "./pages/NewTopic";
 import SendMessage from "./pages/SendMessage";
 import ViewTopics from "./pages/ViewTopics";
+import UserProfile from "./pages/UserProfile";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/topics" element={<ViewTopics />} />
         </Route>
         
+        <Route path="/:profileSlug" element={<UserProfile />} />  
         <Route path="/m/:profileSlug/:slug" element={<SendMessage />} />  
         <Route path="/m/:profileSlug" element={<SendMessage />} />  
         <Route path="/login" element={<Login />} />

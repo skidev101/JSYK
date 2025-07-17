@@ -25,8 +25,8 @@ const Dashboard = () => {
   const groupedLinks = groupLinksByDate(data.recentLinks);
   const messages = data.messages;
 
-  const handleCopy = async () => {
-    const success = await copyToClipboard(`https://jsyk.me/hii`);
+  const handleCopy = async (url: string) => {
+    const success = await copyToClipboard(`https://jsyk.me/${url}`);
     if (success) {
       toast.success("Copied!");
     } else {
@@ -54,7 +54,7 @@ const Dashboard = () => {
                     <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
                       <p>{`jsyk.com/${user?.jsykLink}`}</p>
                       <button
-                        onClick={handleCopy}
+                        onClick={() => handleCopy(user?.jsykLink || 'hii')}
                         title="copy link"
                         className="text-gray-500 cursor-pointer active:scale-[0.90] transition-all"
                       >
@@ -107,18 +107,27 @@ const Dashboard = () => {
                 </div>
                 {/* Recent Links */}
                 {loading ? (
-                  <Loader2
-                    size={30}
-                    className="bg-transparent text-black animate-spin"
-                  />
+                  <div className="flex justify-center items-center w-full">
+                    <Loader2
+                      size={30}
+                      className="bg-transparent text-black animate-spin"
+                    />
+                  </div>
                 ) : error ? (
                   <div className="flex justify-center items-center p-2 text-red-500">
-                    An error occured
+                    <img
+                      src="/error-404.png"
+                      alt="No links"
+                      className="w-36 h-36 mb-4 opacity-80"
+                    />
+                    <h2 className="text-lg font-semibold text-red-500">
+                      An error occured
+                    </h2>
                   </div>
                 ) : Object.keys(groupedLinks).length === 0 ? (
-                  <div className="flex flex-col items-center justify-center text-center py-10">
+                  <div className="flex flex-col items-center justify-center bg-gray-200 text-center py-10 rounded-md mt-2">
                     <img
-                      src="/empty-box.jpeg"
+                      src="/box.png"
                       alt="No links"
                       className="w-36 h-36 mb-4 opacity-80"
                     />
@@ -151,7 +160,7 @@ const Dashboard = () => {
                             <p className="text-sm sm:text-base">{link.url}</p>
                           </div>
                           <button
-                            onClick={handleCopy}
+                            onClick={() => handleCopy(link.url)}
                             className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
                           >
                             <Copy size={18} />
@@ -167,9 +176,15 @@ const Dashboard = () => {
 
           <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full md:overflow-y-auto">
             <FadeDown>
-              <div className="flex items-center gap-1 pb-1.5">
-                <MessageCircle size={20} />
-                <h1 className="text-lg sm:text-xl">Messages</h1>
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-1 pb-1.5">
+                  <MessageCircle size={20} />
+                  <h1 className="text-lg sm:text-xl">Messages</h1>
+                </div>
+                <div className="flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all">
+                  <p className="text-sm">Sort by</p>
+                  <ChevronRight size={18} />
+                </div>
               </div>
               <div
                 className={` ${
@@ -193,7 +208,7 @@ const Dashboard = () => {
                 ) : messages.length === 0 ? (
                   <div className="flex flex-col items-center justify-center text-center py-10">
                     <img
-                      src="/empty.jpeg"
+                      src="/box.png"
                       alt="No links"
                       className="w-36 h-36 mb-4 opacity-80"
                     />
@@ -204,7 +219,7 @@ const Dashboard = () => {
                       Share your anonymous to get started
                     </p>
                     <button
-                      onClick={handleCopy}
+                      onClick={() => handleCopy(user?.jsykLink || 'hii')}
                       className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
                     >
                       Share Link

@@ -2,17 +2,33 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import LogoutModal from "../components/LogoutModal";
 import ProfileDrawer from "../components/ProfileDrawer";
+import ActionModal from "../components/ActionModal";
 
 const MainLayout = () => {
-  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [action, setAction] = useState('');
+  const [header, setHeader] = useState('');
+  const [warning, setWarning] = useState('');
+  const [showActionModal, setShowActionModal] = useState(false);
   const [showProfileDrawer, setShowProfileDrawer] = useState(false);
+
+  const logout = () => {
+    setShowActionModal(true);
+    setAction('Logout');
+    setHeader('Logout')
+    setWarning('Are you sure you want to logout?');
+  }
+
+  const deleteAccount = () => {
+    setShowActionModal(true);
+    setAction('Delete');
+    setHeader('Delete account😪')
+    setWarning('Are you sure? All data will be lost');
+  }
 
   return (
     <div className="flex flex-col min-h-screen relative">
       <Header
-        onLogoutClick={() => setShowLogoutModal(true)}
         onShowProfile={() => setShowProfileDrawer(true)}
       />
 
@@ -21,14 +37,19 @@ const MainLayout = () => {
       </main>
 
       {/* Modals are now global and controlled here */}
-      <LogoutModal
-        isOpen={showLogoutModal}
-        onClose={() => setShowLogoutModal(false)}
+      <ActionModal
+        isOpen={showActionModal}
+        onClose={() => setShowActionModal(false)}
+        warning={warning}
+        header={header}
+        action={action}
       />
       
       <ProfileDrawer 
          show={showProfileDrawer}
          onClose={() => setShowProfileDrawer(false)}
+         onLogoutClick={() => logout()}
+         onDeleteClick={() => deleteAccount()}
       />
 
       <Footer />

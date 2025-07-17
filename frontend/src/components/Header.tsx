@@ -1,11 +1,10 @@
-import { LogOut, User2 } from "lucide-react";
+import { User2 } from "lucide-react";
 
 interface HeaderProps {
-  onLogoutClick?: () => void; 
   onShowProfile?: () => void;
 };
 
-const Header = ({ onLogoutClick, onShowProfile }: HeaderProps) => {
+const Header = ({ onShowProfile }: HeaderProps) => {
 
   return (
     <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-sm p-4 backdrop-blur-md ">
@@ -22,7 +21,7 @@ const Header = ({ onLogoutClick, onShowProfile }: HeaderProps) => {
           />
         </button>
 
-        <div
+        {/* <div
           onClick={onLogoutClick}
           className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center hover:bg-gray-200 transition duration-200"
         >
@@ -30,7 +29,7 @@ const Header = ({ onLogoutClick, onShowProfile }: HeaderProps) => {
             size={26}
             className="text-red-600 px-0.5 hover:cursor-pointer active:scale-[0.95]"
           />
-        </div>
+        </div> */}
       </div>
     </header>
   );

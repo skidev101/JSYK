@@ -1,17 +1,34 @@
 import { useState, useRef, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import { AlertTriangle, Pencil, X, Loader2, Upload, Link2 } from "lucide-react";
+import {
+  AlertTriangle,
+  Pencil,
+  X,
+  Loader2,
+  Upload,
+  Link2,
+  LogOut,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "./MotionWrappers";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import { uploadToImageKit } from "../utils/uploadToImageKit";
+import axios from "axios";
 
 interface ProfileDrawerProps {
   show: boolean;
   onClose: () => void;
+  onLogoutClick?: () => void;
+  onDeleteClick?: () => void;
 }
 
-const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
+const ProfileDrawer = ({
+  show,
+  onClose,
+  onLogoutClick,
+  onDeleteClick,
+}: ProfileDrawerProps) => {
   const { user } = useAuth();
 
   const [editMode, setEditMode] = useState(false);
@@ -51,17 +68,44 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
     setPreviewImg(URL.createObjectURL(file));
   };
 
-  const handleProfileEdit = () => {
+  const handleProfileEdit = async () => {
     setLoading(true);
 
-    const formPayload = new FormData();
-    formPayload.append("username", formData.username);
-    formPayload.append("email", formData.email);
-    formPayload.append("bio", formData.bio);
-    if (imgFile) formPayload.append("profileImgUrl", imgFile);
+    try {
+      let imgUrl;
+      if (imgFile) {
+        const result = await uploadToImageKit({
+          file: imgFile,
+          folder: "jsyk/profileImgs",
+        });
+        imgUrl = result.url
+      }
+
+      const response = await axios.patch(
+        "http://127.0.0.1:3000/api/topic",
+        {
+          username: formData.username,
+          email: formData.email,
+          bio: formData.bio,
+          profileImgUrl: imgUrl
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.idToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    } catch (err: any) {}
+
+    // const formPayload = new FormData();
+    // formPayload.append("username", formData.username);
+    // formPayload.append("email", formData.email);
+    // formPayload.append("bio", formData.bio);
+    // if (imgFile) formPayload.append("profileImgUrl", imgFile);
 
     setTimeout(() => {
-      console.log("updated profile:", formPayload);
+      console.log("updated profile");
       setEditMode(false);
       setLoading(false);
       toast.success("Profile updated successfully!");
@@ -82,7 +126,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
           />
 
           <FadeRight className="fixed top-0 right-0 w-72 h-full bg-white z-60 p-4 shadow-lg flex flex-col">
-            <div className="flex-grow overflow-y-auto">
+            <div className="flex-grow overflow-y-auto overflow-x-hidden">
               <div className="flex justify-between items-center mb-4 py-2 border-b-2 border-gray-300">
                 <h2 className="text-lg font-semibold">Profile</h2>
                 <button
@@ -155,16 +199,16 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                       value={formData.username}
                       onChange={handleChange}
                       placeholder="Username"
-                      className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                     <p className="hidden w-full text-red-500 text-[13px]">
                       Username already taken!
                     </p>
                   </>
                 ) : (
-                  <h3 className="text-xl font-semibold mt-2">
+                  <h1 className="text-xl font-semibold mt-2">
                     {user?.username}
-                  </h3>
+                  </h1>
                 )}
 
                 {editMode ? (
@@ -181,7 +225,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="Email"
-                      className="w-full p-2 border rounded-md border-gray-300 focus:ring-2 focus:ring-blue-500"
+                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
                   </>
                 ) : (
@@ -213,7 +257,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                   <div className="flex justify-center items-center flex-col mt-4">
                     <div className="flex items-center gap-1 text-gray-600">
                       <Link2 size={15} />
-                      <p>Link</p>
+                      <p>Profile Link</p>
                     </div>
                     <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
                       {`jsyk.com/${user?.jsykLink}`}
@@ -250,11 +294,25 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
             </div>
 
             {!editMode && (
-              <div className="py-1 text-red-500 flex items-center border-t-1 border-gray-300">
-                <button className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150">
-                  <AlertTriangle size={18} />
-                  <p className="text-sm sm:text-base px-2">Delete account</p>
-                </button>
+              <div>
+                <div className="py-1 flex items-center border-t-1 border-gray-300">
+                  <button
+                    onClick={onLogoutClick}
+                    className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150"
+                  >
+                    <LogOut size={18} />
+                    <p className="text-sm sm:text-base px-2">Logout</p>
+                  </button>
+                </div>
+                <div className="py-1 text-red-500 flex items-center border-t-1 border-gray-300">
+                  <button
+                    onClick={onDeleteClick}
+                    className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150"
+                  >
+                    <AlertTriangle size={18} />
+                    <p className="text-sm sm:text-base px-2">Delete account</p>
+                  </button>
+                </div>
               </div>
             )}
           </FadeRight>

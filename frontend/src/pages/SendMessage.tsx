@@ -16,7 +16,6 @@ interface TopicDataProps {
 const SendMessage = () => {
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
-
   const [messageToSend, setMessageToSend] = useState("");
   const [loading, setLoading] = useState(false);
   const [topicData, setTopicData] = useState<TopicDataProps | null>(null);
@@ -70,10 +69,13 @@ const SendMessage = () => {
     }
   };
 
+  const themeColor = "#3570F8";
+
   return (
     <FadeIn>
-      <div className="w-full flex flex-col justify-center items-center min-h-screen">
-        <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-gray-100">
+      <div className="relative w-full flex flex-col justify-center items-center min-h-screen">
+        <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 ">
+          <p className="text-sm text-gray-500">Message ski101 anonymously 🤫</p>
           <ViewMessageCard
             username={topicData?.username}
             profileImgUrl={topicData?.profileImgUrl}
@@ -85,8 +87,19 @@ const SendMessage = () => {
             messageToSend={messageToSend}
             setMessageToSend={setMessageToSend}
             onSend={handleSendMessage}
-            themeColor={topicData?.themeColor}
+            themeColor={topicData?.themeColor || themeColor}
           />
+          <div className="text-center text-gray-700">
+            <p className="text-sm">
+              wanna recieve anonymous messages too? 👉{" "}
+              <a href="/register" className="text-blue-600 underline">
+                Sign up
+              </a>
+            </p>
+            <p className="fixed bottom-2 left-1/2 -translate-x-1/2 text-sm">
+              JSYK by monaski
+            </p>
+          </div>
         </div>
       </div>
     </FadeIn>

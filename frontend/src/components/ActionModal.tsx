@@ -7,22 +7,34 @@ import { useAuth } from "../context/AuthContext";
 interface LogoutProps {
   isOpen: boolean;
   onClose: () => void;
+  warning: string;
+  header: string;
+  action: string;
 };
 
-const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
+const ActionModal = ({ isOpen, onClose, warning, header, action }: LogoutProps) => {
   const { logout } = useAuth();
 
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [friendlyText, setFriendlyText] = useState('');
 
-  const handleLogout = () => {
-    setLoading(true);
-    //simulate logout process
-    logout();
-    setTimeout(() => {
-      setLoading(false);
-      navigate("/login");
-    }, 3000);
+  const handleAction = () => {
+    if (action === 'Logout') {
+      setLoading(true);
+      setFriendlyText('See U later 😘');
+      setTimeout(() => {
+        logout();
+        setLoading(false);
+        navigate("/login");
+      }, 3000);
+    } else if (action === 'Delete') {
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/login");
+      }, 3000);
+    }
   };
 
   return (
@@ -46,7 +58,7 @@ const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
           >
             <div className="p-6 sm:p-6 w-[90%] max-w-md bg-white shadow-md rounded-xl">
               <div className="flex justify-between items-center">
-                <h1 className="text-2xl font-semibold sm:text-3xl">Logout</h1>
+                <h1 className="text-xl font-semibold sm:text-2xl">{header}</h1>
                 <button 
                  onClick={onClose}
                  className="grid place-items-center w-8 h-8 sm:w-10 sm:h-10 rounded-md hover:bg-gray-200 cursor-pointer active:scale-[0.97] transition duration-200"
@@ -56,8 +68,14 @@ const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
               </div>
 
               <p className="text-sm sm:text-base py-2">
-                Are you sure you want to logout?
+                {warning}
               </p>
+
+              {friendlyText && action === 'Logout' && (
+                <p className="text-sm sm:text-base py-2">
+                  {friendlyText}
+                </p>
+              )}
 
               <div className="flex justify-end items-center gap-3 mt-4">
                 <button
@@ -70,16 +88,14 @@ const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
                 <button
                   type="submit"
                   disabled={loading}
-                  onClick={handleLogout}
+                  onClick={handleAction}
                   className={`flex justify-center items-center p-2 sm:p-3 text-white rounded-md cursor-pointer ${
                     loading ? "bg-red-500" : "bg-red-600"
                   } hover:bg-red-500 active:scale-[0.97] transition duration-200`}
                 >
                   {loading ? (
                     <Loader2 size={18} className="animate-spin" />
-                  ) : (
-                    "Logout"
-                  )}
+                  ) : action}
                 </button>
               </div>
             </div>
@@ -90,4 +106,4 @@ const LogoutModal = ({ isOpen, onClose }: LogoutProps) => {
   );
 };
 
-export default LogoutModal;
+export default ActionModal;
