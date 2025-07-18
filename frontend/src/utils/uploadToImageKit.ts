@@ -9,6 +9,7 @@ interface UploadOptions {
 export interface UploadResult {
    success: boolean;
    url?: string;
+   fileId?: string;
    file?: File;
    error?: string
 }
@@ -34,7 +35,7 @@ export const uploadToImageKit = async ({ file, folder }: UploadOptions): Promise
          folder
       });   
 
-      return { success: true, url: result.url };
+      return { success: true, url: result.url, fileId: result.fileId };
    } catch (err: any) {
       console.error("ImageKit Upload Error:", err);
       return { success: false, file, error: err?.message || "Unknown error" }
