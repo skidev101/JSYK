@@ -9,3 +9,7 @@ const topicId = topicSlugWithId.split('-').at(-1);
 ski101 uid: dK0wngrQzrdQzgNPdo1ViRr4Faz1
 
 hello world
+
+const rateLimitProfileUpdate = require('../middleware/rateLimitProfileUpdate');
+
+router.put('/profile', verifyToken, rateLimitProfileUpdate, logUserAction('UPDATE_PROFILE'), updateProfile);

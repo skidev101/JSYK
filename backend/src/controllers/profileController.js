@@ -90,7 +90,7 @@ const updateProfile = async (req, res) => {
 
       res.status(200).json({
          success: true,
-         message: 'Profile updated successfully'
+         message: 'Profile updated successfully',
          data: {
             username: user.username,
             email: user.email,
