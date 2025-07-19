@@ -65,7 +65,7 @@ const SendMessage = () => {
       toast.error("An error occured");
     } finally {
       setLoading(false);
-      setMessageToSend("");
+      // setMessageToSend("");
     }
   };
 
