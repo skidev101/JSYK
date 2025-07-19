@@ -16,7 +16,7 @@ const rateLimitProfileUpdate = async (req, res, next) => {
       return res.status(429).json({
         success: false,
         message: "Too many profile updates. Please wait a moment.",
-        code: "RATE_LIMITED",
+        code: "TOO_MANY_REQUESTS",
       });
     }
 

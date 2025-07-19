@@ -29,7 +29,8 @@ const rateLimiter = async (req, res, next) => {
       console.error('Rate limiter error:', err);
       return res.status(429).json({
          success: false,
-         message: 'Rate limiter failed'
+         message: 'Rate limiter failed',
+         code: "RATE_LIMIT_ERROR"
       })
    }
 }
