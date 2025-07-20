@@ -8,7 +8,7 @@ const Header = ({ onShowProfile }: HeaderProps) => {
 
   return (
     <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-sm p-4 backdrop-blur-md ">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">JSYK</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">something</h1>
 
       <div className="flex items-center gap-4 sm:gap-8">
         <button

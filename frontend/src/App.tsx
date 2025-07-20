@@ -15,7 +15,7 @@ import UserProfile from "./pages/UserProfile";
 const App = () => {
   return (
     <>
-      <Toaster position="top-center" />
+      <Toaster position="top-right" />
       <Routes>
         <Route
           path="/"

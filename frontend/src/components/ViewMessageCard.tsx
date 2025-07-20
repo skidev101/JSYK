@@ -14,6 +14,7 @@ interface ViewMessageCardProps {
   onImageClick?: (url: string) => void;
   onSend?: () => void;
   themeColor?: string;
+  error?: string;
 }
 
 const ViewMessageCard = ({
@@ -29,11 +30,12 @@ const ViewMessageCard = ({
   messageToSend,
   setMessageToSend,
   onSend,
-  themeColor
+  themeColor,
+  error
 }: ViewMessageCardProps) => {
   return (
     <div className="relative w-full bg-white rounded-3xl shadow-md p-4">
-      <div 
+      <div
         className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 rounded-t-3xl"
         style={{ backgroundColor: themeColor }}
       >
@@ -44,7 +46,11 @@ const ViewMessageCard = ({
               alt=""
               className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 p-[1.4px] border-white"
             />
-            <h1 className={`text-md sm:text-lg font-semibold ${themeColor === '#ffffff' ? 'text-black' : 'text-white'}`}>
+            <h1
+              className={`text-md sm:text-lg font-semibold ${
+                themeColor === "#ffffff" ? "text-black" : "text-white"
+              }`}
+            >
               @{username}
             </h1>
           </div>
@@ -55,25 +61,19 @@ const ViewMessageCard = ({
       <div className="mt-18">
         {topic && (
           <div className="max-w-max px-2 py-1 sm:px-3 bg-gray-100 rounded-xl">
-            <p
-              className={`text-sm sm:text-base ${
-                topic?.trim() == "#JSYK" ? "text-gray-500" : "text-gray-800"
-              }`}
-            >
-              {topic}
-            </p>
+            <p className="text-sm sm:text-base text-gray-800">{topic}</p>
           </div>
         )}
 
         {topicImgUrls && topicImgUrls.length > 0 && (
-          <div className="flex flex-row gap-2 overflow-hidden">
+          <div className="flex justify-between flex-row gap-4 overflow-hidden mt-1">
             {topicImgUrls.map((src, index) => (
               <img
                 key={index}
                 src={src}
                 alt={`preview-${index}`}
                 onClick={() => onImageClick?.(src)}
-                className="w-[49%] sm:w-24 h-20 my-2 rounded-xl object-contain object-center cursor-pointer transition-all hover:scale-[1.01]"
+                className="w-[50%] h-20 my-2 rounded-xl object-contain object-center cursor-pointer transition-all hover:scale-[1.01]"
               />
             ))}
           </div>
@@ -93,15 +93,20 @@ const ViewMessageCard = ({
               readOnly={preview}
               placeholder="Enter your message here" //TODO Enable changing placeholder and enable random messages
               className={`flex justify-center items-center w-full min-h-30 p-2 my-3 bg-gray-100 ${
-                preview ? '' : "focus:ring-2 focus:ring-blue-500"
+                preview ? "" : "focus:ring-2 focus:ring-blue-500"
               } border-none outline-none rounded-lg`}
             />
+            
+            {error && <p className="text-sm text-center pb-2 text-red-500">{error}</p>}
+
             <button
               onClick={onSend}
               disabled={preview || loading}
               className={`flex justify-center items-center w-full py-2 ${
                 loading ? "cursor-not-allowed" : "cursor-pointer"
-              } ${inView ? 'hidden' : ''} text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full transition duration-200`}
+              } ${
+                inView ? "hidden" : ""
+              } text-white font-semibold bg-blue-500 hover:bg-blue-400 hover:scale-[1.01] active:scale-[0.98] rounded-full transition duration-200`}
               style={{ backgroundColor: themeColor }}
             >
               {loading ? (

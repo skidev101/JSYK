@@ -73,12 +73,14 @@ const ProfileDrawer = ({
 
     try {
       let imgUrl;
+      let fileId;
       if (imgFile) {
         const result = await uploadToImageKit({
           file: imgFile,
           folder: "jsyk/profileImgs",
         });
-        imgUrl = result.url
+        imgUrl = result.url;
+        fileId = result.fileId;
       }
 
       const response = await axios.patch(
@@ -87,7 +89,8 @@ const ProfileDrawer = ({
           username: formData.username,
           email: formData.email,
           bio: formData.bio,
-          profileImgUrl: imgUrl
+          profileImgUrl: imgUrl,
+          fileId: fileId
         },
         {
           headers: {
@@ -96,7 +99,11 @@ const ProfileDrawer = ({
           },
         }
       );
-    } catch (err: any) {}
+
+      console.log("profile updated successfully:", response.data);
+    } catch (err: any) {
+      console.log("Error updating profile:", err);
+    }
 
     // const formPayload = new FormData();
     // formPayload.append("username", formData.username);
