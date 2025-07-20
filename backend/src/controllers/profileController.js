@@ -24,7 +24,9 @@ const getPublicProfile = async (req, res) => {
       data: {
         username: user.username,
         profileImgUrl: user.profileImgUrl,
-        jsykLink: user.profileSlug
+        jsykLink: user.profileSlug,
+        bio: user.bio,
+        profileSlug: user.profileSlug
       },
     });
   } catch (err) {
@@ -67,7 +69,7 @@ const checkUsernameAvailability = async (req, res) => {
 
 
 const updateProfile = async (req, res) => {
-   const { username, email, bio } = req.body;
+   const { username, email, bio, profileImgUrl, fileId } = req.body;
    const { uid } = req.user;
 
    try {
@@ -84,6 +86,7 @@ const updateProfile = async (req, res) => {
       if (email !== undefined) user.email = email;
       if (bio !== undefined) user.bio = bio;
       if (profileImgUrl !== undefined) user.profileImgUrl = profileImgUrl;
+      if (profileImgFileId !== undefined) user.profileImgFileId = profileImgFileId;
 
       await user.save();
       console.log("successfully updated user");

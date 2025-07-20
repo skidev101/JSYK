@@ -1,18 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const { getUserMessages, getMessage, sendMessage, markAsRead, deleteMessage } = require('../controllers/messageController');
+const limitSendMessage = require('../middleware/rateLimiter');
 const verifyToken = require('../middleware/verifyToken');
 const validateRequest = require('../middleware/validateRequest');
-const rateLimiter = require('../middleware/rateLimiter');
 const logSenderInfo = require('../middleware/logSenderInfo');
 const { validateSendMessage, validateMessageAction } = require('../validators/messageValidator');
-
 router
    .get('/', verifyToken, getUserMessages)
-   .get('/:id', verifyToken, getMessage)
+   .get('/:messageId', verifyToken, getMessage)
    .patch('/', verifyToken, validateMessageAction, validateRequest, markAsRead)
-   .post('/', rateLimiter, logSenderInfo, validateSendMessage, validateRequest, sendMessage)
-   .delete('/:id', verifyToken, validateMessageAction, validateRequest, deleteMessage)
+   .post('/', limitSendMessage, logSenderInfo, validateSendMessage, validateRequest, sendMessage)
+   .delete('/:messageId', verifyToken, validateMessageAction, validateRequest, deleteMessage)
 
 
 

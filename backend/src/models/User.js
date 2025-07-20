@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    profileImgFileId: {
+      type: String,
+      default: "",
+    },
     profileSlug: {
       type: String,
       required: true,

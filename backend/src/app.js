@@ -24,7 +24,7 @@ app.use('/api/topic', topicRoutes);
 app.use('/api/image/sign', imageRoute);
 
 app.get('/', (req, res) => {
-    res.send('jsyk API is now live!');
+    res.send('something API is now live!');
 });
 
 
