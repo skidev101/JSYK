@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   MessageCircle,
   Plus,
@@ -8,7 +9,7 @@ import {
   Link2,
   ChevronRight,
 } from "lucide-react";
-// import MessageCard from "../components/MessageCard";
+import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
 import { useAuth } from "../context/AuthContext";
 import { useDashboardData } from "../hooks/useDashboardData";
@@ -20,6 +21,10 @@ import toast from "react-hot-toast";
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
   const { data, loading, error, refetch } = useDashboardData(firebaseUser);
+
+  const [sortBy, setSortBy] = useState<'date' | 'topics'>('date');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showTopicList, setShowTopicList] = useState(false);
 
   const navigate = useNavigate();
   const groupedLinks = groupLinksByDate(data.recentLinks);
@@ -186,9 +191,35 @@ const Dashboard = () => {
                     {/* <p><span>{messages.unreadCount}</span></p> */}
                   </div>
                 </div>
-                <div className="flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all">
+                <div 
+                  onClick={() => setShowDropdown(!showDropdown)}
+                  className="relative flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all">
                   <p className="text-sm">Sort by</p>
                   <ChevronRight size={18} />
+
+                  {showDropdown && (
+                    <div className="absolute top-full left-0 mt-2 w-40 bg-white rounded-md shadow z-10">
+                      <div 
+                        onClick={() => {
+                          setSortBy('date');
+                          setShowDropdown(false);
+                          setShowTopicList(false);
+                        }}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Date
+                      </div>
+                      <div
+                        onClick={() => {
+                          setSortBy('topics');
+                          setShowTopicList(true);
+                        }}
+                        className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Topic
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
               <div
@@ -231,16 +262,15 @@ const Dashboard = () => {
                     </button>
                   </div>
                 ) : (
-                  <p>hello</p>
-                  // messages.map((message) => (
-                  //   <MessageCard
-                  //     key={message._id}
-                  //     messageId={message._id}
-                  //     topic={message.topic}
-                  //     message={message.content}
-                  //     isRead={message.isRead}
-                  //   />
-                  // ))
+                  messages.map((message) => (
+                    <MessageCard
+                      key={message._id}
+                      messageId={message._id}
+                      topic={message.topic}
+                      message={message.content}
+                      isRead={message.isRead}
+                    />
+                  ))
                 )}
               </div>
             </FadeDown>
