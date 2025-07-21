@@ -105,12 +105,6 @@ const ProfileDrawer = ({
       console.log("Error updating profile:", err);
     }
 
-    // const formPayload = new FormData();
-    // formPayload.append("username", formData.username);
-    // formPayload.append("email", formData.email);
-    // formPayload.append("bio", formData.bio);
-    // if (imgFile) formPayload.append("profileImgUrl", imgFile);
-
     setTimeout(() => {
       console.log("updated profile");
       setEditMode(false);
@@ -132,13 +126,13 @@ const ProfileDrawer = ({
             onClick={onClose}
           />
 
-          <FadeRight className="fixed top-0 right-0 w-72 h-full bg-white z-60 p-4 shadow-lg flex flex-col">
+          <FadeRight className="fixed top-0 right-0 max-w-sm w-full h-full bg-white z-60 p-4 shadow-lg flex flex-col">
             <div className="flex-grow overflow-y-auto overflow-x-hidden">
               <div className="flex justify-between items-center mb-4 py-2 border-b-2 border-gray-300">
                 <h2 className="text-lg font-semibold">Profile</h2>
                 <button
                   onClick={onClose}
-                  className="grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-md hover:bg-gray-200 cursor-pointer active:scale-[0.97] transition duration-200"
+                  className={`${editMode && 'hidden'} grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-md hover:bg-gray-200 cursor-pointer active:scale-95 transition duration-200`}
                 >
                   <X className="cursor-pointer" />
                 </button>
@@ -168,7 +162,7 @@ const ProfileDrawer = ({
                     />
                   ) : (
                     <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center text-white font-bold bg-blue-500 mb-2 p-2 sm:p-8">
-                      {user?.username?.charAt(0).toUpperCase()}
+                      @{user?.username?.charAt(0).toUpperCase()}
                     </div>
                   )}
 
@@ -292,7 +286,7 @@ const ProfileDrawer = ({
                   <button
                     disabled={loading}
                     onClick={() => setEditMode(false)}
-                    className="flex justify-center items-center w-full p-2 mt-2 rounded-full bg-gray-300 font-semibold text-gray-700 hover:text-white hover:scale-[1.01] hover:bg-gray-400 active:scale-[0.98] transition duration-200 cursor-pointer"
+                    className="flex justify-center items-center w-full p-2 mt-2 rounded-full bg-gray-200 font-semibold text-gray-700 hover:scale-[1.01] hover:bg-gray-300 active:scale-[0.98] transition duration-200 cursor-pointer"
                   >
                     Cancel
                   </button>

@@ -8,7 +8,7 @@ import {
   Link2,
   ChevronRight,
 } from "lucide-react";
-import MessageCard from "../components/MessageCard";
+// import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
 import { useAuth } from "../context/AuthContext";
 import { useDashboardData } from "../hooks/useDashboardData";
@@ -26,7 +26,7 @@ const Dashboard = () => {
   const messages = data.messages;
 
   const handleCopy = async (url: string) => {
-    const success = await copyToClipboard(`https://jsyk.me/${url}`);
+    const success = await copyToClipboard(`https://hiii.me/${url}`); //remember to change
     if (success) {
       toast.success("Copied!");
     } else {
@@ -181,6 +181,11 @@ const Dashboard = () => {
                   <MessageCircle size={20} />
                   <h1 className="text-lg sm:text-xl">Messages</h1>
                 </div>
+                <div className="flex justify-between items-center">
+                  <div>
+                    {/* <p><span>{messages.unreadCount}</span></p> */}
+                  </div>
+                </div>
                 <div className="flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all">
                   <p className="text-sm">Sort by</p>
                   <ChevronRight size={18} />
@@ -226,15 +231,16 @@ const Dashboard = () => {
                     </button>
                   </div>
                 ) : (
-                  messages.map((message) => (
-                    <MessageCard
-                      key={message._id}
-                      messageId={message._id}
-                      topic={message.topic}
-                      message={message.content}
-                      isRead={message.isRead}
-                    />
-                  ))
+                  <p>hello</p>
+                  // messages.map((message) => (
+                  //   <MessageCard
+                  //     key={message._id}
+                  //     messageId={message._id}
+                  //     topic={message.topic}
+                  //     message={message.content}
+                  //     isRead={message.isRead}
+                  //   />
+                  // ))
                 )}
               </div>
             </FadeDown>

@@ -41,7 +41,7 @@ const SendMessage = () => {
         setError("Error fetching topic info");
         setTimeout(() => {
           setError("");
-        }, 3000);
+        }, 5000);
       }
     };
 
@@ -68,13 +68,16 @@ const SendMessage = () => {
     } catch (err: any) {
       console.log("Error sending message:", err);
       toast.error("An error occured");
-      setError("An error occured😔. Please try again");
+      if (err.code === 429) {
+        setError("Yo... slow down a bit");
+      } else {
+        setError("An error occured😔. Please try again");
+      }
       setTimeout(() => {
         setError("");
       }, 3000);
     } finally {
       setLoading(false);
-      // setMessageToSend("");
     }
   };
 
@@ -84,7 +87,7 @@ const SendMessage = () => {
     <FadeIn>
       <div className="relative w-full flex flex-col justify-center items-center min-h-screen">
         <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 ">
-          {/* <p className="text-sm text-gray-500">Message ski101 anonymously 🤫</p> */}
+          <p className="text-sm text-gray-500">Message ski101 anonymously 🤫</p>
           <ViewMessageCard
             username={topicData?.username}
             profileImgUrl={topicData?.profileImgUrl}
@@ -99,9 +102,9 @@ const SendMessage = () => {
             themeColor={topicData?.themeColor || themeColor}
             error={error}
           />
-          {/* <div className="text-center text-gray-700">
+          <div className="text-center text-gray-700">
             <p className="text-sm">
-              wanna recieve anonymous messages too? 👉{" "}
+              wanna recieve anonymous messages<br /> too? 👉{" "}
               <a href="/register" className="text-blue-600 underline">
                 Sign up
               </a>
@@ -109,7 +112,7 @@ const SendMessage = () => {
             <p className="fixed bottom-2 left-1/2 -translate-x-1/2 text-sm">
               JSYK by monaski
             </p>
-          </div> */}
+          </div>
         </div>
       </div>
     </FadeIn>
