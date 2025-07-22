@@ -74,7 +74,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
           ),
         ]);
 
-        const topics = recentLinksRes.data.topics || [];
+        const topics = recentLinksRes.data.topics || [];''
         const transformedTopics = topics.map((topic: any) => ({
           _id: topic._id,
           url: topic.topicLink,
@@ -109,7 +109,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
     };
   }, [user, fetchDashboardData]);
 
-  const loadMore = (page: number, topicId: string) => {
+  const loadMore = (page: number, topicId: string) => { 
     fetchDashboardData({ page, topicId, append: true });
   };
 

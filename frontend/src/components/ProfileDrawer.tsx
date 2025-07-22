@@ -162,7 +162,7 @@ const ProfileDrawer = ({
                     />
                   ) : (
                     <div className="w-24 h-24 text-2xl sm:text-3xl rounded-full flex items-center justify-center text-white font-bold bg-blue-500 mb-2 p-2 sm:p-8">
-                      @{user?.username?.charAt(0).toUpperCase()}
+                      {user?.username?.charAt(0).toUpperCase()}
                     </div>
                   )}
 
@@ -208,7 +208,7 @@ const ProfileDrawer = ({
                   </>
                 ) : (
                   <h1 className="text-xl font-semibold mt-2">
-                    {user?.username}
+                    @{user?.username}
                   </h1>
                 )}
 

@@ -8,6 +8,7 @@ import {
   RefreshCcw,
   Link2,
   ChevronRight,
+  ChevronDown,
 } from "lucide-react";
 import MessageCard from "../components/MessageCard";
 import { FadeDown } from "../components/MotionWrappers";
@@ -17,6 +18,7 @@ import { groupLinksByDate } from "../utils/groupByDate";
 import { useNavigate } from "react-router-dom";
 import { copyToClipboard } from "../utils/copyToClipboard";
 import toast from "react-hot-toast";
+import TopicCard from "../components/TopicCard";
 
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
@@ -28,10 +30,11 @@ const Dashboard = () => {
 
   const navigate = useNavigate();
   const groupedLinks = groupLinksByDate(data.recentLinks);
+  const topics = data.recentLinks;
   const messages = data.messages;
 
   const handleCopy = async (url: string) => {
-    const success = await copyToClipboard(`https://hiii.me/${url}`); //remember to change
+    const success = await copyToClipboard(`https://something.me/${url}`); //remember to change
     if (success) {
       toast.success("Copied!");
     } else {
@@ -195,10 +198,10 @@ const Dashboard = () => {
                   onClick={() => setShowDropdown(!showDropdown)}
                   className="relative flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all">
                   <p className="text-sm">Sort by</p>
-                  <ChevronRight size={18} />
+                  {showDropdown ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
 
                   {showDropdown && (
-                    <div className="absolute top-full left-0 mt-2 w-40 bg-white rounded-md shadow z-10">
+                    <div className="absolute top-full left-0 mt-2 w-full backdrop-blur-sm rounded-md shadow z-10 ">
                       <div 
                         onClick={() => {
                           setSortBy('date');
@@ -213,6 +216,7 @@ const Dashboard = () => {
                         onClick={() => {
                           setSortBy('topics');
                           setShowTopicList(true);
+                          
                         }}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       >
@@ -255,14 +259,28 @@ const Dashboard = () => {
                       Share your anonymous to get started
                     </p>
                     <button
-                      onClick={() => handleCopy(user?.jsykLink || 'hii')}
+                      onClick={() => handleCopy(user?.jsykLink || "")}
                       className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
                     >
                       Share Link
                     </button>
                   </div>
-                ) : (
+                ) : sortBy === "date" ? (
                   messages.map((message) => (
+                    <MessageCard
+                      key={message._id}
+                      messageId={message._id}
+                      topic={message.topic}
+                      message={message.content}
+                      isRead={message.isRead}
+                    />
+                  ))
+                ) : sortBy === "topics" ? (
+                    <TopicCard
+                      links={groupedLinks}
+                    />
+                ) : (
+                   messages.map((message) => (
                     <MessageCard
                       key={message._id}
                       messageId={message._id}

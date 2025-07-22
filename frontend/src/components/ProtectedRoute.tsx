@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   
   if (loading) return <div className='text-sm font-bold'>Loading...</div>
 
-  if (!user) return <Navigate to="/login" replace />;   
+  if (!user) return <Navigate to="/login" replace />;
 
   return <>{children}</>;
 };
