@@ -1,12 +1,14 @@
 import { Copy, Link2 } from "lucide-react";
 import toast from "react-hot-toast";
 import { copyToClipboard } from "../utils/copyToClipboard";
+import type { RecentLink } from "../utils/groupByDate";
 
 interface TopicCardProps {
-  links: string[];
+  date: string;
+  links: RecentLink[];
 }
 
-const TopicCard = ({ links }: TopicCardProps) => {
+const TopicCard = ({ date, links }: TopicCardProps) => {
   const handleCopy = async (url: string) => {
     const success = await copyToClipboard(`https://something.me/${url}`); //remember to change
     if (success) {
@@ -21,12 +23,12 @@ const TopicCard = ({ links }: TopicCardProps) => {
       <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
         {date}
       </p>
-      {links.map((link: any) => (
+      {links.map((link) => (
         <div
           key={link._id}
           className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
         >
-          <p>{topic}</p>
+          <p className="text-sm font-medium text-gray-700 truncate">{link.topic || "no topic"}</p>
           <div className="flex items-center gap-2">
             <Link2 size={18} />
             <p className="text-sm sm:text-base">{link.url}</p>

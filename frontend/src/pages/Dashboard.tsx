@@ -26,11 +26,10 @@ const Dashboard = () => {
 
   const [sortBy, setSortBy] = useState<'date' | 'topics'>('date');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [showTopicList, setShowTopicList] = useState(false);
+  // const [showTopicList, setShowTopicList] = useState(false);
 
   const navigate = useNavigate();
   const groupedLinks = groupLinksByDate(data.recentLinks);
-  const topics = data.recentLinks;
   const messages = data.messages;
 
   const handleCopy = async (url: string) => {
@@ -206,7 +205,7 @@ const Dashboard = () => {
                         onClick={() => {
                           setSortBy('date');
                           setShowDropdown(false);
-                          setShowTopicList(false);
+                          // setShowTopicList(false);
                         }}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       >
@@ -215,7 +214,7 @@ const Dashboard = () => {
                       <div
                         onClick={() => {
                           setSortBy('topics');
-                          setShowTopicList(true);
+                          // setShowTopicList(true);
                           
                         }}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -276,9 +275,13 @@ const Dashboard = () => {
                     />
                   ))
                 ) : sortBy === "topics" ? (
-                    <TopicCard
-                      links={groupedLinks}
-                    />
+                    Object.entries(groupedLinks).map(([date, links]) => (
+                      <TopicCard 
+                       key={date}
+                       date={date}
+                       links={links}
+                      />
+                    ))
                 ) : (
                    messages.map((message) => (
                     <MessageCard

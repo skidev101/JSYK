@@ -1,4 +1,4 @@
-interface RecentLink {
+export interface RecentLink {
    _id: string;
    url: string;
    createdAt: string;
