@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
-import Login from "./pages/Login";
+import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dashboard/Dashboard";
 import ViewMessage from "./pages/ViewMessage";
 import MainLayout from "./layout/MainLayout";
 import { Toaster } from "react-hot-toast";
@@ -17,23 +17,16 @@ const App = () => {
     <>
       <Toaster position="top-right" />
       <Routes>
-        <Route
-          path="/"
-          element={
-
-              <MainLayout />
-
-          }
-        >
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="/new" element={<NewTopic />} />
           <Route path="/view/:messageId" element={<ViewMessage />} />
           <Route path="/topics" element={<ViewTopics />} />
         </Route>
-        
-        <Route path="/:profileSlug" element={<UserProfile />} />  
-        <Route path="/m/:profileSlug/:slug" element={<SendMessage />} />  
-        <Route path="/m/:profileSlug" element={<SendMessage />} />  
+
+        <Route path="/:profileSlug" element={<UserProfile />} />
+        <Route path="/m/:profileSlug/:slug" element={<SendMessage />} />
+        <Route path="/m/:profileSlug" element={<SendMessage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />} />

@@ -6,9 +6,9 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
 } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../../firebase";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 
 const Login = () => {
@@ -53,14 +53,17 @@ const Login = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
+      const response = await axios.post(
+        "http://127.0.0.1:3000/api/auth",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
         }
-      });
+      );
 
       console.log("Response to google signin from backend:", response.data);
-
 
       login(response.data.data);
       setLoading(false);
@@ -92,11 +95,15 @@ const Login = () => {
       console.log("User logged in:", result.user);
       console.log("ID Token gotten at login");
 
-      const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
+      const response = await axios.post(
+        "http://127.0.0.1:3000/api/auth",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
         }
-      });
+      );
 
       console.log("Response to email signin from backend:", response.data);
 
@@ -200,9 +207,7 @@ const Login = () => {
           disabled={loading}
           onClick={handleGoogleSignin}
           className={`flex justify-center items-center w-full ${
-            loading
-              ? "cursor-not-allowed"
-              : "cursor-pointer"
+            loading ? "cursor-not-allowed" : "cursor-pointer"
           } bg-transparent hover:bg-gray-300 text-gray-500 font-bold py-2 my-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
         >
           <img

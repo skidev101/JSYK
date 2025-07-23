@@ -1,8 +1,8 @@
 import { Copy } from "lucide-react";
-import type { User } from "../types/user.types";
-import { APP_CONFIG } from "../constants/config";
-import { UI_CONSTANTS } from "../constants/ui.constants";
-import ActionButtons from "./ActionButtons";
+import type { User } from "../../../../types/user.types";
+import { APP_CONFIG } from "../../../../constants/config";
+import { UI_CONSTANTS } from "../../../../constants/ui.constants";
+import ActionButtons from "../../../../components/ActionButtons";
 
 interface UserProfileProps {
   user: User;

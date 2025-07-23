@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   MessageCircle,
-  Plus,
   Copy,
   Link,
   Loader2,
@@ -10,21 +9,21 @@ import {
   ChevronRight,
   ChevronDown,
 } from "lucide-react";
-import MessageCard from "../components/MessageCard";
-import { FadeDown } from "../components/MotionWrappers";
-import { useAuth } from "../context/AuthContext";
-import { useDashboardData } from "../hooks/useDashboardData";
-import { groupLinksByDate } from "../utils/groupByDate";
+import MessageCard from "../../components/MessageCard";
+import { FadeDown } from "../../components/MotionWrappers";
+import { useAuth } from "../../context/AuthContext";
+import { useDashboardData } from "../../hooks/useDashboardData";
+import { groupLinksByDate } from "../../utils/groupByDate";
 import { useNavigate } from "react-router-dom";
-import { copyToClipboard } from "../utils/copyToClipboard";
+import { copyToClipboard } from "../../utils/copyToClipboard";
 import toast from "react-hot-toast";
-import TopicCard from "../components/TopicCard";
+import TopicCard from "../../components/TopicCard";
 
 const Dashboard = () => {
   const { user, firebaseUser } = useAuth();
   const { data, loading, error, refetch } = useDashboardData(firebaseUser);
 
-  const [sortBy, setSortBy] = useState<'date' | 'topics'>('date');
+  const [sortBy, setSortBy] = useState<"date" | "topics">("date");
   const [showDropdown, setShowDropdown] = useState(false);
   // const [showTopicList, setShowTopicList] = useState(false);
 
@@ -47,8 +46,6 @@ const Dashboard = () => {
         <div className="relative flex justify-between flex-col bg-gray-300 md:flex-row w-full gap-5 rounded-xl mt-20 p-2 pt-4 sm:mt-20 sm:p-6">
           <FadeDown>
             <div className="flex flex-col sm:justify-between gap-2">
-              
-
               <div className="flex mt-2 flex-col bg-white w-full p-4 sm:p-6 rounded-xl">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-1 pb-1.5">
@@ -56,8 +53,9 @@ const Dashboard = () => {
                     <h1 className="text-lg sm:text-xl">Recent Topics</h1>
                   </div>
                   <button
-                    onClick={() => navigate('/topics')}
-                    className="flex items-center gap-1 text-sm px-2 py-1 hover:bg-gray-200 hover:text-blue-500 transition-all rounded-md cursor-pointer active:scale-95">
+                    onClick={() => navigate("/topics")}
+                    className="flex items-center gap-1 text-sm px-2 py-1 hover:bg-gray-200 hover:text-blue-500 transition-all rounded-md cursor-pointer active:scale-95"
+                  >
                     See all
                     <ChevronRight size={18} />
                   </button>
@@ -139,21 +137,24 @@ const Dashboard = () => {
                   <h1 className="text-lg sm:text-xl">Messages</h1>
                 </div>
                 <div className="flex justify-between items-center">
-                  <div>
-                    {/* <p><span>{messages.unreadCount}</span></p> */}
-                  </div>
+                  <div>{/* <p><span>{messages.unreadCount}</span></p> */}</div>
                 </div>
-                <div 
+                <div
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="relative flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all">
+                  className="relative flex items-center gap-1 bg-gray-200 rounded-full px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all"
+                >
                   <p className="text-sm">Sort by</p>
-                  {showDropdown ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+                  {showDropdown ? (
+                    <ChevronDown size={18} />
+                  ) : (
+                    <ChevronRight size={18} />
+                  )}
 
                   {showDropdown && (
                     <div className="absolute top-full left-0 mt-2 w-full backdrop-blur-sm rounded-md shadow z-10 ">
-                      <div 
+                      <div
                         onClick={() => {
-                          setSortBy('date');
+                          setSortBy("date");
                           setShowDropdown(false);
                           // setShowTopicList(false);
                         }}
@@ -163,9 +164,8 @@ const Dashboard = () => {
                       </div>
                       <div
                         onClick={() => {
-                          setSortBy('topics');
+                          setSortBy("topics");
                           // setShowTopicList(true);
-                          
                         }}
                         className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
                       >
@@ -225,15 +225,11 @@ const Dashboard = () => {
                     />
                   ))
                 ) : sortBy === "topics" ? (
-                    Object.entries(groupedLinks).map(([date, links]) => (
-                      <TopicCard 
-                       key={date}
-                       date={date}
-                       links={links}
-                      />
-                    ))
+                  Object.entries(groupedLinks).map(([date, links]) => (
+                    <TopicCard key={date} date={date} links={links} />
+                  ))
                 ) : (
-                   messages.map((message) => (
+                  messages.map((message) => (
                     <MessageCard
                       key={message._id}
                       messageId={message._id}

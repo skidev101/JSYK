@@ -13,3 +13,53 @@ w-full fixed top-0 left-0 flex items-center p-2 sm:p-4 mt-20
           <Copy size={18} />
         </button>
       </div>
+
+
+src/
+├── pages/
+│   └── Dashboard/
+│       ├── Dashboard.tsx
+│       ├── components/
+│       │   ├── UserProfile/
+│       │   │   ├── UserProfile.tsx
+│       │   │   └── ActionButtons.tsx
+│       │   ├── RecentLinks/
+│       │   │   ├── RecentLinks.tsx
+│       │   │   ├── LinkItem.tsx
+│       │   │   └── EmptyLinksState.tsx
+│       │   ├── Messages/
+│       │   │   ├── MessagesSection.tsx
+│       │   │   ├── MessagesList.tsx
+│       │   │   ├── SortDropdown.tsx
+│       │   │   └── EmptyMessagesState.tsx
+│       │   └── UI/
+│       │       ├── Button.tsx
+│       │       ├── LoadingSpinner.tsx
+│       │       └── ErrorState.tsx
+│       ├── hooks/
+│       │   ├── useDashboardActions.ts
+│       │   └── useDashboardState.ts
+│       └── types/
+│           └── dashboard.types.ts
+├── shared/
+│   ├── constants/
+│   │   ├── config.ts
+│   │   ├── ui.constants.ts
+│   │   └── routes.ts
+│   ├── components/
+│   │   ├── MessageCard/
+│   │   │   └── MessageCard.tsx
+│   │   ├── TopicCard/
+│   │   │   └── TopicCard.tsx
+│   │   └── MotionWrappers/
+│   │       └── MotionWrappers.tsx
+│   ├── utils/
+│   │   ├── clipboard.utils.ts
+│   │   ├── date.utils.ts
+│   │   └── url.utils.ts
+│   └── types/
+│       ├── user.types.ts
+│       ├── message.types.ts
+│       └── link.types.ts
+└── context/
+    └── AuthContext.tsx
