@@ -47,57 +47,7 @@ const Dashboard = () => {
         <div className="relative flex justify-between flex-col bg-gray-300 md:flex-row w-full gap-5 rounded-xl mt-20 p-2 pt-4 sm:mt-20 sm:p-6">
           <FadeDown>
             <div className="flex flex-col sm:justify-between gap-2">
-              <div className="flex flex-col bg-white w-full max-w-md p-4 sm:p-6 rounded-xl">
-                <div className="flex items-center gap-2 w-full rounded-lg">
-                  <img
-                    src={user?.profileImgUrl || "/default-pfp.webp"}
-                    alt="profile"
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover object-center"
-                  />
-                  <div className="flex flex-col w-full">
-                    <h1 className="text-lg sm:text-xl font-bold">
-                      {user?.username}
-                    </h1>
-                    <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
-                      <p>{`jsyk.com/${user?.jsykLink}`}</p>
-                      <button
-                        onClick={() => handleCopy(user?.jsykLink || 'hii')}
-                        title="copy link"
-                        className="text-gray-500 cursor-pointer active:scale-[0.90] transition-all"
-                      >
-                        <Copy size={18} />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                <p className="pt-2 text-sm sm:text-base text-gray-700">
-                  Click on a card to create preferred anonymous link
-                </p>
-
-                <div className="flex items-center flex-col sm:justify-evenly sm:flex-row gap-3 my-2">
-                  <button
-                    type="button"
-                    className="flex items-center justify-center flex-col w-full shadow-md sm:w-50 sm:h-30 p-4 sm:p-4 rounded-lg sm:rounded-2xl hover:scale-[1.01] bg-emerald-500 hover:bg-emerald-300 active:scale-[0.95] active:bg-emerald-600 transition duration-300 cursor-pointer"
-                  >
-                    <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
-                      Copy anon link with image
-                    </p>
-                    <Copy size={20} className="text-white" />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => navigate("/new")}
-                    className="flex items-center justify-center flex-col w-full shadow-md sm:w-50 sm:h-30 p-4 rounded-lg sm:rounded-2xl hover:scale-[1.01] bg-pink-500 hover:bg-pink-300 active:scale-[0.95] active:bg-pink-600 transition duration-300 cursor-pointer"
-                  >
-                    <p className="text-center font-bold text-white py-3 text-sm sm:text-base">
-                      Create anon link with topic
-                    </p>
-                    <Plus size={20} className="text-white" />
-                  </button>
-                </div>
-              </div>
+              
 
               <div className="flex mt-2 flex-col bg-white w-full p-4 sm:p-6 rounded-xl">
                 <div className="flex justify-between items-center">
