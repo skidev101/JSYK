@@ -5,10 +5,10 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import ViewMessage from "./pages/ViewMessage";
 import MainLayout from "./layout/MainLayout";
 import { Toaster } from "react-hot-toast";
-import NotFound from "./pages/NotFound";
+import NotFound from "./pages/NotFoundPage/NotFound";
 import NewTopic from "./pages/NewTopic";
 import SendMessage from "./pages/SendMessage";
-import ViewTopics from "./pages/ViewTopics";
+import ViewTopics from "./features/topics/components/TopicList/ViewTopics";
 import UserProfile from "./pages/UserProfile";
 // import ProtectedRoute from "./components/ProtectedRoute";
 

@@ -16,50 +16,291 @@ w-full fixed top-0 left-0 flex items-center p-2 sm:p-4 mt-20
 
 
 src/
-├── pages/
-│   └── Dashboard/
-│       ├── Dashboard.tsx
+├── app/                              # App-level configuration
+│   ├── App.tsx
+│   ├── App.css
+│   └── store/                        # Global state management
+│       ├── index.ts
+│       └── slices/
+│           ├── authSlice.ts
+│           └── dashboardSlice.ts
+│
+├── features/                         # Feature-based organization
+│   ├── auth/                         # Authentication feature
+│   │   ├── components/
+│   │   │   ├── LoginForm/
+│   │   │   │   ├── LoginForm.tsx
+│   │   │   │   ├── LoginForm.test.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── RegisterForm/
+│   │   │   │   ├── RegisterForm.tsx
+│   │   │   │   ├── RegisterForm.test.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   ├── hooks/
+│   │   │   ├── useAuth.ts
+│   │   │   ├── useLogin.ts
+│   │   │   └── useRegister.ts
+│   │   ├── services/
+│   │   │   ├── authAPI.ts
+│   │   │   └── authValidation.ts
+│   │   ├── types/
+│   │   │   └── auth.types.ts
+│   │   ├── utils/
+│   │   │   └── authHelpers.ts
+│   │   └── index.ts
+│   │
+│   ├── dashboard/                    # Dashboard feature
+│   │   ├── components/
+│   │   │   ├── UserProfile/
+│   │   │   │   ├── UserProfile.tsx
+│   │   │   │   ├── UserProfile.test.tsx
+│   │   │   │   ├── ActionButtons.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── RecentLinks/
+│   │   │   │   ├── RecentLinks.tsx
+│   │   │   │   ├── LinkItem.tsx
+│   │   │   │   ├── EmptyState.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── MessagesSection/
+│   │   │   │   ├── MessagesSection.tsx
+│   │   │   │   ├── MessagesList.tsx
+│   │   │   │   ├── SortDropdown.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   ├── hooks/
+│   │   │   ├── useDashboardData.ts
+│   │   │   ├── useDashboardState.ts
+│   │   │   └── useDashboardActions.ts
+│   │   ├── services/
+│   │   │   └── dashboardAPI.ts
+│   │   ├── types/
+│   │   │   └── dashboard.types.ts
+│   │   ├── utils/
+│   │   │   ├── groupByDate.ts
+│   │   │   └── dashboardHelpers.ts
+│   │   └── index.ts
+│   │
+│   ├── topics/                       # Topics feature
+│   │   ├── components/
+│   │   │   ├── TopicCard/
+│   │   │   │   ├── TopicCard.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── NewTopicForm/
+│   │   │   │   ├── NewTopicForm.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── TopicsList/
+│   │   │   │   ├── TopicsList.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   ├── hooks/
+│   │   │   ├── useTopics.ts
+│   │   │   └── useCreateTopic.ts
+│   │   ├── services/
+│   │   │   └── topicsAPI.ts
+│   │   ├── types/
+│   │   │   └── topics.types.ts
+│   │   └── index.ts
+│   │
+│   ├── messages/                     # Messages feature
+│   │   ├── components/
+│   │   │   ├── MessageCard/
+│   │   │   │   ├── MessageCard.tsx
+│   │   │   │   ├── MessageCard.test.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── SendMessage/
+│   │   │   │   ├── SendMessage.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── ViewMessage/
+│   │   │   │   ├── ViewMessage.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   ├── hooks/
+│   │   │   ├── useMessages.ts
+│   │   │   └── useSendMessage.ts
+│   │   ├── services/
+│   │   │   └── messagesAPI.ts
+│   │   ├── types/
+│   │   │   └── messages.types.ts
+│   │   └── index.ts
+│   │
+│   └── profile/                      # User profile feature
 │       ├── components/
 │       │   ├── UserProfile/
 │       │   │   ├── UserProfile.tsx
-│       │   │   └── ActionButtons.tsx
-│       │   ├── RecentLinks/
-│       │   │   ├── RecentLinks.tsx
-│       │   │   ├── LinkItem.tsx
-│       │   │   └── EmptyLinksState.tsx
-│       │   ├── Messages/
-│       │   │   ├── MessagesSection.tsx
-│       │   │   ├── MessagesList.tsx
-│       │   │   ├── SortDropdown.tsx
-│       │   │   └── EmptyMessagesState.tsx
-│       │   └── UI/
-│       │       ├── Button.tsx
-│       │       ├── LoadingSpinner.tsx
-│       │       └── ErrorState.tsx
+│       │   │   └── index.ts
+│       │   ├── EditProfile/
+│       │   │   ├── EditProfile.tsx
+│       │   │   └── index.ts
+│       │   └── index.ts
 │       ├── hooks/
-│       │   ├── useDashboardActions.ts
-│       │   └── useDashboardState.ts
-│       └── types/
-│           └── dashboard.types.ts
-├── shared/
-│   ├── constants/
-│   │   ├── config.ts
-│   │   ├── ui.constants.ts
-│   │   └── routes.ts
-│   ├── components/
-│   │   ├── MessageCard/
-│   │   │   └── MessageCard.tsx
-│   │   ├── TopicCard/
-│   │   │   └── TopicCard.tsx
-│   │   └── MotionWrappers/
-│   │       └── MotionWrappers.tsx
-│   ├── utils/
-│   │   ├── clipboard.utils.ts
-│   │   ├── date.utils.ts
-│   │   └── url.utils.ts
-│   └── types/
-│       ├── user.types.ts
-│       ├── message.types.ts
-│       └── link.types.ts
-└── context/
-    └── AuthContext.tsx
+│       │   └── useProfile.ts
+│       ├── services/
+│       │   └── profileAPI.ts
+│       ├── types/
+│       │   └── profile.types.ts
+│       └── index.ts
+│
+├── pages/                            # Page-level components (route containers)
+│   ├── DashboardPage/
+│   │   ├── DashboardPage.tsx
+│   │   └── index.ts
+│   ├── LoginPage/
+│   │   ├── LoginPage.tsx
+│   │   └── index.ts
+│   ├── RegisterPage/
+│   │   ├── RegisterPage.tsx
+│   │   └── index.ts
+│   ├── TopicsPage/
+│   │   ├── TopicsPage.tsx
+│   │   └── index.ts
+│   ├── NewTopicPage/
+│   │   ├── NewTopicPage.tsx
+│   │   └── index.ts
+│   ├── MessagesPage/
+│   │   ├── MessagesPage.tsx
+│   │   └── index.ts
+│   ├── NotFoundPage/
+│   │   ├── NotFoundPage.tsx
+│   │   └── index.ts
+│   └── index.ts
+│
+├── shared/                           # Shared/common code
+│   ├── components/                   # Reusable UI components
+│   │   ├── UI/
+│   │   │   ├── Button/
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Button.test.tsx
+│   │   │   │   ├── Button.stories.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── Input/
+│   │   │   │   ├── Input.tsx
+│   │   │   │   ├── Input.test.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── Modal/
+│   │   │   │   ├── Modal.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── LoadingSpinner/
+│   │   │   │   ├── LoadingSpinner.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── ErrorBoundary/
+│   │   │   │   ├── ErrorBoundary.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   ├── Layout/
+│   │   │   ├── Header/
+│   │   │   │   ├── Header.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── Sidebar/
+│   │   │   │   ├── Sidebar.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── Footer/
+│   │   │   │   ├── Footer.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── MainLayout/
+│   │   │   │   ├── MainLayout.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   ├── Motion/
+│   │   │   ├── FadeIn/
+│   │   │   │   ├── FadeIn.tsx
+│   │   │   │   └── index.ts
+│   │   │   ├── FadeDown/
+│   │   │   │   ├── FadeDown.tsx
+│   │   │   │   └── index.ts
+│   │   │   └── index.ts
+│   │   └── index.ts
+│   │
+│   ├── hooks/                        # Shared/reusable hooks
+│   │   ├── useLocalStorage.ts
+│   │   ├── useDebounce.ts
+│   │   ├── useClickOutside.ts
+│   │   ├── useMediaQuery.ts
+│   │   └── index.ts
+│   │
+│   ├── services/                     # API and external services
+│   │   ├── api/
+│   │   │   ├── client.ts             # Axios/fetch configuration
+│   │   │   ├── endpoints.ts          # API endpoints
+│   │   │   └── interceptors.ts       # Request/response interceptors
+│   │   ├── firebase/
+│   │   │   ├── config.ts
+│   │   │   ├── auth.ts
+│   │   │   └── firestore.ts
+│   │   └── index.ts
+│   │
+│   ├── utils/                        # Utility functions
+│   │   ├── clipboard/
+│   │   │   ├── clipboard.ts          # Your copyToClipboard
+│   │   │   ├── clipboard.test.ts
+│   │   │   └── index.ts
+│   │   ├── date/
+│   │   │   ├── groupByDate.ts        # Your groupByDate
+│   │   │   ├── formatDate.ts
+│   │   │   ├── date.test.ts
+│   │   │   └── index.ts
+│   │   ├── validation/
+│   │   │   ├── schemas.ts            # Zod/Yup schemas
+│   │   │   ├── validators.ts
+│   │   │   └── index.ts
+│   │   ├── url/
+│   │   │   ├── urlUtils.ts           # Your urlutils
+│   │   │   ├── urlUtils.test.ts
+│   │   │   └── index.ts
+│   │   ├── upload/
+│   │   │   ├── imageUpload.ts        # Your uploadToImageKit
+│   │   │   └── index.ts
+│   │   ├── constants.ts
+│   │   ├── helpers.ts
+│   │   └── index.ts
+│   │
+│   ├── types/                        # Shared TypeScript types
+│   │   ├── api.types.ts
+│   │   ├── common.types.ts
+│   │   ├── user.types.ts
+│   │   ├── message.types.ts
+│   │   ├── topic.types.ts
+│   │   └── index.ts
+│   │
+│   └── constants/                    # Application constants
+│       ├── config.ts                 # Environment config
+│       ├── routes.ts                 # Route constants
+│       ├── ui.constants.ts           # UI constants
+│       ├── api.constants.ts          # API constants
+│       └── index.ts
+│
+├── lib/                              # Third-party library configurations
+│   ├── react-query.ts               # React Query setup
+│   ├── react-router.ts              # Router setup
+│   └── index.ts
+│
+├── assets/                           # Static assets
+│   ├── images/
+│   │   ├── logos/
+│   │   ├── icons/
+│   │   └── illustrations/
+│   ├── fonts/
+│   └── styles/
+│       ├── globals.css
+│       ├── components.css
+│       └── utilities.css
+│
+├── __tests__/                        # Global test utilities
+│   ├── setup.ts
+│   ├── utils.tsx
+│   └── mocks/
+│       ├── handlers.ts
+│       └── server.ts
+│
+├── docs/                             # Documentation
+│   ├── README.md
+│   ├── CONTRIBUTING.md
+│   └── API.md
+│
+├── main.tsx                          # App entry point
+├── index.html
+├── vite.config.ts
+├── tsconfig.json
+├── tailwind.config.js
+├── package.json
+└── .env.example
