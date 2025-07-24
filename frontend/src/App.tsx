@@ -3,12 +3,12 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import ViewMessage from "./pages/ViewMessage";
-import MainLayout from "./layout/MainLayout";
+import MainLayout from "./shared/components/Layout/MainLayout/MainLayout";
 import { Toaster } from "react-hot-toast";
 import NotFound from "./pages/NotFoundPage/NotFound";
 import NewTopic from "./pages/NewTopic";
 import SendMessage from "./pages/SendMessage";
-import ViewTopics from "./features/topics/components/TopicList/ViewTopics";
+import ViewTopics from "./features/dashboard/components/TopicLinksList/TopicList";
 import UserProfile from "./pages/UserProfile";
 // import ProtectedRoute from "./components/ProtectedRoute";
 

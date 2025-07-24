@@ -10,10 +10,10 @@ import {
   ScreenShare,
   Trash,
 } from "lucide-react";
-import ViewMessageCard from "../components/ViewMessageCard";
-import { FadeIn } from "../components/MotionWrappers";
+import MessageCard from "@/shared/components/Message/MessageCard";
+import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../../../context/AuthContext";
 
 interface MessageData {
   topic?: string;
@@ -90,7 +90,7 @@ const ViewMessage = () => {
             ref={messageRef}
             className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-gray-100 shadow-md"
           >
-            <ViewMessageCard
+            <MessageCard
               profileImgUrl={data?.profileImgUrl}
               topicImgUrls={data?.topicImgUrls}
               topic={data?.topic}

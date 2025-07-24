@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "../components/MotionWrappers";
 import toast from "react-hot-toast";
-import ViewMessageCard from "../components/ViewMessageCard";
+import MessageCard from "../components/MessageCard";
 import { toSlug } from "../utils/slugify";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
@@ -91,7 +91,7 @@ const NewTopic = () => {
         {
           topic: newTopic,
           themeColor: themeColor,
-          topicImgUrls: successfulUrls
+          topicImgUrls: successfulUrls,
         },
         {
           headers: {
@@ -256,7 +256,7 @@ const NewTopic = () => {
                     <EllipsisVertical size={20} className="text-gray-600" />
                   </div>
                   <div className="w-full mt-5">
-                    <ViewMessageCard
+                    <MessageCard
                       username={user?.username}
                       profileImgUrl={user?.profileImgUrl}
                       topic={newTopic}

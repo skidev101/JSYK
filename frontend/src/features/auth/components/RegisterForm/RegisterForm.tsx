@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Mail, Lock, EyeOff, Eye, User, Loader2, CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, type UserCredential } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "@/shared/services/firebase/config";
 import toast from "react-hot-toast";
 import axios from "axios";
-import { useAuth } from "../context/AuthContext";
-import { useUsernameCheck } from "../hooks/useUsernameCheck";
-import { validateUsername, validateEmail } from "../utils/validateUserInput";
+import { useAuth } from "../../../../context/AuthContext";
+import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
+import { validateUsername } from "@/shared/utils/validators//validateUsername";
+
 
 const Register = () => {
   const { login } = useAuth();
@@ -34,8 +35,10 @@ const Register = () => {
     const usernameError = validateUsername(username);
     if (usernameError) newErrors.username = usernameError;
     
-    const emailError = validateEmail(email);
-    if (emailError) newErrors.email = emailError;
+    // const emailError = validateEmail(email);       
+    if (!email.trim()) {                                
+      newErrors.email = "Email is required";            //temporary validation. fix later
+    }
 
     if (!password.trim()) {
       newErrors.password = "Password is required";

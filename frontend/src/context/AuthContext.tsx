@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
 import { onAuthStateChanged, signOut, getIdToken } from "firebase/auth";
 import type { User as FirebaseUser } from "firebase/auth";
-import { auth } from "../firebase";
+import { auth } from "../shared/services/firebase/config";
 import axios from "axios";
 
 interface User {
