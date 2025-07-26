@@ -4,117 +4,18 @@ import {
   X,
   Plus,
   Loader2,
-  Palette,
-  Home,
-  EllipsisVertical,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { FadeDown } from "../components/MotionWrappers";
-import toast from "react-hot-toast";
-import MessageCard from "../components/MessageCard";
-import { toSlug } from "../utils/slugify";
-import { useAuth } from "../context/AuthContext";
-import axios from "axios";
-import { uploadToImageKit, type UploadResult } from "../utils/uploadToImageKit";
+import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
+
 
 const NewTopic = () => {
-  const { user } = useAuth();
-  const [newTopic, setNewTopic] = useState("");
-  const [topicError, setTopicError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [themeColor, setThemeColor] = useState("#3570F8");
-  const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
-  const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
   const navigate = useNavigate();
-  const topicImageRef = useRef<HTMLInputElement | null>(null);
+  const [topic, setTopic] = useState('');
+  const [topicError, setTopicError] = useState("");
+  const [themeColor, setThemeColor] = useState("3570F8");
+  const [loading, setLoading] = useState(false);
 
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const maxFileSize = 2 * 1024 * 1024;
-    if (file.size > maxFileSize) {
-      toast.error("Image size exceeds 2MB limit.");
-      return;
-    }
-
-    setTopicImgFiles((prev) => [...prev, file]);
-    setTopicImgPreviews((prev) => [...prev, URL.createObjectURL(file)]);
-  };
-
-  const removeImage = (index: number) => {
-    const updatedFiles = [...topicImgFiles];
-    const updatedPreviews = [...topicImgPreviews];
-    updatedFiles.splice(index, 1);
-    updatedPreviews.splice(index, 1);
-    setTopicImgFiles(updatedFiles);
-    setTopicImgPreviews(updatedPreviews);
-  };
-
-  const handleNewTopic = async () => {
-    if (!newTopic.trim()) {
-      setTopicError("Topic is required");
-      setLoading(false);
-      return;
-    }
-    setLoading(true);
-    setTopicError("");
-
-    try {
-      const successfulUrls: string[] = [];
-      const failedUploads: UploadResult[] = [];
-      if (topicImgFiles?.length) {
-        const results = await Promise.all(
-          topicImgFiles?.map((file) =>
-            uploadToImageKit({ file, folder: "jsyk/topicImages" })
-          )
-        );
-
-        for (const res of results) {
-          if (res.success && res.url) {
-            successfulUrls.push(res.url);
-          } else {
-            failedUploads.push(res);
-          }
-        }
-      }
-      if (failedUploads.length > 0) {
-        toast.error(
-          `${failedUploads.length} image(s) failed to upload. You can retry.`
-        );
-      }
-
-      const response = await axios.post(
-        "http://127.0.0.1:3000/api/topic",
-        {
-          topic: newTopic,
-          themeColor: themeColor,
-          topicImgUrls: successfulUrls,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user?.idToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      console.log("res from new topic:", response);
-
-      toast.success("New topic created successfully");
-      setNewTopic("");
-      setTopicImgFiles([]);
-      setTopicImgPreviews([]);
-      navigate("/");
-    } catch (err: any) {
-      console.error(err);
-      toast.error("Failed to create topic");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <div className="w-full">
@@ -145,8 +46,8 @@ const NewTopic = () => {
                     <input
                       type="text"
                       required
-                      value={newTopic}
-                      onChange={(e) => setNewTopic(e.target.value)}
+                      value={topic}
+                      onChange={(e) => setTopic(e.target.value)}
                       placeholder="Create a new topic"
                       className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -236,42 +137,20 @@ const NewTopic = () => {
           </FadeDown>
         </div>
 
-        <div className="w-full h-full">
-          <FadeDown>
-            <div className="bg-white rounded-xl p-4 sm:p-5 sm:w-full md:max-h-[100vh] md:overflow-y-auto">
-              <div className="flex items-center gap-2 border-b-1 border-gray-200">
-                <Palette size={20} />
-                <h1 className="text-2xl">Preview</h1>
-              </div>
-
-              <div className="flex justify-center items-center w-full mt-4">
-                <div className="flex flex-col w-full max-w-sm h-auto bg-gray-100 rounded-2xl p-2 sm:p-4">
-                  <div className="flex justify-center items-center gap-4 border-b-1 pb-2 border-gray-300">
-                    <Home size={20} className="text-gray-600" />
-                    <div className="w-full px-2 py-2 bg-gray-200 rounded-full min-w-[150px] max-w-[250px]">
-                      <p className="text-gray-600 text-sm truncate">
-                        jsykme.vercel.app/{toSlug(newTopic) || "your-topic"}
-                      </p>
-                    </div>
-                    <EllipsisVertical size={20} className="text-gray-600" />
-                  </div>
-                  <div className="w-full mt-5">
-                    <MessageCard
-                      username={user?.username}
-                      profileImgUrl={user?.profileImgUrl}
-                      topic={newTopic}
-                      topicImgUrls={topicImgPreviews}
-                      preview={true}
-                      inView={false}
-                      onImageClick={(url) => setSelectedImage(url)}
-                      themeColor={themeColor}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </FadeDown>
-        </div>
+        {/*show topic preview page here
+          it requires:
+          <MessageCard
+            username={user?.username}
+            profileImgUrl={user?.profileImgUrl}
+            topic={newTopic}
+            topicImgUrls={topicImgPreviews}
+            preview={true}
+            inView={false}
+            onImageClick={(url) => setSelectedImage(url)}
+            themeColor={themeColor}
+          />
+        */}
+        
       </div>
       {selectedImage && (
         <div

@@ -1,8 +1,8 @@
 import { Copy, Plus } from "lucide-react";
 
 interface ActionButtonsProps {
-  onCopyWithImage: () => void;
-  onCreateWithTopic: () => void;
+  onCopyWithImage?: () => void;
+  onCreateWithTopic?: () => void;
 }
 
 const ActionButtons = ({

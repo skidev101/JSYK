@@ -6,9 +6,9 @@ import ActionButtons from "./ActionButtons";
 
 interface UserProfileProps {
   user: User;
-  onCopyLink: () => void;
-  onCopyWithImage: () => void;
-  onCreateWithTopic: () => void;
+  onCopyLink?: () => void;
+  onCopyWithImage?: () => void;
+  onCreateWithTopic?: () => void;
 }
 
 const UserProfile = ({

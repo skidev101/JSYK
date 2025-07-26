@@ -83,11 +83,17 @@ src/
 │   │
 │   ├── topics/                       # Topics feature
 │   │   ├── components/
+│   │   │   ├── NewTopic/
+│   │   │   │   ├── NewTopic.tsx   //NewTopicForm and TopicPreview brought in here
+│   │   │   │   └── index.ts
 │   │   │   ├── TopicCard/
 │   │   │   │   ├── TopicCard.tsx
 │   │   │   │   └── index.ts
 │   │   │   ├── NewTopicForm/
-│   │   │   │   ├── NewTopicForm.tsx
+│   │   │   │   ├── NewTopicForm.tsx 
+│   │   │   │   └── index.ts
+│   │   │   ├── TopicReview/
+│   │   │   │   ├── TopicReview.tsx 
 │   │   │   │   └── index.ts
 │   │   │   ├── TopicsList/
 │   │   │   │   ├── TopicsList.tsx
@@ -304,3 +310,55 @@ src/
 ├── tailwind.config.js
 ├── package.json
 └── .env.example
+
+
+
+try {
+      const successfulUrls: string[] = [];
+      const failedUploads: UploadResult[] = [];
+      if (topicImgFiles?.length) {
+        
+
+        for (const res of results) {
+          if (res.success && res.url) {
+            successfulUrls.push(res.url);
+          } else {
+            failedUploads.push(res);
+          }
+        }
+      }
+      if (failedUploads.length > 0) {
+        toast.error(
+          `${failedUploads.length} image(s) failed to upload. You can retry.`
+        );
+      }
+
+      const response = await axios.post(
+        "http://127.0.0.1:3000/api/topic",
+        {
+          topic: newTopic,
+          themeColor: themeColor,
+          topicImgUrls: successfulUrls,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user?.idToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      console.log("res from new topic:", response);
+
+      toast.success("New topic created successfully");
+      setTopic("");
+      setTopicImgFiles([]);
+      setTopicImgPreviews([]);
+      navigate("/");
+    } catch (err: any) {
+      console.error(err);
+      toast.error("Failed to create topic");
+    } finally {
+      setLoading(false);
+    }
+  };

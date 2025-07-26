@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import type { User as FirebaseUser } from "firebase/auth";
 import toast from "react-hot-toast";
+import { useAuth } from "@/context/AuthContext";
 
 interface RecentLink {
   _id: string;
@@ -33,7 +33,8 @@ interface fetchOptions {
   append?: boolean;
 }
 
-export const useDashboardData = (user: FirebaseUser | null) => {
+export const useDashboardData = () => {
+  const { user, firebaseUser } = useAuth();
   const [data, setData] = useState<DashboardData>({
     recentLinks: [],
     messages: [],
@@ -45,7 +46,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
 
   const fetchDashboardData = useCallback(
     async (options: fetchOptions = {}) => {
-      if (!user) {
+      if (!user || !firebaseUser) {
         setLoading(false);
         return;
       }
@@ -56,7 +57,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
         setLoading(true);
         setError(null);
 
-        const idToken = await user.getIdToken();
+        const idToken = await firebaseUser.getIdToken();
 
         const config = {
           headers: {
@@ -67,7 +68,7 @@ export const useDashboardData = (user: FirebaseUser | null) => {
         const [recentLinksRes, messagesRes] = await Promise.all([
           axios.get("http://127.0.0.1:3000/api/topic", config),
           axios.get(
-            `http://127.0.0.1:3000/api/message?page=${page}1&limit=${limit}${
+            `http://127.0.0.1:3000/api/message?page=${page}&limit=${limit}${
               topicId ? `&topic=${topicId}` : ""
             }`,
             config

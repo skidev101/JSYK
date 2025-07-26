@@ -7,8 +7,9 @@ import { Copy, Link2, Loader2, RefreshCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const TopicList = () => {
-  const { firebaseUser } = useAuth();
-  const { data, loading, error, refetch } = useDashboardData(firebaseUser);
+  const { user } = useAuth();
+  console.log(user)
+  const { data, loading, error, refetch } = useDashboardData();
   const groupedLinks = groupLinksByDate(data.recentLinks);
   const navigate = useNavigate();
 
