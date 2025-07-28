@@ -1,11 +1,11 @@
 module.exports = [
-   "admin",
-   "login",
-   "logout",
-   "jsyk",
-   "dashboard",
-   "support",
-   "terms",
-   "privacy",
-   "support"
-]
+  "admin",
+  "login",
+  "logout",
+  "something",
+  "dashboard",
+  "support",
+  "terms",
+  "privacy",
+  "support",
+];

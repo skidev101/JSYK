@@ -16,7 +16,7 @@ const getPublicProfile = async (req, res) => {
     // increase profile views
     await User.findByIdAndUpdate(user._id, {
       $inc: { profileViews: 1 },
-      $set: { lastProfileView: new Date() }
+      $set: { lastProfileView: new Date() },
     }).exec();
 
     res.status(200).json({
@@ -24,9 +24,9 @@ const getPublicProfile = async (req, res) => {
       data: {
         username: user.username,
         profileImgUrl: user.profileImgUrl,
-        jsykLink: user.profileSlug,
+        somethingLink: user.profileSlug,
         bio: user.bio,
-        profileSlug: user.profileSlug
+        profileSlug: user.profileSlug,
       },
     });
   } catch (err) {
@@ -46,9 +46,9 @@ const checkUsernameAvailability = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       return res.status(200).json({
-         success: true,
-         available: false,
-         message: "username is already taken",
+        success: true,
+        available: false,
+        message: "username is already taken",
       });
     }
 
@@ -56,7 +56,7 @@ const checkUsernameAvailability = async (req, res) => {
       success: true,
       available: true,
       message: "username is available",
-   });
+    });
   } catch (err) {
     console.error("Error checking username availability:", err);
     res.status(500).json({
@@ -67,54 +67,52 @@ const checkUsernameAvailability = async (req, res) => {
   }
 };
 
-
 const updateProfile = async (req, res) => {
-   const { username, email, bio, profileImgUrl, fileId } = req.body;
-   const { uid } = req.user;
+  const { username, email, bio, profileImgUrl, fileId } = req.body;
+  const { uid } = req.user;
 
-   try {
-      const user = await User.findOne({ uid });
-      if (!user) {
-         return res.status(404).json({
-            success: false,
-            message: "User not found",
-            code: "USER_NOT_FOUND"
-         })
-      }
-
-      if (username !== undefined) user.username = username; 
-      if (email !== undefined) user.email = email;
-      if (bio !== undefined) user.bio = bio;
-      if (profileImgUrl !== undefined) user.profileImgUrl = profileImgUrl;
-      if (profileImgFileId !== undefined) user.profileImgFileId = profileImgFileId;
-
-      await user.save();
-      console.log("successfully updated user");
-
-      res.status(200).json({
-         success: true,
-         message: 'Profile updated successfully',
-         data: {
-            username: user.username,
-            email: user.email,
-            profileImgUrl: user.profileImgUrl,
-            jsykLink: user.jsykLink,
-         }
-      })
-   } catch (err) {
-      console.error("Error updating user profile:", err);
-      res.status(500).json({
-         success: false,
-         message: "Internal server error",
-         code: "INTERNAL_SERVER_ERROR",
+  try {
+    const user = await User.findOne({ uid });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        code: "USER_NOT_FOUND",
       });
-   }
-}
+    }
 
+    if (username !== undefined) user.username = username;
+    if (email !== undefined) user.email = email;
+    if (bio !== undefined) user.bio = bio;
+    if (profileImgUrl !== undefined) user.profileImgUrl = profileImgUrl;
+    if (profileImgFileId !== undefined)
+      user.profileImgFileId = profileImgFileId;
 
+    await user.save();
+    console.log("successfully updated user");
+
+    res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      data: {
+        username: user.username,
+        email: user.email,
+        profileImgUrl: user.profileImgUrl,
+        somethingLink: user.somethingLink,
+      },
+    });
+  } catch (err) {
+    console.error("Error updating user profile:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      code: "INTERNAL_SERVER_ERROR",
+    });
+  }
+};
 
 module.exports = {
-   getPublicProfile,
-   checkUsernameAvailability,
-   updateProfile
-}
+  getPublicProfile,
+  checkUsernameAvailability,
+  updateProfile,
+};

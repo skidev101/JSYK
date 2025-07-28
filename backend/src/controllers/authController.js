@@ -9,8 +9,8 @@ const getCurrentUser = async (req, res) => {
     if (!user) {
       return res.status(200).json({
         success: true,
-        message: "No active user or user does not exist"
-      })
+        message: "No active user or user does not exist",
+      });
     }
 
     res.status(200).json({
@@ -20,16 +20,16 @@ const getCurrentUser = async (req, res) => {
         username: user.username,
         email: user.email,
         profileImgUrl: user.profileImgUrl,
-        jsykLink: user.profileSlug,
-        memberSince: user.createdAt
-      }
+        somethingLink: user.profileSlug,
+        memberSince: user.createdAt,
+      },
     });
   } catch (err) {
     console.error("authentication error:", err);
     res.status(500).json({
       success: false,
       message: "Internal server error",
-      code: "INTERNAL_SERVER_ERROR"
+      code: "INTERNAL_SERVER_ERROR",
     });
   }
 };
@@ -37,20 +37,19 @@ const getCurrentUser = async (req, res) => {
 const handleAuth = async (req, res) => {
   const { uid, username, email, profileImgUrl } = req.user;
 
-
   try {
     // Check if user already exists
     let user = await User.findOne({ uid });
     if (!user) {
       const profileSlug = await generateUniqueSlug(username, User);
-      console.log('profile slug at sign up:', profileSlug)
+      console.log("profile slug at sign up:", profileSlug);
 
       if (!profileSlug) {
         return res.status(400).json({
           success: false,
           message: "Invalid username",
-          code: "FORBIDDEN_USERNAME"
-        })
+          code: "FORBIDDEN_USERNAME",
+        });
       }
 
       user = await User.create({
@@ -71,16 +70,16 @@ const handleAuth = async (req, res) => {
         username: user.username,
         email: user.email,
         profileImgUrl: user.profileImgUrl,
-        jsykLink: user.jsykLink,
-        memberSince: user.createdAt
-      }
+        somethingLink: user.somethingLink,
+        memberSince: user.createdAt,
+      },
     });
   } catch (err) {
     console.error("Error handling authentication:", err);
     res.status(500).json({
       success: false,
       message: "Internal server error",
-      code: "INTERNAL_SERVER_ERROR"
+      code: "INTERNAL_SERVER_ERROR",
     });
   }
 };

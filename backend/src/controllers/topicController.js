@@ -8,7 +8,7 @@ const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 8);
 const createTopic = async (req, res) => {
   try {
     const { uid } = req.user;
-    const { topic, themeColor, topicImgUrl } = req.body;
+    const { topic, themeColor, topicImgUrls } = req.body;
     const user = await User.findOne({ uid });
     if (!user) {
       return res.status(404).json({
