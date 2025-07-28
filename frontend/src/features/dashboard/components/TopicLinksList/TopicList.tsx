@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { useAuth } from '../../../../context/AuthContext';
+import { useAuth } from "../../../../context/AuthContext";
 import { useDashboardData } from "@/features/dashboard/hooks/useDashboardData";
 import { copyToClipboard } from "@/shared/utils/clipboard/clipboard";
 import { groupLinksByDate } from "@/shared/utils/date/groupByDate";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const TopicList = () => {
   const { user } = useAuth();
-  console.log(user)
+  console.log(user);
   const { data, loading, error, refetch } = useDashboardData();
   const groupedLinks = groupLinksByDate(data.recentLinks);
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const TopicList = () => {
   if (error) return <div className="text-md">An error occured</div>;
 
   const handleCopy = async (url: string) => {
-    const success = await copyToClipboard(`https://jsyk.me/${url}`);
+    const success = await copyToClipboard(`https://something.me/${url}`);
     if (success) {
       toast.success("Copied!");
     } else {

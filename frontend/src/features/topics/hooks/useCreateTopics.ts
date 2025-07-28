@@ -1,47 +1,44 @@
-import { useRef, useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
-import {
-  uploadToImageKit,
-  type UploadResult,
-} from "@/shared/utils/upload/uploadImage";
-import { useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { APP_CONFIG } from "@/shared/constants/config";
 
-export const useCreateTopic = () => {
-  const { user } = useAuth();
-  const [newTopic, setNewTopic] = useState("");
-  const [topicError, setTopicError] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [themeColor, setThemeColor] = useState("#3570F8");
-  const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
-  const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
-
-  const navigate = useNavigate();
-  const topicImageRef = useRef<HTMLInputElement | null>(null);
-
-  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const maxFileSize = 2 * 1024 * 1024;
-    if (file.size > maxFileSize) {
-      toast.error("Image size exceeds 2MB limit.");
-      return;
-    }
-
-    setTopicImgFiles((prev) => [...prev, file]);
-    setTopicImgPreviews((prev) => [...prev, URL.createObjectURL(file)]);
-  };
-
-  const removeImage = (index: number) => {
-    const updatedFiles = [...topicImgFiles];
-    const updatedPreviews = [...topicImgPreviews];
-    updatedFiles.splice(index, 1);
-    updatedPreviews.splice(index, 1);
-    setTopicImgFiles(updatedFiles);
-    setTopicImgPreviews(updatedPreviews);
-  };
-
+interface createTopicProps {
+  topic: string;
+  themeColor: string;
+  topicImgUrls?: string[];
 }
+
+export const useCreateTopic = async ({
+  topic,
+  themeColor,
+  topicImgUrls,
+}: createTopicProps) => {
+  const { user } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  try {
+    setLoading(true);
+    const response = await axios.post(
+      `${APP_CONFIG.API}/topics`,
+      {
+        topic: topic,
+        themeColor: themeColor,
+        topicImgUrls: topicImgUrls,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.idToken}`,
+        },
+      }
+    );
+    setLoading(false);
+    return { response, loading };
+  } catch (err: any) {
+    const error = err as AxiosError;
+    console.log("error at useCreateTopic:", error);
+    toast.error("An unknown error occured:", err.message);
+  }
+};

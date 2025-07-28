@@ -34,7 +34,7 @@ interface fetchOptions {
 }
 
 export const useDashboardData = () => {
-  const { user, firebaseUser } = useAuth();
+  const { user } = useAuth();
   const [data, setData] = useState<DashboardData>({
     recentLinks: [],
     messages: [],
@@ -46,7 +46,7 @@ export const useDashboardData = () => {
 
   const fetchDashboardData = useCallback(
     async (options: fetchOptions = {}) => {
-      if (!user || !firebaseUser) {
+      if (!user) {
         setLoading(false);
         return;
       }
@@ -57,11 +57,9 @@ export const useDashboardData = () => {
         setLoading(true);
         setError(null);
 
-        const idToken = await firebaseUser.getIdToken();
-
         const config = {
           headers: {
-            Authorization: `Bearer ${idToken}`,
+            Authorization: `Bearer ${user?.idToken}`,
           },
         };
 

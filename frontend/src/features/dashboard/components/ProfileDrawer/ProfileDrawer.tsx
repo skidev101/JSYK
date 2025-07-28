@@ -10,10 +10,10 @@ import {
   LogOut,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FadeRight } from '@/shared/components/Motion/MotionWrappers';
+import { FadeRight } from "@/shared/components/Motion/MotionWrappers";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../../context/AuthContext";
-import { uploadToImageKit } from '@/shared/utils/upload/uploadImage';
+import { uploadToImageKit } from "@/shared/utils/upload/uploadImage";
 import axios from "axios";
 
 interface ProfileDrawerProps {
@@ -77,7 +77,7 @@ const ProfileDrawer = ({
       if (imgFile) {
         const result = await uploadToImageKit({
           file: imgFile,
-          folder: "jsyk/profileImgs",
+          folder: "something/profileImgs",
         });
         imgUrl = result.url;
         fileId = result.fileId;
@@ -263,7 +263,7 @@ const ProfileDrawer = ({
                       <p>Profile Link</p>
                     </div>
                     <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
-                      {`jsyk.com/${user?.jsykLink}`}
+                      {`something.com/${user?.somethingLink}`}
                     </p>
                   </div>
                 )}

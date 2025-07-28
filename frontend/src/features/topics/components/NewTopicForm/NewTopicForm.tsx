@@ -7,14 +7,69 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
+import { useUploadImage } from "../../hooks/useUploadImage";
+import toast from "react-hot-toast";
+import { useCreateTopic } from "../../hooks/useCreateTopics";
 
 
 const NewTopic = () => {
   const navigate = useNavigate();
-  const [topic, setTopic] = useState('');
+  const [topic, setTopic] = useState("");
   const [topicError, setTopicError] = useState("");
-  const [themeColor, setThemeColor] = useState("3570F8");
+  const [themeColor, setThemeColor] = useState("#3570F8");
+  const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
+  const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
+  const topicImageRef = useRef<HTMLInputElement | null>(null);
+
+  const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const maxFileSize = 2 * 1024 * 1024;
+    if (file.size > maxFileSize) {
+      toast.error("Image size exceeds 2MB limit.");
+      return;
+    }
+
+    setTopicImgFiles((prev) => [...prev, file]);
+    setTopicImgPreviews((prev) => [...prev, URL.createObjectURL(file)]);
+  };
+
+  const removeImage = (index: number) => {
+    const updatedFiles = [...topicImgFiles];
+    const updatedPreviews = [...topicImgPreviews];
+    updatedFiles.splice(index, 1);
+    updatedPreviews.splice(index, 1);
+    setTopicImgFiles(updatedFiles);
+    setTopicImgPreviews(updatedPreviews);
+  };
+
+
+  const createTopic = async () => {
+    if (!topic.trim()) {
+      setTopicError("Topic is required");
+      return;
+    }
+    setLoading(true);
+    try {
+      if (topicImgFiles.length) {
+        const uploadResult = await useUploadImage(topicImgFiles)
+        console.log("result from image upload at topicForm:", uploadResult)
+      }
+
+      const payload = {
+        topic,
+        themeColor
+      }
+
+      useCreateTopic(payload)
+    } catch (err) {
+      console.log(err)
+    }
+  }
 
 
   return (
@@ -119,7 +174,7 @@ const NewTopic = () => {
 
                 <button
                   disabled={loading}
-                  onClick={handleNewTopic}
+                  onClick={createTopic}
                   className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg ${
                     loading
                       ? "bg-blue-300 cursor-not-allowed"

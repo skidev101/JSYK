@@ -21,14 +21,14 @@ const UserProfile = ({
     <div className="flex flex-col bg-white w-full max-w-md p-4 sm:p-6 rounded-xl">
       <div className="flex items-center gap-2 w-full rounded-lg">
         <img
-          src={user.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
+          src={user?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
           alt="profile"
           className={`${UI_CONSTANTS.AVATAR_SIZES.SMALL} sm:${UI_CONSTANTS.AVATAR_SIZES.MEDIUM} rounded-full object-cover object-center`}
         />
         <div className="flex flex-col w-full">
-          <h1 className="text-lg sm:text-xl font-bold">{user.username}</h1>
+          <h1 className="text-lg sm:text-xl font-bold">{user?.username}</h1>
           <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
-            <p>{`${APP_CONFIG.BASE_URL}/${user.jsykLink}`}</p>
+            <p>{`${APP_CONFIG.BASE_URL}/${user?.somethingLink}`}</p>
             <button
               onClick={onCopyLink}
               title="copy link"
@@ -52,5 +52,4 @@ const UserProfile = ({
   );
 };
 
-
-export default UserProfile
+export default UserProfile;

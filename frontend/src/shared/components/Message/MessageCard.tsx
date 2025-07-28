@@ -54,7 +54,7 @@ const MessageCard = ({
               @{username}
             </h1>
           </div>
-          <p className="text-sm sm:text-base text-neutral-200">JSYK</p>
+          <p className="text-sm sm:text-base text-neutral-200">something</p>
         </div>
       </div>
 

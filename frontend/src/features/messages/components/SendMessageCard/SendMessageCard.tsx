@@ -104,13 +104,14 @@ const SendMessage = () => {
           />
           <div className="text-center text-gray-700">
             <p className="text-sm">
-              wanna recieve anonymous messages<br /> too? 👉{" "}
+              wanna recieve anonymous messages
+              <br /> too? 👉{" "}
               <a href="/register" className="text-blue-600 underline">
                 Sign up
               </a>
             </p>
             <p className="fixed bottom-2 left-1/2 -translate-x-1/2 text-sm">
-              JSYK by monaski
+              something by monaski
             </p>
           </div>
         </div>

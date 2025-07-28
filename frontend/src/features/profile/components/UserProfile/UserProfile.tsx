@@ -3,12 +3,12 @@ import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { copyToClipboard } from "@/shared/utils/clipboard/clipboard"
+import { copyToClipboard } from "@/shared/utils/clipboard/clipboard";
 
 interface userProfileData {
   username: string;
   profileImgUrl?: string;
-  jsykLink: string;
+  somethingLink: string;
   bio?: string;
   profileSlug: string;
 }
@@ -19,7 +19,7 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   const handleCopy = async (url: string) => {
-    const success = await copyToClipboard(`https://jsyk.me/${url}`);
+    const success = await copyToClipboard(`https://something.me/${url}`);
     if (success) {
       toast.success("Copied!");
     } else {
@@ -56,15 +56,16 @@ const UserProfile = () => {
             {userProfile?.username}
           </h1>
           <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-1 sm:px-4  rounded-full">
-            {`jsyk.com/${userProfile?.profileSlug}`}
+            {`something.com/${userProfile?.profileSlug}`}
           </p>
           <p className="text-sm text-gray-700 bg-gray-100 text-center max-w-max px-3 py-2 mt-1 sm:px-3 sm:py-2 rounded-lg">
             {userProfile?.bio}
           </p>
           <div className="flex items-center gap-2 w-full mt-5">
-            <button 
+            <button
               onClick={() => handleCopy(`${profileSlug}`)}
-              className="flex flex-1/2 justify-center items-center gap-2 bg-gray-100 text-gray-800 rounded-full px-3 py-2 text:sm sm:text-base cursor-pointer transition-all active:scale-95">
+              className="flex flex-1/2 justify-center items-center gap-2 bg-gray-100 text-gray-800 rounded-full px-3 py-2 text:sm sm:text-base cursor-pointer transition-all active:scale-95"
+            >
               Copy profile
             </button>
             <button
