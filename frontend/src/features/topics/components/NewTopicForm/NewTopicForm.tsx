@@ -184,29 +184,15 @@ const NewTopic = () => {
                   {loading ? (
                     <Loader2 size={18} className="animate-spin" />
                   ) : (
-                    "Create topic"
+                    "Create new topic"
                   )}
                 </button>
               </div>
             </div>
           </FadeDown>
         </div>
-
-        {/*show topic preview page here
-          it requires:
-          <MessageCard
-            username={user?.username}
-            profileImgUrl={user?.profileImgUrl}
-            topic={newTopic}
-            topicImgUrls={topicImgPreviews}
-            preview={true}
-            inView={false}
-            onImageClick={(url) => setSelectedImage(url)}
-            themeColor={themeColor}
-          />
-        */}
-        
       </div>
+
       {selectedImage && (
         <div
           className="fixed inset-0 bg-neutral-800 z-50 backdrop-blur-sm flex items-center justify-center"
