@@ -1,4 +1,4 @@
-import { useRef, useState, type ChangeEvent } from "react";
+import { useState, type ChangeEvent, type RefObject } from "react";
 import {
   Pencil,
   X,
@@ -11,18 +11,33 @@ import { useUploadImage } from "../../hooks/useUploadImage";
 import toast from "react-hot-toast";
 import { useCreateTopic } from "../../hooks/useCreateTopics";
 
+interface NewTopicFormProps {
+  topic: string;
+  setTopic: (value: string) => void;
+  themeColor: string;
+  setThemeColor: (value: string) => void;
+  topicImgFiles: File[];
+  setTopicImgFiles: (files: File[]) => void;
+  topicImgPreviews: string[];
+  setTopicImgPreviews: (urls: string[]) => void;
+  selectedImage: string;
+  setSelectedImage: (img: string | null) => void;
+  topicImgRef: RefObject<HTMLInputElement>;
+  loading: boolean;
+  setLoading: (value: boolean) => void;
+}
 
-const NewTopic = () => {
+const NewTopic = ({ topic, setTopic, themeColor, setThemeColor, topicImgFiles, setTopicImgFiles, topicImgPreviews, setTopicImgPreviews, selectedImage, setSelectedImage, topicImgRef, loading, setLoading }: NewTopicFormProps) => {
   const navigate = useNavigate();
-  const [topic, setTopic] = useState("");
+  // const [topic, setTopic] = useState("");
   const [topicError, setTopicError] = useState("");
-  const [themeColor, setThemeColor] = useState("#3570F8");
-  const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
-  const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  // const [themeColor, setThemeColor] = useState("#3570F8");
+  // const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
+  // const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
+  // const [loading, setLoading] = useState(false);
+  // const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  const topicImageRef = useRef<HTMLInputElement | null>(null);
+  // const topicImageRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -34,8 +49,8 @@ const NewTopic = () => {
       return;
     }
 
-    setTopicImgFiles((prev) => [...prev, file]);
-    setTopicImgPreviews((prev) => [...prev, URL.createObjectURL(file)]);
+    setTopicImgFiles([...topicImgFiles, file]);
+    setTopicImgPreviews([...topicImgPreviews, URL.createObjectURL(file)]);
   };
 
   const removeImage = (index: number) => {
@@ -53,7 +68,9 @@ const NewTopic = () => {
       setTopicError("Topic is required");
       return;
     }
+
     setLoading(true);
+    
     try {
       if (topicImgFiles.length) {
         const uploadResult = await useUploadImage(topicImgFiles)
