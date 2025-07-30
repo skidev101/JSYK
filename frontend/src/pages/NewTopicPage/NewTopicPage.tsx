@@ -1,6 +1,7 @@
+import { NewTopic } from "@/features/topics/components"
 
 const NewTopicPage = () => {
-  return 
+  return <NewTopic />
 }
 
 export default NewTopicPage

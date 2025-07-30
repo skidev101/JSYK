@@ -3,7 +3,14 @@ import MessageCard from "@/shared/components/Message/MessageCard"
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers"
 import { EllipsisVertical, Home, Palette } from "lucide-react"
 
-const TopicPreview = () => {
+
+interface TopicPreviewProps {
+  topic: string;
+  themeColor: string;
+  topicImgPreviews?: string[];
+}
+
+const TopicPreview = ({ topic, themeColor, topicImgPreviews}: TopicPreviewProps )=> {
    const { user } = useAuth();
 
   return (
@@ -30,11 +37,10 @@ const TopicPreview = () => {
                     <MessageCard
                       username={user?.username}
                       profileImgUrl={user?.profileImgUrl}
-                      topic={newTopic}
+                      topic={topic}
                       topicImgUrls={topicImgPreviews}
                       preview={true}
                       inView={false}
-                      onImageClick={(url) => setSelectedImage(url)}
                       themeColor={themeColor}
                     />
                   </div>

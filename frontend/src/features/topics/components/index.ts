@@ -1,2 +1,2 @@
-export { default as NewTopicForm } from './NewTopicForm';
+export { default as NewTopic } from './NewTopic';
 export { default as TopicList } from './TopicList';

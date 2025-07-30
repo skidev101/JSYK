@@ -1,10 +1,5 @@
-import { useState, type ChangeEvent, type RefObject } from "react";
-import {
-  Pencil,
-  X,
-  Plus,
-  Loader2,
-} from "lucide-react";
+import { useState, type ChangeEvent, useRef } from "react";
+import { Pencil, X, Plus, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
 import { useUploadImage } from "../../hooks/useUploadImage";
@@ -20,24 +15,34 @@ interface NewTopicFormProps {
   setTopicImgFiles: (files: File[]) => void;
   topicImgPreviews: string[];
   setTopicImgPreviews: (urls: string[]) => void;
-  selectedImage: string;
-  setSelectedImage: (img: string | null) => void;
-  topicImgRef: RefObject<HTMLInputElement>;
-  loading: boolean;
-  setLoading: (value: boolean) => void;
+  // selectedImage: string;
+  // setSelectedImage: (img: string | null) => void;
+  // topicImageRef: RefObject<HTMLInputElement>;
 }
 
-const NewTopic = ({ topic, setTopic, themeColor, setThemeColor, topicImgFiles, setTopicImgFiles, topicImgPreviews, setTopicImgPreviews, selectedImage, setSelectedImage, topicImgRef, loading, setLoading }: NewTopicFormProps) => {
+const NewTopicForm = ({
+  topic,
+  setTopic,
+  themeColor,
+  setThemeColor,
+  topicImgFiles,
+  setTopicImgFiles,
+  topicImgPreviews,
+  setTopicImgPreviews,
+  // selectedImage,
+  // setSelectedImage,
+  // topicImageRef
+}: NewTopicFormProps) => {
   const navigate = useNavigate();
   // const [topic, setTopic] = useState("");
   const [topicError, setTopicError] = useState("");
+  const [loading, setLoading] = useState(false);
   // const [themeColor, setThemeColor] = useState("#3570F8");
   // const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
   // const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
-  // const [loading, setLoading] = useState(false);
-  // const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
 
-  // const topicImageRef = useRef<HTMLInputElement | null>(null);
+  const topicImageRef = useRef<HTMLInputElement | null>(null);
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -62,7 +67,6 @@ const NewTopic = ({ topic, setTopic, themeColor, setThemeColor, topicImgFiles, s
     setTopicImgPreviews(updatedPreviews);
   };
 
-
   const createTopic = async () => {
     if (!topic.trim()) {
       setTopicError("Topic is required");
@@ -70,24 +74,25 @@ const NewTopic = ({ topic, setTopic, themeColor, setThemeColor, topicImgFiles, s
     }
 
     setLoading(true);
-    
+
     try {
       if (topicImgFiles.length) {
-        const uploadResult = await useUploadImage(topicImgFiles)
-        console.log("result from image upload at topicForm:", uploadResult)
+        const uploadResult = await useUploadImage(topicImgFiles);
+        console.log("result from image upload at topicForm:", uploadResult);
       }
 
       const payload = {
         topic,
-        themeColor
-      }
+        themeColor,
+      };
 
-      useCreateTopic(payload)
+      await useCreateTopic(payload);
+      toast.success("Topic created");
+      navigate("/");
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-
+  };
 
   return (
     <div className="w-full">
@@ -237,4 +242,4 @@ const NewTopic = ({ topic, setTopic, themeColor, setThemeColor, topicImgFiles, s
   );
 };
 
-export default NewTopic;
+export default NewTopicForm;

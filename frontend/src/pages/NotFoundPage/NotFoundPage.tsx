@@ -1,4 +1,4 @@
-const NotFound = () => {
+const NotFoundPage = () => {
   return (
     <section className="flex flex-col justify-center items-center min-h-screen p-4 text-center">
       <img 
@@ -12,4 +12,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundPage;
