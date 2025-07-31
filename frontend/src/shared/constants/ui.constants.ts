@@ -7,7 +7,7 @@ export const UI_CONSTANTS = {
    },
    AVATAR_SIZES: {
       SMALL: 'w-8 h-8',
-      MEDIUM: 'w-10 h-10'
+      MEDIUM: 'sm:w-12 sm:h-12'
    },
    ANIMATION: {
       SCALE_DOWN: 'active:scale-[0.90]',
