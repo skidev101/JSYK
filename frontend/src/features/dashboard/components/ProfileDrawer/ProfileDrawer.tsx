@@ -10,7 +10,7 @@ import {
   LogOut,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { FadeRight } from "@/shared/components/Motion/MotionWrappers";
+import { FadeRight } from "@/shared/components/Motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../../context/AuthContext";
 import { uploadToImageKit } from "@/shared/utils/upload/uploadImage";

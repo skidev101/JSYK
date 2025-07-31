@@ -10,8 +10,6 @@ const Dashboard = () => {
   const { data, loading, error, refetch } = useDashboardData();
   const messages = data.messages;
 
-  console.log(data)
-
   if (!user) return;
 
   if (loading) {
@@ -28,7 +26,7 @@ const Dashboard = () => {
         <div className="text-lg">An error occured</div>
         <button
           onClick={() => refetch()}
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="px-4 py-2 mt-60 bg-blue-500 text-white rounded hover:bg-blue-600"
         >
           Retry
         </button>
@@ -37,7 +35,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div>
+    <div className="mt-20 flex flex-col sm:flex-row gap-2">
       <Card>
         <UserProfile user={user} />
       </Card>

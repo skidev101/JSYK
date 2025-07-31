@@ -8,7 +8,7 @@ import axios from "axios";
 interface User {
   username: string;
   email: string;
-  jsykLink: string;
+  somethingLink: string;
   profileImgUrl?: string;
   bio?: string;
   idToken: string;

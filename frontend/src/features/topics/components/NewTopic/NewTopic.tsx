@@ -3,7 +3,7 @@ import NewTopicForm from "../NewTopicForm";
 import TopicPreview from "../TopicPreview";
 import { useState } from "react";
 
-const NewTopicPage = () => {
+const NewTopic = () => {
   const [topic, setTopic] = useState("");
   const [themeColor, setThemeColor] = useState("#3570F8");
   const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
@@ -34,4 +34,4 @@ const NewTopicPage = () => {
   );
 };
 
-export default NewTopicPage;
+export default NewTopic;

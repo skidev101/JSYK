@@ -51,6 +51,8 @@ export const useDashboardData = () => {
         return;
       }
 
+      console.log("user at dashboard hook:", user)
+
       const { topicId = "", page = 1, limit = 20, append = false } = options;
 
       try {

@@ -23,7 +23,7 @@ const UserProfile = ({
         <img
           src={user?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
           alt="profile"
-          className={`${UI_CONSTANTS.AVATAR_SIZES.SMALL} sm:${UI_CONSTANTS.AVATAR_SIZES.MEDIUM} rounded-full object-cover object-center`}
+          className={`w-8 h-8 sm:${UI_CONSTANTS.AVATAR_SIZES.MEDIUM} rounded-full object-center`}
         />
         <div className="flex flex-col w-full">
           <h1 className="text-lg sm:text-xl font-bold">{user?.username}</h1>
