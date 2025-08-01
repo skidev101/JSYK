@@ -1,4 +1,4 @@
-import Card from "@/shared/components/Card/Card";
+// import Card from "@/shared/components/Card/Card";
 import NewTopicForm from "../NewTopicForm";
 import TopicPreview from "../TopicPreview";
 import { useState } from "react";
@@ -10,8 +10,8 @@ const NewTopic = () => {
   const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-2">
-      <Card>
+    <div className="flex flex-col sm:flex-row items-center bg-gray-200 mt-20 p-2 gap-6">
+      
         <NewTopicForm
           topic={topic}
           setTopic={setTopic}
@@ -22,14 +22,14 @@ const NewTopic = () => {
           topicImgFiles={topicImgFiles}
           setTopicImgFiles={setTopicImgFiles}
         />
-      </Card>
-      <Card>
+      
+      
         <TopicPreview
           topic={topic}
           themeColor={themeColor}
           topicImgPreviews={topicImgPreviews}
         />
-      </Card>
+      
     </div>
   );
 };

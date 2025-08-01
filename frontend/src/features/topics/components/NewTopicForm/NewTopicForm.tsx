@@ -95,16 +95,14 @@ const NewTopicForm = ({
   };
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col md:flex-row bg-gray-300 w-full gap-5 rounded-xl mt-20 p-2 pt-4 sm:p-6">
-        <div className="">
+    <div className="w-full min-w-max sm:max-w-max h-full">
           <FadeDown>
-            <div className="w-full max-w-lg rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white ">
+            <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white ">
               <div className="flex justify-between items-center ">
                 <h1 className="text-2xl sm:text-3xl">New topic</h1>
                 <button
                   onClick={() => navigate("/")}
-                  className="grid place-items-center w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-xl hover:bg-gray-300 transition duration-200"
+                  className="grid place-items-center w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-xl hover:bg-gray-200 transition duration-200"
                 >
                   <X size={20} />
                 </button>
@@ -212,8 +210,7 @@ const NewTopicForm = ({
               </div>
             </div>
           </FadeDown>
-        </div>
-      </div>
+      
 
       {selectedImage && (
         <div
