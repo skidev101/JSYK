@@ -56,12 +56,37 @@ const createTopic = async (req, res) => {
 const getUserTopics = async (req, res) => {
   try {
     const { uid } = req.user;
-    const topics = await Topic.find({ uid });
+    const page = parseInt(req.query.page || 1);
+    const limit = parseInt(req.query.limit || 10);
+
+    const skip = (page - 1) * limit;
+
+    const [topics, totalCount] = await Promise.all([
+      Topic.findOne({ uid })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit),
+      Topic.countDocument({ uid })
+    ])
+
+    if (!topics || totalCount === 0) {
+      return res.status(200).json({
+        success: true,
+        topics: [],
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          pages: 0,
+        },
+        totalCount: 0
+      });
+    }
 
     res.status(200).json({
       success: true,
       topics: topics,
-      topicsCount: topics.length,
+      topicsCount: totalCount,
       message: topics.length ? undefined : "No topics yet",
     });
   } catch (err) {
