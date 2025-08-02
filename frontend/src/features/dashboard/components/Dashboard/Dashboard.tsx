@@ -1,15 +1,16 @@
-import Card from "@/shared/components/Card/Card";
 import UserProfile from "../Userprofile";
 import MessageCard from "../MessageCard";
 // import ProfileDrawer from "../ProfileDrawer";
 import { useAuth } from "@/context/AuthContext";
 import { useDashboardData } from "../../hooks/useDashboardData";
 import { MessageCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { data, loading, error, refetch } = useDashboardData();
   const messages = data.messages;
+  const navigate = useNavigate();
 
   // if (!user) return;
 
@@ -36,17 +37,21 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="bg-gray-200 mt-20 flex flex-col sm:flex-row gap-3 p-4 rounded-md">
-      <UserProfile user={user} />
+    <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
+      <UserProfile 
+        user={user} 
+        onCreateWithTopic={() => navigate('/new-topic')}
+      />
 
-      <div className="flex flex-col bg-white w-full rounded-xl p-4">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
+        <div className="flex items-center gap-1 mt-2 ml-1">
           <MessageCircle size={20} />
-          <h1 className="text-xl rounded-xl">Messages</h1>
+          <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 p-4 bg-gray-200 rounded-xl max-h-[100vh] overflow-y-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
           {messages.map((message) => (
             <MessageCard
+              key={message._id}
               message={message.content}
               messageId={message._id}
               isRead={message.isRead}

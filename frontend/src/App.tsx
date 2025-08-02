@@ -19,7 +19,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route index element={<DashboardPage />} />
-          <Route path="/new" element={<NewTopicPage />} />
+          <Route path="/new-topic" element={<NewTopicPage />} />
           <Route path="/view/:messageId" element={<ViewMessagePage />} />
           {/* <Route path="/topics" element={<ViewTopics />} /> */}
         </Route>

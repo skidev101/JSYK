@@ -23,7 +23,7 @@ export const useViewMessage = (messageId: string) => {
     const fetchMessage = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:3000/api/messages/${messageId}`,
+          `http://127.0.0.1:3000/api/message/${messageId}`,
           {
             headers: {
               Authorization: `Bearer ${user?.idToken}`,
