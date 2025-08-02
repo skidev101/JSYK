@@ -10,35 +10,37 @@ interface createTopicProps {
   topicImgUrls?: string[];
 }
 
-export const useCreateTopic = async ({
-  topic,
-  themeColor,
-  topicImgUrls,
-}: createTopicProps) => {
+export const useCreateTopic = () => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  try {
-    setLoading(true);
-    const response = await axios.post(
-      `${APP_CONFIG.API}/topics`,
-      {
-        topic: topic,
-        themeColor: themeColor,
-        topicImgUrls: topicImgUrls,
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user?.idToken}`,
+  const createTopic = async ({ topic, themeColor, topicImgUrls }: createTopicProps) => {
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `${APP_CONFIG.API}/topics`,
+        {
+          topic,
+          themeColor,
+          topicImgUrls
         },
-      }
-    );
-    setLoading(false);
-    return { response, loading };
-  } catch (err: any) {
-    const error = err as AxiosError;
-    console.log("error at useCreateTopic:", error);
-    toast.error("An unknown error occured:", err.message);
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user?.idToken}`,
+          },
+        }
+      );
+      setLoading(false);
+      return response
+    } catch (err: any) {
+      const error = err as AxiosError;
+      console.log("error at useCreateTopic:", error);
+      toast.error("An unknown error occured:", err.message);
+    }
   }
+
+  return { createTopic, loading }
+
 };

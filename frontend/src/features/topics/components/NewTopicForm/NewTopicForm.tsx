@@ -34,13 +34,10 @@ const NewTopicForm = ({
   // topicImageRef
 }: NewTopicFormProps) => {
   const navigate = useNavigate();
-  // const [topic, setTopic] = useState("");
   const [topicError, setTopicError] = useState("");
   const [loading, setLoading] = useState(false);
-  // const [themeColor, setThemeColor] = useState("#3570F8");
-  // const [topicImgFiles, setTopicImgFiles] = useState<File[]>([]);
-  // const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const { createTopic } = useCreateTopic();
 
   const topicImageRef = useRef<HTMLInputElement | null>(null);
 
@@ -67,7 +64,7 @@ const NewTopicForm = ({
     setTopicImgPreviews(updatedPreviews);
   };
 
-  const createTopic = async () => {
+  const handleCreateTopic = async () => {
     if (!topic.trim()) {
       setTopicError("Topic is required");
       return;
@@ -76,21 +73,29 @@ const NewTopicForm = ({
     setLoading(true);
 
     try {
+      let uploadedImgUrls: string[] | undefined;
       if (topicImgFiles.length) {
         const uploadResult = await useUploadImage(topicImgFiles);
+        if (uploadResult) {
+          uploadedImgUrls = uploadResult;
+
+        }
         console.log("result from image upload at topicForm:", uploadResult);
       }
 
       const payload = {
         topic,
         themeColor,
+        topicImgUrls: uploadedImgUrls
       };
 
-      await useCreateTopic(payload);
+      await createTopic(payload);
       toast.success("Topic created");
       navigate("/");
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -194,7 +199,7 @@ const NewTopicForm = ({
 
                 <button
                   disabled={loading}
-                  onClick={createTopic}
+                  onClick={handleCreateTopic}
                   className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg ${
                     loading
                       ? "bg-blue-300 cursor-not-allowed"
