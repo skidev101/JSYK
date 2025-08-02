@@ -19,7 +19,7 @@ const MessageCard = ({
   return (
     <div
       onClick={() => navigate(`/view/${messageId}`)}
-      className="relative rounded-lg bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200"
+      className="relative rounded-xl bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200 shadow"
     >
       {isRead && (
         <div className="hidden absolute top-0 left-0 w-full h-full opacity-[0.3] bg-gray-50 rounded-lg z-50">
@@ -31,7 +31,7 @@ const MessageCard = ({
           <div className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 outline-4 outline-gray-100 rounded-full">
             <p className="text-sm sm:text-base">J</p>
           </div>
-          <h1 className="text:md sm:text-lg text-gray-700">anonymous</h1>
+          <h1 className="text:md sm:text-lg text-gray-700 rounded-xl bg-gray-100 px-2 sm:px-3">anonymous</h1>
         </div>
         <button className="w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-100 text-gray-700 rounded-xl cursor-pointer hover:bg-gray-200 hover:scale-[1.01] active:scale-[0.98] transition duration-150">
           <DownloadCloudIcon size={18} />
@@ -43,7 +43,7 @@ const MessageCard = ({
           {topic}
         </p>
         <div className="w-full bg-gray-100 p-3 mt-1 rounded-xl">
-          <p className="text-sm sm:text-base">{message}</p>
+          <p className="text-sm sm:text-base truncate">{message}</p>
         </div>
         {/* <div className="flex items-center gap-2 mt-2">
           <p className="text-sm max-w-max rounded-xl text-gray-500 bg-gray-100 px-2 sm:px-3">

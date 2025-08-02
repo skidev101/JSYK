@@ -4,25 +4,26 @@ import MessageCard from "../MessageCard";
 // import ProfileDrawer from "../ProfileDrawer";
 import { useAuth } from "@/context/AuthContext";
 import { useDashboardData } from "../../hooks/useDashboardData";
+import { MessageCircle } from "lucide-react";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { data, loading, error, refetch } = useDashboardData();
   const messages = data.messages;
 
-  if (!user) return;
+  // if (!user) return;
 
   if (loading) {
     return (
       <div className="flex justify-center items-center p-8">
-        <div className="text-lg">Loading dashboard...</div>
+        <div className="text-lg mt-20">Loading dashboard...</div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center p-8">
+      <div className="flex justify-center items-center p-8 mt-20">
         <div className="text-lg">An error occured</div>
         <button
           onClick={() => refetch()}
@@ -35,20 +36,24 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="mt-20 flex flex-col sm:flex-row gap-2">
-      <Card>
-        <UserProfile user={user} />
-      </Card>
-      <Card>
-         <h1>Messages</h1>
-        {messages.map((message) => (
-            <MessageCard 
-               message={message.content}
-               messageId={message._id}
-               isRead={message.isRead}
+    <div className="bg-gray-200 mt-20 flex flex-col sm:flex-row gap-2 p-4 rounded-md">
+      <UserProfile user={user} />
+
+      <div className="flex flex-col bg-gray-300 w-full rounded-xl p-4">
+        <div className="flex items-center gap-2">
+          <MessageCircle size={20} />
+          <h1 className="text-xl rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">Messages</h1>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
+          {messages.map((message) => (
+            <MessageCard
+              message={message.content}
+              messageId={message._id}
+              isRead={message.isRead}
             />
-        ))}
-      </Card>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

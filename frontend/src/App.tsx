@@ -6,9 +6,10 @@ import RegisterPage from "./pages/RegisterPage";
 import DashboardPage from "./pages/DashboardPage";
 import NewTopicPage from "./pages/NewTopicPage";
 import NotFoundPage from "./pages/NotFoundPage";
-// import SendMessage from "./pages/SendMessage";
+import SendMessagePage from "./pages/SendMessagePage";
 // import ViewTopics from "./features/dashboard/components/TopicLinksList/TopicList";
-// import UserProfile from "./pages/UserProfile";
+import UserProfilePage from "./pages/UserProfilePage";
+import ViewMessagePage from "./pages/ViewMessagePage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -19,13 +20,13 @@ const App = () => {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<DashboardPage />} />
           <Route path="/new" element={<NewTopicPage />} />
-          {/* <Route path="/view/:messageId" element={<ViewMessage />} /> */}
+          <Route path="/view/:messageId" element={<ViewMessagePage />} />
           {/* <Route path="/topics" element={<ViewTopics />} /> */}
         </Route>
 
-        {/* <Route path="/:profileSlug" element={<UserProfile />} /> */}
-        {/* <Route path="/m/:profileSlug/:slug" element={<SendMessage />} /> */}
-        {/* <Route path="/m/:profileSlug" element={<SendMessage />} /> */}
+        <Route path="/:profileSlug" element={<UserProfilePage />} />
+        <Route path="/m/:profileSlug/:slug" element={<SendMessagePage />} />
+        <Route path="/m/:profileSlug" element={<SendMessagePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />

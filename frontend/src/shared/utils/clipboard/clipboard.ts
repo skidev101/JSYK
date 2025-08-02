@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { APP_CONFIG } from "../constants/config";
+import { APP_CONFIG } from "@/shared/constants/config";
 
 export const copyToClipboard = async (path: string): Promise<boolean> => {
   try {

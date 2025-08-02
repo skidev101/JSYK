@@ -1,7 +1,7 @@
-import { SendMessageCard } from "@/features/messages"
+import { SendMessage } from "@/features/messages"
 
 const SendMessagePage = () => {
-  return <SendMessageCard />
+  return <SendMessage />
 }
 
 export default SendMessagePage

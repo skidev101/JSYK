@@ -4,19 +4,33 @@ import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useTopicData } from "../../hooks/useTopicData";
+import { useSendMessage } from "../../hooks/useSendMessage";
 
 
 const SendMessage = () => {
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
   const [messageToSend, setMessageToSend] = useState("");
-  const [loadingMessageData, setLoadingMessageData] = useState(false);
-  const [loadingSendMessage, setLoadingSendMessage] = useState(false);
-  const { data } = useTopicData(profileSlug, topicId);
+  const { data, loadingTopic, topicError } = useTopicData(profileSlug, topicId);
+  const { sendMessage, loading, success, error } = useSendMessage();
   const themeColor = "#3570F8"; 
 
-  if (loadingMessageData) return <div>Loading...</div>
+  if (loadingTopic) return <div>Loading...</div>
+  if (topicError) return <div>An error occured</div>
 
+  const handleSendMessage = async () => {
+    if (!profileSlug) return <div>Oops... That's not right</div>
+    await sendMessage({ profileSlug, topicId, messageToSend })
+
+    if (success) {
+      toast.success("Message sent");
+      setMessageToSend("");
+    }
+
+    if (error) {
+    toast.error(error);
+  }
+  }
   
 
   return (
@@ -31,7 +45,7 @@ const SendMessage = () => {
             topic={data?.topic}
             preview={false}
             inView={false}
-            loading={loadingSendMessage}
+            loading={loading}
             messageToSend={messageToSend}
             setMessageToSend={setMessageToSend}
             onSend={handleSendMessage}

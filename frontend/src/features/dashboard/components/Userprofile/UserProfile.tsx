@@ -5,7 +5,7 @@ import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 import ActionButtons from "./ActionButtons";
 
 interface UserProfileProps {
-  user: User;
+  user: User | null; // remember to change from null
   onCopyLink?: () => void;
   onCopyWithImage?: () => void;
   onCreateWithTopic?: () => void;
@@ -18,7 +18,7 @@ const UserProfile = ({
   onCopyWithImage,
 }: UserProfileProps) => {
   return (
-    <div className="flex flex-col bg-white w-full max-w-md p-4 sm:p-6 rounded-xl">
+    <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">
       <div className="flex items-center gap-2 w-full rounded-lg">
         <img
           src={user?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
