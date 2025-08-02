@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { useAuth } from "../../../../context/AuthContext";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
-import { validateUsername } from "@/shared/utils/validators//validateUsername";
+import { validateUsername } from "@/shared/utils/validateUsername";
 
 
 const Register = () => {

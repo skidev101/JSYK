@@ -3,7 +3,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 
-interface RecentLink {
+export interface Topic {
   _id: string;
   url: string;
   createdAt: string;
@@ -20,7 +20,7 @@ interface Message {
 }
 
 interface DashboardData {
-  recentLinks: RecentLink[];
+  topics: Topic[];
   messages: Message[];
   pagination: string;
   unreadCount: string;
@@ -36,7 +36,7 @@ interface fetchOptions {
 export const useDashboardData = () => {
   const { user } = useAuth();
   const [data, setData] = useState<DashboardData>({
-    recentLinks: [],
+    topics: [],
     messages: [],
     pagination: "",
     unreadCount: "0",
@@ -63,7 +63,7 @@ export const useDashboardData = () => {
           },
         };
 
-        const [recentLinksRes, messagesRes] = await Promise.all([
+        const [topicsRes, messagesRes] = await Promise.all([
           axios.get("http://127.0.0.1:3000/api/topic", config),
           axios.get(
             `http://127.0.0.1:3000/api/message?page=${page}&limit=${limit}${
@@ -73,7 +73,7 @@ export const useDashboardData = () => {
           ),
         ]);
 
-        const topics = recentLinksRes.data.topics || [];''
+        const topics = topicsRes.data.topics || [];''
         const transformedTopics = topics.map((topic: any) => ({
           _id: topic._id,
           url: topic.topicLink,
@@ -84,7 +84,7 @@ export const useDashboardData = () => {
         const newMessages = messagesRes.data.messages || [];
 
         setData((prev) => ({
-          recentLinks: transformedTopics,
+          topics: transformedTopics,
           messages: append ? [...prev.messages, ...newMessages] : newMessages,
           unreadCount: messagesRes.data.unreadCount || 0,
           pagination: messagesRes.data.pagination || "",

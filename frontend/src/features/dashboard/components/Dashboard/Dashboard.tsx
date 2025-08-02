@@ -5,11 +5,14 @@ import { useAuth } from "@/context/AuthContext";
 import { useDashboardData } from "../../hooks/useDashboardData";
 import { MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
+import RecentTopicLinks from "../RecentTopicLinks";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { data, loading, error, refetch } = useDashboardData();
   const messages = data.messages;
+  const groupedLinks = groupTopicsByDate(data.topics)
   const navigate = useNavigate();
 
   // if (!user) return;
@@ -38,10 +41,16 @@ const Dashboard = () => {
 
   return (
     <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
-      <UserProfile 
-        user={user} 
-        onCreateWithTopic={() => navigate('/new-topic')}
-      />
+      <div className="flex flex-col gap-2">
+        <UserProfile 
+          user={user} 
+          onCreateWithTopic={() => navigate('/new-topic')}
+        />
+
+        <RecentTopicLinks 
+          groupedLinks={groupedLinks}
+        />
+      </div>
 
       <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
         <div className="flex items-center gap-1 mt-2 ml-1">

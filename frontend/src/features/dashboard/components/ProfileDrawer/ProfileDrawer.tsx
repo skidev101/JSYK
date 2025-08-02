@@ -13,7 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../../context/AuthContext";
-import { uploadToImageKit } from "@/shared/utils/upload/uploadImage";
+import { uploadToImageKit } from "@/shared/utils/uploadImage";
 import axios from "axios";
 
 interface ProfileDrawerProps {

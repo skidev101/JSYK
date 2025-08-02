@@ -1,29 +1,14 @@
-import toast from "react-hot-toast";
-import { useAuth } from "../../../../context/AuthContext";
-import { useDashboardData } from "@/features/dashboard/hooks/useDashboardData";
-import { copyToClipboard } from "@/shared/utils/clipboard/clipboard";
-import { groupLinksByDate } from "@/shared/utils/date/groupByDate";
+import { copyToClipboard } from "@/shared/utils/clipboard";
 import { Copy, Link2, Loader2, RefreshCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const TopicList = () => {
-  const { user } = useAuth();
-  console.log(user);
-  const { data, loading, error, refetch } = useDashboardData();
-  const groupedLinks = groupLinksByDate(data.recentLinks);
+// interface TopicListProps {
+//   loading: boolean;
+//   error: string;
+// }
+
+const TopicsList = () => {
   const navigate = useNavigate();
-
-  if (loading) return <div className="text-md">Loading...</div>;
-  if (error) return <div className="text-md">An error occured</div>;
-
-  const handleCopy = async (url: string) => {
-    const success = await copyToClipboard(`https://something.me/${url}`);
-    if (success) {
-      toast.success("Copied!");
-    } else {
-      toast.error("Error copying");
-    }
-  };
 
   return (
     <div className="flex justify-center items-center w-full min-h-[100vh] flex-col">
@@ -88,7 +73,7 @@ const TopicList = () => {
                       <p className="text-sm sm:text-base">{link.url}</p>
                     </div>
                     <button
-                      onClick={() => handleCopy(link.url)}
+                      onClick={() => copyToClipboard(link.url)}
                       className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
                     >
                       <Copy size={18} />
@@ -104,4 +89,4 @@ const TopicList = () => {
   );
 };
 
-export default TopicList;
+export default TopicsList;

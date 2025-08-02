@@ -72,30 +72,7 @@
 //               </button>
 //             </div>
 //           ) : (
-//             Object.entries(groupedLinks).map(([date, links]) => (
-//               <div key={date}>
-//                 <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
-//                   {date}
-//                 </p>
-//                 {links.map((link) => (
-//                   <div
-//                     key={link._id}
-//                     className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
-//                   >
-//                     <div className="flex items-center gap-2">
-//                       <Link2 size={18} />
-//                       <p className="text-sm sm:text-base">{link.url}</p>
-//                     </div>
-//                     <button
-//                       onClick={() => handleCopy(link.url)}
-//                       className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
-//                     >
-//                       <Copy size={18} />
-//                     </button>
-//                   </div>
-//                 ))}
-//               </div>
-//             ))
+//             
 //           )}
 //         </div>
 //       </div>

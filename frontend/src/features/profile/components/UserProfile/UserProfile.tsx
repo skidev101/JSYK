@@ -1,20 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
-import { copyToClipboard } from "@/shared/utils/clipboard/clipboard";
-
-
+import { copyToClipboard } from "@/shared/utils/clipboard";
 
 const UserProfile = () => {
   const { profileSlug } = useParams();
-  if (!profileSlug) return <div>Oops... that must be an error</div>
+  if (!profileSlug) return <div>Oops... that must be an error</div>;
   const navigate = useNavigate();
   const { userProfile, loading, error } = useFetchUserProfile(profileSlug);
 
-
-  if (loading) return <div>Loading...</div>
-  if (error) return <div>An error occured</div>
-
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>An error occured</div>;
 
   return (
     <FadeIn>
