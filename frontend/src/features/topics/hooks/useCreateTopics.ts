@@ -19,7 +19,7 @@ export const useCreateTopic = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `${APP_CONFIG.API}/topics`,
+        `${APP_CONFIG.API}/topic`,
         {
           topic,
           themeColor,
@@ -28,7 +28,7 @@ export const useCreateTopic = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.idToken}`,
+            "Authorization": `Bearer ${user?.idToken}`,
           },
         }
       );
