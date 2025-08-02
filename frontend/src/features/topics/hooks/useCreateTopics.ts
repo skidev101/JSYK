@@ -33,6 +33,7 @@ export const useCreateTopic = () => {
         }
       );
       setLoading(false);
+      console.log("response from create topic:", response)
       return response
     } catch (err: any) {
       const error = err as AxiosError;
