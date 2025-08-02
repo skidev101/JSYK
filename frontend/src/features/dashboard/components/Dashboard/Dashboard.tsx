@@ -36,15 +36,15 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="bg-gray-200 mt-20 flex flex-col sm:flex-row gap-2 p-4 rounded-md">
+    <div className="bg-gray-200 mt-20 flex flex-col sm:flex-row gap-3 p-4 rounded-md">
       <UserProfile user={user} />
 
-      <div className="flex flex-col bg-gray-300 w-full rounded-xl p-4">
+      <div className="flex flex-col bg-white w-full rounded-xl p-4">
         <div className="flex items-center gap-2">
           <MessageCircle size={20} />
-          <h1 className="text-xl rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">Messages</h1>
+          <h1 className="text-xl rounded-xl">Messages</h1>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 p-4 bg-gray-200 rounded-xl max-h-[100vh] overflow-y-auto">
           {messages.map((message) => (
             <MessageCard
               message={message.content}
