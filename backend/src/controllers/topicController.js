@@ -31,7 +31,7 @@ const createTopic = async (req, res) => {
       topicId,
       topicLink,
       themeColor: themeColor || null,
-      topicImgUrl: topicImgUrl || null,
+      topicImgUrl: topicImgUrls || null,
     });
 
     console.log("new topic created:", newTopic);

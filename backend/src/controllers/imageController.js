@@ -8,7 +8,7 @@ const imageKit = new ImageKit({
 
 const getImageUploadSignature = async (req, res) => {
    try {
-      const result = await imageKit.getAuthenticationParameters();
+      const result = imageKit.getAuthenticationParameters();
 
       res.status(200).json({
          success: true,
