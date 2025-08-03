@@ -12,7 +12,8 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { data, loading, error, refetch } = useDashboardData();
   const messages = data.messages;
-  const groupedLinks = groupTopicsByDate(data.topics)
+  const groupedTopics = groupTopicsByDate(data.topics);
+  // const lastFiveTopics = groupedTopics.slice(0, 5);
   const navigate = useNavigate();
 
   // if (!user) return;
@@ -48,7 +49,7 @@ const Dashboard = () => {
         />
 
         <RecentTopicLinks 
-          groupedLinks={groupedLinks}
+          groupedTopicLinks={groupedTopics}
         />
       </div>
 

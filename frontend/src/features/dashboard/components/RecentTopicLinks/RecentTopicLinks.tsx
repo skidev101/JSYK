@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import type { Topic } from "../../hooks/useDashboardData";
 
 interface RecentTopicLinksProps {
-  groupedLinks: Record<string, Topic[]>
+  groupedTopicLinks: Record<string, Topic[]>
 }
 
-const RecentTopicLinks = ({ groupedLinks }: RecentTopicLinksProps) => {
+const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
+  // const lastFiveTopics = groupedTopicLinks.slice(0, 5);
   const navigate = useNavigate();
 
   return (
@@ -26,7 +27,7 @@ const RecentTopicLinks = ({ groupedLinks }: RecentTopicLinksProps) => {
         </button>
       </div>
 
-      {Object.entries(groupedLinks).map(([date, links]) => (
+      {Object.entries(groupedTopicLinks).map(([date, links]) => (
         <div key={date}>
           <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
             {date}

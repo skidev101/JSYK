@@ -1,13 +1,19 @@
 import { copyToClipboard } from "@/shared/utils/clipboard";
 import { Copy, Link2, Loader2, RefreshCcw } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useDashboardData } from "@/features/dashboard/hooks/useDashboardData";
+import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 
 // interface TopicListProps {
 //   loading: boolean;
 //   error: string;
+//   onRefetch: () => void;
+//   groupedLinks: Record<string, Topic[]>;
 // }
 
 const TopicsList = () => {
+  const { data, loading, error, refetch } = useDashboardData();
+  const groupedTopics = groupTopicsByDate(data.topics);
   const navigate = useNavigate();
 
   return (
@@ -37,7 +43,7 @@ const TopicsList = () => {
             <div className="flex justify-center items-center p-2 text-red-500">
               An error occured
             </div>
-          ) : Object.keys(groupedLinks).length === 0 ? (
+          ) : Object.keys(groupedTopics).length === 0 ? (
             <div className="flex flex-col items-center justify-center text-center py-10">
               <img
                 src="/box.png"
@@ -58,7 +64,7 @@ const TopicsList = () => {
               </button>
             </div>
           ) : (
-            Object.entries(groupedLinks).map(([date, links]) => (
+            Object.entries(groupedTopics).map(([date, links]) => (
               <div key={date}>
                 <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
                   {date}

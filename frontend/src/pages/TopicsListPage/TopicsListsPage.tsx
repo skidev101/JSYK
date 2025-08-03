@@ -1,4 +1,6 @@
-import { TopicList } from "@/features/topics/components"
+import { TopicList } from "@/features/topics"
+
+
 
 const TopicsPage = () => {
   return <TopicList />

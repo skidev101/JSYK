@@ -26,9 +26,9 @@ const UserProfile = ({
           className={`${UI_CONSTANTS.AVATAR_SIZES.SMALL} ${UI_CONSTANTS.AVATAR_SIZES.MEDIUM}`} //still check this later
         />
         <div className="flex flex-col w-full">
-          <h1 className="text-lg sm:text-xl font-bold">{user?.username}</h1>
+          <h1 className="text-lg sm:text-xl font-bold">{user?.username || "loading..."}</h1>
           <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
-            <p>{`${APP_CONFIG.BASE_URL}/${user?.somethingLink}`}</p>
+            <p>{`${APP_CONFIG.BASE_URL}/${user?.somethingLink}` || "loading..."}</p>
             <button
               onClick={onCopyLink}
               title="copy link"
