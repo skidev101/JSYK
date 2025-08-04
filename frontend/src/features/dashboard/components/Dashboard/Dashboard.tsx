@@ -7,50 +7,56 @@ import { MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import RecentTopicLinks from "../RecentTopicLinks";
+import { HashLoader } from "react-spinners";
+import Error from "@/shared/components/Error";
 
 const Dashboard = () => {
   const { user } = useAuth();
   const { data, loading, error, refetch } = useDashboardData();
   const messages = data.messages;
-  const groupedTopics = groupTopicsByDate(data.topics);
-  // const lastFiveTopics = groupedTopics.slice(0, 5);
+
+  const lastFiveTopics = [...data.topics]
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    )
+    .slice(0, 5);
+
+  const groupedTopics = groupTopicsByDate(lastFiveTopics);
   const navigate = useNavigate();
 
   // if (!user) return;
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center p-8">
-        <div className="text-lg mt-20">Loading dashboard...</div>
+      <div className="flex justify-center items-center min-h-[100vh] p-8">
+        <HashLoader size={40} color="#000" />
+        {/* <div className="text-lg">Loading dashboard...</div> */}
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex justify-center items-center p-8 mt-20">
-        <div className="text-lg">An error occured</div>
-        <button
-          onClick={() => refetch()}
-          className="px-4 py-2 mt-60 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Retry
-        </button>
-      </div>
+      <Error
+        errorMessage="An unknown error occured"
+        imgSrc="/empty-box.png"
+        altText="error"
+        imgStyles="w-35 h-35"
+        clickAction={refetch}
+      />
     );
   }
 
   return (
     <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
       <div className="flex flex-col gap-2">
-        <UserProfile 
-          user={user} 
-          onCreateWithTopic={() => navigate('/new-topic')}
+        <UserProfile
+          user={user}
+          onCreateWithTopic={() => navigate("/new-topic")}
         />
 
-        <RecentTopicLinks 
-          groupedTopicLinks={groupedTopics}
-        />
+        <RecentTopicLinks groupedTopicLinks={groupedTopics} />
       </div>
 
       <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">

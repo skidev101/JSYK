@@ -7,9 +7,9 @@ import DashboardPage from "./pages/DashboardPage";
 import NewTopicPage from "./pages/NewTopicPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import SendMessagePage from "./pages/SendMessagePage";
-// import ViewTopics from "./features/dashboard/components/TopicLinksList/TopicList";
 import UserProfilePage from "./pages/UserProfilePage";
 import ViewMessagePage from "./pages/ViewMessagePage";
+import TopicsListPage from "./pages/TopicsListPage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -21,7 +21,7 @@ const App = () => {
           <Route index element={<DashboardPage />} />
           <Route path="/new-topic" element={<NewTopicPage />} />
           <Route path="/view/:messageId" element={<ViewMessagePage />} />
-          {/* <Route path="/topics" element={<ViewTopics />} /> */}
+          <Route path="/topics" element={<TopicsListPage />} />
         </Route>
 
         <Route path="/:profileSlug" element={<UserProfilePage />} />

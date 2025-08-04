@@ -13,6 +13,7 @@ import {
 import MessageCard from "@/shared/components/Message/MessageCard";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useViewMessage } from "../../hooks/useViewMessage";
+import { HashLoader } from "react-spinners";
 
 
 
@@ -24,8 +25,13 @@ const ViewMessage = () => {
   const navigate = useNavigate();
 
   
-
-  if (loading) return <div className="text-md mt-40 mr-20">Loading...</div>;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-[100vh]">
+        <HashLoader size={40} color="#000"/>
+      </div>
+    )
+  }
   if (error) return <div className="text-md mt-40 mr-20">An error occured</div>;
 
   return (

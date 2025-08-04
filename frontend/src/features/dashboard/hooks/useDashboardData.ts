@@ -59,7 +59,7 @@ export const useDashboardData = () => {
 
         const config = {
           headers: {
-            Authorization: `Bearer ${user?.idToken}`,
+            "Authorization": `Bearer ${user?.idToken}`,
           },
         };
 

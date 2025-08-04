@@ -2,8 +2,8 @@ import { TopicList } from "@/features/topics"
 
 
 
-const TopicsPage = () => {
+const TopicsListPage = () => {
   return <TopicList />
 }
 
-export default TopicsPage
+export default TopicsListPage

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { Topic } from "../../hooks/useDashboardData";
 
 interface RecentTopicLinksProps {
-  groupedTopicLinks: Record<string, Topic[]>
+  groupedTopicLinks: Record<string, Topic[]>;
 }
 
 const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
@@ -14,14 +14,14 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
   return (
     <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 mt-2 ml-1">
+        <div className="flex items-center gap-1 py-2 ml-1">
           <Link2 size={20} />
           <h1 className="text-lg sm:text-xl rounded-xl">Recent Links</h1>
         </div>
 
         <button
           onClick={() => navigate("/topics")}
-          className="px-2 py-1 hover:bg-gray-100 rounded-md transition-all active:scale-95"
+          className="text-sm px-2 py-1 hover:bg-gray-100 rounded-md transition-all active:scale-95 cursor-pointer"
         >
           see all
         </button>
