@@ -9,6 +9,7 @@ const profileRoutes = require('./routes/profileRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const imageRoute = require('./routes/imageRoute');
+require('./jobs/imageCleaner');     // cron job
 
 app.use(cors(corsConfig));
 
@@ -22,6 +23,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/topic', topicRoutes);
 app.use('/api/image/sign', imageRoute);
+
 
 app.get('/', (req, res) => {
     res.send('something API is now live!');

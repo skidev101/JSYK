@@ -1,10 +1,4 @@
-const ImageKit = require('imagekit');
-
-const imageKit = new ImageKit({
-   publicKey: process.env.IMAGEKIT_PUBLIC_KEY,
-   privateKey: process.env.IMAGEKIT_PRIVATE_KEY,
-   urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
-});
+const imageKit = require('../config/imageKit');
 
 const getImageUploadSignature = async (req, res) => {
    try {

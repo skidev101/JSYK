@@ -31,7 +31,13 @@ const topicSchema = new mongoose.Schema({
     default: null
   },
   topicImgUrls: {
-    type: [String],
+    type: [
+      {
+        url: String,
+        fileId: String,
+        expiresAt: Date
+      }
+    ],
     default: undefined
   },
   isActive: {

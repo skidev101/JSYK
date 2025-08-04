@@ -3,6 +3,7 @@ const Topic = require("../models/Topic");
 const Message = require("../models/Message");
 const slugify = require("slugify");
 const { customAlphabet } = require("nanoid");
+const { imageKit } = require("./imageController");
 const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 8);
 
 const createTopic = async (req, res) => {
@@ -23,6 +24,13 @@ const createTopic = async (req, res) => {
     const topicId = nanoid();
     const topicLink = `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
 
+    const now = new Date();
+    const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
+    const topicImgUrlsWithExpiry = (topicImgUrls || []).map((img) => ({
+      ...img,
+      expiresAt: expiryDate
+    }))
+
     const newTopic = await Topic.create({
       uid,
       profileSlug: user.profileSlug,
@@ -31,7 +39,7 @@ const createTopic = async (req, res) => {
       topicId,
       topicLink,
       themeColor: themeColor || null,
-      topicImgUrl: topicImgUrls || null,
+      topicImgUrls: topicImgUrlsWithExpiry
     });
 
     console.log("new topic created:", newTopic);
@@ -41,7 +49,7 @@ const createTopic = async (req, res) => {
       topicId: topicId,
       topic: topic,
       link: topicLink,
-      message: "Topic created successfully",
+      message: "Topic created successfully"
     });
   } catch (err) {
     console.error("Error creating topic:", err);
@@ -62,11 +70,11 @@ const getUserTopics = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const [topics, totalCount] = await Promise.all([
-      Topic.findOne({ uid })
+      Topic.find({ uid })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit),
-      Topic.countDocument({ uid })
+      Topic.countDocuments({ uid })
     ])
 
     if (!topics || totalCount === 0) {
@@ -136,8 +144,8 @@ const getTopic = async (req, res) => {
 
 const deleteTopic = async (req, res) => {
   try {
-    // const { uid } = req.user;
-    const { uid, topicId } = req.query;
+    const { uid } = req.user;
+    const { topicId } = req.params;
 
     const deletedTopic = await Topic.findOneAndDelete({ uid, topicId });
     if (!deletedTopic) {
@@ -146,6 +154,16 @@ const deleteTopic = async (req, res) => {
         message: "Topic not found",
         code: "TOPIC_NOT_FOUND",
       });
+    }
+
+    if (deletedTopic.topicImgUrls?.length) {
+      for (const img of deletedTopic.topicImgUrls) {
+        try {
+          imageKit.deleteFile(img.fileId)
+        } catch (err) {
+          console.error("Failed to delete image:", img.url, err.message);
+        }
+      }
     }
 
     await Message.deleteMany({ uid, topicId });
