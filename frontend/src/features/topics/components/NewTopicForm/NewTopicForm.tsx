@@ -88,6 +88,8 @@ const NewTopicForm = ({
         topicImgUrls: uploadedImgUrls
       };
 
+      console.log("payload to backend:", payload);
+
       await createTopic(payload);
       toast.success("Topic created");
       navigate("/");
