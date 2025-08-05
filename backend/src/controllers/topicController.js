@@ -9,7 +9,8 @@ const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 8);
 const createTopic = async (req, res) => {
   try {
     const { uid } = req.user;
-    const { topic, themeColor, topicImgUrls } = req.body;
+    const { topic, themeColor } = req.body;
+    const imgUrls = req.body.topicImgUrls || [];
     const user = await User.findOne({ uid });
     if (!user) {
       return res.status(404).json({
@@ -29,8 +30,9 @@ const createTopic = async (req, res) => {
       console.log("topicImgUrls received:", topicImgUrls)
       const now = new Date();
       const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
-      topicImgUrlsWithExpiry = (topicImgUrls || []).map((img) => ({
-        ...img,
+      topicImgUrlsWithExpiry = imgUrls.map((img) => ({
+        url: img.url,
+        fileId: img.fileId,
         expiresAt: expiryDate
       }));
     }
