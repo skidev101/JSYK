@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useTopicData } from "../../hooks/useTopicData";
 import { useSendMessage } from "../../hooks/useSendMessage";
+import { HashLoader } from "react-spinners";
 
 
 const SendMessage = () => {
@@ -15,7 +16,14 @@ const SendMessage = () => {
   const { sendMessage, loading, success, error } = useSendMessage();
   const themeColor = "#3570F8"; 
 
-  if (loadingTopic) return <div>Loading...</div>
+  if (loadingTopic) {
+      return (
+        <div className="flex justify-center items-center min-h-[100vh] p-8">
+          <HashLoader size={40} color="#000" />
+          {/* <div className="text-lg">Loading dashboard...</div> */}
+        </div>
+      );
+    }
   if (topicError) return <div>An error occured</div>
 
   const handleSendMessage = async () => {
