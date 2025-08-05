@@ -1,43 +1,41 @@
-import ImageKit from "imagekit-javascript";
-import axios from "axios"
-import { APP_CONFIG } from "../constants/config";
+import {
+  uploadToImageKit,
+  type UploadResult,
+} from "../services/imageKit/uploadToImageKit";
+import toast from "react-hot-toast";
 
-interface UploadOptions {
-   file: File;
-   folder?: string;
+interface SuccessfulUploadsProps {
+  url: string;
+  fileId: string;
 }
 
-export interface UploadResult {
-   success: boolean;
-   url?: string;
-   fileId?: string;
-   file?: File;
-   error?: string
-}
+export const uploadImage = async (files: File[], folder: string) => {
+  if (!files) return;
 
+  try {
+    const results = await Promise.all(
+      files.map((file) => uploadToImageKit({ file, folder }))
+    );
+    const successfulUploads: SuccessfulUploadsProps[] = [];
+    const failedUploads: UploadResult[] = [];
 
-export const uploadToImageKit = async ({ file, folder }: UploadOptions): Promise<UploadResult> => {
-   try {
-      const { data } = await axios.get(`${APP_CONFIG.API}/image/sign`);
+    for (const res of results) {
+      if (res.success && res.url && res.fileId) {
+        successfulUploads.push({
+          url: res.url,
+          fileId: res.fileId,
+        });
+      } else {
+        failedUploads.push(res);
+      }
+    }
 
-      const imageKit = new ImageKit({
-         publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
-         urlEndpoint: import.meta.env.VITE_IMAGEKIT_URL_ENDPOINT 
-      });
+    if (failedUploads.length > 0) {
+      toast.error("Image upload error. Please retry");
+    }
 
-
-      const result = await imageKit.upload({
-         file,
-         fileName: file.name,
-         signature: data.signature,
-         token: data.token,
-         expire: data.expire,
-         folder
-      });   
-
-      return { success: true, url: result.url, fileId: result.fileId };
-   } catch (err: any) {
-      console.error("ImageKit Upload Error:", err);
-      return { success: false, file, error: err?.message || "Unknown error" }
-   }
-}
+    return successfulUploads;
+  } catch (err) {
+    console.error("Image error from useUploadImage:", err);
+  }
+};

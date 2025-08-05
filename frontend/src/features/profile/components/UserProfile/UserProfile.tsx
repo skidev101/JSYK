@@ -2,6 +2,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
 import { copyToClipboard } from "@/shared/utils/clipboard";
+import { HashLoader } from "react-spinners";
+import { APP_CONFIG } from "@/shared/constants/config";
 
 const UserProfile = () => {
   const { profileSlug } = useParams();
@@ -9,7 +11,11 @@ const UserProfile = () => {
   const navigate = useNavigate();
   const { userProfile, loading, error } = useFetchUserProfile(profileSlug);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) {
+    return (
+      <HashLoader size={30} color="#000" />
+    )
+  }
   if (error) return <div>An error occured</div>;
 
   return (
@@ -17,7 +23,7 @@ const UserProfile = () => {
       <div className="w-full flex flex-col justify-center items-center min-h-screen">
         <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-white shadow-xl border border-gray-100">
           <img
-            src="/form.webp"
+            src={userProfile?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
             alt="user"
             className="w-26 h-26 rounded-full object-cover p-1.5 border border-gray-200"
           />

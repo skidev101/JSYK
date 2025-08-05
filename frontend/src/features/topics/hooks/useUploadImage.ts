@@ -1,7 +1,7 @@
 import {
   uploadToImageKit,
   type UploadResult,
-} from "@/shared/utils/uploadImage";
+} from "@/shared/services/imageKit/uploadToImageKit";
 import toast from "react-hot-toast";
 
 export const useUploadImage = async (files: File[]) => {
@@ -9,7 +9,7 @@ export const useUploadImage = async (files: File[]) => {
 
   try {
     const results = await Promise.all(
-      files.map((file) => uploadToImageKit({ file, folder: "/topicImgs" }))
+      files.map((file) => uploadToImageKit({ file, folder: "/topicImages" }))
     );
     const successfulUploads: { url: string; fileId: string }[] = [];
     const failedUploads: UploadResult[] = [];
@@ -18,7 +18,7 @@ export const useUploadImage = async (files: File[]) => {
       if (res.success && res.url && res.fileId) {
         successfulUploads.push({
           url: res.url,
-          fileId: res.fileId
+          fileId: res.fileId,
         });
       } else {
         failedUploads.push(res);

@@ -2,9 +2,9 @@ import { useState, type ChangeEvent, useRef } from "react";
 import { Pencil, X, Plus, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
-import { useUploadImage } from "../../hooks/useUploadImage";
 import toast from "react-hot-toast";
 import { useCreateTopic } from "../../hooks/useCreateTopics";
+import { uploadImage } from "@/shared/utils/uploadImage";
 
 interface NewTopicFormProps {
   topic: string;
@@ -75,10 +75,9 @@ const NewTopicForm = ({
     try {
       let uploadedImgUrls: string[] | undefined;
       if (topicImgFiles.length) {
-        const uploadResult = await useUploadImage(topicImgFiles);
+        const uploadResult = await uploadImage(topicImgFiles, "/jsyk/topicImages");
         if (uploadResult) {
-          uploadedImgUrls = uploadResult;
-
+          uploadedImgUrls = uploadResult.map((img) => img.url);
         }
         console.log("result from image upload at topicForm:", uploadResult);
       }
