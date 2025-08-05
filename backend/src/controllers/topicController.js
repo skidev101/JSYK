@@ -24,11 +24,12 @@ const createTopic = async (req, res) => {
     const topicId = nanoid();
     const topicLink = `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
 
+    let topicImgUrlsWithExpiry = undefined;
     if (topicImgUrls) {
       console.log("topicImgUrls received:", topicImgUrls)
       const now = new Date();
       const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
-      const topicImgUrlsWithExpiry = (topicImgUrls || []).map((img) => ({
+      topicImgUrlsWithExpiry = (topicImgUrls || []).map((img) => ({
         ...img,
         expiresAt: expiryDate
       }));
