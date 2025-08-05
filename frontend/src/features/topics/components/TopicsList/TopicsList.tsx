@@ -18,7 +18,7 @@ const TopicsList = () => {
     );
   }
   const groupedTopics = groupTopicsByDate(data.topics);
-  if (!loading) {
+  if (!groupedTopics) {
     return (
       // <Error
       //   errorMessage="Create an anonymous link to see links here"

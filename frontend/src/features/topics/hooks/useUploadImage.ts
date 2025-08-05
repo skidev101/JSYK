@@ -11,12 +11,15 @@ export const useUploadImage = async (files: File[]) => {
     const results = await Promise.all(
       files.map((file) => uploadToImageKit({ file, folder: "/topicImgs" }))
     );
-    const successfulUrls: string[] = [];
+    const successfulUploads: { url: string; fileId: string }[] = [];
     const failedUploads: UploadResult[] = [];
 
     for (const res of results) {
-      if (res.success && res.url) {
-        successfulUrls.push(res.url);
+      if (res.success && res.url && res.fileId) {
+        successfulUploads.push({
+          url: res.url,
+          fileId: res.fileId
+        });
       } else {
         failedUploads.push(res);
       }
@@ -26,8 +29,8 @@ export const useUploadImage = async (files: File[]) => {
       toast.error("Image upload error. Please retry");
     }
 
-    return successfulUrls;
+    return successfulUploads;
   } catch (err) {
-    console.error("Image error from useUploadError:", err);
+    console.error("Image error from useUploadImage:", err);
   }
 };

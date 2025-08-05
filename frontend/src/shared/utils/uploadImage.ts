@@ -1,5 +1,6 @@
 import ImageKit from "imagekit-javascript";
 import axios from "axios"
+import { APP_CONFIG } from "../constants/config";
 
 interface UploadOptions {
    file: File;
@@ -17,8 +18,7 @@ export interface UploadResult {
 
 export const uploadToImageKit = async ({ file, folder }: UploadOptions): Promise<UploadResult> => {
    try {
-      const { data } = await axios.get('http://127.0.0.1:3000/api/image/sign');
-      console.log('image sign successfull')
+      const { data } = await axios.get(`${APP_CONFIG.API}/image/sign`);
 
       const imageKit = new ImageKit({
          publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,
