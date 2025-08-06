@@ -14,14 +14,20 @@ const validateCreateTopic = [
     .withMessage('Theme color must be a valid hex code'),
 
     body('topicImgUrls')
-      .optional()
-      .isArray({ max: 2 })
-      .withMessage('Images must be an array of at most 2 urls'),
-
-   body('topicImgUrls')
       .optional({ nullable: true })
+      .isArray({ max: 2 })
+      .withMessage('Images must be an array of at most 2 items'),
+
+    body('topicImgUrls.*.url')
+      .if(body('topicImgUrls').exists())
       .isURL()
-      .withMessage('Invalid URL')
+      .withMessage('Each image must have a valid URL'),
+
+    body('topicImgUrls.*.fileId')
+      .if(body('topicImgUrls').exists())
+      .optional()
+      .isString()
+      .withMessage('FileId must be a string if provided'),
 ];
 
 const validateTopicId = [

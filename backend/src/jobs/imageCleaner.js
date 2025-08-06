@@ -1,12 +1,15 @@
-const cron = require("node-cron");
 const Topic = require("../models/Topic");
+const imageKit = require('../config/imageKit');
+const cron = require('node-cron');
 
 
-cron.schedule("0 0 * * *", async () => {
+const imageCleanupJob = async () => {
     const now = new Date();
-    const deleteDate = new Date(now.setDate(now.getDate() - 15)); // 15 days ago
+    const deleteDate = new Date(now.getTime() - (1 * 60 * 1000)); // 15 days ago
 
     try {
+        console.log("now in img cleaner")
+        console.log(`Looking for topics older than: ${deleteDate}`); 
         const expiredTopics = await Topic.find({
             createdAt: { $lte: deleteDate },
             topicImgUrls: { $exists: true, $ne: [] }
@@ -25,10 +28,14 @@ cron.schedule("0 0 * * *", async () => {
             }
 
             topic.topicImgUrls = [];
-            await Topic.save();
+            await topic.save();
         }
         console.log("Image cleanup completed.");
     } catch (err) {
         console.error("Image cleanup job failed:", err);
     }
-});
+};
+
+cron.schedule("*/2 * * * *", imageCleanupJob);
+
+module.exports = { imageCleanupJob }

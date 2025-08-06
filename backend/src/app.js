@@ -9,7 +9,16 @@ const profileRoutes = require('./routes/profileRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const imageRoute = require('./routes/imageRoute');
-require('./jobs/imageCleaner');     // cron job
+
+app.get('/test/cleanup-images', async (req, res) => {
+    const { imageCleanupJob } = require('./jobs/imageCleaner');
+    try {
+        await imageCleanupJob();
+        res.json({ success: true, message: "Cleanup executed" });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
 
 app.use(cors(corsConfig));
 

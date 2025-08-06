@@ -26,8 +26,8 @@ const createTopic = async (req, res) => {
     const topicLink = `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
 
     let topicImgUrlsWithExpiry = undefined;
-    if (topicImgUrls) {
-      console.log("topicImgUrls received:", topicImgUrls)
+    if (imgUrls) {
+      console.log("topicImgUrls received:", imgUrls)
       const now = new Date();
       const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
       topicImgUrlsWithExpiry = imgUrls.map((img) => ({
