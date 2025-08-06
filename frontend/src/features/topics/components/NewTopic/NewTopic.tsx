@@ -10,7 +10,7 @@ const NewTopic = () => {
   const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col sm:flex-row items-center bg-gray-200 mt-20 p-2 gap-6">
+    <div className="flex flex-col sm:flex-row items-start bg-gray-200 mt-20 p-2 gap-6">
       
         <NewTopicForm
           topic={topic}

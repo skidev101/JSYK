@@ -49,7 +49,7 @@ const SendMessage = () => {
           <MessageCard
             username={data?.username}
             profileImgUrl={data?.profileImgUrl}
-            topicImgUrls={data?.topicImgUrls}
+            topicImgUrls={data?.topicImgUrls?.map(img => img.url)}
             topic={data?.topic}
             preview={false}
             inView={false}

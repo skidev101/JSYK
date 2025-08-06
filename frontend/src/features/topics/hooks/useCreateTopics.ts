@@ -3,11 +3,12 @@ import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import axios, { AxiosError } from "axios";
 import { APP_CONFIG } from "@/shared/constants/config";
+import type { SuccessfulUploadsProps } from "@/shared/utils/uploadImage";
 
 interface createTopicProps {
   topic: string;
   themeColor: string;
-  topicImgUrls?: string[];
+  topicImgUrls?: SuccessfulUploadsProps[];
 }
 
 export const useCreateTopic = () => {

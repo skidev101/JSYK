@@ -1,11 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+interface TopicImage {
+  url: string;
+  fileId: string;
+  expiresAt: string;
+  _id: string;
+}
+
 interface TopicDataProps {
   username: string;
   profileImgUrl: string;
   topic: string;
-  topicImgUrls?: string[];
+  topicImgUrls?: TopicImage[];
   themeColor: string;
 }
 

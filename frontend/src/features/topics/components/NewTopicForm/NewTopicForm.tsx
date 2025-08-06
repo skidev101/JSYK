@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
 import toast from "react-hot-toast";
 import { useCreateTopic } from "../../hooks/useCreateTopics";
-import { uploadImage } from "@/shared/utils/uploadImage";
+import { uploadImage, type SuccessfulUploadsProps } from "@/shared/utils/uploadImage";
 
 interface NewTopicFormProps {
   topic: string;
@@ -73,11 +73,11 @@ const NewTopicForm = ({
     setLoading(true);
 
     try {
-      let uploadedImgUrls: string[] | undefined;
+      let uploadedImgUrls: SuccessfulUploadsProps[] | undefined;
       if (topicImgFiles.length) {
         const uploadResult = await uploadImage(topicImgFiles, "/jsyk/topicImages");
         if (uploadResult) {
-          uploadedImgUrls = uploadResult.map((img) => img.url);
+          uploadedImgUrls = uploadResult;
         }
         console.log("result from image upload at topicForm:", uploadResult);
       }
@@ -101,7 +101,7 @@ const NewTopicForm = ({
   };
 
   return (
-    <div className="w-full min-w-max sm:max-w-max h-full">
+    <div className="w-full h-full sm:max-w-md">
           <FadeDown>
             <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white ">
               <div className="flex justify-between items-center ">
@@ -157,16 +157,17 @@ const NewTopicForm = ({
                     <p>2mb max</p>
                   </div>
 
-                  <div className="flex gap-2 sm:gap-4 mb-4">
+                  <div className="w-full grid grid-cols-2 gap-1 sm:gap-4 mb-4">
                     {topicImgPreviews.map((src, index) => (
                       <div
                         key={index}
-                        className="relative w-1/2 h-22 sm:h-24 border border-gray-300 rounded-lg overflow-hidden"
+                        className="relative h-22 sm:h-24 border border-gray-300 rounded-lg overflow-hidden"
                       >
                         <img
                           src={src}
                           alt={`preview-${index}`}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover cursor-pointer"
+                          onClick={() => setSelectedImage(src)}
                         />
                         <button
                           onClick={() => removeImage(index)}
@@ -181,7 +182,7 @@ const NewTopicForm = ({
                       <>
                         <button
                           onClick={() => topicImageRef.current?.click()}
-                          className="w-1/2 h-24 border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center cursor-pointer text-gray-500 hover:border-gray-600"
+                          className="h-24 border-2 border-dashed border-gray-400 rounded-lg flex flex-col items-center justify-center cursor-pointer text-gray-500 hover:border-gray-600"
                         >
                           <Plus size={20} />
                           <span className="text-xs mt-1">Add image</span>

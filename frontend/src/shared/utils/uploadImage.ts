@@ -4,7 +4,7 @@ import {
 } from "../services/imageKit/uploadToImageKit";
 import toast from "react-hot-toast";
 
-interface SuccessfulUploadsProps {
+export interface SuccessfulUploadsProps {
   url: string;
   fileId: string;
 }
