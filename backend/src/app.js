@@ -10,7 +10,7 @@ const messageRoutes = require('./routes/messageRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const imageRoute = require('./routes/imageRoute');
 
-app.get('/test/cleanup-images', async (req, res) => {
+app.get('/api/cleanup-images', async (req, res) => {
     const { imageCleanupJob } = require('./jobs/imageCleaner');
     try {
         await imageCleanupJob();
