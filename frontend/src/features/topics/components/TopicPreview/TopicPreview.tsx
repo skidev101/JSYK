@@ -1,6 +1,8 @@
 import { useAuth } from "@/context/AuthContext"
 import MessageCard from "@/shared/components/Message/MessageCard"
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers"
+import { APP_CONFIG } from "@/shared/constants/config";
+import { toSlug } from "@/shared/utils/slugify";
 import { EllipsisVertical, Home, Palette } from "lucide-react"
 
 
@@ -28,7 +30,7 @@ const TopicPreview = ({ topic, themeColor, topicImgPreviews}: TopicPreviewProps 
                     <Home size={20} className="text-gray-600" />
                     <div className="w-full px-2 py-2 bg-gray-200 rounded-full min-w-[150px] max-w-[250px]">
                       <p className="text-gray-600 text-sm truncate">
-                        {/* remember to change */}
+                        {`${APP_CONFIG.BASE_URL}/${toSlug(topic)}`}
                       </p>
                     </div>
                     <EllipsisVertical size={20} className="text-gray-600" />

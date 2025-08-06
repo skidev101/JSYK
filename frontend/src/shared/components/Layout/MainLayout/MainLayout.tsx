@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import ProfileDrawer from "../../../../features/dashboard/components/ProfileDrawer/ProfileDrawer";
-import ActionModal from "../../UI/Modals/ActionModal";
+import ActionModal from "../../UI/Modals/Action/ActionModal";
 
 const MainLayout = () => {
   const [action, setAction] = useState("");

@@ -1,18 +1,18 @@
 import UserProfile from "../Userprofile";
 import MessageCard from "../MessageCard";
 // import ProfileDrawer from "../ProfileDrawer";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 import { useDashboardData } from "../../hooks/useDashboardData";
 import { MessageCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import RecentTopicLinks from "../RecentTopicLinks";
-import { HashLoader } from "react-spinners";
+// import { HashLoader } from "react-spinners";
 import Error from "@/shared/components/Error";
 
 const Dashboard = () => {
-  const { user } = useAuth();
-  const { data, loading, error, refetch } = useDashboardData();
+  // const { loading } = useAuth();
+  const { data, error, refetch } = useDashboardData();
   const messages = data.messages;
 
   const lastFiveTopics = [...data.topics]
@@ -27,14 +27,14 @@ const Dashboard = () => {
 
   // if (!user) return;
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center min-h-[100vh] p-8">
-        <HashLoader size={40} color="#000" />
-        {/* <div className="text-lg">Loading dashboard...</div> */}
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-[100vh] p-8">
+  //       <HashLoader size={40} color="#000" />
+  //       {/* <div className="text-lg">Loading dashboard...</div> */}
+  //     </div>
+  //   );
+  // }
 
   if (error) {
     return (
@@ -52,7 +52,6 @@ const Dashboard = () => {
     <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
       <div className="flex flex-col gap-2">
         <UserProfile
-          user={user}
           onCreateWithTopic={() => navigate("/new-topic")}
         />
 
