@@ -53,7 +53,7 @@ const UserProfile = ({
           <p>Profile views today</p>
         </div>
         <div className="flex items-center justify-center w-6 h-6 bg-gray-200 rounded-lg">
-          <p>2</p>
+          <p>{user?.profileViews || "0"}</p>
         </div>
       </div>
 

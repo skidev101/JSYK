@@ -11,6 +11,7 @@ interface User {
   somethingLink: string;
   profileImgUrl?: string;
   bio?: string;
+  profileViews: number;
   idToken: string;
 }
 
