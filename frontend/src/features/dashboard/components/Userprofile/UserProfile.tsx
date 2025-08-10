@@ -1,20 +1,17 @@
 import { Copy, Eye } from "lucide-react";
-// import type { User } from "@/shared/types/userTypes";
 import { APP_CONFIG } from "@/shared/constants/config";
 import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 import ActionButtons from "./ActionButtons";
 import { useAuth } from "@/context/AuthContext";
+import { copyToClipboard } from "@/shared/utils/clipboard";
+
 
 interface UserProfileProps {
-  // user: User | null; // remember to change from null
-  onCopyLink?: () => void;
   onCopyWithImage?: () => void;
   onCreateWithTopic?: () => void;
 }
 
 const UserProfile = ({
-  // user,
-  onCopyLink,
   onCreateWithTopic,
   onCopyWithImage,
 }: UserProfileProps) => {
@@ -37,7 +34,7 @@ const UserProfile = ({
               {`${APP_CONFIG.BASE_URL}/${user?.somethingLink}` || "loading..."}
             </p>
             <button
-              onClick={onCopyLink}
+              onClick={() => copyToClipboard(`${APP_CONFIG.BASE_URL}/${user?.somethingLink}`)}
               title="copy link"
               className="text-gray-500 cursor-pointer active:scale-[0.90] transition-all"
             >

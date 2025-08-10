@@ -7,28 +7,32 @@ import { useTopicData } from "../../hooks/useTopicData";
 import { useSendMessage } from "../../hooks/useSendMessage";
 import { HashLoader } from "react-spinners";
 
-
 const SendMessage = () => {
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
   const [messageToSend, setMessageToSend] = useState("");
-  const { data, loadingTopic, topicError } = useTopicData(profileSlug, topicId);
+  const { data, loadingTopic } = useTopicData(profileSlug, topicId); // add topicError
   const { sendMessage, loading, success, error } = useSendMessage();
-  const themeColor = "#3570F8"; 
+  const themeColor = "#3570F8";
 
   if (loadingTopic) {
-      return (
-        <div className="flex justify-center items-center min-h-[100vh] p-8">
-          <HashLoader size={40} color="#000" />
-          {/* <div className="text-lg">Loading dashboard...</div> */}
-        </div>
-      );
-    }
-  if (topicError) return <div>An error occured</div>
+    return (
+      <div className="flex justify-center items-center min-h-[100vh] p-8">
+        <HashLoader size={40} color="#000" />
+        {/* <div className="text-lg">Loading dashboard...</div> */}
+      </div>
+    );
+  }
+  // if (topicError) return <div>An error occured</div>
 
   const handleSendMessage = async () => {
-    if (!profileSlug) return <div>Oops... That's not right</div>
-    await sendMessage({ profileSlug, topicId, messageToSend })
+    if (!profileSlug) return <div>Oops... That's not right</div>;
+    await sendMessage({
+      profileSlug,
+      topicId,
+      messageToSend,
+      themeColor: data?.themeColor,
+    });
 
     if (success) {
       toast.success("Message sent");
@@ -36,20 +40,21 @@ const SendMessage = () => {
     }
 
     if (error) {
-    toast.error(error);
-  }
-  }
-  
+      toast.error(error);
+    }
+  };
 
   return (
     <FadeIn>
       <div className="relative w-full flex flex-col justify-center items-center min-h-screen">
         <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 ">
-          <p className="text-sm text-gray-500">Message ski101 anonymously 🤫</p>
+          <p className="text-sm text-gray-500">
+            Message @{data?.username} anonymously 🤫
+          </p>
           <MessageCard
             username={data?.username}
             profileImgUrl={data?.profileImgUrl}
-            topicImgUrls={data?.topicImgUrls?.map(img => img.url)}
+            topicImgUrls={data?.topicImgUrls?.map((img) => img.url)}
             topic={data?.topic}
             preview={false}
             inView={false}

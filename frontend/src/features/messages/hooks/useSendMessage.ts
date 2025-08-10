@@ -5,6 +5,7 @@ interface sendMessageProps {
   profileSlug: string;
   topicId?: string;
   messageToSend: string;
+  themeColor?: string;
 }
 
 export const useSendMessage = () => {
@@ -16,6 +17,7 @@ export const useSendMessage = () => {
     profileSlug,
     topicId,
     messageToSend,
+    themeColor
   }: sendMessageProps) => {
     if (!messageToSend.trim()) {
       setError("Message cannot be empty");
@@ -31,6 +33,7 @@ export const useSendMessage = () => {
         profileSlug,
         topicId,
         content: messageToSend,
+        themeColor
       });
 
       setSuccess(true);

@@ -93,7 +93,7 @@ const MessageCard = ({
               readOnly={preview}
               placeholder="Enter your message here" //TODO Enable changing placeholder and enable random messages
               className={`flex justify-center items-center w-full min-h-30 p-2 my-3 bg-gray-100 ${
-                preview ? "" : "focus:ring-2 focus:ring-blue-500"
+                preview ? "resize-none" : "focus:ring-2 focus:ring-blue-500"
               } border-none outline-none rounded-lg`}
             />
 

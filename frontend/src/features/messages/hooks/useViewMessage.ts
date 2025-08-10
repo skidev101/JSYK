@@ -8,12 +8,13 @@ interface MessageData {
   profileImgUrl: string;
   topicImgUrls: string[];
   createdAt: string;
+  themeColor: string;
 }
 
 export const useViewMessage = (messageId: string) => {
   const { user } = useAuth();
   const [data, setData] = useState<MessageData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loadingMessage, setLoadingMessage] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -34,11 +35,11 @@ export const useViewMessage = (messageId: string) => {
       } catch (err: any) {
         if (isMounted) {
           setError(err.response?.data?.message || "Failed to fetch topic data");
-          setLoading(false);
+          setLoadingMessage(false);
         }
         console.error("Failed to fetch message data:", err)
       } finally {
-        if (isMounted) setLoading(false);
+        if (isMounted) setLoadingMessage(false);
       }
     };
 
@@ -49,5 +50,5 @@ export const useViewMessage = (messageId: string) => {
     })
   }, [messageId]);
 
-  return { data, loading, error };
+  return { data, loadingMessage, error };
 };

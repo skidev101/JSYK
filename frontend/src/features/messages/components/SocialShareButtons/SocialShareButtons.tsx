@@ -29,31 +29,26 @@ const SocialShareButtons = ({ url, text }: ShareProps) => {
     window.open(shareUrl, "_blank", "noopener,noreferrer");
   };
 
-  return (
-    <div className="flex gap-4">
-      <button
-        onClick={() => handleShare("whatsapp")}
-        className="text-green-500 hover:opacity-80 p-2 rounded-full border border-green-500"
-        title="Share on WhatsApp"
-      >
-        <MessageCircle className="w-5 h-5" />
-      </button>
-
-      <button
-        onClick={() => handleShare("twitter")}
-        className="text-blue-400 hover:opacity-80 p-2 rounded-full border border-blue-400"
-        title="Share on Twitter"
-      >
-        <Send className="w-5 h-5" />
-      </button>
-
-      <button
-        onClick={() => handleShare("facebook")}
-        className="text-blue-600 hover:opacity-80 p-2 rounded-full border border-blue-600"
-        title="Share on Facebook"
-      >
-        <Share2 className="w-5 h-5" />
-      </button>
+  return(
+    <div className="flex items-center flex-col mt-5">
+      <p className="text-sm text-gray-700 pb-2">Share to</p>
+      <div className="flex items-center max-w-max bg-gray-100 rounded-3xl gap-3 p-3 shadow-sm">
+        <button
+          onClick={() => handleShare("whatsapp")}
+          className="bg-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+          <MessageCircle size={25} />
+        </button>
+        <button
+          onClick={() => handleShare("twitter")}
+          className="bg-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+          <Send size={25} />
+        </button>
+        <button
+          onClick={() => handleShare("facebook")}
+          className="bg-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+          <Share2 size={25} />
+        </button>
+      </div>
     </div>
   );
 };
