@@ -4,7 +4,7 @@ const Topic = require("../models/Topic");
 
 const sendMessage = async (req, res) => {
   try {
-    const { topicId = null, content, profileSlug } = req.body;
+    const { topicId = null, content, profileSlug, themeColor } = req.body;
     console.log(profileSlug);
     const user = await User.findOne({ profileSlug });
     if (!user) {
@@ -35,6 +35,7 @@ const sendMessage = async (req, res) => {
       topicSlug: topicData?.slug || null,
       topicId: topicData?.topicId || null,
       content,
+      themeColor,
       senderInfo: {
         ipHash: req.ipHash,
         ...req.senderInfo,

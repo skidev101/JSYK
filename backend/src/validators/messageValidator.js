@@ -4,6 +4,10 @@ exports.validateSendMessage = [
    body("content")
       .trim()
       .notEmpty()
+      .withMessage("Mesage content is required"),
+   body("themeColor")
+      .trim()
+      .notEmpty()
       .withMessage("Mesage content is required")
 ];
 

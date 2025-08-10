@@ -29,6 +29,10 @@ const messageSchema = new mongoose.Schema({
       type: Boolean,
       default: false
    },
+   themeColor: {
+      type: String,
+      required: true
+   },
    senderInfo: {
       ipHash: {
          type: String,
