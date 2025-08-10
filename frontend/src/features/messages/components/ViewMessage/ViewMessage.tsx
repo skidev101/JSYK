@@ -24,7 +24,7 @@ const ViewMessage = () => {
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const themeColor = "#3570F8";
-  const { deleteMessage, success, error } = useDeleteMessage(); // add loading
+  const { deleteMessage, success, error, loadingDelete } = useDeleteMessage(); // add loading
 
   if (loadingMessage) {
     return (
@@ -44,17 +44,17 @@ const ViewMessage = () => {
 
       if (success) {
         toast.success("Message Deleted");
-        console.log("deeted message");
+        console.log("deleted message");
+        navigate("/");
       }
       if (error) {
         toast.error("Failed to delete");
         console.log("failed to delete message");
       }
-      // if (loading) {
-      //   toast.loading("Deleting messages");
-      // }
+      if (loadingDelete) {
+        toast.loading("Deleting messages");
+      }
 
-      // navigate("/");
     } catch (err) {
       console.error("error in delete func", err);
     }

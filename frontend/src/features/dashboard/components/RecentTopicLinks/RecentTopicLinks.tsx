@@ -37,9 +37,11 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
               key={link._id}
               className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
             >
-              <div className="flex items-center gap-2">
-                <Link2 size={18} />
-                <p className="text-sm sm:text-base">{link.url}</p>
+              <div className="w-full pr-8">
+                <div className="flex items-center gap-2">
+                  {/* <Link2 size={18} /> */}
+                  <p className="text-sm sm:text-base truncate">{link.url}</p>
+                </div>
               </div>
               <button
                 onClick={() => copyToClipboard(link.url)}

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export const useDeleteMessage = () => {
   const { user } = useAuth();
-  const [loading, setLoading] = useState(true);
+  const [loadingDelete, setLoadingDelete] = useState(true);
   const [success, setSuccess] = useState<boolean>();
   const [error, setError] = useState("");
 
@@ -16,7 +16,7 @@ export const useDeleteMessage = () => {
     }
 
     try {
-      setLoading(true);
+      setLoadingDelete(true);
       const response = await axios.get(
         `http://127.0.0.1:3000/api/message/${messageId}`,
         {
@@ -29,12 +29,12 @@ export const useDeleteMessage = () => {
       if (response.data.success) setSuccess(true);
     } catch (err: any) {
       setError("Failed to delete message");
-      setLoading(false);
+      setLoadingDelete(false);
       console.error("Failed to fetch message data:", err);
     } finally {
-      setLoading(false);
+      setLoadingDelete(false);
     }
   };
 
-  return { deleteMessage, loading, success, error };
+  return { deleteMessage, loadingDelete, success, error };
 };
