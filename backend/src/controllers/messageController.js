@@ -214,6 +214,9 @@ const deleteMessage = async (req, res) => {
     const unreadCount = await Message.countDocuments({ uid, isRead: false });
     const totalMessages = await Message.countDocuments({ uid });
 
+
+    console.log("messsage deleted");
+
     res.status(200).json({
       success: true,
       message: "Message deleted",
