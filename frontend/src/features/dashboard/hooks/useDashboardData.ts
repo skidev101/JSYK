@@ -1,48 +1,29 @@
-import { useState, useEffect, useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
-
-export interface Topic {
-  _id: string;
-  url: string;
-  createdAt: string;
-  topic: string;
-}
-
-interface Message {
-  _id: string;
-  topicId?: string;
-  topicSlug?: string;
-  topic?: string;
-  content: string;
-  isRead: boolean;
-}
-
-interface DashboardData {
-  topics: Topic[];
-  messages: Message[];
-  pagination: string;
-  unreadCount: string;
-}
+import { useDashboardStore } from "@/store/dashboardStore";
 
 interface fetchOptions {
   topicId?: string;
   page?: number;
   limit?: number;
   append?: boolean;
+  silent?: boolean; // NEW — controls whether loading spinner shows
 }
 
 export const useDashboardData = () => {
   const { user } = useAuth();
-  const [data, setData] = useState<DashboardData>({
-    topics: [],
-    messages: [],
-    pagination: "",
-    unreadCount: "0",
-  });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data,
+    loading,
+    error,
+    lastFetched,
+    setData,
+    setLoading,
+    setError,
+    setLastFetched,
+  } = useDashboardStore();
 
   const fetchDashboardData = useCallback(
     async (options: fetchOptions = {}) => {
@@ -51,15 +32,15 @@ export const useDashboardData = () => {
         return;
       }
 
-      const { topicId = "", page = 1, limit = 20, append = false } = options;
+      const { topicId = "", page = 1, limit = 20, append = false, silent = false } = options;
 
       try {
-        setLoading(true);
+        if (!silent) setLoading(true); // Only show spinner if not silent
         setError(null);
 
         const config = {
           headers: {
-            "Authorization": `Bearer ${user?.idToken}`,
+            Authorization: `Bearer ${user?.idToken}`,
           },
         };
 
@@ -73,7 +54,7 @@ export const useDashboardData = () => {
           ),
         ]);
 
-        const topics = topicsRes.data.topics || [];''
+        const topics = topicsRes.data.topics || [];
         const transformedTopics = topics.map((topic: any) => ({
           _id: topic._id,
           url: topic.topicLink,
@@ -83,34 +64,42 @@ export const useDashboardData = () => {
 
         const newMessages = messagesRes.data.messages || [];
 
-        setData((prev) => ({
+        setData({
           topics: transformedTopics,
-          messages: append ? [...prev.messages, ...newMessages] : newMessages,
-          unreadCount: messagesRes.data.unreadCount || 0,
+          messages: append ? [...data.messages, ...newMessages] : newMessages,
+          unreadCount: messagesRes.data.unreadCount || "0",
           pagination: messagesRes.data.pagination || "",
-        }));
+        });
+
+        setLastFetched(Date.now());
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
         setError("Failed to load dashboard data");
         toast.error("Failed to load dashboard data");
       } finally {
-        setLoading(false);
+        if (!silent) setLoading(false);
       }
     },
-    [user]
+    [user, setData, setLoading, setError, setLastFetched, data.messages]
   );
 
-  useEffect(() => {
-    let isMounted = true;
-    if (user && isMounted) fetchDashboardData();
-    return () => {
-      isMounted = false;
-    };
-  }, [user, fetchDashboardData]);
-
-  const loadMore = (page: number, topicId: string) => { 
+  const loadMore = (page: number, topicId: string) => {
     fetchDashboardData({ page, topicId, append: true });
   };
+
+  // Auto-refresh silently every 2 minutes
+  useEffect(() => {
+    if (!user) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      if (!lastFetched || now - lastFetched > 2 * 60 * 1000) {
+        fetchDashboardData({ silent: true }); // silent refresh
+      }
+    }, 60 * 1000); // check every 1 minute
+
+    return () => clearInterval(interval);
+  }, [user, lastFetched, fetchDashboardData]);
 
   return { data, loading, error, refetch: fetchDashboardData, loadMore };
 };

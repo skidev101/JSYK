@@ -45,6 +45,7 @@ const MessageCard = ({
         <div className="w-full bg-gray-100 p-3 mt-1 rounded-xl">
           <p className="text-sm sm:text-base truncate">{message}</p>
         </div>
+        {/* future updates */}
         {/* <div className="flex items-center gap-2 mt-2">
           <p className="text-sm max-w-max rounded-xl text-gray-500 bg-gray-100 px-2 sm:px-3">
             # yesterday

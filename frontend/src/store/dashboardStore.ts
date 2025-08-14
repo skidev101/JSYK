@@ -1,0 +1,76 @@
+import { create } from "zustand";
+
+export interface Topic {
+  _id: string;
+  url: string;
+  createdAt: string;
+  topic: string;
+}
+
+export interface Message {
+  _id: string;
+  topicId?: string;
+  topicSlug?: string;
+  topic?: string;
+  content: string;
+  isRead: boolean;
+}
+
+export interface DashboardData {
+  topics: Topic[];
+  messages: Message[];
+  pagination: string;
+  unreadCount: string;
+}
+
+interface DashboardState {
+  data: DashboardData;
+  loading: boolean;
+  error: string | null;
+  lastFetched: number | null;
+  setData: (data: DashboardData) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  setLastFetched: (timestamp: number) => void;
+  reset: () => void;
+  removeMessage: (id: string) => void;
+}
+
+export const useDashboardStore = create<DashboardState>((set) => ({
+  data: {
+    topics: [],
+    messages: [],
+    pagination: "",
+    unreadCount: "0",
+  },
+  loading: false,
+  error: null,
+  lastFetched: null,
+  setData: (data) => set({ data }),
+  setLoading: (loading) => set({ loading }),
+  setError: (error) => set({ error }),
+  setLastFetched: (timestamp) => set({ lastFetched: timestamp }),
+  reset: () =>
+    set({
+      data: { topics: [], messages: [], pagination: "", unreadCount: "0" },
+      loading: false,
+      error: null,
+      lastFetched: null,
+    }),
+  removeMessage: (id: string) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        messages: state.data.messages.filter((m) => m._id !== id),
+      },
+    })),
+  markMessageRead: (id: string) =>
+    set((state) => ({
+      data: {
+        ...state.data,
+        messages: state.data.messages.map((m) =>
+          m._id === id ? { ...m, isRead: true } : m
+        ),
+      },
+    })),
+}));

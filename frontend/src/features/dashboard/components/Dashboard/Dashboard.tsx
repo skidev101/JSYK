@@ -10,11 +10,18 @@ import RecentTopicLinks from "../RecentTopicLinks";
 // import { HashLoader } from "react-spinners";
 import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
+import { useEffect } from "react";
 
 const Dashboard = () => {
   // const { loading } = useAuth();
   const { data, error, refetch } = useDashboardData();
   const messages = data.messages;
+  useEffect(() => {
+    // Only fetch if no data yet
+    if (!data.messages.length) {
+      refetch();
+    }
+  }, []);
 
   const lastFiveTopics = [...data.topics]
     .sort(
@@ -50,9 +57,7 @@ const Dashboard = () => {
   return (
     <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
       <div className="flex flex-col gap-2">
-        <UserProfile
-          onCreateWithTopic={() => navigate("/new-topic")}
-        />
+        <UserProfile onCreateWithTopic={() => navigate("/new-topic")} />
 
         <RecentTopicLinks groupedTopicLinks={groupedTopics} />
       </div>

@@ -15,6 +15,7 @@ import { HashLoader } from "react-spinners";
 import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
+import { useDashboardStore } from "@/store/dashboardStore";
 
 const ViewMessage = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -25,6 +26,7 @@ const ViewMessage = () => {
   const navigate = useNavigate();
   const themeColor = "#3570F8";
   const { deleteMessage } = useDeleteMessage(); // add loading
+  const removeMessage = useDashboardStore((state) => state.removeMessage);
 
   if (loadingMessage) {
     return (
@@ -43,6 +45,7 @@ const ViewMessage = () => {
       const res = await deleteMessage(messageId);
 
       if (res) {
+        removeMessage(messageId);
         toast.success("Message Deleted");
         console.log("deleted message");
         navigate("/");
