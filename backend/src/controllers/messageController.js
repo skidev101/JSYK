@@ -142,6 +142,7 @@ const getMessage = async (req, res) => {
         content: message.content,
         createdAt: message.createdAt,
         isRead: message.isRead,
+        themeColor: message.themeColor
       },
     });
   } catch (err) {
@@ -215,7 +216,7 @@ const deleteMessage = async (req, res) => {
     const totalMessages = await Message.countDocuments({ uid });
 
 
-    console.log("messsage deleted");
+    console.log("messsage delete");
 
     res.status(200).json({
       success: true,
