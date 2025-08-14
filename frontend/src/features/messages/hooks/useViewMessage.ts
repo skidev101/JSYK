@@ -32,6 +32,7 @@ export const useViewMessage = (messageId: string) => {
           }
         );
         isMounted && setData(response.data.data);
+        console.log("viewMessage response:", response.data.data);
       } catch (err: any) {
         if (isMounted) {
           setError(err.response?.data?.message || "Failed to fetch topic data");

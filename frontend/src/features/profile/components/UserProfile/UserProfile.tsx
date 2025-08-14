@@ -4,6 +4,7 @@ import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
 import { copyToClipboard } from "@/shared/utils/clipboard";
 import { HashLoader } from "react-spinners";
 import { APP_CONFIG } from "@/shared/constants/config";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const UserProfile = () => {
   const { profileSlug } = useParams();
@@ -13,10 +14,20 @@ const UserProfile = () => {
 
   if (loading) {
     return (
-      <HashLoader size={30} color="#000" />
-    )
+      <div className="flex flex-col justify-center items-center min-h-[100vh] p-8">
+        <HashLoader size={40} color="#000" />
+        <div className="text-lg">Loading dashboard...</div>
+      </div>
+    );
   }
-  if (error) return <div>An error occured</div>;
+  if (error) {
+    return (
+      <ErrorState
+        message="An unknown error occured"
+        src="/empty-box.png"
+      />
+    );
+  }
 
   return (
     <FadeIn>
@@ -31,7 +42,7 @@ const UserProfile = () => {
             {userProfile?.username}
           </h1>
           <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-1 sm:px-4  rounded-full">
-            {`something.com/${userProfile?.profileSlug}`}
+            {`${APP_CONFIG.BASE_URL}/${userProfile?.profileSlug}`}
           </p>
           <p className="text-sm text-gray-700 bg-gray-100 text-center max-w-max px-3 py-2 mt-1 sm:px-3 sm:py-2 rounded-lg">
             {userProfile?.bio}

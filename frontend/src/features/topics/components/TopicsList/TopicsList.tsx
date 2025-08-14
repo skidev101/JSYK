@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDashboardData } from "@/features/dashboard/hooks/useDashboardData";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import { HashLoader } from "react-spinners";
-import Error from "@/shared/components/Error";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const TopicsList = () => {
   const { data, loading, error, refetch } = useDashboardData();
@@ -50,12 +50,10 @@ const TopicsList = () => {
 
   if (error) {
     return (
-      <Error
-        errorMessage="An unknown error occured"
-        imgSrc="/box.png"
-        altText="error"
-        imgStyles="w-35 h-35"
-        clickAction={refetch}
+      <ErrorState
+        message="An unknown error occured"
+        src="/box.png"
+        onRetry={refetch}
       />
     );
   }

@@ -2,20 +2,20 @@ import { copyToClipboard } from "@/shared/utils/clipboard";
 import { Copy, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Topic } from "../../hooks/useDashboardData";
+import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 
 interface RecentTopicLinksProps {
   groupedTopicLinks: Record<string, Topic[]>;
 }
 
 const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
-  // const lastFiveTopics = groupedTopicLinks.slice(0, 5);
   const navigate = useNavigate();
 
   return (
     <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1 py-2 ml-1">
-          <Link2 size={20} />
+        <div className="flex items-center gap-1 ml-1">
+          <Link2 size={UI_CONSTANTS.ICON_SIZES.LARGE} />
           <h1 className="text-lg sm:text-xl rounded-xl">Recent Links</h1>
         </div>
 
@@ -47,7 +47,7 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
                 onClick={() => copyToClipboard(link.url)}
                 className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
               >
-                <Copy size={18} />
+                <Copy size={UI_CONSTANTS.ICON_SIZES.MEDIUM} />
               </button>
             </div>
           ))}

@@ -1,23 +1,25 @@
 import { RefreshCcw } from "lucide-react";
-import { UI_CONSTANTS } from "../../constants/ui.constants";
+import { UI_CONSTANTS } from "../../../constants/ui.constants";
 
 interface ErrorStateProps {
-  message?: string;
+  src?: string;
+  message: string;
   onRetry?: () => void;
 }
 
 const ErrorState = ({
-  message = "An error occured",
+  src,
+  message,
   onRetry,
 }: ErrorStateProps) => {
   return (
-    <div className="flex flex-col items-center justify-center p-4 text-red-500">
+    <div className="flex flex-col items-center justify-center min-h-[100vh] p-4 ">
       <img
-        src="/error-404.png"
+        src={src}
         alt="Error"
-        className="w-36 h-36 mb-4 opacity-80"
+        className="w-36 h-36 mb-4"
       />
-      <h2 className="text-lg font-semibold mb-2">{message}</h2>
+      <h2 className="text-lg mb-2">{message}</h2>
       {onRetry && (
          <button
             onClick={onRetry}

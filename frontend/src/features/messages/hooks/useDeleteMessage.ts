@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export const useDeleteMessage = () => {
   const { user } = useAuth();
-  const [loadingDelete, setLoadingDelete] = useState(true);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
 

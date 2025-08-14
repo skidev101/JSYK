@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import RecentTopicLinks from "../RecentTopicLinks";
 // import { HashLoader } from "react-spinners";
-import Error from "@/shared/components/Error";
+import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const Dashboard = () => {
   // const { loading } = useAuth();
@@ -38,12 +39,10 @@ const Dashboard = () => {
 
   if (error) {
     return (
-      <Error
-        errorMessage="An unknown error occured"
-        imgSrc="/empty-box.png"
-        altText="error"
-        imgStyles="w-35 h-35"
-        clickAction={refetch}
+      <ErrorState
+        message="An unknown error occured"
+        src="/empty-box.png"
+        onRetry={refetch}
       />
     );
   }
@@ -60,7 +59,7 @@ const Dashboard = () => {
 
       <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
         <div className="flex items-center gap-1 mt-2 ml-1">
-          <MessageCircle size={20} />
+          <MessageCircle size={UI_CONSTANTS.ICON_SIZES.LARGE} />
           <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
