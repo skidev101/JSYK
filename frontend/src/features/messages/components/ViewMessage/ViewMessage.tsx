@@ -3,8 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   // AlertTriangle,
   ChevronLeft,
+  Download,
   Ellipsis,
-  ScreenShare,
   Trash,
   X,
 } from "lucide-react";
@@ -16,6 +16,7 @@ import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
 import { useDashboardStore } from "@/store/dashboardStore";
+import { useGetShareImage } from "../../hooks/useGetShareImage";
 
 const ViewMessage = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -27,6 +28,7 @@ const ViewMessage = () => {
   const themeColor = "#3570F8";
   const { deleteMessage } = useDeleteMessage(); // add loading
   const removeMessage = useDashboardStore((state) => state.removeMessage);
+  const { handleDownload } = useGetShareImage();
 
   if (loadingMessage) {
     return (
@@ -36,6 +38,18 @@ const ViewMessage = () => {
     );
   }
   // if (error) return <div className="text-md mt-40 mr-20">An error occured</div>;
+
+  const handleImageDownload = (e: React.FormEvent) => {
+    e.stopPropagation;
+    const payload = {
+      profileImgUrl: data?.profileImgUrl,
+      topic: data?.topic,
+      message: data?.content,
+      themeColor: data?.themeColor || themeColor
+    }
+    handleDownload(payload);
+  }
+
 
   const handleDelete = async () => {
     // if (messageId) return;
@@ -89,7 +103,7 @@ const ViewMessage = () => {
           } sm:hidden absolute top-14 right-2 z-20 flex-col bg-gray-100 shadow-md border-1 border-gray-200 rounded-md`}
         >
           <div className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1">
-            <ScreenShare size={20} />
+            <Download size={20} />
             <p>Screenshot</p>
           </div>
 
@@ -111,15 +125,17 @@ const ViewMessage = () => {
           {/* <div className="bg-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
             <AlertTriangle size={20} className="text-red-500" />
             </div> */}
-          <div className="bg-gray-200 text-gray-800 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
-            <ScreenShare size={20} />
-          </div>
-            <div
+          <button 
+            onClick={(e) => handleImageDownload(e)}
+            className="bg-gray-200 text-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+            <Download size={20} />
+          </button>
+            <button
               onClick={() => handleDelete()}
               className="bg-gray-200 text-gray-800 hover:text-red-500 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
             >
               <Trash size={20} />
-            </div>
+            </button>
         </div>
       </div>
 

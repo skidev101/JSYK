@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { DownloadCloudIcon } from "lucide-react";
+// import { DownloadCloudIcon } from "lucide-react";
 
 interface MessageCardProps {
   messageId: string;
@@ -16,13 +16,14 @@ const MessageCard = ({
 }: MessageCardProps) => {
   const navigate = useNavigate();
 
+
   return (
     <div
       onClick={() => navigate(`/view/${messageId}`)}
       className="relative rounded-xl bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200 shadow"
     >
       {isRead && (
-        <div className="hidden absolute top-0 left-0 w-full h-full opacity-[0.3] bg-gray-50 rounded-lg z-50">
+        <div className="hidden absolute top-0 left-0 w-full h-full opacity-[0.4] bg-gray-50 rounded-lg z-50">
           {/* opaque bg for read messages */}
         </div>
       )}
@@ -33,9 +34,9 @@ const MessageCard = ({
           </div>
           <h1 className="text-sm sm:text-lg text-gray-700 rounded-xl bg-gray-100 px-2 sm:px-3">anonymous</h1>
         </div>
-        <button className="w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-100 text-gray-700 rounded-xl cursor-pointer hover:bg-gray-200 hover:scale-[1.01] active:scale-[0.98] transition duration-150">
+        {/* <button className="w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-100 text-gray-700 rounded-xl cursor-pointer hover:bg-gray-200 hover:scale-[1.01] active:scale-[0.98] transition duration-150">
           <DownloadCloudIcon size={18} />
-        </button>
+        </button> */}
       </div>
 
       <div className="flex flex-col gap-1">
