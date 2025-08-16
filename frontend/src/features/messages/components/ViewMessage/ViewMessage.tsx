@@ -130,7 +130,7 @@ const ViewMessage = () => {
             </div> */}
           <button 
             onClick={(e) => handleImageDownload(e)}
-            className="bg-gray-200 text-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+            className="bg-gray-200 text-gray-800 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
             <Download size={20} />
           </button>
             <button
