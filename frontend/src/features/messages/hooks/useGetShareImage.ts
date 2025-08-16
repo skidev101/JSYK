@@ -1,5 +1,6 @@
 import { useAuth } from "@/context/AuthContext";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface DownloadProps {
   profileImgUrl?: string;
@@ -43,6 +44,7 @@ export const useGetShareImage = () => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error("Image download failed:", err);
+      toast.error("Download failed");
     }
   };
   return { handleDownload };

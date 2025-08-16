@@ -19,6 +19,7 @@ import { useDashboardStore } from "@/store/dashboardStore";
 import { useGetShareImage } from "../../hooks/useGetShareImage";
 
 const ViewMessage = () => {
+
   const [showDropdown, setShowDropdown] = useState(false);
   const { messageId } = useParams();
   if (!messageId) return <div>oops... no message ID</div>;
@@ -102,10 +103,12 @@ const ViewMessage = () => {
             showDropdown ? "flex" : "hidden"
           } sm:hidden absolute top-14 right-2 z-20 flex-col bg-gray-100 shadow-md border-1 border-gray-200 rounded-md`}
         >
-          <div className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1">
+          <button 
+          onClick={(e) => handleImageDownload(e)}
+          className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1">
             <Download size={20} />
-            <p>Screenshot</p>
-          </div>
+            <p>Download</p>
+          </button>
 
           {/* <div className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1">
             <AlertTriangle size={18} />
