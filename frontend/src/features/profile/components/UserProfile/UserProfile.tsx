@@ -11,12 +11,12 @@ const UserProfile = () => {
   if (!profileSlug) return <div>Oops... that must be an error</div>;
   const navigate = useNavigate();
   const { userProfile, loading, error } = useFetchUserProfile(profileSlug);
+  console.log("userprofile:", userProfile)
 
   if (loading) {
     return (
       <div className="flex flex-col justify-center items-center min-h-[100vh] p-8">
         <HashLoader size={40} color="#000" />
-        <div className="text-lg">Loading dashboard...</div>
       </div>
     );
   }
