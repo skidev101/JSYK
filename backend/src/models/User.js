@@ -29,14 +29,14 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    profileViews: {
+    viewsToday: {
       type: Number,
       default: 0,
     },
-    lastProfileView: {
+    viewsDate: {
       type: Date,
-      default: null,
-    },
+      default: () => new Date()
+    }
   },
   {
     timestamps: true,

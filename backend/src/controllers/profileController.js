@@ -13,6 +13,20 @@ const getPublicProfile = async (req, res) => {
       });
     }
 
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let updatedUser;
+
+    if (!user.viewsDate || new Date(user.viewsDate).setHours(0, 0, 0, 0) !== today.getTime()) {
+      // reset new day
+      updatedUser = await User.findByIdAndUpdate(user._id, {
+        $set: { viewsToday: 1, viewsDate: today }
+      }, { new: true });
+    } else {
+      updatedUser = await 
+    }
+
     // increase profile views
     await User.findByIdAndUpdate(user._id, {
       $inc: { profileViews: 1 },
