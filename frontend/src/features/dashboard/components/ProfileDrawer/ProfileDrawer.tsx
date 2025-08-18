@@ -109,7 +109,7 @@ const ProfileDrawer = ({
       console.log("updated profile");
       setEditMode(false);
       setLoading(false);
-      toast.success("Profile updated successfully!");
+      toast.success("Profile updated successfully");
       onClose();
     }, 3000);
   };
