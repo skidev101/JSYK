@@ -22,7 +22,7 @@ const getCurrentUser = async (req, res) => {
         profileImgUrl: user.profileImgUrl,
         somethingLink: user.profileSlug,
         memberSince: user.createdAt,
-        profileViews: user.profileViews
+        profileViews: user.viewsToday,
       },
     });
   } catch (err) {
@@ -73,6 +73,7 @@ const handleAuth = async (req, res) => {
         profileImgUrl: user.profileImgUrl,
         somethingLink: user.somethingLink,
         memberSince: user.createdAt,
+        profileViews: user.viewsToday,
       },
     });
   } catch (err) {
