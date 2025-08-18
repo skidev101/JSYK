@@ -9,7 +9,7 @@ interface fetchOptions {
   page?: number;
   limit?: number;
   append?: boolean;
-  silent?: boolean; // NEW — controls whether loading spinner shows
+  silent?: boolean; 
 }
 
 export const useDashboardData = () => {
@@ -35,7 +35,7 @@ export const useDashboardData = () => {
       const { topicId = "", page = 1, limit = 20, append = false, silent = false } = options;
 
       try {
-        if (!silent) setLoading(true); // Only show spinner if not silent
+        if (!silent) setLoading(true); // only show spinner if not silent
         setError(null);
 
         const config = {

@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             setUser({ ...response.data.data, idToken});
             setFirebaseUser(firebaseUser)
-            console.log(response.data.data);
+            console.log("user from server:", response.data.data);
           } catch (err: any) {
             console.error("Error fetching user data:", err);
           }

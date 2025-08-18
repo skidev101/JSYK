@@ -34,7 +34,7 @@ const getPublicProfile = async (req, res) => {
       updatedUser = await User.findByIdAndUpdate(
         user._id,
         {
-          $inc: { viewsCount: 1 },
+          $inc: { viewsToday: 1 },
         },
         { new: true }
       );
