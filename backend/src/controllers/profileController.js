@@ -18,20 +18,27 @@ const getPublicProfile = async (req, res) => {
 
     let updatedUser;
 
-    if (!user.viewsDate || new Date(user.viewsDate).setHours(0, 0, 0, 0) !== today.getTime()) {
+    if (
+      !user.viewsDate ||
+      new Date(user.viewsDate).setHours(0, 0, 0, 0) !== today.getTime()
+    ) {
       // reset new day
-      updatedUser = await User.findByIdAndUpdate(user._id, {
-        $set: { viewsToday: 1, viewsDate: today }
-      }, { new: true });
+      updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        {
+          $set: { viewsToday: 1, viewsDate: today },
+        },
+        { new: true }
+      );
     } else {
-      updatedUser = await 
+      updatedUser = await User.findByIdAndUpdate(
+        user._id,
+        {
+          $inc: { viewsCount: 1 },
+        },
+        { new: true }
+      );
     }
-
-    // increase profile views
-    await User.findByIdAndUpdate(user._id, {
-      $inc: { profileViews: 1 },
-      $set: { lastProfileView: new Date() },
-    }).exec();
 
     res.status(200).json({
       success: true,
