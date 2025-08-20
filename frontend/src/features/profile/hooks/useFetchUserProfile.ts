@@ -30,7 +30,7 @@ export const useFetchUserProfile = (profileSlug: string) => {
           setError(err.response?.data?.message || "Failed to fetch topic data");
           setLoading(false);
         }
-        console.error("Failed to fetch topic data:", err)
+        console.error("Failed to fetch topic data:", err);
       } finally {
         if (isMounted) setLoading(false);
       }

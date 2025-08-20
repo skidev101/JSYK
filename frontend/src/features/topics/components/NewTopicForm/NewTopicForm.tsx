@@ -3,7 +3,7 @@ import { Pencil, X, Plus, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
 import toast from "react-hot-toast";
-import { useCreateTopic } from "../../hooks/useCreateTopics";
+import { useCreateTopic } from "../../hooks/useCreateTopic";
 import {
   uploadImage,
   type SuccessfulUploadsProps,

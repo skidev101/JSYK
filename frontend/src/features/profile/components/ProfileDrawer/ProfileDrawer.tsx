@@ -103,15 +103,11 @@ const ProfileDrawer = ({
       console.log("profile updated successfully:", response.data);
     } catch (err: any) {
       console.log("Error updating profile:", err);
+      toast.error("An error occured");
+    } finally {
+      setLoading(false);
     }
 
-    setTimeout(() => {
-      console.log("updated profile");
-      setEditMode(false);
-      setLoading(false);
-      toast.success("Profile updated successfully");
-      onClose();
-    }, 3000);
   };
 
   return (
@@ -134,9 +130,9 @@ const ProfileDrawer = ({
                   onClick={onClose}
                   className={`${
                     editMode && "hidden"
-                  } grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-md hover:bg-gray-200 cursor-pointer active:scale-95 transition duration-200`}
+                  } grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl hover:bg-gray-200 cursor-pointer active:scale-95 transition duration-200`}
                 >
-                  <X className="cursor-pointer" />
+                  <X className="cursor-pointer text-gray-700" />
                 </button>
               </div>
 

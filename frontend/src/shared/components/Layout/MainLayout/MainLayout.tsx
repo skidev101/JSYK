@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import ProfileDrawer from "../../../../features/dashboard/components/ProfileDrawer/ProfileDrawer";
+import ProfileDrawer from "../../../../features/profile/components/ProfileDrawer";
 import ActionModal from "../../UI/Modals/Action/ActionModal";
 
 const MainLayout = () => {
