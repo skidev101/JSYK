@@ -17,11 +17,19 @@ export interface Message {
   themeColor: string;
 }
 
+export interface Pagination {
+  page: number;
+  limit: number;
+  total: number;
+  pages: number;
+  hasNextPage: boolean;
+}
+
 export interface DashboardData {
   topics: Topic[];
   messages: Message[];
-  pagination: string;
-  unreadCount: number;
+  pagination: Pagination | null;
+  unreadCount: string;
 }
 
 interface DashboardState {
@@ -41,7 +49,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   data: {
     topics: [],
     messages: [],
-    pagination: "",
+    pagination: null,
     unreadCount: "0",
   },
   loading: false,
@@ -53,7 +61,7 @@ export const useDashboardStore = create<DashboardState>((set) => ({
   setLastFetched: (timestamp) => set({ lastFetched: timestamp }),
   reset: () =>
     set({
-      data: { topics: [], messages: [], pagination: "", unreadCount: "0" },
+      data: { topics: [], messages: [], pagination: null, unreadCount: "0" },
       loading: false,
       error: null,
       lastFetched: null,

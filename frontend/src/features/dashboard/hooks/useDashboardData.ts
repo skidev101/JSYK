@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
@@ -10,32 +10,6 @@ interface fetchOptions {
   limit?: number;
   append?: boolean;
   silent?: boolean; 
-}
-
-export interface Message {
-  _id: string;
-  content: string;
-  topicId?: string;
-  topicSlug?: string;
-  topic?: string;
-  createdAt: string;
-  isRead: boolean;
-  themeColor: string;
-}
-
-export interface Pagination {
-  page: number;
-  limit: number;
-  total: number;
-  pages: number;
-}
-
-export interface GetUserMessagesResponse {
-  success: boolean;
-  messages: Message[];
-  pagination: Pagination;
-  unreadCount: number;
-  message?: string; // only when no messages
 }
 
 
@@ -51,7 +25,6 @@ export const useDashboardData = () => {
     setError,
     setLastFetched,
   } = useDashboardStore();
-  const [loadingMore, setLoadingMore] = useState(false);
 
   const fetchDashboardData = useCallback(
     async (options: fetchOptions = {}) => {
@@ -64,12 +37,7 @@ export const useDashboardData = () => {
 
       try {
         if (!silent) {
-          if (append) {
-            setLoadingMore(true);
-
-          } else {
-            setLoading(true);
-          }
+          setLoading(true);
         }
         setError(null);
 
@@ -81,7 +49,7 @@ export const useDashboardData = () => {
 
         const [topicsRes, messagesRes] = await Promise.all([
           axios.get("http://127.0.0.1:3000/api/topic", config),
-          axios.get<GetUserMessagesResponse>(
+          axios.get(
             `http://127.0.0.1:3000/api/message?page=${page}&limit=${limit}${
               topicId ? `&topic=${topicId}` : ""
             }`,
@@ -112,7 +80,7 @@ export const useDashboardData = () => {
         setError("Failed to load dashboard data");
         toast.error("Failed to load dashboard data");
       } finally {
-        if (!silent) append ? setLoadingMore(false) : setLoading(false);
+        if (!silent) setLoading(false);
       }
     },
     [user, setData, setLoading, setError, setLastFetched, data.messages]
@@ -122,7 +90,6 @@ export const useDashboardData = () => {
     fetchDashboardData({ page, topicId, append: true });
   };
 
-  const hasMore = Boolean(data.pagination?.hasNextPage);
 
   // Auto-refresh silently every 2 minutes
   useEffect(() => {
@@ -138,5 +105,5 @@ export const useDashboardData = () => {
     return () => clearInterval(interval);
   }, [user, lastFetched, fetchDashboardData]);
 
-  return { data, loading, error, refetch: fetchDashboardData, loadMore, hasMore, loadingMore };
+  return { data, loading, error, refetch: fetchDashboardData, loadMore };
 };

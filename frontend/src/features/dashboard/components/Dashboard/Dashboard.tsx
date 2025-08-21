@@ -7,18 +7,45 @@ import RecentTopicLinks from "../RecentTopicLinks";
 // import { HashLoader } from "react-spinners";
 import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const Dashboard = () => {
   // const { user } = useAuth();  add loading state
-  const { data, error, refetch } = useDashboardData();
+  const { data, error, refetch, loadMore, loading } = useDashboardData();
   const messages = data.messages;
+
+  const [page, setPage] = useState(1);
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+
+
   useEffect(() => {
     // Only fetch if no data yet
     if (!data.messages.length) {
       refetch();
     }
   }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const first = entries[0];
+        if (first.isIntersecting && !loading && data.pagination?.hasNextPage) {
+          const nextPage = page + 1;
+          loadMore(nextPage, ""); 
+          setPage(nextPage);
+        }
+      },
+      { threshold: 1 }
+    );
+
+    const current = loaderRef.current;
+    if (current) observer.observe(current);
+
+    return () => {
+      if (current) observer.unobserve(current);
+    };
+  }, [page, loading]);
+
 
   const lastFiveTopics = [...data.topics]
     .sort(
@@ -74,6 +101,10 @@ const Dashboard = () => {
               themeColor={message.themeColor}
             />
           ))}
+        </div>
+
+        <div ref={loaderRef} className="flex justify-center p-4">
+          {loading && <span className="text-sm text-gray-500">Loading more...</span>}
         </div>
       </div>
     </div>
