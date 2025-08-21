@@ -15,6 +15,8 @@ import toast from "react-hot-toast";
 import { useAuth } from "../../../../context/AuthContext";
 import { uploadToImageKit } from "@/shared/services/imageKit/uploadToImageKit";
 import axios from "axios";
+import { useDashboardData } from "@/features/dashboard/hooks/useDashboardData";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileDrawerProps {
   show: boolean;
@@ -30,12 +32,13 @@ const ProfileDrawer = ({
   onDeleteClick,
 }: ProfileDrawerProps) => {
   const { user } = useAuth();
+  const { refetch } = useDashboardData();
+  const navigate = useNavigate();
 
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     username: "",
-    email: "",
     bio: "",
   });
   const [previewImg, setPreviewImg] = useState<string | null>(null);
@@ -47,7 +50,6 @@ const ProfileDrawer = ({
     if (user) {
       setFormData({
         username: user.username || "",
-        email: user.email || "",
         bio: user.bio || "",
       });
       setPreviewImg(user?.profileImgUrl || null);
@@ -84,10 +86,9 @@ const ProfileDrawer = ({
       }
 
       const response = await axios.patch(
-        "http://127.0.0.1:3000/api/topic",
+        "http://127.0.0.1:3000/api/profile",
         {
           username: formData.username,
-          email: formData.email,
           bio: formData.bio,
           profileImgUrl: imgUrl,
           fileId: fileId,
@@ -100,14 +101,16 @@ const ProfileDrawer = ({
         }
       );
 
+      refetch();
       console.log("profile updated successfully:", response.data);
     } catch (err: any) {
       console.log("Error updating profile:", err);
       toast.error("An error occured");
     } finally {
       setLoading(false);
+      setEditMode(false);
+      navigate("/");
     }
-
   };
 
   return (
@@ -210,7 +213,7 @@ const ProfileDrawer = ({
                   </h1>
                 )}
 
-                {editMode ? (
+                {/* {editMode ? (
                   <>
                     <label
                       htmlFor="email"
@@ -228,6 +231,8 @@ const ProfileDrawer = ({
                     />
                   </>
                 ) : (
+                )} */}
+                {!editMode && (
                   <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 sm:px-4 sm:py-1 rounded-full">
                     {user?.email}
                   </p>

@@ -16,7 +16,7 @@ import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
 import { useDashboardStore } from "@/store/dashboardStore";
-import { toPng, toBlob } from "html-to-image";
+import { toBlob } from "html-to-image";
 
 const ViewMessage = () => {
 
@@ -42,13 +42,28 @@ const ViewMessage = () => {
   const handleImageDownload = async () => {
     if (!messageRef.current) return;
 
-    const canvas = await html2canvas(messageRef.current);
-    const dataUrl = canvas.toDataURL("image/png");
+    try {
+      await (document as any).fonts.ready;
 
-    const link = document.createElement("a");
-    link.href = dataUrl;
-    link.download = "message.png";
-    link.click();
+      const options = {
+        cacheBust: true,
+        backgroundColor: "#ffffff",
+        pixelRatio: Math.max(2, window.devicePixelRatio || 1)
+      }
+
+      const blob = await toBlob(messageRef.current, options);
+      if (!blob) throw new Error("Failed to create image blob");
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "message.png";
+      link.click();
+      URL.revokeObjectURL(url);
+
+    } catch (err) {
+      console.error("Image capture failed:", err);
+    }
   }
 
 
@@ -157,6 +172,8 @@ const ViewMessage = () => {
               inView={true}
               themeColor={data?.themeColor || themeColor}
             />
+
+            <p className="text-gray-700 p-4 text-sm">jsyk by monaski</p>
           </div>
 
           <SocialShareButtons url="hiii" text="Check this out" />
