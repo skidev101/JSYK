@@ -1,21 +1,13 @@
 import { Copy, Eye } from "lucide-react";
 import { APP_CONFIG } from "@/shared/constants/config";
-import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 import ActionButtons from "./ActionButtons";
 import { useAuth } from "@/context/AuthContext";
 import { copyToClipboard } from "@/shared/utils/clipboard";
+import { useNavigate } from "react-router-dom";
 
-
-interface UserProfileProps {
-  onCopyWithImage?: () => void;
-  onCreateWithTopic?: () => void;
-}
-
-const UserProfile = ({
-  onCreateWithTopic,
-  onCopyWithImage,
-}: UserProfileProps) => {
+const UserProfile = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   return (
     <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">
@@ -23,20 +15,22 @@ const UserProfile = ({
         <img
           src={user?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
           alt="profile"
-          className={`${UI_CONSTANTS.AVATAR_SIZES.SMALL} ${UI_CONSTANTS.AVATAR_SIZES.MEDIUM}`} //still check this later
+          className="w-8 h-8 sm:w-12 sm:h-12"//still check this later
         />
         <div className="flex flex-col w-full">
           <h1 className="text-lg sm:text-xl font-bold">
             {user?.username || "loading..."}
           </h1>
-          <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-700 hover:text-gray-900 truncate">
+          <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-600 hover:text-gray-900 truncate">
             <p>
               {`${APP_CONFIG.BASE_URL}/${user?.somethingLink}` || "loading..."}
             </p>
             <button
-              onClick={() => copyToClipboard(`${APP_CONFIG.BASE_URL}/${user?.somethingLink}`)}
+              onClick={() =>
+                copyToClipboard(`${user?.somethingLink}`)
+              }
               title="copy link"
-              className="text-gray-500 cursor-pointer active:scale-[0.90] transition-all"
+              className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all"
             >
               <Copy size={18} />
             </button>
@@ -50,7 +44,7 @@ const UserProfile = ({
           <p>Profile views today</p>
         </div>
         <div className="flex items-center justify-center w-6 h-6 bg-gray-200 rounded-lg">
-          <p>{user?.profileViews || "0"}</p>
+          <p className="text-gray-800">{user?.profileViews || "0"}</p>
         </div>
       </div>
 
@@ -59,8 +53,10 @@ const UserProfile = ({
       </p>
 
       <ActionButtons
-        onCopyWithImage={onCopyWithImage}
-        onCreateWithTopic={onCreateWithTopic}
+        onCopy={() =>
+          copyToClipboard(`m/${user?.somethingLink}`)
+        }
+        onCreateWithTopic={() => navigate("/new-topic")}
       />
     </div>
   );

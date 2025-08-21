@@ -1,10 +1,7 @@
 import UserProfile from "../Userprofile";
 import MessageCard from "../MessageCard";
-// import ProfileDrawer from "../ProfileDrawer";
-// import { useAuth } from "@/context/AuthContext";
 import { useDashboardData } from "../../hooks/useDashboardData";
 import { MessageCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import RecentTopicLinks from "../RecentTopicLinks";
 // import { HashLoader } from "react-spinners";
@@ -13,7 +10,7 @@ import ErrorState from "@/shared/components/UI/ErrorBoundary";
 import { useEffect } from "react";
 
 const Dashboard = () => {
-  // const { loading } = useAuth();
+  // const { user } = useAuth();  add loading state
   const { data, error, refetch } = useDashboardData();
   const messages = data.messages;
   useEffect(() => {
@@ -31,7 +28,6 @@ const Dashboard = () => {
     .slice(0, 5);
 
   const groupedTopics = groupTopicsByDate(lastFiveTopics);
-  const navigate = useNavigate();
 
   // if (!user) return;
 
@@ -57,7 +53,7 @@ const Dashboard = () => {
   return (
     <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
       <div className="flex flex-col gap-2">
-        <UserProfile onCreateWithTopic={() => navigate("/new-topic")} />
+        <UserProfile />
 
         <RecentTopicLinks groupedTopicLinks={groupedTopics} />
       </div>
@@ -74,6 +70,7 @@ const Dashboard = () => {
               message={message.content}
               messageId={message._id}
               isRead={message.isRead}
+              themeColor={message.themeColor}
             />
           ))}
         </div>

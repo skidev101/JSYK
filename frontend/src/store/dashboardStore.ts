@@ -14,6 +14,7 @@ export interface Message {
   topic?: string;
   content: string;
   isRead: boolean;
+  themeColor: string;
 }
 
 export interface DashboardData {

@@ -101,7 +101,7 @@ const ProfileDrawer = ({
         }
       );
 
-      refetch();
+      await refetch();
       console.log("profile updated successfully:", response.data);
     } catch (err: any) {
       console.log("Error updating profile:", err);

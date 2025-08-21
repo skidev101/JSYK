@@ -17,8 +17,7 @@ const TopicsList = () => {
       </div>
     );
   }
-  const groupedTopics = groupTopicsByDate(data.topics);
-  if (!groupedTopics) {
+  if (!data.topics) {
     return (
       // <Error
       //   errorMessage="Create an anonymous link to see links here"
@@ -58,8 +57,10 @@ const TopicsList = () => {
     );
   }
 
+  const groupedTopics = groupTopicsByDate(data.topics);
+
   return (
-    <div className="flex justify-center items-center w-full min-h-[100vh] flex-col">
+    <div className="flex items-center w-full flex-col">
       <div className="w-full max-w-3xl ">
         <div className="flex justify-between items-center w-full px-2 mt-20">
           <div>
