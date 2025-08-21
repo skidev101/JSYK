@@ -1,7 +1,7 @@
-const express = require('express');
-const router = express.Router(); 
-const { getImageUploadSignature } = require('../controllers/imageController')
+const express = require("express");
+const router = express.Router();
+const { getImageUploadSignature } = require("../controllers/imageController");
 
-router.get('/', getImageUploadSignature);
+router.get("/", getImageUploadSignature);
 
 module.exports = router;

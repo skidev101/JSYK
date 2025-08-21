@@ -23,17 +23,18 @@ const createTopic = async (req, res) => {
     const rawSlug = slugify(topic, { lowercase: true, strict: true });
     const truncatedSlug = rawSlug.substring(0, 50);
     const topicId = nanoid();
-    const topicLink = `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
+    const topicLink =
+      `${user.profileSlug}/${truncatedSlug}-${topicId}`.toLowerCase();
 
     let topicImgUrlsWithExpiry = undefined;
     if (imgUrls) {
-      console.log("topicImgUrls received:", imgUrls)
+      console.log("topicImgUrls received:", imgUrls);
       const now = new Date();
       const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
       topicImgUrlsWithExpiry = imgUrls.map((img) => ({
         url: img.url,
         fileId: img.fileId,
-        expiresAt: expiryDate
+        expiresAt: expiryDate,
       }));
     }
 
@@ -45,7 +46,7 @@ const createTopic = async (req, res) => {
       topicId,
       topicLink,
       themeColor: themeColor || null,
-      topicImgUrls: topicImgUrlsWithExpiry
+      topicImgUrls: topicImgUrlsWithExpiry,
     });
 
     console.log("new topic created:", newTopic);
@@ -55,7 +56,7 @@ const createTopic = async (req, res) => {
       topicId: topicId,
       topic: topic,
       link: topicLink,
-      message: "Topic created successfully"
+      message: "Topic created successfully",
     });
   } catch (err) {
     console.error("Error creating topic:", err);
@@ -76,12 +77,9 @@ const getUserTopics = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const [topics, totalCount] = await Promise.all([
-      Topic.find({ uid })
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(limit),
-      Topic.countDocuments({ uid })
-    ])
+      Topic.find({ uid }).sort({ createdAt: -1 }).skip(skip).limit(limit),
+      Topic.countDocuments({ uid }),
+    ]);
 
     if (!topics || totalCount === 0) {
       return res.status(200).json({
@@ -93,7 +91,7 @@ const getUserTopics = async (req, res) => {
           total: 0,
           pages: 0,
         },
-        totalCount: 0
+        totalCount: 0,
       });
     }
 
@@ -108,23 +106,63 @@ const getUserTopics = async (req, res) => {
     res.status(500).json({
       success: false,
       message: "Internal Server error",
-      code: "INTERNAL_SERVER_ERROR"
+      code: "INTERNAL_SERVER_ERROR",
     });
   }
 };
 
 const getTopic = async (req, res) => {
   try {
-    const { profileSlug, topicId } = req.params;
-    const topic = await Topic.findOne({ profileSlug, topicId });
-    const user = await User.findOne({ profileSlug });
-
+    const { uid } = req.user;
+    const { topicId } = req.params;
+    const topic = await Topic.findOne({ uid, topicId });
     if (!topic) {
       return res.status(404).json({
         success: false,
         message: "Topic not found",
-        code: "INVALID_TOPIC"
-      })
+        code: "TOPIC_NOT_FOUND",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {
+        topic: topic.topic,
+        topicLink: topic.topicLink,
+        themeColor: topic.themeColor,
+        topicImgUrls: topic.topicImgUrls,
+        createdAt: topic.createdAt,
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching topic:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal Server error",
+      code: "INTERNAL_SERVER_ERROR",
+    });
+  }
+};
+
+const getTopicInfo = async (req, res) => {
+  try {
+    const { profileSlug, topicId } = req.params;
+    const topic = await Topic.findOne({ profileSlug, topicId });
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        message: "Topic not found",
+        code: "INVALID_TOPIC",
+      });
+    }
+
+    const user = await User.findOne({ profileSlug });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+        code: "USER_NOT_FOUND",
+      });
     }
 
     res.status(200).json({
@@ -135,9 +173,9 @@ const getTopic = async (req, res) => {
         topic: topic.topic,
         topicId: topic.topicId,
         themeColor: topic.themeColor,
-        topicImgUrls: topic.topicImgUrls
-      }
-    })
+        topicImgUrls: topic.topicImgUrls,
+      },
+    });
   } catch (err) {
     console.error("Error fetching topic:", err);
     res.status(500).json({
@@ -146,7 +184,7 @@ const getTopic = async (req, res) => {
       code: "INTERNAL_SERVER_ERROR",
     });
   }
-}
+};
 
 const deleteTopic = async (req, res) => {
   try {
@@ -165,7 +203,7 @@ const deleteTopic = async (req, res) => {
     if (deletedTopic.topicImgUrls?.length) {
       for (const img of deletedTopic.topicImgUrls) {
         try {
-          imageKit.deleteFile(img.fileId)
+          imageKit.deleteFile(img.fileId);
         } catch (err) {
           console.error("Failed to delete image:", img.url, err.message);
         }
@@ -192,5 +230,6 @@ module.exports = {
   createTopic,
   getUserTopics,
   getTopic,
+  getTopicInfo,
   deleteTopic,
 };

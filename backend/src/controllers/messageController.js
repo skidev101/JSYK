@@ -90,6 +90,7 @@ const getUserMessages = async (req, res) => {
           total: 0,
           pages: 0,
         },
+        message: "No messages yet"
       });
     }
 
@@ -102,7 +103,7 @@ const getUserMessages = async (req, res) => {
         total: totalCount,
         pages: Math.ceil(totalCount / limit),
       },
-      unreadCount,
+      unreadCount: unreadCount
     });
   } catch (err) {
     console.error("Error getting messages:", err);
