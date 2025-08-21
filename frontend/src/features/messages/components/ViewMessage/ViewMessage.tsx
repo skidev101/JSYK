@@ -16,7 +16,7 @@ import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
 import { useDashboardStore } from "@/store/dashboardStore";
-import { useGetShareImage } from "../../hooks/useGetShareImage";
+import { toPng, toBlob } from "html-to-image";
 
 const ViewMessage = () => {
 
@@ -29,7 +29,6 @@ const ViewMessage = () => {
   const themeColor = "#3570F8";
   const { deleteMessage } = useDeleteMessage(); // add loading
   const removeMessage = useDashboardStore((state) => state.removeMessage);
-  const { handleDownload } = useGetShareImage();
 
   if (loadingMessage) {
     return (
@@ -40,15 +39,16 @@ const ViewMessage = () => {
   }
   // if (error) return <div className="text-md mt-40 mr-20">An error occured</div>;
 
-  const handleImageDownload = (e: React.FormEvent) => {
-    e.stopPropagation;
-    const payload = {
-      profileImgUrl: data?.profileImgUrl,
-      topic: data?.topic,
-      message: data?.content,
-      themeColor: data?.themeColor || themeColor
-    }
-    handleDownload(payload);
+  const handleImageDownload = async () => {
+    if (!messageRef.current) return;
+
+    const canvas = await html2canvas(messageRef.current);
+    const dataUrl = canvas.toDataURL("image/png");
+
+    const link = document.createElement("a");
+    link.href = dataUrl;
+    link.download = "message.png";
+    link.click();
   }
 
 
@@ -104,7 +104,7 @@ const ViewMessage = () => {
           } sm:hidden absolute top-14 right-2 z-20 flex-col bg-gray-100 shadow-md border-1 border-gray-200 rounded-md`}
         >
           <button 
-          onClick={(e) => handleImageDownload(e)}
+          onClick={() => handleImageDownload()}
           className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1">
             <Download size={20} />
             <p>Download</p>
@@ -129,7 +129,7 @@ const ViewMessage = () => {
             <AlertTriangle size={20} className="text-red-500" />
             </div> */}
           <button 
-            onClick={(e) => handleImageDownload(e)}
+            onClick={() => handleImageDownload()}
             className="bg-gray-200 text-gray-800 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
             <Download size={20} />
           </button>

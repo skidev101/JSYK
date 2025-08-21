@@ -15,7 +15,7 @@
     "emoji-regex": "^10.4.0",
     "firebase": "^11.9.1",
     "framer-motion": "^12.18.1",
-    "html2canvas": "^1.4.1",
+    "html-to-image": "^1.11.13",
     "imagekit-javascript": "^4.0.1",
     "lucide-react": "^0.522.0",
     "react": "^19.1.0",
