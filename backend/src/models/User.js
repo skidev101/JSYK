@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     bio: {
-      type: string,
+      type: String,
       default: ""
     },
     profileImgUrl: {
