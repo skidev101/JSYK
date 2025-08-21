@@ -21,7 +21,7 @@ export interface DashboardData {
   topics: Topic[];
   messages: Message[];
   pagination: string;
-  unreadCount: string;
+  unreadCount: number;
 }
 
 interface DashboardState {

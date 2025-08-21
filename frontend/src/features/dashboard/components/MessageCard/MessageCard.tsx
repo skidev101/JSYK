@@ -24,31 +24,35 @@ const MessageCard = ({
       className="relative rounded-xl bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200 shadow"
     >
       {isRead && (
-        <div className="absolute top-0 left-0 w-full h-full opacity-[0.4] bg-gray-50 rounded-lg z-50">
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.5] bg-gray-50 rounded-lg z-50">
           {/* opaque bg for read messages */}
         </div>
       )}
       <div className="flex justify-between px-1 py-2">
         <div className="flex items-center gap-2">
           <div
-            className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-300 outline-4 rounded-full"
+            className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-100 outline-2 rounded-full"
             style={{ outlineColor: themeColor }}
           >
-            <p className="text-sm sm:text-base">J</p>
+            <p className="text-sm sm:text-base" style={{ color: themeColor }}>{topic?.charAt(0) || "J"}</p>
           </div>
-          <h1 className="text-sm sm:text-lg text-gray-700 rounded-xl bg-gray-100 px-2 sm:px-3">
-            anonymous
+          <h1 className="text-sm sm:text-lg text-gray-600 rounded-xl bg-gray-100 px-2 sm:px-3 truncate">
+            {topic ? topic : "anonymous"}
           </h1>
         </div>
         {/* <button className="w-8 h-8 sm:w-9 sm:h-9 grid place-items-center bg-gray-100 text-gray-700 rounded-xl cursor-pointer hover:bg-gray-200 hover:scale-[1.01] active:scale-[0.98] transition duration-150">
           <DownloadCloudIcon size={18} />
         </button> */}
+
+        {!isRead && (
+          <span className="w-2 h-2 rounded-full bg-red-300"></span>
+        )}
       </div>
 
       <div className="flex flex-col gap-1">
-        <p className="text-base sm:text-md max-w-max rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">
+        {/* <p className="text-base sm:text-md max-w-max rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">
           {topic}
-        </p>
+        </p> */}
         <div className="w-full bg-gray-100 p-3 mt-1 rounded-xl">
           <p className="text-sm sm:text-base truncate">{message}</p>
         </div>

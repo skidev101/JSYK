@@ -11,13 +11,13 @@ const UserProfile = () => {
 
   return (
     <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">
-      <div className="flex items-center gap-2 w-full rounded-lg">
+      <div className="flex items-center gap-2 w-full">
         <img
           src={user?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
           alt="profile"
-          className="w-8 h-8 sm:w-12 sm:h-12"//still check this later
+          className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover object-center"
         />
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col flex-grow">
           <h1 className="text-lg sm:text-xl font-bold">
             {user?.username || "loading..."}
           </h1>

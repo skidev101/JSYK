@@ -31,7 +31,7 @@ const SendMessage = () => {
       profileSlug,
       topicId,
       messageToSend,
-      themeColor: data?.themeColor,
+      themeColor: data?.themeColor || themeColor,
     });
 
     if (success) {

@@ -69,6 +69,7 @@ const Dashboard = () => {
               key={message._id}
               message={message.content}
               messageId={message._id}
+              topic={message.topic}
               isRead={message.isRead}
               themeColor={message.themeColor}
             />
