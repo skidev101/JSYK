@@ -73,7 +73,7 @@ const handleAuth = async (req, res) => {
         email: user.email,
         bio: user.bio,
         profileImgUrl: user.profileImgUrl,
-        somethingLink: user.somethingLink,
+        somethingLink: user.profileSlug,
         memberSince: user.createdAt,
         profileViews: user.viewsToday,
       },
