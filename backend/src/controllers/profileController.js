@@ -105,10 +105,20 @@ const updateProfile = async (req, res) => {
     if (username !== undefined) user.username = username;
     if (email !== undefined) user.email = email;
     if (bio !== undefined) user.bio = bio;
-    if (profileImgUrl !== undefined) user.profileImgUrl = profileImgUrl;
-    if (profileImgFileId !== undefined)
-      user.profileImgFileId = profileImgFileId;
+    if (profileImgUrl !== undefined && fileId !== undefined) {
+      if (user.profileImgFileId && user.profileImgFileId !== fileId) {
+        try {
+          await imagekit.deleteFile(user.profileImgFileId);
+          console.log("Deleted old profile image:", user.profileImgFileId);
+        } catch (err) {
+          console.error("Failed to delete old profile image:", err);
+        }
+      }
 
+      user.profileImgUrl = profileImgUrl;
+      user.profileImgFileId = fileId;
+    }
+    
     await user.save();
     console.log("successfully updated user");
 
@@ -118,8 +128,9 @@ const updateProfile = async (req, res) => {
       data: {
         username: user.username,
         email: user.email,
+        bio: user.bio,
         profileImgUrl: user.profileImgUrl,
-        somethingLink: user.somethingLink,
+        somethingLink: user.profileSlug,
       },
     });
   } catch (err) {
