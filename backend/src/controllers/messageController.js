@@ -61,8 +61,14 @@ const sendMessage = async (req, res) => {
 const getUserMessages = async (req, res) => {
   try {
     const { uid } = req.user;
-    const page = parseInt(req.query.page || 1);
-    const limit = parseInt(req.query.limit || 20);
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 20;
+
+    if (page < 1 || limit < 1) {
+      return res.status(400).json({ 
+        success: false, message: "Invalid pagination params" 
+      });
+    }
 
     const skip = (page - 1) * limit;
 
@@ -89,10 +95,13 @@ const getUserMessages = async (req, res) => {
           limit,
           total: 0,
           pages: 0,
+          hasNextPage: false
         },
-        message: "No messages yet"
+        message: "No messages yet",
       });
     }
+
+    const totalPages = Math.ceil(totalCount / limit);
 
     res.status(200).json({
       success: true,
@@ -101,9 +110,10 @@ const getUserMessages = async (req, res) => {
         page,
         limit,
         total: totalCount,
-        pages: Math.ceil(totalCount / limit),
+        pages: totalPages,
+        hasNextPage: page < totalPages,
       },
-      unreadCount: unreadCount
+      unreadCount: unreadCount,
     });
   } catch (err) {
     console.error("Error getting messages:", err);
@@ -143,7 +153,7 @@ const getMessage = async (req, res) => {
         content: message.content,
         createdAt: message.createdAt,
         isRead: message.isRead,
-        themeColor: message.themeColor
+        themeColor: message.themeColor,
       },
     });
   } catch (err) {
@@ -215,7 +225,6 @@ const deleteMessage = async (req, res) => {
 
     const unreadCount = await Message.countDocuments({ uid, isRead: false });
     const totalMessages = await Message.countDocuments({ uid });
-
 
     console.log("messsage delete");
 

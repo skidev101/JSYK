@@ -8,7 +8,7 @@ exports.validateSendMessage = [
    body("themeColor")
       .trim()
       .notEmpty()
-      .withMessage("Mesage content is required")
+      .withMessage("ThemeColor is required")
 ];
 
 exports.validateMessageAction = [

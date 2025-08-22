@@ -14,14 +14,15 @@ interface fetchOptions {
 
 
 export const useDashboardData = () => {
+  console.log("now fetching dashboard data");
   const { user } = useAuth();
   const {
     data,
-    loading,
+    loadingData,
     error,
     lastFetched,
     setData,
-    setLoading,
+    setLoadingData,
     setError,
     setLastFetched,
   } = useDashboardStore();
@@ -29,7 +30,8 @@ export const useDashboardData = () => {
   const fetchDashboardData = useCallback(
     async (options: fetchOptions = {}) => {
       if (!user) {
-        setLoading(false);
+        setLoadingData(false);
+        console.log("leaving function because no user yet");
         return;
       }
 
@@ -37,7 +39,7 @@ export const useDashboardData = () => {
 
       try {
         if (!silent) {
-          setLoading(true);
+          setLoadingData(true);
         }
         setError(null);
 
@@ -66,6 +68,7 @@ export const useDashboardData = () => {
         }));
 
         const newMessages = messagesRes.data.messages || [];
+        console.log("gotten the data")
 
         setData({
           topics: transformedTopics,
@@ -80,15 +83,20 @@ export const useDashboardData = () => {
         setError("Failed to load dashboard data");
         toast.error("Failed to load dashboard data");
       } finally {
-        if (!silent) setLoading(false);
+        if (!silent) setLoadingData(false);
       }
     },
-    [user, setData, setLoading, setError, setLastFetched, data.messages]
+    [user, setData, setLoadingData, setError, setLastFetched]
   );
 
   const loadMore = (page: number, topicId: string) => {
     fetchDashboardData({ page, topicId, append: true });
   };
+
+  // useEffect(() => {
+  //   fetchDashboardData();
+
+  // }, [user])
 
 
   // Auto-refresh silently every 2 minutes
@@ -105,5 +113,5 @@ export const useDashboardData = () => {
     return () => clearInterval(interval);
   }, [user, lastFetched, fetchDashboardData]);
 
-  return { data, loading, error, refetch: fetchDashboardData, loadMore };
+  return { data, loadingData, error, refetch: fetchDashboardData, loadMore };
 };

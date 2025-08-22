@@ -34,11 +34,11 @@ export interface DashboardData {
 
 interface DashboardState {
   data: DashboardData;
-  loading: boolean;
+  loadingData: boolean;
   error: string | null;
   lastFetched: number | null;
   setData: (data: DashboardData) => void;
-  setLoading: (loading: boolean) => void;
+  setLoadingData: (loading: boolean) => void;
   setError: (error: string | null) => void;
   setLastFetched: (timestamp: number) => void;
   reset: () => void;
@@ -52,17 +52,17 @@ export const useDashboardStore = create<DashboardState>((set) => ({
     pagination: null,
     unreadCount: "0",
   },
-  loading: false,
+  loadingData: false,
   error: null,
   lastFetched: null,
   setData: (data) => set({ data }),
-  setLoading: (loading) => set({ loading }),
+  setLoadingData: (loadingData) => set({ loadingData }),
   setError: (error) => set({ error }),
   setLastFetched: (timestamp) => set({ lastFetched: timestamp }),
   reset: () =>
     set({
       data: { topics: [], messages: [], pagination: null, unreadCount: "0" },
-      loading: false,
+      loadingData: false,
       error: null,
       lastFetched: null,
     }),
