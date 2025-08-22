@@ -16,6 +16,7 @@ interface fetchOptions {
 export const useDashboardData = () => {
   console.log("now fetching dashboard data");
   const { user } = useAuth();
+  console.log("idToken:", user?.idToken);
   const {
     data,
     loadingData,
@@ -93,10 +94,10 @@ export const useDashboardData = () => {
     fetchDashboardData({ page, topicId, append: true });
   };
 
-  // useEffect(() => {
-  //   fetchDashboardData();
+  useEffect(() => {
+    fetchDashboardData();
 
-  // }, [user])
+  }, [user])
 
 
   // Auto-refresh silently every 2 minutes
