@@ -8,7 +8,7 @@ const redis = createClient({
 });
 
 redis.on('error', (err) => {
-  console.error('❌ Redis Client Error:', err);
+  console.error('Redis Client Error:', err);
 });
 
 let isConnected = false;
@@ -18,10 +18,10 @@ let isConnected = false;
     if (!isConnected) {
       await redis.connect();
       isConnected = true;
-      console.log('✅ Redis connected');
+      console.log('Redis connected');
     }
   } catch (err) {
-    console.error('❌ Redis connect failed:', err);
+    console.error('Redis connect failed:', err);
   }
 })();
 

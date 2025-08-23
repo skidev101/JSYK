@@ -5,7 +5,7 @@ const DBConnect = require('./src/config/db');
 
 DBConnect().then(() => {
   app.listen(PORT, () => {
-    console.log(`🔥 Server running on http://localhost:${PORT}`);
+    console.log(`Server running on http://localhost:${PORT}`);
   });
 });
 // This is the entry point of the application. It imports the app from src/app.js and starts the server on the specified port.
