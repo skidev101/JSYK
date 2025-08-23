@@ -21,6 +21,7 @@ interface AuthContextType {
   loading: boolean;
   login: (user: User) => void;
   logout: () => void;
+  updateToken: (newToken: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -33,6 +34,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (user: User) => {
     setUser(user);
   };
+
+  const updateToken = (newToken: string) => {
+    setUser(prevUser => {
+      if (prevUser) {
+        return { ...prevUser, idToken: newToken }
+      }
+      return prevUser;
+    })
+  }
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
@@ -72,7 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, firebaseUser, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, firebaseUser, loading, login, logout, updateToken }}>
       {children}
     </AuthContext.Provider>
   );

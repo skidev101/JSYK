@@ -7,12 +7,12 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/shared/services/firebase/config";
-import { useAuth } from "@/context/AuthContext";
+// import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
-import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
+// import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 const Login = () => {
-  const { login } = useAuth();
+  // const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -44,7 +44,7 @@ const Login = () => {
 
   const handleGoogleSignin = async (e: React.FormEvent) => {
     const provider = new GoogleAuthProvider();
-    const axiosPrivate = useAxiosPrivate();
+    // const axiosPrivate = useAxiosPrivate();
 
     e.preventDefault();
     setLoading(true);
@@ -54,11 +54,11 @@ const Login = () => {
       await signInWithPopup(auth, provider);
       // const idToken = await result.user.getIdToken();
 
-      const response = await axiosPrivate.post("/auth");
+      // const response = await axiosPrivate.post("/auth");
 
-      console.log("Response to google signin from backend:", response.data);
+      // console.log("Response to google signin from backend:", response.data);
 
-      login(response.data.data);
+      // login(response.data.data);
       setLoading(false);
       navigate("/");
       toast.success("Login successful");
@@ -66,12 +66,12 @@ const Login = () => {
       toast.error(err.message);
       setLoading(false);
       console.log("google signin error", err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleEmailSignin = async (e: React.FormEvent) => {
-    const axiosPrivate = useAxiosPrivate();
-
     e.preventDefault();
     setLoading(true);
     setErrors({});
@@ -84,25 +84,27 @@ const Login = () => {
     }
 
     try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       // const idToken = await result.user.getIdToken();
 
-      console.log("User logged in:", result.user);
+      // console.log("User logged in:", result.user);
 
-      const response = await axiosPrivate.post("/auth");
+      // const response = await axiosPrivate.post("/auth");
 
-      console.log("Response to email signin from backend:", response.data);
+      // console.log("Response to email signin from backend:", response.data);
 
-      login(response.data.data);
+      // login(response.data.data);
 
       toast.success("login successful");
 
       navigate("/");
     } catch (err: any) {
       //setErrors({ general: err });
-      toast.error(err.message || "Login failed");
+      toast.error("Login failed");
       setLoading(false);
       console.error("login error", err);
+    } finally {
+      setLoading(false);
     }
   };
 

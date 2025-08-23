@@ -3,14 +3,13 @@ import { useAuth } from "@/context/AuthContext";
 import { useEffect } from "react";
 
 export const useAxiosPrivate = () => {
-  const { user, firebaseUser } = useAuth();
-  if (!user) throw new Error("No firebase user yet");
+  const { user, firebaseUser, updateToken } = useAuth();
 
   useEffect(() => {
     const requestIntercept = axiosPrivate.interceptors.request.use(
       (config) => {
         if (!config.headers["Authorization"]) {
-          config.headers["Authorization"] = `Bearer ${user.idToken}`;
+          config.headers["Authorization"] = `Bearer ${user?.idToken}`;
         }
         return config;
       },
@@ -21,18 +20,27 @@ export const useAxiosPrivate = () => {
       (response) => response,
       async (error) => {
         const prevReq = error?.config;
-        if (error?.response?.status === 403 && !prevReq.sent) {
+        if ((error?.response?.status === 401 || error?.response?.status === 403) && !prevReq.sent) {
           prevReq.sent = true;
 
-          let newIdToken;
-          if (firebaseUser) {
-            newIdToken = await firebaseUser.getIdToken();
-          } else {
-            throw new Error("No firebaseUser");
-          }
+          try {
+            if (!firebaseUser) {
+              throw new Error("No authenticated user available");
+            }
 
-          prevReq.headers["Authorization"] = `Bearer ${newIdToken}`;
-          return axiosPrivate(prevReq);
+            const newIdToken = await firebaseUser.getIdToken(true);
+            updateToken(newIdToken);
+            prevReq.headers["Authorization"] = `Bearer ${newIdToken}`;
+
+            return axiosPrivate(prevReq);
+          } catch (refreshError) {
+            // Handle token refresh failure (maybe redirect to login)
+            console.error("Token refresh failed:", refreshError);
+            // signOut(); // Clear auth state
+            return Promise.reject(refreshError);
+          }
+          
+          
         }
         return Promise.reject(error);
       }
@@ -42,7 +50,7 @@ export const useAxiosPrivate = () => {
       axiosPrivate.interceptors.request.eject(requestIntercept);
       axiosPrivate.interceptors.response.eject(responseIntercept);
     };
-  }, [user, firebaseUser]);
+  }, [user, firebaseUser, updateToken]);
 
   return axiosPrivate;
 };
