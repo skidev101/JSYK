@@ -7,9 +7,9 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/shared/services/firebase/config";
-import axios from "axios";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 const Login = () => {
   const { login } = useAuth();
@@ -44,24 +44,17 @@ const Login = () => {
 
   const handleGoogleSignin = async (e: React.FormEvent) => {
     const provider = new GoogleAuthProvider();
+    const axiosPrivate = useAxiosPrivate();
 
     e.preventDefault();
     setLoading(true);
     setErrors({});
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const idToken = await result.user.getIdToken();
+      await signInWithPopup(auth, provider);
+      // const idToken = await result.user.getIdToken();
 
-      const response = await axios.post(
-        "http://127.0.0.1:3000/api/auth",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        }
-      );
+      const response = await axiosPrivate.post("/auth");
 
       console.log("Response to google signin from backend:", response.data);
 
@@ -77,6 +70,8 @@ const Login = () => {
   };
 
   const handleEmailSignin = async (e: React.FormEvent) => {
+    const axiosPrivate = useAxiosPrivate();
+
     e.preventDefault();
     setLoading(true);
     setErrors({});
@@ -90,20 +85,11 @@ const Login = () => {
 
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
-      const idToken = await result.user.getIdToken();
+      // const idToken = await result.user.getIdToken();
 
       console.log("User logged in:", result.user);
-      console.log("ID Token gotten at login");
 
-      const response = await axios.post(
-        "http://127.0.0.1:3000/api/auth",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        }
-      );
+      const response = await axiosPrivate.post("/auth");
 
       console.log("Response to email signin from backend:", response.data);
 
@@ -230,4 +216,3 @@ const Login = () => {
 };
 
 export default Login;
-
