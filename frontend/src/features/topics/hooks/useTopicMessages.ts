@@ -25,15 +25,13 @@ interface FetchResponse {
   message?: string;
 }
 
-interface TopicMessages {
-  messages: Message[];
-}
-
 export const useTopicMessages = () => {
   const { user } = useAuth();
   const axiosPrivate = useAxiosPrivate();
-  const [messages, setMessages] = useState<TopicMessages | null>(null);
-  const [loading, setLoading] = useState<boolean | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [pagination, setPagination] = useState<FetchResponse["pagination"] | null>(null);
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [loading, setLoading] = useState(false); 
   const [error, setError] = useState("");
 
   const fetchTopicMessages = useCallback(
@@ -43,8 +41,6 @@ export const useTopicMessages = () => {
         console.log("leaving function because no user yet");
         return;
       }
-
-
       setLoading(true);
       setError("");
 
@@ -55,10 +51,18 @@ export const useTopicMessages = () => {
             }`
         )
 
-        const newMessages = await response.data || [];
-        console.log("gotten the topic messages");
+        const { messages: newMessages, pagination, unreadCount } = response.data;
+        console.log("gotten the topic messages", response.data);
 
-        setData((prev) => append ? [...prev.messages, ...newMessages] : newMessages)
+        setMessages((prev) => {
+          if (append) {
+            return [...prev, ...newMessages]
+          }
+          return [...newMessages]
+        });
+        setPagination(pagination);
+        setUnreadCount(unreadCount);
+
 
       } catch (err) {
         console.error("Error fetching topic messages:", err);
@@ -68,7 +72,7 @@ export const useTopicMessages = () => {
         setLoading(false);
       }
     },
-    [user]
+    [user, axiosPrivate]
   );
 
   const loadMore = useCallback(
@@ -78,5 +82,5 @@ export const useTopicMessages = () => {
     [fetchTopicMessages]
   );
 
-  return { data, loading, error, loadMore };
+  return { messages, pagination, unreadCount, fetchTopicMessages, loading, error, loadMore };
 };

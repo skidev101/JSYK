@@ -6,22 +6,25 @@ import { Loader2 } from "lucide-react";
 
 const TopicMessagesList = () => {
   const { data, refetch, loadMore, error, loadingData } = useDashboardData();
-  const messages = data.messages;
-
+  const [messages, setMessages] = useState<any[]>([]);
   const [page, setPage] = useState(1);
+
   const loaderRef = useRef<HTMLDivElement | null>(null);
+
+  // 🔹 When data changes (from backend), append it to local state
+  useEffect(() => {
+    if (Array.isArray(data) && data.length > 0) {
+      setMessages((prev) => [...prev, ...data]);
+    }
+  }, [data]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
-        if (
-          first.isIntersecting &&
-          !loadingData &&
-          data.pagination?.hasNextPage
-        ) {
+        if (first.isIntersecting && !loadingData) {
           const nextPage = page + 1;
-          loadMore(nextPage, "");
+          loadMore(nextPage, ""); // fetch next page
           setPage(nextPage);
         }
       },
@@ -34,12 +37,12 @@ const TopicMessagesList = () => {
     return () => {
       if (current) observer.unobserve(current);
     };
-  }, [page, loadingData]);
+  }, [page, loadingData, loadMore]);
 
   if (error) {
     return (
       <ErrorState
-        message="An unknown error occured"
+        message="An unknown error occurred"
         src="/empty-box.png"
         onRetry={refetch}
       />
@@ -50,11 +53,9 @@ const TopicMessagesList = () => {
     <div className="flex items-center w-full flex-col">
       <div className="w-full max-w-3xl ">
         <div className="flex justify-between items-center w-full px-2 mt-20">
-          <div>
-            <h1 className="text-lg sm:text-2xl bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
-              Hello world
-            </h1>
-          </div>
+          <h1 className="text-lg sm:text-2xl bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
+            Hello world
+          </h1>
         </div>
         <div className="w-full rounded-2xl p-4 border-1 border-gray-100 shadow-md mt-5">
           <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
@@ -71,15 +72,10 @@ const TopicMessagesList = () => {
               ))}
               <div ref={loaderRef} className="fixed left-1/2 -translate-x-1/2 pt-1">
                 {loadingData && (
-                  <Loader2
-                    size={15}
-                    className="animate-spin text-blue-500"
-                  />
+                  <Loader2 size={15} className="animate-spin text-blue-500" />
                 )}
-                {!data.pagination?.hasNextPage && (
-                  <span className="text-sm text-gray-700">
-                    No more messages
-                  </span>
+                {!data && !loadingData && (
+                  <span className="text-sm text-gray-700">No more messages</span>
                 )}
               </div>
             </div>
