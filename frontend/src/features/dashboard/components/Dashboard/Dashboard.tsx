@@ -5,7 +5,6 @@ import { Loader2, MessageCircle } from "lucide-react";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import RecentTopicLinks from "../RecentTopicLinks";
 import { HashLoader } from "react-spinners";
-import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
@@ -87,7 +86,7 @@ const Dashboard = () => {
 
       <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
         <div className="flex items-center gap-1 mt-2 ml-1">
-          <MessageCircle size={UI_CONSTANTS.ICON_SIZES.LARGE} />
+          <MessageCircle size={20} />
           <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">

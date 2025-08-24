@@ -101,8 +101,8 @@ const ProfileDrawer = ({
       toast.error("An error occured");
     } finally {
       setLoading(false);
-      onClose();
       setEditMode(false);
+      onClose();
       navigate("/");
     }
   };

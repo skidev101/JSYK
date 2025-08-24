@@ -10,6 +10,7 @@ import SendMessagePage from "./pages/SendMessagePage";
 import UserProfilePage from "./pages/UserProfilePage";
 import ViewMessagePage from "./pages/ViewMessagePage";
 import TopicsListPage from "./pages/TopicsListPage";
+import TopicMessagesListPage from "./pages/TopicMessagesListPage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
           <Route path="/new-topic" element={<NewTopicPage />} />
           <Route path="/view/:messageId" element={<ViewMessagePage />} />
           <Route path="/topics" element={<TopicsListPage />} />
+          <Route path="/:topicId/messages" element={<TopicMessagesListPage />} />
         </Route>
 
         <Route path="/:profileSlug" element={<UserProfilePage />} />

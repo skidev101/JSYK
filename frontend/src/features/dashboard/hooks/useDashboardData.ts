@@ -18,10 +18,10 @@ export const useDashboardData = () => {
   const axiosPrivate = useAxiosPrivate();
   const {
     data,
+    setData,
     loadingData,
     error,
     lastFetched,
-    setData,
     setLoadingData,
     setError,
     setLastFetched,
