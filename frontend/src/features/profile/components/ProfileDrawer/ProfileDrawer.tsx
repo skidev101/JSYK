@@ -13,10 +13,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../../context/AuthContext";
-import { uploadToImageKit } from "@/shared/services/imageKit/uploadToImageKit";
-import axios from "axios";
-import { useDashboardData } from "@/features/dashboard/hooks/useDashboardData";
+import { uploadToImageKit, type UploadResult } from "@/shared/services/imageKit/uploadToImageKit";
 import { useNavigate } from "react-router-dom";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 interface ProfileDrawerProps {
   show: boolean;
@@ -25,15 +24,16 @@ interface ProfileDrawerProps {
   onDeleteClick?: () => void;
 }
 
+
 const ProfileDrawer = ({
   show,
   onClose,
   onLogoutClick,
   onDeleteClick,
 }: ProfileDrawerProps) => {
-  const { user } = useAuth();
-  const { refetch } = useDashboardData();
+  const { user, refetchUser } = useAuth();
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
   const [editMode, setEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -77,7 +77,7 @@ const ProfileDrawer = ({
       let imgUrl;
       let fileId;
       if (imgFile) {
-        const result = await uploadToImageKit({
+        const result: UploadResult = await uploadToImageKit({
           file: imgFile,
           folder: "something/profileImgs",
         });
@@ -85,29 +85,23 @@ const ProfileDrawer = ({
         fileId = result.fileId;
       }
 
-      const response = await axios.patch(
-        "http://127.0.0.1:3000/api/profile",
-        {
-          username: formData.username,
-          bio: formData.bio,
-          profileImgUrl: imgUrl,
-          fileId: fileId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${user?.idToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      console.log("profileimgUrl:", imgUrl);
 
-      await refetch();
+      const response = await axiosPrivate.patch("/profile", {
+        username: formData.username,
+        bio: formData.bio,
+        profileImgUrl: imgUrl,
+        fileId: fileId,
+      });
+
+      await refetchUser();
       console.log("profile updated successfully:", response.data);
     } catch (err: any) {
       console.log("Error updating profile:", err);
       toast.error("An error occured");
     } finally {
       setLoading(false);
+      onClose();
       setEditMode(false);
       navigate("/");
     }

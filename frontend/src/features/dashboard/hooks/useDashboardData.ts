@@ -1,22 +1,21 @@
 import { useCallback, useEffect } from "react";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import { useDashboardStore } from "@/store/dashboardStore";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 interface fetchOptions {
   topicId?: string;
   page?: number;
   limit?: number;
   append?: boolean;
-  silent?: boolean; 
+  silent?: boolean;
 }
 
-
 export const useDashboardData = () => {
-  console.log("now fetching dashboard data");
+  // console.log("now fetching dashboard data");
   const { user } = useAuth();
-  console.log("idToken:", user?.idToken);
+  const axiosPrivate = useAxiosPrivate();
   const {
     data,
     loadingData,
@@ -30,13 +29,19 @@ export const useDashboardData = () => {
 
   const fetchDashboardData = useCallback(
     async (options: fetchOptions = {}) => {
-      if (!user) {
+      if (!user || !user.idToken) {
         setLoadingData(false);
         console.log("leaving function because no user yet");
         return;
       }
 
-      const { topicId = "", page = 1, limit = 20, append = false, silent = false } = options;
+      const {
+        topicId = "",
+        page = 1,
+        limit = 20,
+        append = false,
+        silent = false,
+      } = options;
 
       try {
         if (!silent) {
@@ -44,19 +49,12 @@ export const useDashboardData = () => {
         }
         setError(null);
 
-        const config = {
-          headers: {
-            Authorization: `Bearer ${user?.idToken}`,
-          },
-        };
-
         const [topicsRes, messagesRes] = await Promise.all([
-          axios.get("http://127.0.0.1:3000/api/topic", config),
-          axios.get(
-            `http://127.0.0.1:3000/api/message?page=${page}&limit=${limit}${
+          axiosPrivate.get("/topic"),
+          axiosPrivate.get(
+            `/message?page=${page}&limit=${limit}${
               topicId ? `&topic=${topicId}` : ""
-            }`,
-            config
+            }`
           ),
         ]);
 
@@ -69,7 +67,7 @@ export const useDashboardData = () => {
         }));
 
         const newMessages = messagesRes.data.messages || [];
-        console.log("gotten the data")
+        console.log("gotten the data");
 
         setData({
           topics: transformedTopics,
@@ -90,15 +88,18 @@ export const useDashboardData = () => {
     [user, setData, setLoadingData, setError, setLastFetched]
   );
 
-  const loadMore = (page: number, topicId: string) => {
-    fetchDashboardData({ page, topicId, append: true });
-  };
+  const loadMore = useCallback(
+    (page: number, topicId: string) => {
+      fetchDashboardData({ page, topicId, append: true });
+    },
+    [fetchDashboardData]
+  );
 
   useEffect(() => {
-    fetchDashboardData();
-
-  }, [user])
-
+    if (user) {
+      fetchDashboardData();
+    }
+  }, [user, fetchDashboardData]);
 
   // Auto-refresh silently every 2 minutes
   useEffect(() => {
@@ -108,6 +109,7 @@ export const useDashboardData = () => {
       const now = Date.now();
       if (!lastFetched || now - lastFetched > 2 * 60 * 1000) {
         fetchDashboardData({ silent: true }); // silent refresh
+        console.log("running silent dasboard data fetch");
       }
     }, 60 * 1000); // check every 1 minute
 

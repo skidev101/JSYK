@@ -20,7 +20,7 @@ export const uploadToImageKit = async ({
   folder,
 }: UploadOptions): Promise<UploadResult> => {
   try {
-    const { data } = await axios.get(`${APP_CONFIG.API}/image/sign`);
+    const { data } = await axios.get(`${APP_CONFIG.API_BASE_URL}/image/sign`);
 
     const imageKit = new ImageKit({
       publicKey: import.meta.env.VITE_IMAGEKIT_PUBLIC_KEY,

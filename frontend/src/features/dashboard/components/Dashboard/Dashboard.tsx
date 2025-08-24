@@ -1,7 +1,7 @@
 import UserProfile from "../Userprofile";
 import MessageCard from "../MessageCard";
 import { useDashboardData } from "../../hooks/useDashboardData";
-import { MessageCircle } from "lucide-react";
+import { Loader2, MessageCircle } from "lucide-react";
 import { groupTopicsByDate } from "@/shared/utils/groupTopicsByDate";
 import RecentTopicLinks from "../RecentTopicLinks";
 import { HashLoader } from "react-spinners";
@@ -103,10 +103,10 @@ const Dashboard = () => {
           ))}
         <div ref={loaderRef} className="flex justify-center p-4">
           {loadingData && (
-            <span className="text-sm text-gray-500">Loading more...</span>
+            <Loader2 size={15} className="animate-spin block text-center" />
           )}
           {!data.pagination?.hasNextPage && (
-            <span className="text-sm text-blue-800">No more messages</span>
+            <span className="text-sm text-gray-700">No more messages</span>
           )}
         </div>
         </div>
