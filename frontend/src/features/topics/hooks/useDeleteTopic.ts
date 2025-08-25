@@ -9,7 +9,7 @@ export const useDeleteTopic = () => {
     setLoadingDelete(true);
 
     try {
-      const res = await axiosPrivate.delete(`http://127.0.0.1/api/topic/${topicId}`);
+      const res = await axiosPrivate.delete(`/topic/${topicId}`);
       if (res.status === 200) {
         return true
       }

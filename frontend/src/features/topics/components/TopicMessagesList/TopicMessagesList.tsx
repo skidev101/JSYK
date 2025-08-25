@@ -4,13 +4,14 @@ import MessageCard from "@/features/dashboard/components/MessageCard";
 import { Loader2, Trash } from "lucide-react";
 import { useTopicMessages } from "../../hooks/useTopicMessages";
 import { FadeDown } from "@/shared/components/Motion";
-// import { useDeleteTopic } from "../../hooks/useDeleteTopic";
-// import { useParams } from "react-router-dom";
+import { useDeleteTopic } from "../../hooks/useDeleteTopic";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TopicMessagesList = () => {
-  // const topicId = useParams();
+  const { topicId } = useParams();
+  const navigate = useNavigate();
   const { messages, pagination, loadMore, error, loading, fetchTopicMessages } = useTopicMessages();
-  // const { handleDelete, loadingDelete } = useDeleteTopic();
+  const { handleDelete, loadingDelete } = useDeleteTopic();
 
   const [page, setPage] = useState(1);
   const loaderRef = useRef<HTMLDivElement | null>(null);
@@ -40,6 +41,17 @@ const TopicMessagesList = () => {
     };
   }, [page, loading, pagination, loadMore]);
 
+  const deleteTopic = async () => {
+    if (!topicId) return;
+    const confirmed = window.confirm("Are you sure you want to delete this topic?");
+    if (!confirmed) return;
+
+    const success = await handleDelete(topicId);
+    if (success) {
+      navigate("/");
+    }
+  }
+
   if (error) {
     console.log("hello world");
     // return (
@@ -64,14 +76,12 @@ const TopicMessagesList = () => {
               <h1>Hello world</h1>
             </div>
 
-              <button className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+              <button 
+              onClick={() => deleteTopic()}
+              disabled={loadingDelete}
+              className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
                 <Trash size={20} />
               </button>
-            {/* <div className="flex bg-amber-200">
-              <button className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
-                <Trash size={20} />
-              </button>
-            </div> */}
           </div>
           <div className="w-full rounded-2xl p-4 border-1 border-gray-100 shadow-md mt-5">
             <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
