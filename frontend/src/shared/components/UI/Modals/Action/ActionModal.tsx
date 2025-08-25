@@ -1,48 +1,53 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, X } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../../../../context/AuthContext";
+// import { useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../../../../../context/AuthContext";
 
 interface LogoutProps {
   isOpen: boolean;
   onClose: () => void;
+  loading: boolean;
   warning: string;
   header: string;
-  action: string;
+  btnAction: string;
+  friendlyText?: string;
   handleAction: () => void;
 }
 
 const ActionModal = ({
   isOpen,
   onClose,
+  loading,
   warning,
   header,
-  action,
+  btnAction,
+  friendlyText,
+  handleAction
 }: LogoutProps) => {
-  const { logout } = useAuth();
+  // const { logout } = useAuth();
 
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const [friendlyText, setFriendlyText] = useState("");
+  // const navigate = useNavigate();
+  // const [loading, setLoading] = useState(false);
+  // const [friendlyText, setFriendlyText] = useState("");
 
-  const handleAction = () => {
-    if (action === "Logout") {
-      setLoading(true);
-      setFriendlyText("See U later 😘");
-      setTimeout(() => {
-        logout();
-        setLoading(false);
-        navigate("/login");
-      }, 3000);
-    } else if (action === "Delete") {
-      setLoading(true);
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/login");
-      }, 3000);
-    }
-  };
+  // const handleAction = () => {
+  //   if (action === "Logout") {
+  //     setLoading(true);
+  //     setFriendlyText("See U later 😘");
+  //     setTimeout(() => {
+  //       logout();
+  //       setLoading(false);
+  //       navigate("/login");
+  //     }, 3000);
+  //   } else if (action === "Delete") {
+  //     setLoading(true);
+  //     setTimeout(() => {
+  //       setLoading(false);
+  //       navigate("/login");
+  //     }, 3000);
+  //   }
+  // };
 
   return (
     <AnimatePresence>
@@ -76,7 +81,7 @@ const ActionModal = ({
 
               <p className="text-sm sm:text-base py-2">{warning}</p>
 
-              {friendlyText && action === "Logout" && (
+              {friendlyText && btnAction === "Logout" && (
                 <p className="text-sm sm:text-base py-2">{friendlyText}</p>
               )}
 
@@ -91,7 +96,7 @@ const ActionModal = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  onClick={handleAction}
+                  onClick={() => handleAction()}
                   className={`flex justify-center items-center p-2 sm:p-3 text-white rounded-md cursor-pointer ${
                     loading ? "bg-red-500" : "bg-red-600"
                   } hover:bg-red-500 active:scale-[0.97] transition duration-200`}
@@ -99,7 +104,7 @@ const ActionModal = ({
                   {loading ? (
                     <Loader2 size={18} className="animate-spin" />
                   ) : (
-                    action
+                    btnAction
                   )}
                 </button>
               </div>

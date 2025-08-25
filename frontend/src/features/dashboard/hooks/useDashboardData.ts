@@ -59,15 +59,17 @@ export const useDashboardData = () => {
         ]);
 
         const topics = topicsRes.data.topics || [];
+        console.log("topics gotten from server:", topics);
         const transformedTopics = topics.map((topic: any) => ({
           _id: topic._id,
           url: topic.topicLink,
           createdAt: topic.createdAt,
           topic: topic.topic,
+          messageCount: topic.messageCount
         }));
 
         const newMessages = messagesRes.data.messages || [];
-        console.log("gotten the data");
+        console.log("newMessages from server:", newMessages);
 
         setData({
           topics: transformedTopics,

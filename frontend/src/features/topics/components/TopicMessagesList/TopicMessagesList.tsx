@@ -124,9 +124,11 @@ const TopicMessagesList = () => {
       <ActionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
+        handleAction={deleteTopic}
+        loading={loadingDelete}
         header="Delete Topic"
         warning="Are you sure you want to delete this topic? This action cannot be undone."
-        action="Delete"
+        btnAction="Delete"
        />
     </FadeDown>
   );

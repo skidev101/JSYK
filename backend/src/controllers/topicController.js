@@ -123,6 +123,7 @@ const getTopic = async (req, res) => {
         code: "TOPIC_NOT_FOUND",
       });
     }
+    const messageCount = await Message.countDocuments({ uid, topicId });
 
     res.status(200).json({
       success: true,
@@ -132,6 +133,7 @@ const getTopic = async (req, res) => {
         themeColor: topic.themeColor,
         topicImgUrls: topic.topicImgUrls,
         createdAt: topic.createdAt,
+        messageCount: messageCount
       },
     });
   } catch (err) {
