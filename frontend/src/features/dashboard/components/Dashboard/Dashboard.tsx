@@ -8,16 +8,15 @@ import { HashLoader } from "react-spinners";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
+import { FadeDown } from "@/shared/components/Motion";
 
 const Dashboard = () => {
-  const { user, loading } = useAuth();  
+  const { user, loading } = useAuth();
   const { data, error, refetch, loadMore, loadingData } = useDashboardData();
   const messages = data.messages;
 
   const [page, setPage] = useState(1);
   const loaderRef = useRef<HTMLDivElement | null>(null);
-
-  
 
   useEffect(() => {
     if (!data.messages.length) {
@@ -29,7 +28,11 @@ const Dashboard = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         const first = entries[0];
-        if (first.isIntersecting && !loadingData && data.pagination?.hasNextPage) {
+        if (
+          first.isIntersecting &&
+          !loadingData &&
+          data.pagination?.hasNextPage
+        ) {
           const nextPage = page + 1;
           loadMore(nextPage, "");
           setPage(nextPage);
@@ -77,41 +80,42 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
-      <div className="flex flex-col gap-2">
-        <UserProfile />
+    <FadeDown>
+      <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
+        <div className="flex flex-col gap-2">
+          <UserProfile />
 
-        <RecentTopicLinks groupedTopicLinks={groupedTopics} />
+          <RecentTopicLinks groupedTopicLinks={groupedTopics} />
+        </div>
+
+        <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
+          <div className="flex items-center gap-1 mt-2 ml-1">
+            <MessageCircle size={20} />
+            <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+            {messages.map((message) => (
+              <MessageCard
+                key={message._id}
+                message={message.content}
+                messageId={message._id}
+                topic={message.topic}
+                isRead={message.isRead}
+                themeColor={message.themeColor}
+              />
+            ))}
+            <div ref={loaderRef} className="flex justify-center p-4">
+              {loadingData && (
+                <Loader2 size={25} className="animate-spin text-blue-500" />
+              )}
+              {!data.pagination?.hasNextPage && !loadingData && (
+                <span className="text-sm text-gray-700">No more messages</span>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
-
-      <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
-        <div className="flex items-center gap-1 mt-2 ml-1">
-          <MessageCircle size={20} />
-          <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
-          {messages.map((message) => (
-            <MessageCard
-              key={message._id}
-              message={message.content}
-              messageId={message._id}
-              topic={message.topic}
-              isRead={message.isRead}
-              themeColor={message.themeColor}
-            />
-          ))}
-        <div ref={loaderRef} className="flex justify-center p-4">
-          {loadingData && (
-            <Loader2 size={15} className="animate-spin block text-center" />
-          )}
-          {!data.pagination?.hasNextPage && (
-            <span className="text-sm text-gray-700">No more messages</span>
-          )}
-        </div>
-        </div>
-
-      </div>
-    </div>
+    </FadeDown>
   );
 };
 

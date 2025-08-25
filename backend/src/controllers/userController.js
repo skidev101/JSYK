@@ -1,4 +1,7 @@
 const User = require("../models/User");
+const Topic = require("../models/Topic");
+const Message = require("../models/Message");
+const admin = require("firebase-admin");
 
 const checkUsername = async (req, res) => {
   try {
@@ -28,4 +31,60 @@ const checkUsername = async (req, res) => {
   }
 };
 
-module.exports = { checkUsername };
+
+
+const deleteUser = async (req, res) => {
+  const { uid } = req.user;
+
+  try {
+    const user = await User.findOne({ uid });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "user not found",
+        code: "USER_NOT_FOUND",
+      });
+    }
+
+    const fileIdsToDelete = [];
+    if (user.fileId) fileIdsToDelete.push(user.fileId);
+
+    const topics = await Topic.find({ uid });
+    topics.forEach((topic) => {
+      if (topic.fileId) fileIdstoDelete.push(topic.fileId)
+    });
+
+    for (const fileId of fileIdsToDelete) {
+      try {
+        await imagekit.deleteFile(fileId);
+      } catch (err) {
+        console.warn(`Failed to delete ImageKit file ${fileId}:`, err.message);
+      }
+    }
+
+    await Promise.all([
+      Topic.deleteMany({ uid }),
+      Message.deleteMany({ uid }),
+      User.deleteOne({ uid })
+    ]);
+
+    try {
+      await admin.auth.deleteUser(uid);
+      console.log("user now deleted from firebase");
+    } catch (err) {
+      console.error("Firebase delete failed:", err.message);
+    }
+
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      code: "INTERNAL_SERVER_ERROR",
+    });
+  }
+} 
+
+
+
+module.exports = { checkUsername, deleteUser };

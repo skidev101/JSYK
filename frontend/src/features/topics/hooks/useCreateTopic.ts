@@ -1,9 +1,7 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useAuth } from "@/context/AuthContext";
-import axios, { AxiosError } from "axios";
-import { APP_CONFIG } from "@/shared/constants/config";
 import type { SuccessfulUploadsProps } from "@/shared/utils/uploadImage";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 interface createTopicProps {
   topic: string;
@@ -12,7 +10,7 @@ interface createTopicProps {
 }
 
 export const useCreateTopic = () => {
-  const { user } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [loading, setLoading] = useState(false);
 
   const createTopic = async ({
@@ -20,29 +18,22 @@ export const useCreateTopic = () => {
     themeColor,
     topicImgUrls,
   }: createTopicProps) => {
+    setLoading(true);
+
     try {
-      setLoading(true);
-      const response = await axios.post(
-        `${APP_CONFIG.API_BASE_URL}/topic`,
-        {
-          topic,
-          themeColor,
-          topicImgUrls,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${user?.idToken}`,
-          },
-        }
-      );
-      setLoading(false);
+      const response = await axiosPrivate.post("/topic", {
+        topic,
+        themeColor,
+        topicImgUrls,
+      });
       console.log("response from create topic:", response);
       return response;
+      
     } catch (err: any) {
-      const error = err as AxiosError;
-      console.log("error at useCreateTopic:", error);
-      toast.error("An unknown error occured:", err.message);
+      console.log("error at useCreateTopic:", err);
+      toast.error("An unknown error occured");
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -1,9 +1,8 @@
-// const express = require('express');
-// const router = express.Router(); 
-// const { checkUsername } = require('../controllers/userController');
+const express = require('express');
+const router = express.Router(); 
+const { deleteUser } = require('../controllers/userController');
+const verifyToken = require('../middleware/verifyToken');
 
-// router.get('/', checkUsername);
+router.delete('/', verifyToken, deleteUser);
 
-// module.exports = router;
-// // This route checks if a username is available
-// // by querying the database for existing users with the same username.
+module.exports = router;

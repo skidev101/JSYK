@@ -9,6 +9,7 @@ const profileRoutes = require('./routes/profileRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const topicRoutes = require('./routes/topicRoutes');
 const imageRoute = require('./routes/imageRoute');
+const userRoutes = require('./routes/userRoutes');
 
 app.get('/api/cleanup-images', async (req, res) => {
     const { imageCleanupJob } = require('./jobs/imageCleaner');
@@ -32,6 +33,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/message', messageRoutes);
 app.use('/api/topic', topicRoutes);
 app.use('/api/image/sign', imageRoute);
+app.use('/api/user', userRoutes);
 
 
 app.get('/', (req, res) => {

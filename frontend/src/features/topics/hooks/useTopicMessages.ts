@@ -69,7 +69,7 @@ export const useTopicMessages = () => {
         setError("Failed to load topic messages");
         toast.error("Failed to load topic messages");
       } finally {
-        setLoading(false);
+        setLoading(true);
       }
     },
     [user, axiosPrivate]
