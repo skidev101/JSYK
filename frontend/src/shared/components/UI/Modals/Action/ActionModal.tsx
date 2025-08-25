@@ -10,6 +10,7 @@ interface LogoutProps {
   warning: string;
   header: string;
   action: string;
+  handleAction: () => void;
 }
 
 const ActionModal = ({

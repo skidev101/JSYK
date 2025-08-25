@@ -6,16 +6,19 @@ import { useTopicMessages } from "../../hooks/useTopicMessages";
 import { FadeDown } from "@/shared/components/Motion";
 import { useDeleteTopic } from "../../hooks/useDeleteTopic";
 import { useNavigate, useParams } from "react-router-dom";
+import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
 
 const TopicMessagesList = () => {
   const { topicId } = useParams();
   const navigate = useNavigate();
+
   const { messages, pagination, loadMore, error, loading, fetchTopicMessages } = useTopicMessages();
   const { handleDelete, loadingDelete } = useDeleteTopic();
 
   const [page, setPage] = useState(1);
-  const loaderRef = useRef<HTMLDivElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const loaderRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
     fetchTopicMessages({ page: 1 });
   }, [fetchTopicMessages]);
@@ -41,13 +44,14 @@ const TopicMessagesList = () => {
     };
   }, [page, loading, pagination, loadMore]);
 
+  
+
   const deleteTopic = async () => {
     if (!topicId) return;
-    const confirmed = window.confirm("Are you sure you want to delete this topic?");
-    if (!confirmed) return;
 
     const success = await handleDelete(topicId);
     if (success) {
+      setIsModalOpen(false);
       navigate("/");
     }
   }
@@ -77,7 +81,7 @@ const TopicMessagesList = () => {
             </div>
 
               <button 
-              onClick={() => deleteTopic()}
+              onClick={() => setIsModalOpen(true)}
               disabled={loadingDelete}
               className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
                 <Trash size={20} />
@@ -114,6 +118,16 @@ const TopicMessagesList = () => {
           </div>
         </div>
       </div>
+
+      {/* Delete confirmation modal */}
+
+      <ActionModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        header="Delete Topic"
+        warning="Are you sure you want to delete this topic? This action cannot be undone."
+        action="Delete"
+       />
     </FadeDown>
   );
 };
