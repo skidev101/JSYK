@@ -5,7 +5,7 @@ import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import type { Message } from "@/store/dashboardStore";
 
 interface fetchOptions {
-  topicId?: string;
+  topicId: string;
   page?: number;
   limit?: number;
   append?: boolean;
@@ -35,10 +35,10 @@ export const useTopicMessages = () => {
   const [error, setError] = useState("");
 
   const fetchTopicMessages = useCallback(
-    async ({ topicId = "", page = 1, limit = 20, append = false }: fetchOptions = {}) => {
-      if (!user || !user.idToken) {
+    async ({ topicId, page = 1, limit = 20, append = false }: fetchOptions) => {
+      if (!user || !user.idToken || !topicId) {
         setLoading(false);
-        console.log("leaving function because no user yet");
+        console.log("leaving function because no user or topicId yet");
         return;
       }
       setLoading(true);
@@ -46,9 +46,7 @@ export const useTopicMessages = () => {
 
       try {
         const response = await axiosPrivate.get<FetchResponse>(
-            `/message?page=${page}&limit=${limit}${
-              topicId ? `&topic=${topicId}` : ""
-            }`
+            `/message?page=${page}&limit=${limit}&topic=${topicId}`
         )
 
         const { messages: newMessages, pagination, unreadCount } = response.data;
@@ -69,7 +67,7 @@ export const useTopicMessages = () => {
         setError("Failed to load topic messages");
         toast.error("Failed to load topic messages");
       } finally {
-        setLoading(true);
+        setLoading(false);
       }
     },
     [user, axiosPrivate]

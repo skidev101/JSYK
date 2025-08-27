@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 export interface Topic {
   _id: string;
+  topicId: string,
   url: string;
   createdAt: string;
   topic: string;

@@ -10,6 +10,7 @@ import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
 
 const TopicMessagesList = () => {
   const { topicId } = useParams();
+  console.log("topicId at useTopicMessages hook:", topicId);
   const navigate = useNavigate();
 
   const { messages, pagination, loadMore, error, loading, fetchTopicMessages } =
@@ -21,8 +22,10 @@ const TopicMessagesList = () => {
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-    fetchTopicMessages({ page: 1 });
-  }, [fetchTopicMessages]);
+    if (topicId) {
+      fetchTopicMessages({ page: 1, topicId });
+    }
+  }, [fetchTopicMessages, topicId]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
