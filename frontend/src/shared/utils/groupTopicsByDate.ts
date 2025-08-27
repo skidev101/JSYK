@@ -1,4 +1,4 @@
-import type { Topic } from "@/features/dashboard/hooks/useDashboardData";
+import type { Topic } from "@/store/dashboardStore";
 
 
 export const groupTopicsByDate = (links: Topic[]): Record<string, Topic[]> => {

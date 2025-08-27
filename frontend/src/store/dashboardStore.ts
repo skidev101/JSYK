@@ -5,6 +5,7 @@ export interface Topic {
   url: string;
   createdAt: string;
   topic: string;
+  messageCount: number;
 }
 
 export interface Message {

@@ -23,10 +23,10 @@ const App = () => {
           <Route path="/new-topic" element={<NewTopicPage />} />
           <Route path="/view/:messageId" element={<ViewMessagePage />} />
           <Route path="/topics" element={<TopicsListPage />} />
-          <Route path="/:topicId/messages" element={<TopicMessagesListPage />} />
+          <Route path="/topic/:topicId/messages" element={<TopicMessagesListPage />} />
         </Route>
 
-        <Route path="/:profileSlug" element={<UserProfilePage />} />
+        <Route path="/u/:profileSlug" element={<UserProfilePage />} />
         <Route path="/m/:profileSlug/:slug" element={<SendMessagePage />} />
         <Route path="/m/:profileSlug" element={<SendMessagePage />} />
         <Route path="/login" element={<LoginPage />} />

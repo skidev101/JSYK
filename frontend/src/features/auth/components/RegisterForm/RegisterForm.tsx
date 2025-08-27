@@ -1,17 +1,31 @@
 import { useState } from "react";
-import { Mail, Lock, EyeOff, Eye, User, Loader2, CheckCircle2Icon, XCircleIcon } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  EyeOff,
+  Eye,
+  User,
+  Loader2,
+  CheckCircle2Icon,
+  XCircleIcon,
+} from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, type UserCredential } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithPopup,
+  type UserCredential,
+} from "firebase/auth";
 import { auth } from "@/shared/services/firebase/config";
 import toast from "react-hot-toast";
-import axios from "axios";
-import { useAuth } from "../../../../context/AuthContext";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateUsername";
-
+import { useAuth } from "@/context/AuthContext";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 const Register = () => {
   const { login } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const { status, message } = useUsernameCheck(username);
@@ -34,10 +48,10 @@ const Register = () => {
 
     const usernameError = validateUsername(username);
     if (usernameError) newErrors.username = usernameError;
-    
-    // const emailError = validateEmail(email);       
-    if (!email.trim()) {                                
-      newErrors.email = "Email is required";            //temporary validation. fix later
+
+    // const emailError = validateEmail(email);
+    if (!email.trim()) {
+      newErrors.email = "Email is required"; //temporary validation. fix later
     }
 
     if (!password.trim()) {
@@ -64,21 +78,16 @@ const Register = () => {
     setErrors({});
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const idToken = await result.user.getIdToken();
+      await signInWithPopup(auth, provider);
+      // const idToken = await result.user.getIdToken();
 
-      const response = await axios.post('http://127.0.0.1:3000/api/auth', {}, {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
-      });
+      await axiosPrivate.post("/auth");
 
-      console.log("Response to email signin from backend:", response.data);
-      login(response.data.data);
+      // console.log("Response to email signin from backend:", response.data);
+      // login(response.data.data);
 
       navigate("/");
       toast.success("Sign up successful");
-      
     } catch (err: any) {
       toast.error(err.message);
       setLoading(false);
@@ -95,27 +104,24 @@ const Register = () => {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       if (status === "taken") {
-        setErrors((prev) => ({ ...prev, username: "Username is already taken"}))
+        setErrors((prev) => ({
+          ...prev,
+          username: "Username is already taken",
+        }));
       }
       setLoading(false);
       return;
     }
 
-    let result: UserCredential | null =  null;
+    let result: UserCredential | null = null;
 
     try {
       result = await createUserWithEmailAndPassword(auth, email, password);
-      const idToken = await result.user.getIdToken();
-      console.log('id token gotten at email register');
+      // const idToken = await result.user.getIdToken();
+      console.log("id token gotten at email register");
 
-      const response = await axios.post('http://127.0.0.1:3000/api/auth', 
-      { 
-        username: username.trim()
-      }, 
-      {
-        headers: {
-          Authorization: `Bearer ${idToken}`
-        }
+      const response = await axiosPrivate.post("auth", {
+        username: username,
       });
 
       console.log("Response to email signin from backend:", response.data);
@@ -123,8 +129,6 @@ const Register = () => {
 
       navigate("/");
       toast.success("Sign up successful");
-
-
     } catch (err: any) {
       if (result?.user) {
         await result.user.delete(); // delete the user if signup fails
@@ -133,15 +137,31 @@ const Register = () => {
       setLoading(false);
       console.error("signup error:", err);
     }
-
-    
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm my-6">
         <h1 className="text-2xl font-bold my-1">Sign up to continue</h1>
-        <form onSubmit={handleEmailSignup} className="pt-2">
+
+        <button
+          disabled={loading}
+          onClick={handleGoogleSignup}
+          className={`flex justify-center items-center w-full ${
+            loading ? "cursor-not-allowed" : "cursor-pointer"
+          } bg-transparent hover:bg-gray-300 text-gray-500 font-bold py-2 mt-10 mb-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
+        >
+          <img
+            src="/google-icon.svg"
+            alt="Google Icon"
+            className="inline-block mr-2 w-5 h-5"
+          />
+          Continue with Google
+        </button>
+
+        <p className="text-center text-gray-500 pt-1">or</p>
+
+        <form onSubmit={handleEmailSignup} className="">
           <div className="my-4">
             {/* <label htmlFor="username" className="block text-gray-700 py-1">
               Username
@@ -158,8 +178,8 @@ const Register = () => {
                   const usernameErrors = validateUsername(value);
                   setErrors((prev) => ({
                     ...prev,
-                    username: usernameErrors || undefined
-                  }))
+                    username: usernameErrors || undefined,
+                  }));
                 }}
                 className={`w-full pl-10 pr-4 py-2 border ${
                   errors.username
@@ -169,16 +189,29 @@ const Register = () => {
                 placeholder="Create a username"
               />
               {status === "checking" ? (
-                <Loader2 size={18} className={`animate-spin absolute ${errors.username && 'hidden'} top-3 right-3 text-gray-500`} />
+                <Loader2
+                  size={18}
+                  className={`animate-spin absolute ${
+                    errors.username && "hidden"
+                  } top-3 right-3 text-gray-500`}
+                />
               ) : status === "available" ? (
-                <CheckCircle2Icon size={18} className={`absolute ${errors.username && 'hidden'} top-3 right-3 text-green-500`} />
+                <CheckCircle2Icon
+                  size={18}
+                  className={`absolute ${
+                    errors.username && "hidden"
+                  } top-3 right-3 text-green-500`}
+                />
               ) : status === "taken" ? (
-                <XCircleIcon size={18} className="absolute top-3 right-3 text-red-500"/>
+                <XCircleIcon
+                  size={18}
+                  className="absolute top-3 right-3 text-red-500"
+                />
               ) : null}
             </div>
             {status === "taken" && (
               <p className="text-red-500 text-sm mt-1">{message}</p>
-            )}  
+            )}
             {errors.username && (
               <p className="text-red-500 text-sm mt-1">{errors.username}</p>
             )}
@@ -295,23 +328,6 @@ const Register = () => {
             )}
           </button>
         </form>
-
-        <p className="text-center text-gray-500 py-1">or</p>
-
-        <button
-          disabled={loading}
-          onClick={handleGoogleSignup}
-          className={`flex justify-center items-center w-full ${
-            loading ? "cursor-not-allowed" : "cursor-pointer"
-          } bg-transparent hover:bg-gray-300 text-gray-500 font-bold py-2 my-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
-        >
-          <img
-            src="/google-icon.svg"
-            alt="Google Icon"
-            className="inline-block mr-2 w-5 h-5"
-          />
-          Continue with Google
-        </button>
 
         <p className="text-center text-gray-600 mt-5">
           Already a member?{" "}

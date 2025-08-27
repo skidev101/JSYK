@@ -33,9 +33,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const login = (user: User) => {
-    setUser(user);
-  };
+  // const login = (user: User) => {
+  //   setUser(user);
+  // };
 
   const updateToken = (newToken: string) => {
     setUser((prevUser) => {

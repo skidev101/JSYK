@@ -59,12 +59,10 @@ const Login = () => {
       // console.log("Response to google signin from backend:", response.data);
 
       // login(response.data.data);
-      setLoading(false);
       navigate("/");
       toast.success("Login successful");
     } catch (err: any) {
       toast.error(err.message);
-      setLoading(false);
       console.log("google signin error", err.message);
     } finally {
       setLoading(false);
@@ -101,7 +99,6 @@ const Login = () => {
     } catch (err: any) {
       //setErrors({ general: err });
       toast.error("Login failed");
-      setLoading(false);
       console.error("login error", err);
     } finally {
       setLoading(false);

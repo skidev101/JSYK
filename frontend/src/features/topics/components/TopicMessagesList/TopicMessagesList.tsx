@@ -12,7 +12,8 @@ const TopicMessagesList = () => {
   const { topicId } = useParams();
   const navigate = useNavigate();
 
-  const { messages, pagination, loadMore, error, loading, fetchTopicMessages } = useTopicMessages();
+  const { messages, pagination, loadMore, error, loading, fetchTopicMessages } =
+    useTopicMessages();
   const { handleDelete, loadingDelete } = useDeleteTopic();
 
   const [page, setPage] = useState(1);
@@ -44,8 +45,6 @@ const TopicMessagesList = () => {
     };
   }, [page, loading, pagination, loadMore]);
 
-  
-
   const deleteTopic = async () => {
     if (!topicId) return;
 
@@ -54,7 +53,7 @@ const TopicMessagesList = () => {
       setIsModalOpen(false);
       navigate("/");
     }
-  }
+  };
 
   if (error) {
     console.log("hello world");
@@ -70,26 +69,26 @@ const TopicMessagesList = () => {
   //   return <ErrorState message="No messages yet..." src="/empty-box.png" />;
   // }
 
-
   return (
     <FadeDown>
       <div className="flex items-center w-full flex-col">
         <div className="w-full max-w-4xl ">
-          <div className="flex justify-between items-center w-full px-2 mt-20">
-            <div className="text-lg sm:text-2xl bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
+          <div className="flex justify-between items-center w-full px-2 mt-20 gap-1">
+            <div className="text-xl sm:text-2xl bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
               <h1>Hello world</h1>
             </div>
 
-              <button 
+            <button
               onClick={() => setIsModalOpen(true)}
               disabled={loadingDelete}
-              className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
-                <Trash size={20} />
-              </button>
+              className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
+            >
+              <Trash size={18} />
+            </button>
           </div>
           <div className="w-full rounded-2xl p-4 border-1 border-gray-100 shadow-md mt-5">
             <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
-              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-4 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
                 {messages.map((message) => (
                   <MessageCard
                     key={message._id}
@@ -129,7 +128,7 @@ const TopicMessagesList = () => {
         header="Delete Topic"
         warning="Are you sure you want to delete this topic? This action cannot be undone."
         btnAction="Delete"
-       />
+      />
     </FadeDown>
   );
 };
