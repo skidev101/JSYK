@@ -20,7 +20,6 @@ interface AuthContextType {
   user: User | null;
   firebaseUser: FirebaseUser | null;
   loading: boolean;
-  login: (user: User) => void;
   logout: () => void;
   updateToken: (newToken: string) => void;
   refetchUser: () => Promise<void>;
@@ -112,7 +111,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         firebaseUser,
         loading,
-        login,
         logout,
         updateToken,
         refetchUser,

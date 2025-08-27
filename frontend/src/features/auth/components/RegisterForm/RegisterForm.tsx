@@ -20,11 +20,9 @@ import { auth } from "@/shared/services/firebase/config";
 import toast from "react-hot-toast";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateUsername";
-import { useAuth } from "@/context/AuthContext";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 const Register = () => {
-  const { login } = useAuth();
   const axiosPrivate = useAxiosPrivate();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
@@ -120,12 +118,11 @@ const Register = () => {
       // const idToken = await result.user.getIdToken();
       console.log("id token gotten at email register");
 
-      const response = await axiosPrivate.post("auth", {
+      await axiosPrivate.post("auth", {
         username: username,
       });
 
-      console.log("Response to email signin from backend:", response.data);
-      login(response.data.data);
+      // console.log("Response to email signin from backend:", response.data);
 
       navigate("/");
       toast.success("Sign up successful");
@@ -134,22 +131,23 @@ const Register = () => {
         await result.user.delete(); // delete the user if signup fails
       }
       toast.error(err.message || "Sign up failed");
-      setLoading(false);
       console.error("signup error:", err);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm my-6">
-        <h1 className="text-2xl font-bold my-1">Sign up to continue</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-2 sm:px-4">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm my-6">
+        <h1 className="text-2xl font-bold mt-2">Sign up to continue</h1>
 
         <button
           disabled={loading}
           onClick={handleGoogleSignup}
           className={`flex justify-center items-center w-full ${
             loading ? "cursor-not-allowed" : "cursor-pointer"
-          } bg-transparent hover:bg-gray-300 text-gray-500 font-bold py-2 mt-10 mb-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
+          } bg-transparent hover:bg-gray-100 text-gray-500 font-bold py-2 mt-10 mb-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
         >
           <img
             src="/google-icon.svg"
@@ -324,7 +322,7 @@ const Register = () => {
             {loading ? (
               <Loader2 size={18} className="animate-spin" />
             ) : (
-              "Sign up"
+              "Submit"
             )}
           </button>
         </form>

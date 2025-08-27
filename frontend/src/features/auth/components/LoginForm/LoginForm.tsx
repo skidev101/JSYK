@@ -106,10 +106,28 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-sm">
-        <h1 className="text-3xl font-bold my-2">Welcome back</h1>
-        <h2 className="text-2xl my-1">Login to continue</h2>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-2 sm:px-4">
+      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm">
+        <h1 className="text-2xl sm:text-3xl font-bold my-2">Welcome back</h1>
+        <h2 className="text-lg sm:text-xl my-1">Login to continue</h2>
+
+        <button
+          disabled={loading}
+          onClick={handleGoogleSignin}
+          className={`flex justify-center items-center w-full ${
+            loading ? "cursor-not-allowed" : "cursor-pointer"
+          } bg-transparent hover:bg-gray-100 text-gray-500 font-bold py-2 mt-10 mb-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
+        >
+          <img
+            src="/google-icon.svg"
+            alt="Google Icon"
+            className="inline-block mr-2 w-5 h-5"
+          />
+          Continue with Google
+        </button>
+
+        <p className="text-center text-gray-500 pt-1">or</p>
+
         <form onSubmit={handleEmailSignin}>
           <div className="my-4">
             {/* <label htmlFor="email" className="block text-gray-700 py-1">
@@ -182,11 +200,11 @@ const Login = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             } text-white font-bold py-2 my-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
           >
-            {loading ? <Loader2 size={18} className="animate-spin" /> : "Login"}
+            {loading ? <Loader2 size={18} className="animate-spin" /> : "Submit"}
           </button>
         </form>
 
-        <p className="text-center text-gray-500 py-1">or</p>
+        {/* <p className="text-center text-gray-500 py-1">or</p>
 
         <button
           disabled={loading}
@@ -201,7 +219,7 @@ const Login = () => {
             className="inline-block mr-2 w-5 h-5"
           />
           Continue with Google
-        </button>
+        </button> */}
 
         <p className="text-center text-gray-600 mt-5">
           Don't have an account?{" "}
