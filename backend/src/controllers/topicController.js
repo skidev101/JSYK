@@ -124,6 +124,8 @@ const getTopic = async (req, res) => {
       });
     }
     const messageCount = await Message.countDocuments({ uid, topicId });
+    console.log("now getting a topic")
+    console.log(`total messages count for topic ${topicId}:`, messageCount)
 
     res.status(200).json({
       success: true,
