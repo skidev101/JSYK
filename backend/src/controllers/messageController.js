@@ -18,7 +18,11 @@ const sendMessage = async (req, res) => {
     let topicData = null;
 
     if (topicId) {
-      topicData = await Topic.findOne({ topicId, uid: user.uid });
+      topicData = await Topic.findOneAndUpdate(
+        { topicId, uid: user.uid },
+        { $inc: { messageCount: 1 } },
+        { new: true }
+      );
       if (!topicData) {
         return res.status(404).json({
           success: false,
@@ -65,8 +69,9 @@ const getUserMessages = async (req, res) => {
     const limit = parseInt(req.query.limit, 10) || 20;
 
     if (page < 1 || limit < 1) {
-      return res.status(400).json({ 
-        success: false, message: "Invalid pagination params" 
+      return res.status(400).json({
+        success: false,
+        message: "Invalid pagination params",
       });
     }
 
@@ -74,7 +79,10 @@ const getUserMessages = async (req, res) => {
 
     const topicId = req.query.topicId || null;
     const filter = { uid };
-    if (topicId) filter.topicId = topicId;
+    if (topicId) {
+      console.log("topicId from the frontend:", topicId)
+      filter.topicId = topicId;
+    }
 
     const [messages, totalCount, unreadCount] = await Promise.all([
       Message.find(filter)
@@ -95,7 +103,7 @@ const getUserMessages = async (req, res) => {
           limit,
           total: 0,
           pages: 0,
-          hasNextPage: false
+          hasNextPage: false,
         },
         message: "No messages yet",
       });

@@ -10,6 +10,6 @@ router
    .get('/:profileSlug/:topicId', validateProfileSlug, validateTopicId, validateRequest, getTopicInfo)
    .get('/:topicId', validateTopicId, validateRequest, getTopic)
    .post('/', verifyToken, validateCreateTopic, validateRequest, createTopic)
-   .delete('/:topicId', validateTopicId, validateRequest, deleteTopic);
+   .delete('/:topicId',verifyToken, validateTopicId, validateRequest, deleteTopic);
 
 module.exports = router;

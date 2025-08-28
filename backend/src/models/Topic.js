@@ -40,13 +40,9 @@ const topicSchema = new mongoose.Schema({
     ],
     default: undefined
   },
-  isActive: {
-    type: Boolean,
-    default: false
-  },
-  lastMessageAt: {
-    type: Date,
-    default: null
+  messageCount: {
+    type: Number,
+    default: 0
   }
 }, {
   timestamps: true 
