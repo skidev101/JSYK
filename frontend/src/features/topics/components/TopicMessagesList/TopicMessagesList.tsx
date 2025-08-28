@@ -89,9 +89,9 @@ const TopicMessagesList = () => {
               <Trash size={18} />
             </button>
           </div>
-          <div className="w-full rounded-2xl p-4 border-1 border-gray-100 shadow-md mt-5">
+          <div className="w-full rounded-2xl sm:p-4 border-1 border-gray-100 shadow-md mt-5">
             <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
-              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-4 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
                 {messages.map((message) => (
                   <MessageCard
                     key={message._id}

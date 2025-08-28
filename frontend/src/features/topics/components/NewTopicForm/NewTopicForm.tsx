@@ -72,7 +72,11 @@ NewTopicFormProps) => {
       setTopicError("Topic is required");
       return;
     }
-
+    if (topic.length === 100) {
+      setTopicError("Max length reached");
+      return;
+    }
+    
     setLoading(true);
 
     try {
@@ -104,7 +108,7 @@ NewTopicFormProps) => {
     } catch (err) {
       console.log(err);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -136,14 +140,26 @@ NewTopicFormProps) => {
                   type="text"
                   required
                   value={topic}
+                  maxLength={100}
                   onChange={(e) => setTopic(e.target.value)}
                   placeholder="Create a new topic"
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              {topicError && (
-                <p className="text-sm text-red-500">{topicError}</p>
-              )}
+              <div className="flex justify-between items-center mt-1">
+                <div className="flex  ">
+                  {topicError && (
+                    <p className="text-sm text-red-500">{topicError}</p>
+                  )}
+                </div>  
+                <p
+                  className={`${
+                    topic.length >= 100 ? "text-red-500" : "text-gray-700"
+                  } text-xs`}
+                >
+                  {topic.length}/100
+                </p>
+              </div>
             </div>
 
             <div className="flex flex-col mb-4">
