@@ -46,7 +46,7 @@ export const useTopicMessages = () => {
 
       try {
         const response = await axiosPrivate.get<FetchResponse>(
-            `/message?page=${page}&limit=${limit}&topic=${topicId}`
+            `/message?page=${page}&limit=${limit}&topicId=${topicId}`
         )
 
         const { messages: newMessages, pagination, unreadCount } = response.data;

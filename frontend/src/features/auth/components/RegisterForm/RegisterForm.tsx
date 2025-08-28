@@ -20,10 +20,11 @@ import { auth } from "@/shared/services/firebase/config";
 import toast from "react-hot-toast";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateUsername";
-import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
+import { useAuth } from "@/context/AuthContext";
+import axios from "@/api/axios";
 
 const Register = () => {
-  const axiosPrivate = useAxiosPrivate();
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const { status, message } = useUsernameCheck(username);
@@ -76,13 +77,17 @@ const Register = () => {
     setErrors({});
 
     try {
-      await signInWithPopup(auth, provider);
-      // const idToken = await result.user.getIdToken();
+      const result = await signInWithPopup(auth, provider);
+      const idToken = await result.user.getIdToken();
 
-      await axiosPrivate.post("/auth");
+      const response = await axios.post("/auth", {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
 
       // console.log("Response to email signin from backend:", response.data);
-      // login(response.data.data);
+      login({ ...response.data.data, idToken });
 
       navigate("/");
       toast.success("Sign up successful");
@@ -115,14 +120,24 @@ const Register = () => {
 
     try {
       result = await createUserWithEmailAndPassword(auth, email, password);
-      // const idToken = await result.user.getIdToken();
+      const idToken = await result.user.getIdToken();
       console.log("id token gotten at email register");
 
-      await axiosPrivate.post("auth", {
-        username: username,
-      });
+      const response = await axios.post(
+        "/auth",
+        {
+          username: username,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
 
-      // console.log("Response to email signin from backend:", response.data);
+      login({ ...response.data.data, idToken });
+
+      console.log("Response to email signin from backend:", response.data);
 
       navigate("/");
       toast.success("Sign up successful");

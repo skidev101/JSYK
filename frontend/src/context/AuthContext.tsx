@@ -20,6 +20,7 @@ interface AuthContextType {
   user: User | null;
   firebaseUser: FirebaseUser | null;
   loading: boolean;
+  login: (user: User) => void;
   logout: () => void;
   updateToken: (newToken: string) => void;
   refetchUser: () => Promise<void>;
@@ -32,9 +33,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [firebaseUser, setFirebaseUser] = useState<FirebaseUser | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // const login = (user: User) => {
-  //   setUser(user);
-  // };
+  const login = (user: User) => {
+    setUser(user);
+  };
 
   const updateToken = (newToken: string) => {
     setUser((prevUser) => {
@@ -111,6 +112,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         firebaseUser,
         loading,
+        login,
         logout,
         updateToken,
         refetchUser,

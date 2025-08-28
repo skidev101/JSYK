@@ -34,7 +34,7 @@ export const useAxiosPrivate = () => {
 
             return axiosPrivate(prevReq);
           } catch (refreshError) {
-            // Handle token refresh failure (maybe redirect to login)
+            // Handle token refresh failure 
             console.error("Token refresh failed:", refreshError);
             // signOut(); // Clear auth state
             return Promise.reject(refreshError);
