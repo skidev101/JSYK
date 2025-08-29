@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/api/axios";
 import { useState } from "react";
 
 interface sendMessageProps {
@@ -29,7 +29,7 @@ export const useSendMessage = () => {
       setLoading(true);
       setError("");
 
-      await axios.post("http://127.0.0.1:3000/api/message", {
+      await axios.post("/message", {
         profileSlug,
         topicId,
         content: messageToSend,

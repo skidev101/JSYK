@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/api/axios";
 import { useEffect, useState } from "react";
 
 interface UserProfileData {
@@ -21,7 +21,7 @@ export const useFetchUserProfile = (profileSlug: string) => {
       try {
         setLoading(true);
         const response = await axios.get(
-          `http://127.0.0.1:3000/api/profile/${profileSlug}`
+          `/profile/${profileSlug}`
         );
         isMounted && setUserProfile(response.data.data);
 

@@ -1,5 +1,5 @@
+import axios from "@/api/axios";
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 export const useUsernameCheck = (username: string) => {
   const [status, setStatus] = useState<
@@ -19,7 +19,7 @@ export const useUsernameCheck = (username: string) => {
 
       try {
         const response = await axios.get(
-          "http://127.0.0.1:3000/api/profile",
+          "/profile",
           {
             params: { username },
           }

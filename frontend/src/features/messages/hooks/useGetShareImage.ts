@@ -1,5 +1,4 @@
-import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import toast from "react-hot-toast";
 
 interface DownloadProps {
@@ -10,7 +9,7 @@ interface DownloadProps {
 }
 
 export const useGetShareImage = () => {
-  const { user } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const handleDownload = async ({
     profileImgUrl,
     topic,
@@ -18,8 +17,8 @@ export const useGetShareImage = () => {
     themeColor,
   }: DownloadProps) => {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:3000/api/image/",
+      const response = await axiosPrivate.post(
+        "/image",
         {
           profileImgUrl,
           topic,
@@ -27,9 +26,6 @@ export const useGetShareImage = () => {
           themeColor,
         },
         {
-          headers: {
-            Authorization: `Bearer ${user?.idToken}`,
-          },
           responseType: "blob",
         }
       );

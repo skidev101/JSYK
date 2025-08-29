@@ -1,9 +1,8 @@
-import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useState } from "react";
 
 export const useDeleteMessage = () => {
-  const { user } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [success, setSuccess] = useState<boolean | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -19,14 +18,7 @@ export const useDeleteMessage = () => {
       setLoadingDelete(true);
       setError(null);
 
-      const response = await axios.delete(
-        `http://127.0.0.1:3000/api/message/${messageId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${user?.idToken}`,
-          },
-        }
-      );
+      const response = await axiosPrivate.delete(`message/${messageId}`);
 
       if (response.data.success) {
         setSuccess(true);

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@/api/axios";
 import { useEffect, useState } from "react";
 
 interface TopicImage {
@@ -29,7 +29,7 @@ export const useTopicData = (profileSlug?: string, topicId?: string) => {
     const fetchTopicData = async () => {
       try {
         setLoadingTopic(true);
-        const url = topicId? `http://127.0.0.1:3000/api/topic/${profileSlug}/${topicId}` : `http://127.0.0.1:3000/api/profile/${profileSlug}`
+        const url = topicId? `topic/${profileSlug}/${topicId}` : `/profile/${profileSlug}`
         const response = await axios.get(url);
         console.log("topic details:", response)
 
