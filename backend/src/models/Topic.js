@@ -12,7 +12,7 @@ const topicSchema = new mongoose.Schema({
   topic: {
     type: String,
     required: true,
-    maxLength: 80
+    maxLength: 100
   },
   slug: {
     type: String,

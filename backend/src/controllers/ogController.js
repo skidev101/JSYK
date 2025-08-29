@@ -1,0 +1,102 @@
+const satori = require("satori");
+const Message = require("../models/Message");
+const { Resvg } = require("@resvg/resvg-js");
+const fs = require("fs");
+const path = require("path");
+
+const fontPath = path.join(__dirname, "../assets/fonts/Poppins-Regular.ttf");
+const fontData = fs.readFileSync(fontPath);
+
+const generateOgImage = async (req, res) => {
+  try {
+    const { messageId } = req.params;
+
+    // Fetch message from DB
+    const message = await Message.findById(messageId);
+    if (!message) {
+      return res.status(404).send("Message not found");
+    }
+
+    const svg = await satori(
+      {
+        type: "div",
+        props: {
+          style: {
+            display: "flex",
+            width: "100%",
+            height: "100%",
+            background: "#1d4ed8", // or message.topic.color
+            justifyContent: "center",
+            alignItems: "center",
+            color: "white",
+            fontSize: 36,
+            fontFamily: "Inter",
+            padding: "40px",
+            textAlign: "center",
+          },
+          children: message.text,
+        },
+      },
+      {
+        width: 1200,
+        height: 630,
+        fonts: [
+          {
+            name: "Inter",
+            data: fontData,
+            weight: 400,
+            style: "normal",
+          },
+        ],
+      }
+    );
+
+    const resvg = new Resvg(svg, {
+      fitTo: { mode: "width", value: 1200 },
+    });
+    const pngBuffer = resvg.render().asPng();
+
+    res.setHeader("Content-Type", "image/png");
+    res.send(pngBuffer);
+  } catch (err) {
+    console.error("OG Image Error:", err);
+    res.status(500).send("Failed to generate OG image");
+  }
+};
+
+const getOgPage = async (req, res) => {
+  try {
+    const { messageId } = req.params;
+
+    const message = await Message.findById(messageId);
+    if (!message) {
+      return res.status(404).send("Message not found");
+    }
+
+    const imageUrl = `${process.env.BASE_URL}/og-image/${messageId}`;
+
+    res.send(`
+      <!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta property="og:title" content="Anonymous Message" />
+          <meta property="og:description" content="${message.content}" />
+          <meta property="og:image" content="${imageUrl}" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="${process.env.BASE_URL}/share/${messageId}" />
+        </head>
+        <body>
+          <p>Redirecting...</p>
+          <script>
+            window.location.href = "${process.env.FRONTEND_URL}/m/${messageId}";
+          </script>
+        </body>
+      </html>
+    `);
+  } catch (err) {
+    console.error("OG Page Error:", err);
+    res.status(500).send("Failed to render OG page");
+  }
+};
+
+module.exports = { generateOgImage, getOgPage };
