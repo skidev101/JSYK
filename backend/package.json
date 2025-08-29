@@ -14,7 +14,6 @@
     "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.50.2",
     "@upstash/redis": "^1.35.3",
-    "@vercel/node": "^5.3.17",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.5.0",

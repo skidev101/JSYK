@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const DBConnect = require('../config/db'); 
+const PORT = process.env.PORT;
 const morgan = require('morgan');
 const helmet = require('helmet');
 const corsConfig = require('./config/corsConfig');
@@ -12,6 +14,10 @@ const topicRoutes = require('./routes/topicRoutes');
 const imageRoute = require('./routes/imageRoute');
 const userRoutes = require('./routes/userRoutes');
 const ogRoutes = require('./routes/ogRoutes');
+
+app.get('/', (req, res) => {
+    res.send('jsyk backend is now live!');
+});
 
 app.get('/api/cleanup-images', async (req, res) => {
     const { imageCleanupJob } = require('./jobs/imageCleaner');
@@ -40,10 +46,13 @@ app.use('/api/og-image', ogRoutes);
 app.use('/api/share', ogRoutes);
 
 
-app.get('/', (req, res) => {
-    res.send('something API is now live!');
+
+
+DBConnect().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
 });
 
 
-
-module.exports = app;
+// module.exports = app;
