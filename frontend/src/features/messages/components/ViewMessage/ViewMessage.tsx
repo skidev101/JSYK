@@ -176,7 +176,7 @@ const ViewMessage = () => {
             <p className="text-gray-700 p-4 text-sm">jsyk by monaski</p>
           </div>
 
-          <SocialShareButtons url="hiii" text="Check this out" />
+          <SocialShareButtons messageId={messageId}  />
         </div>
       </FadeIn>
     </div>

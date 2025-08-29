@@ -1,5 +1,4 @@
-import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useEffect, useState } from "react";
 
 interface MessageData {
@@ -12,7 +11,7 @@ interface MessageData {
 }
 
 export const useViewMessage = (messageId: string) => {
-  const { user } = useAuth();
+  const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState<MessageData | null>(null);
   const [loadingMessage, setLoadingMessage] = useState(true);
   const [error, setError] = useState("");
@@ -23,14 +22,7 @@ export const useViewMessage = (messageId: string) => {
     let isMounted = true;
     const fetchMessage = async () => {
       try {
-        const response = await axios.get(
-          `http://127.0.0.1:3000/api/message/${messageId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${user?.idToken}`,
-            },
-          }
-        );
+        const response = await axiosPrivate.get(`/message/${messageId}`);
         isMounted && setData(response.data.data);
         console.log("viewMessage response:", response.data.data);
       } catch (err: any) {
@@ -38,7 +30,7 @@ export const useViewMessage = (messageId: string) => {
           setError(err.response?.data?.message || "Failed to fetch topic data");
           setLoadingMessage(false);
         }
-        console.error("Failed to fetch message data:", err)
+        console.error("Failed to fetch message data:", err);
       } finally {
         if (isMounted) setLoadingMessage(false);
       }
@@ -46,9 +38,9 @@ export const useViewMessage = (messageId: string) => {
 
     fetchMessage();
 
-    return (() => {
-        isMounted = false;
-    })
+    return () => {
+      isMounted = false;
+    };
   }, [messageId]);
 
   return { data, loadingMessage, error };

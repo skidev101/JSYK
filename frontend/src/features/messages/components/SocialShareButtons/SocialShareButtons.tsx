@@ -1,10 +1,13 @@
 
 interface ShareProps {
-  url: string;
-  text: string;
+  messageId: string;
 }
 
-const SocialShareButtons = ({ url, text }: ShareProps) => {
+const SocialShareButtons = ({ messageId }: ShareProps) => {
+  if (!messageId) return;
+  const url = `${import.meta.env.VITE_API_BASE_URL}/share/${messageId}`;
+  const text = "Send me anonymous messages";
+
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
 
