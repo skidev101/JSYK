@@ -1,4 +1,4 @@
-const uaParser = require('ua-parser-js');
+import uaParser from 'ua-parser-js';
 
 const logSenderInfo = (req, res, next) => {
    const userAgent = req.get('User-Agent') || '';

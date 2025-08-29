@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express'; 
 const router = express.Router();
-const { createTopic, deleteTopic, getUserTopics, getTopic, getTopicInfo } = require('../controllers/topicController');
-const verifyToken = require('../middleware/verifyToken');
-const { validateCreateTopic, validateTopicId, validateProfileSlug } = require('../validators/topicValidator');
-const validateRequest = require('../middleware/validateRequest');
+import { createTopic, deleteTopic, getUserTopics, getTopic, getTopicInfo } from '../controllers/topicController.js';
+import verifyToken from '../middleware/verifyToken.js';
+import { validateCreateTopic, validateTopicId, validateProfileSlug } from '../validators/topicValidator.js';
+import validateRequest from '../middleware/validateRequest.js';
 
 router
    .get('/', verifyToken, getUserTopics)

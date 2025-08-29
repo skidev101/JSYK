@@ -1,4 +1,4 @@
-const { Redis } = require("@upstash/redis");
+import { Redis } from "@upstash/redis";
 
 const isProduction = process.env.NODE_ENV === "production";
 

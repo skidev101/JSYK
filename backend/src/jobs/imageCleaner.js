@@ -1,6 +1,6 @@
-const Topic = require("../models/Topic");
-const imageKit = require('../config/imageKit');
-const cron = require('node-cron');
+import Topic from "../models/Topic.js";
+import imageKit from '../config/imageKit.js';
+import cron from 'node-cron';
 
 
 const imageCleanupJob = async () => {

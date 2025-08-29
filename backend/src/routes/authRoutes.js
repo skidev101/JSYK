@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express'; 
 const router = express.Router();
-const { handleAuth, getCurrentUser } = require('../controllers/authController');
-const verifyToken = require('../middleware/verifyToken');
-const { validateUsername } = require('../validators/authValidator');
-const validateRequest = require('../middleware/validateRequest');
+import { handleAuth, getCurrentUser } from '../controllers/authController.js';
+import verifyToken from '../middleware/verifyToken.js';
+import { validateUsername } from '../validators/authValidator.js';
+import validateRequest from '../middleware/validateRequest.js';
 
 router.route('/')
    .get(verifyToken, getCurrentUser)

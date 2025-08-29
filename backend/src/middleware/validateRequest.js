@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator');
+import { validationResult } from 'express-validator';
 
 module.exports = (req, res, next) => {
    console.log('now in request validator')

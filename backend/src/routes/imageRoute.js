@@ -1,6 +1,6 @@
-const express = require("express");
+import express from 'express'; 
 const router = express.Router();
-const { getImageUploadSignature } = require("../controllers/imageController");
+import { getImageUploadSignature } from "../controllers/imageController.js";
 
 router.get("/", getImageUploadSignature);
 

@@ -1,6 +1,6 @@
-const express = require("express");
+import express from 'express'; 
 const router = express.Router();
-const { generateOgImage, getOgPage } = require("../controllers/ogController");
+import { generateOgImage, getOgPage } from "../controllers/ogController.js";
 
 // Social platforms scrape this one
 router.get("/:messageId", getOgPage);

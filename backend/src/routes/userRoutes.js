@@ -1,7 +1,7 @@
-const express = require('express');
+import express from 'express'; 
 const router = express.Router(); 
-const { deleteUser } = require('../controllers/userController');
-const verifyToken = require('../middleware/verifyToken');
+import { deleteUser } from '../controllers/userController.js';
+import verifyToken from '../middleware/verifyToken.js';
 
 router.delete('/', verifyToken, deleteUser);
 

@@ -1,24 +1,26 @@
-require('dotenv').config();
-const express = require('express');
+import dotenv from "dotenv";
+import express from 'express';
+import cors from 'cors';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import corsConfig from './config/corsConfig.js';
+import authRoutes from './routes/authRoutes.js';
+import profileRoutes from './routes/profileRoutes.js';
+import messageRoutes from './routes/messageRoutes.js';
+import topicRoutes from './routes/topicRoutes.js';
+import imageRoute from './routes/imageRoute.js';
+import userRoutes from './routes/userRoutes.js';
+import ogRoutes from './routes/ogRoutes.js';
+import { imageCleanupJob } from './jobs/imageCleaner.js';
+
+dotenv.config();
 const app = express();
-const cors = require('cors');
-const morgan = require('morgan');
-const helmet = require('helmet');
-const corsConfig = require('./config/corsConfig');
-const authRoutes = require('./routes/authRoutes');
-const profileRoutes = require('./routes/profileRoutes');
-const messageRoutes = require('./routes/messageRoutes');
-const topicRoutes = require('./routes/topicRoutes');
-const imageRoute = require('./routes/imageRoute');
-const userRoutes = require('./routes/userRoutes');
-const ogRoutes = require('./routes/ogRoutes');
 
 app.get('/', (req, res) => {
     res.send('jsyk backend is now live!');
 });
 
 app.get('/api/cleanup-images', async (req, res) => {
-    const { imageCleanupJob } = require('./jobs/imageCleaner');
     try {
         await imageCleanupJob();
         res.json({ success: true, message: "Cleanup executed" });

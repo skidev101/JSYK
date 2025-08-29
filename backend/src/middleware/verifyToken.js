@@ -1,5 +1,5 @@
-const admin = require("../config/firebase");
-const { sanitizeDisplayName } = require("../utils/usernameUtils");
+import admin from "../config/firebase";
+import { sanitizeDisplayName } from "../utils/usernameUtils";
 
 
 const verifyToken = async (req, res, next) => {

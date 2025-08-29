@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const { generateUniqueSlug } = require("../utils/usernameUtils");
+import User from "../models/User.js";
+import { generateUniqueSlug } from "../utils/usernameUtils.js";
 
 const getCurrentUser = async (req, res) => {
   const { uid } = req.user;

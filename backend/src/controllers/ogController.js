@@ -1,8 +1,8 @@
-const satori = require("satori");
-const Message = require("../models/Message");
-const { Resvg } = require("@resvg/resvg-js");
-const fs = require("fs");
-const path = require("path");
+import satori from "satori";
+import Message from "../models/Message.js";
+import { Resvg } from "@resvg/resvg-js";
+import fs from "fs";
+import path from "path";
 
 const fontPath = path.join(__dirname, "../assets/fonts/Poppins-Regular.ttf");
 const fontData = fs.readFileSync(fontPath);

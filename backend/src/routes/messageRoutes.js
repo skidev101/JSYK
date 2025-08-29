@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express'; 
 const router = express.Router();
-const { getUserMessages, getMessage, sendMessage, deleteMessage } = require('../controllers/messageController');
-const limitSendMessage = require('../middleware/rateLimiter');
-const verifyToken = require('../middleware/verifyToken');
-const validateRequest = require('../middleware/validateRequest');
-const logSenderInfo = require('../middleware/logSenderInfo');
-const { validateSendMessage, validateMessageAction } = require('../validators/messageValidator');
+import { getUserMessages, getMessage, sendMessage, deleteMessage } from '../controllers/messageController.js';
+import limitSendMessage from '../middleware/rateLimiter.js';
+import verifyToken from '../middleware/verifyToken.js';
+import validateRequest from '../middleware/validateRequest.js';
+import logSenderInfo from '../middleware/logSenderInfo.js';
+import { validateSendMessage, validateMessageAction } from '../validators/messageValidator.js';
 router
    .get('/', verifyToken, getUserMessages)
    .get('/:messageId', verifyToken, getMessage)

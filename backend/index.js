@@ -1,7 +1,9 @@
-require("dotenv").config();
+import dotenv from "dotenv";
 const PORT = process.env.PORT;
-const app = require("./src/app");
-const DBConnect = require("./src/config/db");
+import app from "./src/app";
+import DBConnect from "./src/config/db";
+
+dotenv.config();
 
 if (process.env.NODE_ENV !== "production") {
   DBConnect()

@@ -1,5 +1,5 @@
-const { redis } = require('../config/redis');
-const crypto = require('crypto');
+import { redis } from '../config/redis.js';
+import crypto from 'crypto';
 
 const MAX_REQUESTS = 10;
 const TIME_WINDOW = 60;

@@ -1,9 +1,10 @@
-const User = require("../models/User");
-const Topic = require("../models/Topic");
-const Message = require("../models/Message");
-const slugify = require("slugify");
-const { customAlphabet } = require("nanoid");
-const { imageKit } = require("./imageController");
+import User from "../models/User.js";
+import Topic from "../models/Topic.js";
+import Message from "../models/Message.js";
+import slugify from "slugify";
+import { customAlphabet } from "nanoid";
+import { imageKit } from "./imageController.js";
+
 const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 8);
 
 const createTopic = async (req, res) => {

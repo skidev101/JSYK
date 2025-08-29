@@ -1,11 +1,11 @@
-const express = require('express');
+import express from 'express'; 
 const router = express.Router();
-const { getPublicProfile, checkUsernameAvailability, updateProfile } = require('../controllers/profileController')
-const verifyToken = require('../middleware/verifyToken');
-const validateRequest = require('../middleware/validateRequest');
-const logSenderInfo = require('../middleware/logSenderInfo');
-const rateLimiter = require('../middleware/rateLimiter');
-const { validateUsername } = require('../validators/authValidator');
+import { getPublicProfile, checkUsernameAvailability, updateProfile } from '../controllers/profileController.js'
+import verifyToken from '../middleware/verifyToken.js';
+import validateRequest from '../middleware/validateRequest.js';
+import logSenderInfo from '../middleware/logSenderInfo.js';
+import rateLimiter from '../middleware/rateLimiter.js';
+import { validateUsername } from '../validators/authValidator.js';
 
 router
    .get('/:profileSlug', logSenderInfo, rateLimiter, getPublicProfile)

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
 
 const logUserAction = (action) => (req, res, next) => {
   const { uid } = req.user;

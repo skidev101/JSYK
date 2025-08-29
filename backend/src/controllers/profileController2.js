@@ -1,8 +1,7 @@
-// controllers/profileController.js
-const User = require('../models/User');
-const SlugService = require('../services/slugService');
-const { validationResult } = require('express-validator');
-const rateLimit = require('express-rate-limit');
+import User from '../models/User.js';
+import SlugService from '../services/slugService.js';
+import { validationResult } from 'express-validator';
+import rateLimit from 'express-rate-limit';
 
 // Rate limiting for URL changes (prevent abuse)
 const urlChangeLimit = rateLimit({

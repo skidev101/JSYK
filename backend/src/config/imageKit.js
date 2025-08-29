@@ -1,4 +1,4 @@
-const ImageKit = require('imagekit');
+const ImageKit = from 'imagekit');
 
 
 const imageKit = new ImageKit({

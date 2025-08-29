@@ -1,4 +1,4 @@
-const redisClient = require('../config/redisClient');
+import redisClient from '../config/redisClient.js';
 
 const rateLimitProfileUpdate = async (req, res, next) => {
   const { uid } = req.user;

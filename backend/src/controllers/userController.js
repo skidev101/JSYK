@@ -1,7 +1,7 @@
-const User = require("../models/User");
-const Topic = require("../models/Topic");
-const Message = require("../models/Message");
-const admin = require("firebase-admin");
+import User from "../models/User.js";
+import Topic from "../models/Topic.js";
+import Message from "../models/Message.js";
+import admin from "firebase-admin";
 
 const checkUsername = async (req, res) => {
   try {

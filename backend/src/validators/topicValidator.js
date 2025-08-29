@@ -1,4 +1,4 @@
-const { body, param } = require("express-validator");
+const { body, param } = from "express-validator");
 
 const validateCreateTopic = [
   body("topic")

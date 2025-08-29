@@ -1,6 +1,6 @@
-const Message = require("../models/Message");
-const User = require("../models/User");
-const Topic = require("../models/Topic");
+import Message from "../models/Message.js";
+import User from "../models/User.js";
+import Topic from "../models/Topic.js";
 
 const sendMessage = async (req, res) => {
   try {

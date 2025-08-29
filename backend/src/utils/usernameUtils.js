@@ -1,4 +1,4 @@
-const reservedWords = require("./reservedWords");
+import reservedWords from "./reservedWords";
 
 exports.sanitizeDisplayName = (displayName) => {
   if (typeof displayName !== 'string') return "";

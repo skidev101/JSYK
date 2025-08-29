@@ -1,4 +1,4 @@
-const imageKit = require("../config/imageKit");
+import imageKit from "../config/imageKit.js";
 
 const getImageUploadSignature = async (req, res) => {
   try {
