@@ -1,19 +1,19 @@
 {
   "name": "something-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "dev": "nodemon server",
-    "vercel-build": "echo hello world"
+    "start": "node server.js",
+    "dev": "nodemon server"
   },
   "keywords": [],
-  "author": "Inedu Ojomona Ethan [skidev101]",
+  "author": "Ojomona Ethan Inedu [skidev101]",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.50.2",
+    "@vercel/node": "^5.3.17",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.5.0",

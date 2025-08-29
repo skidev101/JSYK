@@ -3,13 +3,15 @@ const allowedOrigins = process.env.CLIENT_URL?.split(",").map(origin => origin.t
 const corsConfig = {
   origin: function (origin, callback) {
     // allow requests with no origin (like Postman or curl)
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || origin.includes("ngrok-free.app")) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   },
-  credentials: true, // if you're using cookies or sessions
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true
 };
 
 module.exports = corsConfig;

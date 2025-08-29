@@ -23,11 +23,11 @@ app.get('/api/cleanup-images', async (req, res) => {
 });
 
 app.use(cors(corsConfig));
+app.use(express.json());
 
 app.use(helmet());
 
 app.use(morgan('dev'));
-app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
