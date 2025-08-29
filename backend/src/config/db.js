@@ -4,8 +4,8 @@ const DBConnect = async () => {
    let isConnected;
    try {
       if (isConnected) return;
-      await mongoose.connect(process.env.MONGO_URI);
-      isConnected = conn.connections[0].readyState === 1;
+      const connected = await mongoose.connect(process.env.MONGO_URI);
+      isConnected = connected.connections[0].readyState === 1;
       console.log('MongoDB connected successfully');
    } catch (err) {
       console.error('MongoDB connection error:', err);
