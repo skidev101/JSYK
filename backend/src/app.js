@@ -2,8 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const DBConnect = require('../config/db'); 
-const PORT = process.env.PORT;
 const morgan = require('morgan');
 const helmet = require('helmet');
 const corsConfig = require('./config/corsConfig');
@@ -47,12 +45,4 @@ app.use('/api/share', ogRoutes);
 
 
 
-
-DBConnect().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-});
-
-
-// module.exports = app;
+module.exports = app;
