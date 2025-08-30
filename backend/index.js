@@ -24,9 +24,9 @@ const handler = async (req, res) => {
     await DBConnect();
     return app(req, res);
   } catch (error) {
-    console.error('Database connection failed:', error);
-    return res.status(500).json({ error: 'Database connection failed' });
+    console.error("Database connection failed:", error);
+    return res.status(500).json({ error: "Database connection failed" });
   }
 };
 
-module.exports = handler
+export default handler;

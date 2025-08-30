@@ -1,7 +1,6 @@
 import admin from "../config/firebase";
 import { sanitizeDisplayName } from "../utils/usernameUtils";
 
-
 const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
@@ -11,14 +10,16 @@ const verifyToken = async (req, res, next) => {
 
   const idToken = authHeader.split(" ")[1];
 
-
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
     const firebaseUser = await admin.auth().getUser(decodedToken.uid);
 
     const rawDisplayName = firebaseUser.displayName || "";
     const fallbackUsername = `user${Math.floor(Math.random() * 10000)}`;
-    const username = req.body?.username || sanitizeDisplayName(rawDisplayName) || fallbackUsername;
+    const username =
+      req.body?.username ||
+      sanitizeDisplayName(rawDisplayName) ||
+      fallbackUsername;
 
     req.user = {
       uid: decodedToken.uid,
@@ -33,4 +34,4 @@ const verifyToken = async (req, res, next) => {
   }
 };
 
-module.exports = verifyToken;
+export default verifyToken;

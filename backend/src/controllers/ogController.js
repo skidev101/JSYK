@@ -99,4 +99,4 @@ const getOgPage = async (req, res) => {
   }
 };
 
-module.exports = { generateOgImage, getOgPage };
+export default { generateOgImage, getOgPage };

@@ -125,8 +125,8 @@ const getTopic = async (req, res) => {
       });
     }
     const messageCount = await Message.countDocuments({ uid, topicId });
-    console.log("now getting a topic")
-    console.log(`total messages count for topic ${topicId}:`, messageCount)
+    console.log("now getting a topic");
+    console.log(`total messages count for topic ${topicId}:`, messageCount);
 
     res.status(200).json({
       success: true,
@@ -136,7 +136,7 @@ const getTopic = async (req, res) => {
         themeColor: topic.themeColor,
         topicImgUrls: topic.topicImgUrls,
         createdAt: topic.createdAt,
-        messageCount: messageCount
+        messageCount: messageCount,
       },
     });
   } catch (err) {
@@ -231,7 +231,7 @@ const deleteTopic = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   createTopic,
   getUserTopics,
   getTopic,

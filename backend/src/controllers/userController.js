@@ -10,9 +10,9 @@ const checkUsername = async (req, res) => {
     const user = await User.findOne({ username });
     if (user) {
       return res.status(200).json({
-         success: true,
-         available: false,
-         message: "username is already taken",
+        success: true,
+        available: false,
+        message: "username is already taken",
       });
     }
 
@@ -20,7 +20,7 @@ const checkUsername = async (req, res) => {
       success: true,
       available: true,
       message: "username is available",
-   });
+    });
   } catch (err) {
     console.error("Error checking username availability:", err);
     res.status(500).json({
@@ -30,8 +30,6 @@ const checkUsername = async (req, res) => {
     });
   }
 };
-
-
 
 const deleteUser = async (req, res) => {
   const { uid } = req.user;
@@ -51,7 +49,7 @@ const deleteUser = async (req, res) => {
 
     const topics = await Topic.find({ uid });
     topics.forEach((topic) => {
-      if (topic.fileId) fileIdstoDelete.push(topic.fileId)
+      if (topic.fileId) fileIdstoDelete.push(topic.fileId);
     });
 
     for (const fileId of fileIdsToDelete) {
@@ -65,7 +63,7 @@ const deleteUser = async (req, res) => {
     await Promise.all([
       Topic.deleteMany({ uid }),
       Message.deleteMany({ uid }),
-      User.deleteOne({ uid })
+      User.deleteOne({ uid }),
     ]);
 
     try {
@@ -74,7 +72,6 @@ const deleteUser = async (req, res) => {
     } catch (err) {
       console.error("Firebase delete failed:", err.message);
     }
-
   } catch (err) {
     console.error("Error deleting user:", err);
     res.status(500).json({
@@ -83,8 +80,6 @@ const deleteUser = async (req, res) => {
       code: "INTERNAL_SERVER_ERROR",
     });
   }
-} 
+};
 
-
-
-module.exports = { checkUsername, deleteUser };
+export default { checkUsername, deleteUser };

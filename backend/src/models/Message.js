@@ -1,62 +1,64 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-const messageSchema = new mongoose.Schema({
-   uid: {
+const messageSchema = new mongoose.Schema(
+  {
+    uid: {
       type: String,
-      required: true
-   },
-   profileSlug: {
+      required: true,
+    },
+    profileSlug: {
       type: String,
-      required: true
-   },
-   topicId: {
+      required: true,
+    },
+    topicId: {
       type: String,
-      default: null
-   },
-   topicSlug: {
+      default: null,
+    },
+    topicSlug: {
       type: String,
-      default: null
-   },
-   topic: {
+      default: null,
+    },
+    topic: {
       type: String,
-      default: null
-   },
-   content: {
+      default: null,
+    },
+    content: {
       type: String,
-      required: true
-   },
-   isRead: {
+      required: true,
+    },
+    isRead: {
       type: Boolean,
-      default: false
-   },
-   themeColor: {
+      default: false,
+    },
+    themeColor: {
       type: String,
-      required: true
-   },
-   senderInfo: {
+      required: true,
+    },
+    senderInfo: {
       ipHash: {
-         type: String,
-         required: true
+        type: String,
+        required: true,
       },
       userAgent: {
-         type: String
+        type: String,
       },
       browser: {
-         type: String
+        type: String,
       },
       os: {
-         type: String
+        type: String,
       },
       device: {
-         type: String
-      }
-   }
-}, {
-   timestamps: true
-})
+        type: String,
+      },
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
+messageSchema.index({ uid: 1, createdAt: -1 });
+messageSchema.index({ profileSlug: 1, isRead: 1 });
 
-messageSchema.index({ uid: 1, createdAt: -1 })
-messageSchema.index({ profileSlug: 1, isRead: 1 })
-
-module.exports = mongoose.model('Message', messageSchema);
+export default mongoose.model("Message", messageSchema);

@@ -88,7 +88,7 @@ const handleAuth = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getCurrentUser,
   handleAuth,
 };

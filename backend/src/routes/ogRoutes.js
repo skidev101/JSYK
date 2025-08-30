@@ -1,4 +1,4 @@
-import express from 'express'; 
+import express from "express";
 const router = express.Router();
 import { generateOgImage, getOgPage } from "../controllers/ogController.js";
 
@@ -8,4 +8,4 @@ router.get("/:messageId", getOgPage);
 // Image renderer for og:image
 router.get("/:messageId", generateOgImage);
 
-module.exports = router;
+export default router;

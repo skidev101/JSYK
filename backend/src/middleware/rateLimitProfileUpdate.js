@@ -1,4 +1,4 @@
-import redisClient from '../config/redisClient.js';
+import redisClient from "../config/redisClient.js";
 
 const rateLimitProfileUpdate = async (req, res, next) => {
   const { uid } = req.user;
@@ -26,9 +26,9 @@ const rateLimitProfileUpdate = async (req, res, next) => {
     return res.status(500).json({
       success: false,
       message: "Rate limiting failed.",
-      code: "RATE_LIMIT_ERROR"
+      code: "RATE_LIMIT_ERROR",
     });
   }
 };
 
-module.exports = rateLimitProfileUpdate;
+export default rateLimitProfileUpdate;

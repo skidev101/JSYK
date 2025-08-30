@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
     },
     bio: {
       type: String,
-      default: ""
+      default: "",
     },
     profileImgUrl: {
       type: String,
@@ -39,8 +39,8 @@ const userSchema = new mongoose.Schema(
     },
     viewsDate: {
       type: Date,
-      default: () => new Date()
-    }
+      default: () => new Date(),
+    },
   },
   {
     timestamps: true,
@@ -48,4 +48,4 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model("User", userSchema);
-module.exports = User;
+export default User;

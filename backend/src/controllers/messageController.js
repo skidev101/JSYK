@@ -80,7 +80,7 @@ const getUserMessages = async (req, res) => {
     const topicId = req.query.topicId || null;
     const filter = { uid };
     if (topicId) {
-      console.log("topicId from the frontend:", topicId)
+      console.log("topicId from the frontend:", topicId);
       filter.topicId = topicId;
     }
 
@@ -252,7 +252,7 @@ const deleteMessage = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   sendMessage,
   getUserMessages,
   getMessage,

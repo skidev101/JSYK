@@ -1,6 +1,6 @@
-import express from 'express'; 
+import express from "express";
 const router = express.Router();
 
-router.get('/', cleanup);
+router.get("/", cleanup);
 
-module.exports = router;
+export default router;

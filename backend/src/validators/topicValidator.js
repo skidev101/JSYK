@@ -46,7 +46,7 @@ const validateProfileSlug = [
     .withMessage("Pofile slug is required"),
 ];
 
-module.exports = {
+export default {
   validateCreateTopic,
   validateTopicId,
   validateProfileSlug

@@ -118,7 +118,7 @@ const updateProfile = async (req, res) => {
       user.profileImgUrl = profileImgUrl;
       user.profileImgFileId = fileId;
     }
-    
+
     await user.save();
     console.log("successfully updated user");
 
@@ -143,7 +143,7 @@ const updateProfile = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getPublicProfile,
   checkUsernameAvailability,
   updateProfile,

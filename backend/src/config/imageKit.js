@@ -7,4 +7,4 @@ const imageKit = new ImageKit({
    urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT
 });
 
-module.exports = imageKit;
+export default imageKit;

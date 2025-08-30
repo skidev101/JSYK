@@ -18,5 +18,4 @@ const getImageUploadSignature = async (req, res) => {
   }
 };
 
-
-module.exports = { getImageUploadSignature };
+export default { getImageUploadSignature };
