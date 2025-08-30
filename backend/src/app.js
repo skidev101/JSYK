@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 app.get('/api/cleanup-images', async (req, res) => {
     try {
         await imageCleanupJob();
+        console.log("cleanup done");
         res.json({ success: true, message: "Cleanup executed" });
     } catch (error) {
         res.status(500).json({ success: false, error: error.message });
