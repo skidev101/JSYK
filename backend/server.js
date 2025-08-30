@@ -1,12 +1,12 @@
-from 'dotenv').config();
-const PORT = process.env.PORT;
-const app = from './src/app');
-const DBConnect = from './src/config/db'); 
+// import dotenv from "dotenv"
+// const PORT = process.env.PORT;
+// import app from './src/app.js';
+// import DBConnect from './src/config/db.js'; 
 
-DBConnect().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-});
-// This is the entry point of the application. It imports the app from src/app.js and starts the server on the specified port.
-// The server listens for incoming requests and logs a message to the console when it starts successfully.
+// dotenv.config();
+
+// DBConnect().then(() => {
+//   app.listen(PORT, () => {
+//     console.log(`Server running on http://localhost:${PORT}`);
+//   });
+// });
