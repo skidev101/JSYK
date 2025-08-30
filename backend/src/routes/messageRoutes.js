@@ -6,10 +6,10 @@ import {
   sendMessage,
   deleteMessage,
 } from "../controllers/messageController.js";
-import limitSendMessage from "../middleware/rateLimiter.js";
+import { limitSendMessage } from "../middleware/rateLimiter.js";
 import verifyToken from "../middleware/verifyToken.js";
 import validateRequest from "../middleware/validateRequest.js";
-import logSenderInfo from "../middleware/logSenderInfo.js";
+import { logSenderInfo } from "../middleware/logSenderInfo.js";
 import {
   validateSendMessage,
   validateMessageAction,

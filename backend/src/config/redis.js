@@ -2,7 +2,7 @@ import { Redis } from "@upstash/redis";
 
 const isProduction = process.env.NODE_ENV === "production";
 
-const redis = new Redis(
+export const redis = new Redis(
   isProduction
     ? {
         url: process.env.UPSTASH_REDIS_REST_URL,
@@ -23,4 +23,3 @@ const redis = new Redis(
   }
 })();
 
-export default { redis };

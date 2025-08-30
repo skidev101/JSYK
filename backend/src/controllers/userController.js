@@ -3,7 +3,7 @@ import Topic from "../models/Topic.js";
 import Message from "../models/Message.js";
 import admin from "firebase-admin";
 
-const checkUsername = async (req, res) => {
+export const checkUsername = async (req, res) => {
   try {
     const username = req.query.username?.trim();
 
@@ -31,7 +31,7 @@ const checkUsername = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   const { uid } = req.user;
 
   try {

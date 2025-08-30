@@ -2,7 +2,7 @@ import Topic from "../models/Topic.js";
 import imageKit from "../config/imageKit.js";
 import cron from "node-cron";
 
-const imageCleanupJob = async () => {
+export const imageCleanupJob = async () => {
   const now = new Date();
   const deleteDate = new Date(now.getTime() - 1 * 60 * 1000); // 15 days ago
 
@@ -37,4 +37,3 @@ const imageCleanupJob = async () => {
 
 cron.schedule("*/2 * * * *", imageCleanupJob);
 
-export default { imageCleanupJob };

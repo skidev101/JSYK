@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
@@ -11,24 +11,23 @@ import topicRoutes from "./routes/topicRoutes.js";
 import imageRoute from "./routes/imageRoute.js";
 import userRoutes from "./routes/userRoutes.js";
 import ogRoutes from "./routes/ogRoutes.js";
-import { imageCleanupJob } from "./jobs/imageCleaner.js";
+// import { imageCleanupJob } from "./jobs/imageCleaner.js";
 
-dotenv.config();
 const app = express();
 
 app.get("/", (req, res) => {
   res.send("jsyk backend is now live!");
 });
 
-app.get("/api/cleanup-images", async (req, res) => {
-  try {
-    await imageCleanupJob();
-    console.log("cleanup done");
-    res.json({ success: true, message: "Cleanup executed" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
+// app.get("/api/cleanup-images", async (req, res) => {
+//   try {
+//     await imageCleanupJob();
+//     console.log("cleanup done");
+//     res.json({ success: true, message: "Cleanup executed" });
+//   } catch (error) {
+//     res.status(500).json({ success: false, error: error.message });
+//   }
+// });
 
 app.use(cors(corsConfig));
 app.use(express.json());

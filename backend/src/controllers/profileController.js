@@ -1,6 +1,6 @@
 import User from "../models/User.js";
 
-const getPublicProfile = async (req, res) => {
+export const getPublicProfile = async (req, res) => {
   try {
     const { profileSlug } = req.params;
 
@@ -60,7 +60,7 @@ const getPublicProfile = async (req, res) => {
   }
 };
 
-const checkUsernameAvailability = async (req, res) => {
+export const checkUsernameAvailability = async (req, res) => {
   try {
     const username = req.query.username?.trim();
 
@@ -88,7 +88,7 @@ const checkUsernameAvailability = async (req, res) => {
   }
 };
 
-const updateProfile = async (req, res) => {
+export const updateProfile = async (req, res) => {
   const { username, email, bio, profileImgUrl, fileId } = req.body;
   const { uid } = req.user;
 
@@ -141,10 +141,4 @@ const updateProfile = async (req, res) => {
       code: "INTERNAL_SERVER_ERROR",
     });
   }
-};
-
-export default {
-  getPublicProfile,
-  checkUsernameAvailability,
-  updateProfile,
 };

@@ -1,6 +1,6 @@
 import imageKit from "../config/imageKit.js";
 
-const getImageUploadSignature = async (req, res) => {
+export const getImageUploadSignature = async (req, res) => {
   try {
     const result = imageKit.getAuthenticationParameters();
 
@@ -18,4 +18,3 @@ const getImageUploadSignature = async (req, res) => {
   }
 };
 
-export default { getImageUploadSignature };

@@ -1,6 +1,6 @@
-const { body, param } = from "express-validator");
+import { body, param } from "express-validator";
 
-const validateCreateTopic = [
+export const validateCreateTopic = [
   body("topic")
     .trim()
     .notEmpty()
@@ -30,7 +30,7 @@ const validateCreateTopic = [
     .withMessage("FileId must be a string if provided"),
 ];
 
-const validateTopicId = [
+export const validateTopicId = [
   param("topicId")
     .trim()
     .notEmpty()
@@ -39,15 +39,9 @@ const validateTopicId = [
     .withMessage("Invalid topic ID"),
 ];
 
-const validateProfileSlug = [
+export const validateProfileSlug = [
   param("profileSlug")
     .trim()
     .notEmpty()
     .withMessage("Pofile slug is required"),
 ];
-
-export default {
-  validateCreateTopic,
-  validateTopicId,
-  validateProfileSlug
-};

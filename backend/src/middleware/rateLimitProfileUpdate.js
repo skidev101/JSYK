@@ -1,6 +1,6 @@
 import redisClient from "../config/redisClient.js";
 
-const rateLimitProfileUpdate = async (req, res, next) => {
+export const rateLimitProfileUpdate = async (req, res, next) => {
   const { uid } = req.user;
   const key = `rate:profile:${uid}`;
   const windowSeconds = 60; // 1 minute
@@ -31,4 +31,3 @@ const rateLimitProfileUpdate = async (req, res, next) => {
   }
 };
 
-export default rateLimitProfileUpdate;

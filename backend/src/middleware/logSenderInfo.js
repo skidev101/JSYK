@@ -1,8 +1,8 @@
-import uaParser from "ua-parser-js";
+import * as uaParser from "ua-parser-js";
 
-const logSenderInfo = (req, res, next) => {
+export const logSenderInfo = (req, res, next) => {
   const userAgent = req.get("User-Agent") || "";
-  const ua = uaParser(userAgent);
+  const ua = new uaParser.UAParser(userAgent);
 
   req.senderInfo = {
     device: ua.device.type || "desktop",
@@ -13,4 +13,3 @@ const logSenderInfo = (req, res, next) => {
   next();
 };
 
-export default logSenderInfo;

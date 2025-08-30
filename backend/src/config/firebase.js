@@ -1,4 +1,4 @@
-const admin = from "firebase-admin");
+import admin from "firebase-admin";
 
 const serviceAccountJSON = Buffer.from(
   process.env.FIREBASE_SERVICE_ACCOUNT_KEY_BASE64,

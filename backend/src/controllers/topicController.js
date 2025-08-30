@@ -3,11 +3,11 @@ import Topic from "../models/Topic.js";
 import Message from "../models/Message.js";
 import slugify from "slugify";
 import { customAlphabet } from "nanoid";
-import { imageKit } from "./imageController.js";
+import imageKit from "../config/imageKit.js";
 
 const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 8);
 
-const createTopic = async (req, res) => {
+export const createTopic = async (req, res) => {
   try {
     const { uid } = req.user;
     const { topic, themeColor } = req.body;
@@ -69,7 +69,7 @@ const createTopic = async (req, res) => {
   }
 };
 
-const getUserTopics = async (req, res) => {
+export const getUserTopics = async (req, res) => {
   try {
     const { uid } = req.user;
     const page = parseInt(req.query.page || 1);
@@ -112,7 +112,7 @@ const getUserTopics = async (req, res) => {
   }
 };
 
-const getTopic = async (req, res) => {
+export const getTopic = async (req, res) => {
   try {
     const { uid } = req.user;
     const { topicId } = req.params;
@@ -149,7 +149,7 @@ const getTopic = async (req, res) => {
   }
 };
 
-const getTopicInfo = async (req, res) => {
+export const getTopicInfo = async (req, res) => {
   try {
     const { profileSlug, topicId } = req.params;
     const topic = await Topic.findOne({ profileSlug, topicId });
@@ -191,7 +191,7 @@ const getTopicInfo = async (req, res) => {
   }
 };
 
-const deleteTopic = async (req, res) => {
+export const deleteTopic = async (req, res) => {
   try {
     const { uid } = req.user;
     const { topicId } = req.params;
@@ -231,10 +231,3 @@ const deleteTopic = async (req, res) => {
   }
 };
 
-export default {
-  createTopic,
-  getUserTopics,
-  getTopic,
-  getTopicInfo,
-  deleteTopic,
-};

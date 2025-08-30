@@ -1,7 +1,7 @@
-import admin from "../config/firebase";
-import { sanitizeDisplayName } from "../utils/usernameUtils";
+import admin from "../config/firebase.js";
+import { sanitizeDisplayName } from "../utils/usernameUtils.js";
 
-const verifyToken = async (req, res, next) => {
+export const verifyToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {

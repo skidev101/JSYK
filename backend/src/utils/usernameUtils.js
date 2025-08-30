@@ -1,6 +1,17 @@
-import reservedWords from "./reservedWords";
+const reservedWords = [
+  "admin",
+  "login",
+  "logout",
+  "something",
+  "dashboard",
+  "support",
+  "terms",
+  "privacy",
+  "support",
+];
 
-exports.sanitizeDisplayName = (displayName) => {
+
+ export const sanitizeDisplayName = (displayName) => {
   if (typeof displayName !== 'string') return "";
   
   return displayName
@@ -10,28 +21,30 @@ exports.sanitizeDisplayName = (displayName) => {
 };
 
 
-exports.generateUniqueSlug = async (username, UserModel) => {
-  username
+export const generateUniqueSlug = async (username, UserModel) => {
+  if (typeof username !== "string" || !username.trim()) {
+    throw new Error("INVALID_USERNAME");
+  }
+
+  // Sanitize input
+  let slug = username
     .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[^\w\-]/g, '')
-    .substring(0, 10)
+    .normalize("NFKD")
+    .replace(/[^\w\-]/g, "") // keep only a-z, 0-9, _ and -
+    .substring(0, 10);
 
-  if (reservedWords.includes(username)) {
-    return res.status(403).json({
-      success: false,
-      message: "Invalid username",
-      code: "FORBIDDEN_USERNAME"
-    })
+  // Check reserved words
+  if (reservedWords.includes(slug)) {
+    throw new Error("FORBIDDEN_USERNAME");
   }
 
-  let slug = username;
+  // Ensure uniqueness in DB
   let counter = 0;
-
-  while (await UserModel.findOne({ profileSlug: slug })) {
+  let uniqueSlug = slug;
+  while (await UserModel.findOne({ profileSlug: uniqueSlug })) {
     counter++;
-    slug = `{username}{counter}`
+    uniqueSlug = `${slug}${counter}`; // append counter if already exists
   }
 
-  return slug;
-}
+  return uniqueSlug;
+};

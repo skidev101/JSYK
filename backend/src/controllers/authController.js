@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import { generateUniqueSlug } from "../utils/usernameUtils.js";
 
-const getCurrentUser = async (req, res) => {
+export const getCurrentUser = async (req, res) => {
   const { uid } = req.user;
 
   try {
@@ -36,7 +36,7 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-const handleAuth = async (req, res) => {
+export const handleAuth = async (req, res) => {
   const { uid, username, email, profileImgUrl } = req.user;
 
   try {
@@ -86,9 +86,4 @@ const handleAuth = async (req, res) => {
       code: "INTERNAL_SERVER_ERROR",
     });
   }
-};
-
-export default {
-  getCurrentUser,
-  handleAuth,
 };

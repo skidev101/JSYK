@@ -3,11 +3,14 @@ import Message from "../models/Message.js";
 import { Resvg } from "@resvg/resvg-js";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 const fontPath = path.join(__dirname, "../assets/fonts/Poppins-Regular.ttf");
 const fontData = fs.readFileSync(fontPath);
 
-const generateOgImage = async (req, res) => {
+export const generateOgImage = async (req, res) => {
   try {
     const { messageId } = req.params;
 
@@ -34,7 +37,7 @@ const generateOgImage = async (req, res) => {
             padding: "40px",
             textAlign: "center",
           },
-          children: message.text,
+          children: message.content,
         },
       },
       {
@@ -42,7 +45,7 @@ const generateOgImage = async (req, res) => {
         height: 630,
         fonts: [
           {
-            name: "Inter",
+            name: "Poppins",
             data: fontData,
             weight: 400,
             style: "normal",
@@ -64,7 +67,7 @@ const generateOgImage = async (req, res) => {
   }
 };
 
-const getOgPage = async (req, res) => {
+export const getOgPage = async (req, res) => {
   try {
     const { messageId } = req.params;
 
@@ -99,4 +102,3 @@ const getOgPage = async (req, res) => {
   }
 };
 
-export default { generateOgImage, getOgPage };

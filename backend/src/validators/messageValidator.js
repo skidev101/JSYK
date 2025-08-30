@@ -1,6 +1,6 @@
-const { body, param } = from 'express-validator');
+import { body, param } from 'express-validator';
 
-exports.validateSendMessage = [
+export const validateSendMessage = [
    body("content")
       .trim()
       .notEmpty()
@@ -11,7 +11,7 @@ exports.validateSendMessage = [
       .withMessage("ThemeColor is required")
 ];
 
-exports.validateMessageAction = [
+export const validateMessageAction = [
    param("messageId")
       .trim()
       .notEmpty()

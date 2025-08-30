@@ -1,8 +1,9 @@
-const { body } = from 'express-validator');
-const emojiRegex = from 'emoji-regex');
+import { body } from 'express-validator';
+import emojiRegex from 'emoji-regex';
+
 const emojiPattern = emojiRegex();
 
-exports.validateUsername = [
+export const validateUsername = [
   body("username")
     .optional()
     .trim()

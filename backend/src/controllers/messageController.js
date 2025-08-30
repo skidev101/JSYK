@@ -2,7 +2,7 @@ import Message from "../models/Message.js";
 import User from "../models/User.js";
 import Topic from "../models/Topic.js";
 
-const sendMessage = async (req, res) => {
+export const sendMessage = async (req, res) => {
   try {
     const { topicId = null, content, profileSlug, themeColor } = req.body;
     console.log(profileSlug);
@@ -62,7 +62,7 @@ const sendMessage = async (req, res) => {
   }
 };
 
-const getUserMessages = async (req, res) => {
+export const getUserMessages = async (req, res) => {
   try {
     const { uid } = req.user;
     const page = parseInt(req.query.page, 10) || 1;
@@ -133,7 +133,7 @@ const getUserMessages = async (req, res) => {
   }
 };
 
-const getMessage = async (req, res) => {
+export const getMessage = async (req, res) => {
   try {
     const { uid } = req.user;
     const { messageId } = req.params;
@@ -216,7 +216,7 @@ const getMessage = async (req, res) => {
 //   }
 // };
 
-const deleteMessage = async (req, res) => {
+export const deleteMessage = async (req, res) => {
   try {
     const { uid } = req.user;
     const { messageId } = req.params;
@@ -250,11 +250,4 @@ const deleteMessage = async (req, res) => {
       code: "INTERNAL_SERVER_ERROR",
     });
   }
-};
-
-export default {
-  sendMessage,
-  getUserMessages,
-  getMessage,
-  deleteMessage,
 };

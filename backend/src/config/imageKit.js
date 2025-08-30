@@ -1,4 +1,4 @@
-const ImageKit = from 'imagekit');
+import ImageKit from 'imagekit';
 
 
 const imageKit = new ImageKit({

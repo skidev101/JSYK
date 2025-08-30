@@ -5,7 +5,7 @@ const MAX_REQUESTS = 10;
 const TIME_WINDOW = 60;
 const IP_SALT = process.env.IP_SALT || "salty_salt";
 
-const limitSendMessage = async (req, res, next) => {
+export const limitSendMessage = async (req, res, next) => {
   try {
     const ip =
       req.headers["x-forwarded-for"]?.split(",")[0] || req.socket.remoteAddress;
@@ -39,4 +39,3 @@ const limitSendMessage = async (req, res, next) => {
   }
 };
 
-export default limitSendMessage;

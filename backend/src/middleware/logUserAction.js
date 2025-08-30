@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 
-const logUserAction = (action) => (req, res, next) => {
+export const logUserAction = (action) => (req, res, next) => {
   const { uid } = req.user;
   const log = `[${new Date().toISOString()}] UID: ${uid} | ACTION: ${action} | IP: ${
     req.ip
@@ -15,4 +15,3 @@ const logUserAction = (action) => (req, res, next) => {
   next();
 };
 
-export default logUserAction;
