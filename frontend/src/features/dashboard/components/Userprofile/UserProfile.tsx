@@ -56,7 +56,7 @@ const UserProfile = () => {
         onCopy={() =>
           copyToClipboard(`m/${user?.somethingLink}`)
         }
-        onCreateWithTopic={() => navigate("/new-topic")}
+        onCreateWithTopic={() => navigate("/dashboard/new-topic")}
       />
     </div>
   );

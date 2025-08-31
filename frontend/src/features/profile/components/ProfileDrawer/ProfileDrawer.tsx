@@ -13,7 +13,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../../../../context/AuthContext";
-import { uploadToImageKit, type UploadResult } from "@/shared/services/imageKit/uploadToImageKit";
+import {
+  uploadToImageKit,
+  type UploadResult,
+} from "@/shared/services/imageKit/uploadToImageKit";
 import { useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
@@ -23,7 +26,6 @@ interface ProfileDrawerProps {
   onLogoutClick?: () => void;
   onDeleteClick?: () => void;
 }
-
 
 const ProfileDrawer = ({
   show,
@@ -103,7 +105,7 @@ const ProfileDrawer = ({
       setLoading(false);
       setEditMode(false);
       onClose();
-      navigate("/");
+      navigate("/dashboard");
     }
   };
 

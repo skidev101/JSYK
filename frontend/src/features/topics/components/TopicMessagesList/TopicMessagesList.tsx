@@ -54,7 +54,7 @@ const TopicMessagesList = () => {
     const success = await handleDelete(topicId);
     if (success) {
       setIsModalOpen(false);
-      navigate("/");
+      navigate("/dashboard");
     }
   };
 
@@ -100,6 +100,7 @@ const TopicMessagesList = () => {
                     topic={message.topic}
                     isRead={message.isRead}
                     themeColor={message.themeColor}
+                    inDashboard={false}
                   />
                 ))}
                 <div

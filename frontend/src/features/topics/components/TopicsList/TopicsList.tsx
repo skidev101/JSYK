@@ -42,7 +42,7 @@ const TopicsList = () => {
           Create an anonymous link to see links here
         </p>
         <button
-          onClick={() => navigate("/new-topic")}
+          onClick={() => navigate("new-topic")}
           className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
         >
           Create New Link
@@ -93,7 +93,7 @@ const TopicsList = () => {
                 {topics.map((topic) => (
                   <div
                     key={topic._id}
-                    onClick={() => navigate(`/topic/${topic.topicId}/messages`)}
+                    onClick={() => navigate(`topic/${topic.topicId}/messages`)}
                     className="relative flex justify-between items-center w-full bg-gray-50 hover:bg-gray-100 hover:cursor-pointer hover:shadow-sm transition-all duration-200 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden border border-gray-200 active:scale-99"
                   >
                     <div className="flex flex-col justify-center gap-4">

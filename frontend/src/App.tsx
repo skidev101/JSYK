@@ -11,6 +11,7 @@ import UserProfilePage from "./pages/UserProfilePage";
 import ViewMessagePage from "./pages/ViewMessagePage";
 import TopicsListPage from "./pages/TopicsListPage";
 import TopicMessagesListPage from "./pages/TopicMessagesListPage";
+import LandingPage from "./pages/LandingPage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -18,14 +19,15 @@ const App = () => {
     <>
       <Toaster position="top-right" />
       <Routes>
-        <Route path="/" element={<MainLayout />}>
+        <Route path="/dashboard" element={<MainLayout />}>
           <Route index element={<DashboardPage />} />
-          <Route path="/new-topic" element={<NewTopicPage />} />
-          <Route path="/view/:messageId" element={<ViewMessagePage />} />
-          <Route path="/topics" element={<TopicsListPage />} />
-          <Route path="/topic/:topicId/messages" element={<TopicMessagesListPage />} />
+          <Route path="new-topic" element={<NewTopicPage />} />
+          <Route path="view/:messageId" element={<ViewMessagePage />} />
+          <Route path="topics" element={<TopicsListPage />} />
+          <Route path="topic/:topicId/messages" element={<TopicMessagesListPage />} />
         </Route>
 
+        <Route path="/" element={<LandingPage />} />
         <Route path="/u/:profileSlug" element={<UserProfilePage />} />
         <Route path="/m/:profileSlug/:slug" element={<SendMessagePage />} />
         <Route path="/m/:profileSlug" element={<SendMessagePage />} />

@@ -1,4 +1,5 @@
-import { Loader2 } from "lucide-react";
+import { Loader2, X } from "lucide-react";
+import { useRef, useState } from "react";
 
 interface MessageCardProps {
   profileImgUrl?: string;
@@ -26,13 +27,23 @@ const MessageCard = ({
   preview,
   inView,
   loading,
-  onImageClick,
+  // onImageClick,
   messageToSend,
   setMessageToSend,
   onSend,
   themeColor,
   error,
 }: MessageCardProps) => {
+  const [modalImg, setModalImg] = useState<string | null>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Close modal if click is on the overlay, not the image container
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+      setModalImg(null);
+    }
+  };
+
   return (
     <div className="relative w-full bg-white rounded-3xl shadow-md p-4">
       <div
@@ -40,29 +51,36 @@ const MessageCard = ({
         style={{ backgroundColor: themeColor }}
       >
         <div className="flex justify-between items-center">
-          <div className="flex items-center gap-2">
-            <img
-              src={profileImgUrl || "/default-pfp.webp"}
-              alt=""
-              className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 p-[1.4px] border-white"
-            />
+          <div className="flex items-center gap-2 mt-1">
+            {!inView && (
+              <img
+                src={profileImgUrl || "/default-pfp.webp"}
+                alt=""
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 p-[1.4px] border-white"
+              />
+            )}
             <h1
               className={`text-md sm:text-lg font-semibold ${
-                themeColor === "#ffffff" ? "text-black" : "text-white"
+                username === "anonymous" ? "text-gray-100" : "text-white"
               }`}
             >
               @{username}
             </h1>
           </div>
-          <p className="text-sm sm:text-base text-neutral-200">something</p>
+          <p className="text-sm sm:text-base text-neutral-200">jsyk</p>
         </div>
       </div>
 
       <div className="mt-18">
         {topic && (
-          <div className="max-w-max px-2 py-1 sm:px-3 bg-gray-100 rounded-xl">
-            <p className="text-sm sm:text-base text-gray-800">{topic}</p>
-          </div>
+          <>
+            <div className="max-w-max px-2 py-1 sm:px-3 bg-gray-100 rounded-xl">
+              <p className="text-sm sm:text-base text-gray-800 truncate">
+                {topic}
+              </p>
+            </div>
+            <div className="flex justify-center items-center"></div>
+          </>
         )}
 
         {topicImgUrls && topicImgUrls.length > 0 && (
@@ -72,7 +90,7 @@ const MessageCard = ({
                 key={index}
                 src={src}
                 alt={`preview-${index}`}
-                onClick={() => onImageClick?.(src)}
+                onClick={() => setModalImg(src)}
                 className="w-[50%] h-20 my-2 rounded-xl object-contain object-center cursor-pointer transition-all hover:scale-[1.01]"
               />
             ))}
@@ -81,7 +99,7 @@ const MessageCard = ({
 
         {message ? (
           <>
-            <div className="w-full max-h-max p-2 sm:p-3 mt-2 bg-gray-100 rounded-2xl">
+            <div className="w-full max-h-max text-center p-2 sm:p-3 mt-2 bg-gray-100 rounded-2xl">
               <p className="text-sm sm:text-base">{message}</p>
             </div>
           </>
@@ -120,6 +138,28 @@ const MessageCard = ({
           </>
         )}
       </div>
+
+      {/* Image Modal */}
+      {modalImg && (
+        <div
+          onClick={handleOverlayClick}
+          className="fixed inset-0 z-50 flex justify-center items-center bg-gray-800"
+        >
+          <div className="relative max-w-[90%] max-h-[90%]">
+            <button
+              onClick={() => setModalImg(null)}
+              className="absolute top-2 right-2 text-white p-1 rounded-full hover:bg-gray-800 transition"
+            >
+              <X size={24} />
+            </button>
+            <img
+              src={modalImg}
+              alt="enlarged"
+              className="max-w-full max-h-full rounded-xl object-contain"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

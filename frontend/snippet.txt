@@ -18,167 +18,167 @@ w-full fixed top-0 left-0 flex items-center p-2 sm:p-4 mt-20
       https://imagekit.io/public/share/yo9tu00cr/bb7d04ae0ef34a45577240f8eb275de5321beb2305f99caf9798960dc4482e1628a3c32c848fea504cf19e594e586d0935e03e9dbf31afd991c77c32e277cc94bda852a87a274faea4ec605ab06e2a46
 
 
-src/
-├── app/                              # App-level configuration
-│   ├── App.tsx
-│   ├── App.css
-│   └── store/                        # Global state management
-│       ├── index.ts
-│       └── slices/
-│           ├── authSlice.ts
-│           └── dashboardSlice.ts
-│
-├── features/                         # Feature-based organization
-│   ├── auth/                         # Authentication feature
-│   │   ├── components/
-│   │   │   ├── LoginForm/
-│   │   │   │   ├── LoginForm.tsx
-│   │   │   │   ├── LoginForm.test.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── RegisterForm/
-│   │   │   │   ├── RegisterForm.tsx
-│   │   │   │   ├── RegisterForm.test.tsx
-│   │   │   │   └── index.ts
-│   │   │   └── index.ts
-│   │   ├── hooks/
-│   │   │   ├── useAuth.ts
-│   │   │   ├── useLogin.ts
-│   │   │   └── useRegister.ts
-│   │   ├── services/
-│   │   │   ├── authAPI.ts
-│   │   │   └── authValidation.ts
-│   │   ├── types/
-│   │   │   └── auth.types.ts
-│   │   ├── utils/
-│   │   │   └── authHelpers.ts
-│   │   └── index.ts
-│   │
-│   ├── dashboard/                    # Dashboard feature
-│   │   ├── components/
-│   │   │   ├── UserProfile/
-│   │   │   │   ├── UserProfile.tsx
-│   │   │   │   ├── UserProfile.test.tsx
-│   │   │   │   ├── ActionButtons.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── RecentLinks/
-│   │   │   │   ├── RecentLinks.tsx
-│   │   │   │   ├── LinkItem.tsx
-│   │   │   │   ├── EmptyState.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── MessagesSection/
-│   │   │   │   ├── MessagesSection.tsx
-│   │   │   │   ├── MessagesList.tsx
-│   │   │   │   ├── SortDropdown.tsx
-│   │   │   │   └── index.ts
-│   │   │   └── index.ts
-│   │   ├── hooks/
-│   │   │   ├── useDashboardData.ts
-│   │   │   ├── useDashboardState.ts
-│   │   │   └── useDashboardActions.ts
-│   │   ├── services/
-│   │   │   └── dashboardAPI.ts
-│   │   ├── types/
-│   │   │   └── dashboard.types.ts
-│   │   ├── utils/
-│   │   │   ├── groupByDate.ts
-│   │   │   └── dashboardHelpers.ts
-│   │   └── index.ts
-│   │
-│   ├── topics/                       # Topics feature
-│   │   ├── components/
-│   │   │   ├── NewTopic/
-│   │   │   │   ├── NewTopic.tsx   //NewTopicForm and TopicPreview brought in here
-│   │   │   │   └── index.ts
-│   │   │   ├── TopicCard/
-│   │   │   │   ├── TopicCard.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── NewTopicForm/
-│   │   │   │   ├── NewTopicForm.tsx 
-│   │   │   │   └── index.ts
-│   │   │   ├── TopicReview/
-│   │   │   │   ├── TopicReview.tsx 
-│   │   │   │   └── index.ts
-│   │   │   ├── TopicsList/
-│   │   │   │   ├── TopicsList.tsx
-│   │   │   │   └── index.ts
-│   │   │   └── index.ts
-│   │   ├── hooks/
-│   │   │   ├── useTopics.ts
-│   │   │   └── useCreateTopic.ts
-│   │   ├── services/
-│   │   │   └── topicsAPI.ts
-│   │   ├── types/
-│   │   │   └── topics.types.ts
-│   │   └── index.ts
-│   │
-│   ├── messages/                     # Messages feature
-│   │   ├── components/
-│   │   │   ├── MessageCard/
-│   │   │   │   ├── MessageCard.tsx
-│   │   │   │   ├── MessageCard.test.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── SendMessage/
-│   │   │   │   ├── SendMessage.tsx
-│   │   │   │   └── index.ts
-│   │   │   ├── ViewMessage/
-│   │   │   │   ├── ViewMessage.tsx
-│   │   │   │   └── index.ts
-│   │   │   └── index.ts
-│   │   ├── hooks/
-│   │   │   ├── useMessages.ts
-│   │   │   └── useSendMessage.ts
-│   │   ├── services/
-│   │   │   └── messagesAPI.ts
-│   │   ├── types/
-│   │   │   └── messages.types.ts
-│   │   └── index.ts
-│   │
-│   └── profile/                      # User profile feature
-│       ├── components/
-│       │   ├── UserProfile/
-│       │   │   ├── UserProfile.tsx
-│       │   │   └── index.ts
-│       │   ├── EditProfile/
-│       │   │   ├── EditProfile.tsx
-│       │   │   └── index.ts
-│       │   └── index.ts
-│       ├── hooks/
-│       │   └── useProfile.ts
-│       ├── services/
-│       │   └── profileAPI.ts
-│       ├── types/
-│       │   └── profile.types.ts
-│       └── index.ts
-│
-├── pages/                            # Page-level components (route containers)
-│   ├── DashboardPage/
-│   │   ├── DashboardPage.tsx
-│   │   └── index.ts
-│   ├── LoginPage/
-│   │   ├── LoginPage.tsx
-│   │   └── index.ts
-│   ├── RegisterPage/
-│   │   ├── RegisterPage.tsx
-│   │   └── index.ts
-│   ├── TopicsPage/
-│   │   ├── TopicsPage.tsx
-│   │   └── index.ts
-│   ├── NewTopicPage/
-│   │   ├── NewTopicPage.tsx
-│   │   └── index.ts
-│   ├── MessagesPage/
-│   │   ├── MessagesPage.tsx
-│   │   └── index.ts
-│   ├── NotFoundPage/
-│   │   ├── NotFoundPage.tsx
-│   │   └── index.ts
-│   └── index.ts
-│
-├── shared/                           # Shared/common code
+  src/
+  ├── app/                              # App-level configuration
+  │   ├── App.tsx
+  │   ├── App.css
+  │   └── store/                        # Global state management
+  │       ├── index.ts
+  │       └── slices/
+  │           ├── authSlice.ts
+  │           └── dashboardSlice.ts
+  │
+  ├── features/                         # Feature-based organization
+  │   ├── auth/                         # Authentication feature
+  │   │   ├── components/
+  │   │   │   ├── LoginForm/
+  │   │   │   │   ├── LoginForm.tsx
+  │   │   │   │   ├── LoginForm.test.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   ├── RegisterForm/
+  │   │   │   │   ├── RegisterForm.tsx
+  │   │   │   │   ├── RegisterForm.test.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   └── index.ts
+  │   │   ├── hooks/
+  │   │   │   ├── useAuth.ts
+  │   │   │   ├── useLogin.ts
+  │   │   │   └── useRegister.ts
+  │   │   ├── services/
+  │   │   │   ├── authAPI.ts
+  │   │   │   └── authValidation.ts
+  │   │   ├── types/
+  │   │   │   └── auth.types.ts
+  │   │   ├── utils/
+  │   │   │   └── authHelpers.ts
+  │   │   └── index.ts
+  │   │
+  │   ├── dashboard/                    # Dashboard feature
+  │   │   ├── components/
+  │   │   │   ├── UserProfile/
+  │   │   │   │   ├── UserProfile.tsx
+  │   │   │   │   ├── UserProfile.test.tsx
+  │   │   │   │   ├── ActionButtons.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   ├── RecentLinks/
+  │   │   │   │   ├── RecentLinks.tsx
+  │   │   │   │   ├── LinkItem.tsx
+  │   │   │   │   ├── EmptyState.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   ├── MessagesSection/
+  │   │   │   │   ├── MessagesSection.tsx
+  │   │   │   │   ├── MessagesList.tsx
+  │   │   │   │   ├── SortDropdown.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   └── index.ts
+  │   │   ├── hooks/
+  │   │   │   ├── useDashboardData.ts
+  │   │   │   ├── useDashboardState.ts
+  │   │   │   └── useDashboardActions.ts
+  │   │   ├── services/
+  │   │   │   └── dashboardAPI.ts
+  │   │   ├── types/
+  │   │   │   └── dashboard.types.ts
+  │   │   ├── utils/
+  │   │   │   ├── groupByDate.ts
+  │   │   │   └── dashboardHelpers.ts
+  │   │   └── index.ts
+  │   │
+  │   ├── topics/                       # Topics feature
+  │   │   ├── components/
+  │   │   │   ├── NewTopic/
+  │   │   │   │   ├── NewTopic.tsx   //NewTopicForm and TopicPreview brought in here
+  │   │   │   │   └── index.ts
+  │   │   │   ├── TopicCard/
+  │   │   │   │   ├── TopicCard.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   ├── NewTopicForm/
+  │   │   │   │   ├── NewTopicForm.tsx 
+  │   │   │   │   └── index.ts
+  │   │   │   ├── TopicReview/
+  │   │   │   │   ├── TopicReview.tsx 
+  │   │   │   │   └── index.ts
+  │   │   │   ├── TopicsList/
+  │   │   │   │   ├── TopicsList.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   └── index.ts
+  │   │   ├── hooks/
+  │   │   │   ├── useTopics.ts
+  │   │   │   └── useCreateTopic.ts
+  │   │   ├── services/
+  │   │   │   └── topicsAPI.ts
+  │   │   ├── types/
+  │   │   │   └── topics.types.ts
+  │   │   └── index.ts
+  │   │
+  │   ├── messages/                     # Messages feature
+  │   │   ├── components/
+  │   │   │   ├── MessageCard/
+  │   │   │   │   ├── MessageCard.tsx
+  │   │   │   │   ├── MessageCard.test.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   ├── SendMessage/
+  │   │   │   │   ├── SendMessage.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   ├── ViewMessage/
+  │   │   │   │   ├── ViewMessage.tsx
+  │   │   │   │   └── index.ts
+  │   │   │   └── index.ts
+  │   │   ├── hooks/
+  │   │   │   ├── useMessages.ts
+  │   │   │   └── useSendMessage.ts
+  │   │   ├── services/
+  │   │   │   └── messagesAPI.ts
+  │   │   ├── types/
+  │   │   │   └── messages.types.ts
+  │   │   └── index.ts
+  │   │
+  │   └── profile/                      # User profile feature
+  │       ├── components/
+  │       │   ├── UserProfile/
+  │       │   │   ├── UserProfile.tsx
+  │       │   │   └── index.ts
+  │       │   ├── EditProfile/
+  │       │   │   ├── EditProfile.tsx
+  │       │   │   └── index.ts
+  │       │   └── index.ts
+  │       ├── hooks/
+  │       │   └── useProfile.ts
+  │       ├── services/
+  │       │   └── profileAPI.ts
+  │       ├── types/
+  │       │   └── profile.types.ts
+  │       └── index.ts
+  │
+  ├── pages/                            # Page-level components (route containers)
+  │   ├── DashboardPage/
+  │   │   ├── DashboardPage.tsx
+  │   │   └── index.ts
+  │   ├── LoginPage/
+  │   │   ├── LoginPage.tsx
+  │   │   └── index.ts
+  │   ├── RegisterPage/
+  │   │   ├── RegisterPage.tsx
+  │   │   └── index.ts
+  │   ├── TopicsPage/
+  │   │   ├── TopicsPage.tsx
+  │   │   └── index.ts
+  │   ├── NewTopicPage/
+  │   │   ├── NewTopicPage.tsx
+  │   │   └── index.ts
+  │   ├── MessagesPage/
+  │   │   ├── MessagesPage.tsx
+  │   │   └── index.ts
+  │   ├── NotFoundPage/
+  │   │   ├── NotFoundPage.tsx
+  │   │   └── index.ts
+  │   └── index.ts
+  │
+  ├── shared/                           # Shared/common code
 │   ├── components/                   # Reusable UI components
 │   │   ├── UI/
 │   │   │   ├── Button/
-│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Button.tsx 
 │   │   │   │   ├── Button.test.tsx
 │   │   │   │   ├── Button.stories.tsx
 │   │   │   │   └── index.ts

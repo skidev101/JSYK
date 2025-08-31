@@ -7,6 +7,7 @@ interface MessageCardProps {
   message: string;
   isRead: boolean;
   themeColor: string;
+  inDashboard?: boolean;
 }
 
 const MessageCard = ({
@@ -15,15 +16,16 @@ const MessageCard = ({
   message,
   isRead,
   themeColor,
+  inDashboard
 }: MessageCardProps) => {
   const navigate = useNavigate();
 
   return (
     <div
-      onClick={() => navigate(`/view/${messageId}`)}
+      onClick={() => navigate(`view/${messageId}`)}
       className="relative rounded-xl bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200 shadow"
     >
-      {isRead && (
+      {isRead && inDashboard && (
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.5] bg-gray-50 rounded-lg z-50">
           {/* opaque bg for read messages */}
         </div>

@@ -89,7 +89,7 @@ const Register = () => {
       // console.log("Response to email signin from backend:", response.data);
       login({ ...response.data.data, idToken });
 
-      navigate("/");
+      navigate("/dashboard");
       toast.success("Sign up successful");
     } catch (err: any) {
       toast.error(err.message);
@@ -139,7 +139,7 @@ const Register = () => {
 
       console.log("Response to email signin from backend:", response.data);
 
-      navigate("/");
+      navigate("/dashboard");
       toast.success("Sign up successful");
     } catch (err: any) {
       if (result?.user) {

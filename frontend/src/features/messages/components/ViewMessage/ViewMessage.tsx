@@ -19,11 +19,11 @@ import { useDashboardStore } from "@/store/dashboardStore";
 import { toBlob } from "html-to-image";
 
 const ViewMessage = () => {
-
   const [showDropdown, setShowDropdown] = useState(false);
   const { messageId } = useParams();
   if (!messageId) return <div>oops... no message ID</div>;
   const { data, loadingMessage } = useViewMessage(messageId); // add error
+  console.log("topic img urls at view message:", data?.topicImgUrls);
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const themeColor = "#3570F8";
@@ -48,8 +48,8 @@ const ViewMessage = () => {
       const options = {
         cacheBust: true,
         backgroundColor: "#ffffff",
-        pixelRatio: Math.max(2, window.devicePixelRatio || 1)
-      }
+        pixelRatio: Math.max(2, window.devicePixelRatio || 1),
+      };
 
       const blob = await toBlob(messageRef.current, options);
       if (!blob) throw new Error("Failed to create image blob");
@@ -60,12 +60,10 @@ const ViewMessage = () => {
       link.download = "message.png";
       link.click();
       URL.revokeObjectURL(url);
-
     } catch (err) {
       console.error("Image capture failed:", err);
     }
-  }
-
+  };
 
   const handleDelete = async () => {
     // if (messageId) return;
@@ -78,7 +76,7 @@ const ViewMessage = () => {
         removeMessage(messageId);
         toast.success("Message Deleted");
         console.log("deleted message");
-        navigate("/");
+        navigate("/dashboard");
       } else {
         toast.error("Failed to delete");
         console.log("failed to delete message");
@@ -86,7 +84,6 @@ const ViewMessage = () => {
       // if (loadingDelete) {
       //   toast.loading("Deleting messages");
       // }
-
     } catch (err) {
       console.error("error in delete func", err);
     }
@@ -96,7 +93,7 @@ const ViewMessage = () => {
     <div className="relative">
       <div className="w-full flex justify-end sm:justify-between items-center p-2 sm:p-4 mt-20">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/dashboard")}
           className="hidden sm:grid place-items-center rounded-2xl p-1 sm:p-3 bg-gray-200 hover:bg-gray-300 cursor-pointer transition duration-200"
         >
           <ChevronLeft size={22} />
@@ -118,9 +115,10 @@ const ViewMessage = () => {
             showDropdown ? "flex" : "hidden"
           } sm:hidden absolute top-14 right-2 z-20 flex-col bg-gray-100 shadow-md border-1 border-gray-200 rounded-md`}
         >
-          <button 
-          onClick={() => handleImageDownload()}
-          className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1">
+          <button
+            onClick={() => handleImageDownload()}
+            className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1"
+          >
             <Download size={20} />
             <p>Download</p>
           </button>
@@ -143,17 +141,18 @@ const ViewMessage = () => {
           {/* <div className="bg-gray-200 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
             <AlertTriangle size={20} className="text-red-500" />
             </div> */}
-          <button 
+          <button
             onClick={() => handleImageDownload()}
-            className="bg-gray-200 text-gray-800 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300">
+            className="bg-gray-200 text-gray-800 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
+          >
             <Download size={20} />
           </button>
-            <button
-              onClick={() => handleDelete()}
-              className="bg-gray-200 text-gray-800 hover:text-red-500 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
-            >
-              <Trash size={20} />
-            </button>
+          <button
+            onClick={() => handleDelete()}
+            className="bg-gray-200 text-gray-800 hover:text-red-500 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
+          >
+            <Trash size={20} />
+          </button>
         </div>
       </div>
 
@@ -164,6 +163,7 @@ const ViewMessage = () => {
             className="w-full max-w-sm h-full flex justify-center flex-col items-center gap-3 rounded-xl p-2 sm:p-4 bg-gray-100 shadow-md"
           >
             <MessageCard
+              username="anonymous"
               profileImgUrl={data?.profileImgUrl}
               topicImgUrls={data?.topicImgUrls}
               topic={data?.topic}
@@ -176,7 +176,7 @@ const ViewMessage = () => {
             <p className="text-gray-700 p-4 text-sm">jsyk by monaski</p>
           </div>
 
-          <SocialShareButtons messageId={messageId}  />
+          <SocialShareButtons messageId={messageId} />
         </div>
       </FadeIn>
     </div>

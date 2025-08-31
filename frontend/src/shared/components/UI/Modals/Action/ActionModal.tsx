@@ -7,12 +7,12 @@ import { Loader2, X } from "lucide-react";
 interface LogoutProps {
   isOpen: boolean;
   onClose: () => void;
-  loading: boolean;
+  loading?: boolean;
   warning: string;
   header: string;
   btnAction: string;
   friendlyText?: string;
-  handleAction: () => void;
+  handleAction?: () => void;
 }
 
 const ActionModal = ({
@@ -96,7 +96,7 @@ const ActionModal = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  onClick={() => handleAction()}
+                  onClick={() => handleAction?.()}
                   className={`flex justify-center items-center p-2 sm:p-3 text-white rounded-md cursor-pointer ${
                     loading ? "bg-red-500" : "bg-red-600"
                   } hover:bg-red-500 active:scale-[0.97] transition duration-200`}

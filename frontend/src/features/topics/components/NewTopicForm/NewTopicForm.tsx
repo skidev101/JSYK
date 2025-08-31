@@ -76,7 +76,7 @@ NewTopicFormProps) => {
       setTopicError("Max length reached");
       return;
     }
-    
+
     setLoading(true);
 
     try {
@@ -103,7 +103,7 @@ NewTopicFormProps) => {
       const topicCreateSuccess = await createTopic(payload);
       if (topicCreateSuccess) {
         toast.success("Topic created");
-        navigate("/");
+        navigate("/dashboard");
       }
     } catch (err) {
       console.log(err);
@@ -119,7 +119,7 @@ NewTopicFormProps) => {
           <div className="flex justify-between items-center ">
             <h1 className="text-2xl sm:text-3xl">New topic</h1>
             <button
-              onClick={() => navigate("/")}
+              onClick={() => navigate("/dashboard")}
               className="grid place-items-center w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-xl hover:bg-gray-200 transition duration-200"
             >
               <X size={20} />
@@ -151,7 +151,7 @@ NewTopicFormProps) => {
                   {topicError && (
                     <p className="text-sm text-red-500">{topicError}</p>
                   )}
-                </div>  
+                </div>
                 <p
                   className={`${
                     topic.length >= 100 ? "text-red-500" : "text-gray-700"

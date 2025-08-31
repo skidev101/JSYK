@@ -20,7 +20,7 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
         </div>
 
         <button
-          onClick={() => navigate("/topics")}
+          onClick={() => navigate("topics")}
           className="text-sm px-2 py-1 hover:bg-gray-100 text-gray-800 rounded-md transition-all active:scale-95 cursor-pointer"
         >
           see all

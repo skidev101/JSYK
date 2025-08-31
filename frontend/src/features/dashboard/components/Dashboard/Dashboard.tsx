@@ -102,6 +102,7 @@ const Dashboard = () => {
                 topic={message.topic}
                 isRead={message.isRead}
                 themeColor={message.themeColor}
+                inDashboard={true}
               />
             ))}
             <div ref={loaderRef} className="flex justify-center p-4">

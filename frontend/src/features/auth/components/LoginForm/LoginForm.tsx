@@ -59,7 +59,7 @@ const Login = () => {
       // console.log("Response to google signin from backend:", response.data);
 
       // login(response.data.data);
-      navigate("/");
+      navigate("/dashboard");
       toast.success("Login successful");
     } catch (err: any) {
       toast.error(err.message);
@@ -95,7 +95,7 @@ const Login = () => {
 
       toast.success("login successful");
 
-      navigate("/");
+      navigate("/dashboard");
     } catch (err: any) {
       //setErrors({ general: err });
       toast.error("Login failed");
@@ -200,7 +200,11 @@ const Login = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             } text-white font-bold py-2 my-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
           >
-            {loading ? <Loader2 size={18} className="animate-spin" /> : "Submit"}
+            {loading ? (
+              <Loader2 size={18} className="animate-spin" />
+            ) : (
+              "Submit"
+            )}
           </button>
         </form>
 
