@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 interface UserProfileData {
   username: string;
   profileImgUrl?: string;
-  somethingLink: string;
+  jsykLink: string;
   bio?: string;
   profileSlug: string;
 }
@@ -20,11 +20,8 @@ export const useFetchUserProfile = (profileSlug: string) => {
     const fetchUserProfile = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          `/profile/${profileSlug}`
-        );
+        const response = await axios.get(`/profile/${profileSlug}`);
         isMounted && setUserProfile(response.data.data);
-
       } catch (err: any) {
         if (isMounted) {
           setError(err.response?.data?.message || "Failed to fetch topic data");

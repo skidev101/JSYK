@@ -16,7 +16,7 @@
 //   if (error) return <div className="text-md">An error occured</div>;
 
 //   const handleCopy = async (url: string) => {
-//     const success = await copyToClipboard(`https://something.me/${url}`);
+//     const success = await copyToClipboard(`https://jsyk.me/${url}`);
 //     if (success) {
 //       toast.success("Copied!");
 //     } else {
@@ -72,7 +72,7 @@
 //               </button>
 //             </div>
 //           ) : (
-//             
+//
 //           )}
 //         </div>
 //       </div>

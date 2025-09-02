@@ -1,5 +1,5 @@
 export interface User {
   username: string;
-  somethingLink: string;
+  jsykLink: string;
   profileImgUrl?: string;
 }

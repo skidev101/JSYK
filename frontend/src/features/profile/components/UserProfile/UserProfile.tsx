@@ -4,13 +4,13 @@ import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
 import { copyToClipboard } from "@/shared/utils/clipboard";
 import { HashLoader } from "react-spinners";
 import { APP_CONFIG } from "@/shared/constants/config";
-import ErrorState from "@/shared/components/UI/ErrorBoundary";
+// import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const UserProfile = () => {
   const { profileSlug } = useParams();
   if (!profileSlug) return <div>Oops... that must be an error</div>;
   const navigate = useNavigate();
-  const { userProfile, loading, error } = useFetchUserProfile(profileSlug);
+  const { userProfile, loading } = useFetchUserProfile(profileSlug); // add error 
   console.log("userprofile:", userProfile)
 
   if (loading) {
@@ -20,18 +20,20 @@ const UserProfile = () => {
       </div>
     );
   }
-  if (error) {
-    return (
-      <ErrorState
-        message="An unknown error occured"
-        src="/empty-box.png"
-      />
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <ErrorState
+  //       message="An unknown error occured"
+  //       src="/empty-box.png"
+  //     />
+  //   );
+  // }
 
   return (
     <FadeIn>
-      <div className="w-full flex flex-col justify-center items-center min-h-screen">
+      <div className="w-full flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* <div className="absolute inset-1 mesh-gradient"></div> */}
+
         <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 bg-white shadow-xl border border-gray-100">
           <img
             src={userProfile?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
@@ -63,6 +65,8 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
+
+      
     </FadeIn>
   );
 };

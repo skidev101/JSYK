@@ -153,7 +153,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-2 sm:px-4">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-2 sm:px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
       <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm my-6">
         <h1 className="text-2xl font-bold mt-2">Sign up to continue</h1>
 

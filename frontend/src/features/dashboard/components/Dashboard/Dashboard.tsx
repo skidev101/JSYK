@@ -15,8 +15,15 @@ const Dashboard = () => {
   const { data, error, refetch, loadMore, loadingData } = useDashboardData();
   const messages = data.messages;
 
+  const [showEmojiExplosion, setShowEmojiExplosion] = useState(false);
   const [page, setPage] = useState(1);
   const loaderRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setShowEmojiExplosion(true);
+
+    return (() => setShowEmojiExplosion(false))
+  }, [])
 
   useEffect(() => {
     if (!data.messages.length) {
@@ -81,8 +88,8 @@ const Dashboard = () => {
 
   return (
     <FadeDown>
-      <div className="bg-gray-200 mt-20 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md">
-        <div className="flex flex-col gap-2">
+      <div className="mt-16 mb-8 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+        <div className="flex flex-col gap-2 pt-2">
           <UserProfile />
 
           <RecentTopicLinks groupedTopicLinks={groupedTopics} />
@@ -116,7 +123,28 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Emoji Explosion */}
+      {showEmojiExplosion && (
+        <div className="fixed inset-0 pointer-events-none z-50">
+          {["💬", "🎉", "✨", "👻", "🔥", "💫", "🚀", "💝", "🌟", "🎊", "💭", "⚡"].map((emoji, index) => (
+            <div
+              key={index}
+              className="absolute text-4xl emoji-explosion"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 0.5}s`,
+              }}
+            >
+              {emoji}
+            </div>
+          ))}
+        </div>
+      )}
     </FadeDown>
+
+    
   );
 };
 

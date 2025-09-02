@@ -9,7 +9,7 @@ import { APP_CONFIG } from "@/shared/constants/config";
 interface User {
   username: string;
   email: string;
-  somethingLink: string;
+  jsykLink: string;
   profileImgUrl?: string;
   bio?: string;
   profileViews: number;

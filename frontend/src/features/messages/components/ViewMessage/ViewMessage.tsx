@@ -11,7 +11,7 @@ import {
 import MessageCard from "@/shared/components/Message/MessageCard";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useViewMessage } from "../../hooks/useViewMessage";
-import { HashLoader } from "react-spinners";
+// import { HashLoader } from "react-spinners";
 import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
@@ -22,7 +22,7 @@ const ViewMessage = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { messageId } = useParams();
   if (!messageId) return <div>oops... no message ID</div>;
-  const { data, loadingMessage } = useViewMessage(messageId); // add error
+  const { data } = useViewMessage(messageId); // add error, add loadingMessage
   console.log("topic img urls at view message:", data?.topicImgUrls);
   const messageRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -30,13 +30,13 @@ const ViewMessage = () => {
   const { deleteMessage } = useDeleteMessage(); // add loading
   const removeMessage = useDashboardStore((state) => state.removeMessage);
 
-  if (loadingMessage) {
-    return (
-      <div className="flex justify-center items-center min-h-[100vh]">
-        <HashLoader size={40} color="#000" />
-      </div>
-    );
-  }
+  // if (loadingMessage) {
+  //   return (
+  //     <div className="flex justify-center items-center min-h-[100vh]">
+  //       <HashLoader size={40} color="#000" />
+  //     </div>
+  //   );
+  // }
   // if (error) return <div className="text-md mt-40 mr-20">An error occured</div>;
 
   const handleImageDownload = async () => {
@@ -90,7 +90,7 @@ const ViewMessage = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative ">
       <div className="w-full flex justify-end sm:justify-between items-center p-2 sm:p-4 mt-20">
         <button
           onClick={() => navigate("/dashboard")}

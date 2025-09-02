@@ -106,7 +106,9 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-2 sm:px-4">
+    <div className="flex items-center justify-center min-h-screen px-2 sm:px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      {/* <div className="absolute inset-0 mesh-gradient"></div> */}
+
       <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm">
         <h1 className="text-2xl sm:text-3xl font-bold my-2">Welcome back</h1>
         <h2 className="text-lg sm:text-xl my-1">Login to continue</h2>

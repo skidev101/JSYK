@@ -46,7 +46,9 @@ const SendMessage = () => {
 
   return (
     <FadeIn>
-      <div className="relative w-full flex flex-col justify-center items-center min-h-screen">
+      <div className="relative w-full flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 overflow-hidden">
+      {/* <div className="absolute inset-0 mesh-gradient"></div> */}
+
         <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 ">
           <p className="text-sm text-gray-500">
             Message @{data?.username} anonymously 🤫
@@ -66,15 +68,15 @@ const SendMessage = () => {
             error={error}
           />
           <div className="text-center text-gray-700">
-            <p className="text-sm">
+            {/* <p className="text-sm">
               wanna recieve anonymous messages
               <br /> too? 👉{" "}
               <a href="/register" className="text-blue-600 underline">
                 Sign up
               </a>
-            </p>
+            </p> */}
             <p className="fixed bottom-2 left-1/2 -translate-x-1/2 text-sm">
-              something by monaski
+              jsyk by monaski
             </p>
           </div>
         </div>

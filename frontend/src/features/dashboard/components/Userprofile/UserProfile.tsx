@@ -22,13 +22,9 @@ const UserProfile = () => {
             {user?.username || "loading..."}
           </h1>
           <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-600 hover:text-gray-900 truncate">
-            <p>
-              {`${APP_CONFIG.BASE_URL}/${user?.somethingLink}` || "loading..."}
-            </p>
+            <p>{`${APP_CONFIG.BASE_URL}/${user?.jsykLink}` || "loading..."}</p>
             <button
-              onClick={() =>
-                copyToClipboard(`${user?.somethingLink}`)
-              }
+              onClick={() => copyToClipboard(`${user?.jsykLink}`)}
               title="copy link"
               className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all"
             >
@@ -53,9 +49,7 @@ const UserProfile = () => {
       </p>
 
       <ActionButtons
-        onCopy={() =>
-          copyToClipboard(`m/${user?.somethingLink}`)
-        }
+        onCopy={() => copyToClipboard(`m/${user?.jsykLink}`)}
         onCreateWithTopic={() => navigate("/dashboard/new-topic")}
       />
     </div>

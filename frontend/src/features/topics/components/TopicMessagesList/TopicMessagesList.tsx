@@ -74,47 +74,52 @@ const TopicMessagesList = () => {
 
   return (
     <FadeDown>
-      <div className="flex items-center w-full flex-col">
-        <div className="w-full max-w-4xl ">
-          <div className="flex justify-between items-center w-full px-2 mt-20 gap-1">
-            <div className="text-xl sm:text-2xl bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
-              <h1>Hello world</h1>
-            </div>
+      <div className="w-full h-full min-h-screen mt-16 pt-3 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+        <div className="flex items-center w-full flex-col">
+          <div className="w-full max-w-4xl ">
+            <div className="flex justify-between items-center w-full px-2 gap-1 mt-2">
+              <div className="text-xl sm:text-2xl bg-white max-w-max px-3 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
+                <h1 className="text-gray-700">Hello world</h1>
+              </div>
 
-            <button
-              onClick={() => setIsModalOpen(true)}
-              disabled={loadingDelete}
-              className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
-            >
-              <Trash size={18} />
-            </button>
-          </div>
-          <div className="w-full rounded-2xl sm:p-4 border-1 border-gray-100 shadow-md mt-5">
-            <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
-              <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
-                {messages.map((message) => (
-                  <MessageCard
-                    key={message._id}
-                    message={message.content}
-                    messageId={message._id}
-                    topic={message.topic}
-                    isRead={message.isRead}
-                    themeColor={message.themeColor}
-                    inDashboard={false}
-                  />
-                ))}
-                <div
-                  ref={loaderRef}
-                  className="fixed left-1/2 -translate-x-1/2 pt-1"
-                >
-                  {loading && (
-                    <Loader2 size={25} className="animate-spin text-blue-500" />
-                  )}
-                  {messages.length === 0 && !loading && (
-                    <span className="text-sm text-gray-700">
-                      No more messages
-                    </span>
-                  )}
+              <button
+                onClick={() => setIsModalOpen(true)}
+                disabled={loadingDelete}
+                className="bg-gray-200 text-gray-800 rounded-xl p-2 hover:shadow hover:text-red-500 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
+              >
+                <Trash size={18} />
+              </button>
+            </div>
+            <div className="w-full rounded-2xl sm:p-4 border-1 border-gray-100 shadow-md mt-5">
+              <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
+                <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+                  {messages.map((message) => (
+                    <MessageCard
+                      key={message._id}
+                      message={message.content}
+                      messageId={message._id}
+                      topic={message.topic}
+                      isRead={message.isRead}
+                      themeColor={message.themeColor}
+                      inDashboard={false}
+                    />
+                  ))}
+                  <div
+                    ref={loaderRef}
+                    className=" pt-1"
+                  >
+                    {loading && (
+                      <Loader2
+                        size={25}
+                        className="animate-spin text-blue-500"
+                      />
+                    )}
+                    {messages.length === 0 && !loading && (
+                      <span className="text-sm text-gray-700">
+                        No more messages
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

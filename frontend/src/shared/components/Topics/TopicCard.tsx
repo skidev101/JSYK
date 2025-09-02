@@ -10,7 +10,7 @@
 
 // const TopicCard = ({ date, links }: TopicCardProps) => {
 //   const handleCopy = async (url: string) => {
-//     const success = await copyToClipboard(`https://something.me/${url}`); //remember to change
+//     const success = await copyToClipboard(`https://jsyk.me/${url}`); //remember to change
 //     if (success) {
 //       toast.success("Copied!");
 //     } else {

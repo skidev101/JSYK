@@ -115,12 +115,12 @@ NewTopicFormProps) => {
   return (
     <div className="w-full h-full sm:max-w-md">
       <FadeDown>
-        <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white ">
+        <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white shadow">
           <div className="flex justify-between items-center ">
             <h1 className="text-2xl sm:text-3xl">New topic</h1>
             <button
               onClick={() => navigate("/dashboard")}
-              className="grid place-items-center w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-xl hover:bg-gray-200 transition duration-200"
+              className="grid place-items-center w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-xl text-gray-600 font-semibold hover:bg-gray-200 transition duration-200"
             >
               <X size={20} />
             </button>
@@ -223,19 +223,21 @@ NewTopicFormProps) => {
               </div>
             </div>
 
+              <p className="sm:hidden text-sm text-center text-gray-700">*see preview below</p>
+
             <button
               disabled={loading}
               onClick={handleCreateTopic}
-              className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-md shadow-lg ${
+              className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-lg shadow-lg ${
                 loading
-                  ? "bg-blue-300 cursor-not-allowed"
-                  : "bg-blue-500 hover:bg-blue-600 cursor-pointer"
+                  ? "bg-gradient-to-r from-blue-400 to-purple-300 cursor-not-allowed"
+                  : "bg-gradient-to-r from-blue-500 to-purple-400 hover:bg-blue-600 cursor-pointer"
               } hover:scale-[1.01] active:scale-[0.98] transition duration-200`}
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />
               ) : (
-                "Create new topic"
+                "Create"
               )}
             </button>
           </div>

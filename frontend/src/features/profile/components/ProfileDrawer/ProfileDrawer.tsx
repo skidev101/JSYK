@@ -81,7 +81,7 @@ const ProfileDrawer = ({
       if (imgFile) {
         const result: UploadResult = await uploadToImageKit({
           file: imgFile,
-          folder: "something/profileImgs",
+          folder: "jsyk/profileImgs",
         });
         imgUrl = result.url;
         fileId = result.fileId;
@@ -260,7 +260,7 @@ const ProfileDrawer = ({
                       <p>Profile Link</p>
                     </div>
                     <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
-                      {`something.com/${user?.somethingLink}`}
+                      {`jsyk.com/${user?.jsykLink}`}
                     </p>
                   </div>
                 )}
