@@ -45,7 +45,7 @@ export const getPublicProfile = async (req, res) => {
       data: {
         username: user.username,
         profileImgUrl: user.profileImgUrl,
-        somethingLink: user.profileSlug,
+        jsykLink: user.profileSlug,
         bio: user.bio,
         profileSlug: user.profileSlug,
       },
@@ -130,7 +130,7 @@ export const updateProfile = async (req, res) => {
         email: user.email,
         bio: user.bio,
         profileImgUrl: user.profileImgUrl,
-        somethingLink: user.profileSlug,
+        jsykLink: user.profileSlug,
       },
     });
   } catch (err) {

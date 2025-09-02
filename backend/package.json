@@ -1,6 +1,6 @@
 {
   "type": "module",
-  "name": "something-backend",
+  "name": "jsyk-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {

@@ -5,9 +5,9 @@ export const logSenderInfo = (req, res, next) => {
   const ua = new uaParser.UAParser(userAgent);
 
   req.senderInfo = {
-    device: ua.device.type || "desktop",
-    browser: ua.browser.name || "unknown",
-    os: ua.os.name || "unknown",
+    device: ua.device?.type || "desktop",
+    browser: ua.browser?.name || "unknown",
+    os: ua.os?.name || "unknown",
     userAgent,
   };
   next();

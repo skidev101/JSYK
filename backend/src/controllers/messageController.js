@@ -146,12 +146,24 @@ export const getMessage = async (req, res) => {
         code: "MESSAGE_NOT_FOUND",
       });
     }
+    
+    const topicId = message.topicId;
+    const topic = await Topic.findOne({ topicId });
+    if (!topic) {
+      return res.status(404).json({
+        success: false,
+        message: "topic does not exist",
+        code: "TOPIC_NOT_FOUND",
+      });
+    }
 
     if (!message.isRead) {
       message.isRead = true;
       await message.save();
       console.log("Message marked as read");
     }
+
+    console.log("message requested:", message);
 
     res.status(200).json({
       success: true,
@@ -162,6 +174,7 @@ export const getMessage = async (req, res) => {
         createdAt: message.createdAt,
         isRead: message.isRead,
         themeColor: message.themeColor,
+        topicImgUrls: topic.topicImgUrls
       },
     });
   } catch (err) {

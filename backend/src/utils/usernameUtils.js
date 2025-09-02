@@ -2,7 +2,7 @@ const reservedWords = [
   "admin",
   "login",
   "logout",
-  "something",
+  "jsyk",
   "dashboard",
   "support",
   "terms",
@@ -10,16 +10,14 @@ const reservedWords = [
   "support",
 ];
 
+export const sanitizeDisplayName = (displayName) => {
+  if (typeof displayName !== "string") return "";
 
- export const sanitizeDisplayName = (displayName) => {
-  if (typeof displayName !== 'string') return "";
-  
   return displayName
     .trim()
     .split(/\s+/)[0] // First word only
     .substring(0, 10); // Max 10 chars
 };
-
 
 export const generateUniqueSlug = async (username, UserModel) => {
   if (typeof username !== "string" || !username.trim()) {
