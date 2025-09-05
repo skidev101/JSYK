@@ -26,7 +26,7 @@ const UserProfile = () => {
             <button
               onClick={() => copyToClipboard(`${user?.jsykLink}`)}
               title="copy link"
-              className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all"
+              className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all outline-0"
             >
               <Copy size={18} />
             </button>

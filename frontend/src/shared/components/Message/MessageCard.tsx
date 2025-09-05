@@ -75,7 +75,7 @@ const MessageCard = ({
         {topic && (
           <>
             <div className="max-w-max px-2 py-1 sm:px-3 bg-gray-100 rounded-xl">
-              <p className="text-sm sm:text-base text-gray-800 truncate">
+              <p className="text-sm sm:text-base text-gray-800 ">
                 {topic}
               </p>
             </div>
@@ -148,7 +148,7 @@ const MessageCard = ({
           <div className="relative max-w-[90%] max-h-[90%]">
             <button
               onClick={() => setModalImg(null)}
-              className="absolute top-2 right-2 text-white p-1 rounded-full hover:bg-gray-800 transition"
+              className="absolute top-2 right-2 text-white p-1 rounded-full bg-gray-500 hover:bg-gray-800 hover:cursor-pointer transition"
             >
               <X size={24} />
             </button>

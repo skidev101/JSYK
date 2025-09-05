@@ -116,17 +116,17 @@ NewTopicFormProps) => {
     <div className="w-full h-full sm:max-w-md">
       <FadeDown>
         <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white shadow">
-          <div className="flex justify-between items-center ">
+          <div className="flex justify-between items-center py-2">
             <h1 className="text-2xl sm:text-3xl">New topic</h1>
             <button
               onClick={() => navigate("/dashboard")}
-              className="grid place-items-center w-10 h-10 sm:w-12 sm:h-12 cursor-pointer rounded-xl text-gray-600 font-semibold hover:bg-gray-200 transition duration-200"
+              className="grid place-items-center p-2 sm:p-2 cursor-pointer rounded-xl text-gray-600 font-semibold hover:bg-gray-200 transition duration-200 outline-0"
             >
               <X size={20} />
             </button>
           </div>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col mt-3">
             <div className="flex flex-col mb-4">
               <label className="block text-sm font-medium mb-1 text-gray-700">
                 Topic
@@ -255,7 +255,7 @@ NewTopicFormProps) => {
           >
             <button
               onClick={() => setSelectedImage(null)}
-              className="absolute top-2 right-2 z-10 bg-white text-gray-800 p-2 rounded-full hover:bg-gray-200 shadow-md cursor-pointer"
+              className="absolute top-2 right-2 text-white p-1 rounded-full bg-gray-500 hover:bg-gray-800 hover:cursor-pointer transition"
             >
               <X size={20} />
             </button>

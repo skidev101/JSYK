@@ -129,7 +129,7 @@ const ProfileDrawer = ({
                   onClick={onClose}
                   className={`${
                     editMode && "hidden"
-                  } grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl hover:bg-gray-200 cursor-pointer active:scale-95 transition duration-200`}
+                  } grid place-items-center w-8 h-8 sm:w-9 sm:h-9 rounded-xl hover:bg-gray-200 cursor-pointer active:scale-95 transition duration-200 outline-0`}
                 >
                   <X className="cursor-pointer text-gray-700" />
                 </button>
