@@ -5,7 +5,7 @@ import DBConnect from "./src/config/db.js";
 
 dotenv.config();
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== "production") {
   DBConnect()
     .then(() => {
       app.listen(PORT, () => {
