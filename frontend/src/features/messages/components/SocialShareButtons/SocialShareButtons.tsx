@@ -32,7 +32,7 @@ const SocialShareButtons = ({ messageId }: ShareProps) => {
   };
 
   return(
-    <div className="flex items-center flex-col mt-5">
+    <div className="flex items-center flex-col my-6">
       <p className="text-sm text-gray-700 pb-2">Share to</p>
       <div className="flex items-center max-w-max bg-gray-100 rounded-3xl gap-3 p-3 shadow-sm">
         <button

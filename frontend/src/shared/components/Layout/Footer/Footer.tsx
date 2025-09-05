@@ -8,14 +8,14 @@ const Footer = () => {
         <a href="/Privacy">Privacy</a>
       </div>
     </footer> */}
-      <footer className="py-8 px-6 backdrop-blur-sm border-t border-white/30  bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      <footer className="p-6 backdrop-blur-sm border-t border-white/30  bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
         <div className="max-w-6xl mx-auto text-center">
-          <div className="text-2xl font-bold shimmer-text mb-2">JSYK</div>
+          <div className="text-2xl font-bold shimmer-text mb-1">JSYK</div>
           <p className="text-gray-600 mb-6">
             Built with ❤️ by{" "}
             <a
               href="#"
-              className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+              className="text-blue-500 hover:text-blue-600 transition-colors duration-200 underline"
             >
               monaski
             </a>
@@ -40,6 +40,9 @@ const Footer = () => {
               Support
             </a> */}
           </div>
+          <p className="text-sm mt-2 text-gray-500">
+            &copy;{new Date().getFullYear()}
+          </p>
         </div>
       </footer>
     </>

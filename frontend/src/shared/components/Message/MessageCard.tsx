@@ -98,11 +98,9 @@ const MessageCard = ({
         )}
 
         {message ? (
-          <>
             <div className="w-full max-h-max text-center p-2 sm:p-3 mt-2 bg-gray-100 rounded-2xl">
               <p className="text-sm sm:text-base">{message}</p>
             </div>
-          </>
         ) : (
           <>
             <textarea
