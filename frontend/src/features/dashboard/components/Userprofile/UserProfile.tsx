@@ -50,7 +50,7 @@ const UserProfile = () => {
 
       <ActionButtons
         onCopy={() => copyToClipboard(`m/${user?.jsykLink}`)}
-        onCreateWithTopic={() => navigate("/dashboard/new-topic")}
+        onCreateWithTopic={() => navigate("/new-topic")}
       />
     </div>
   );

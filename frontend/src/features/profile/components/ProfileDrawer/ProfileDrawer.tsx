@@ -8,6 +8,9 @@ import {
   Upload,
   Link2,
   LogOut,
+  User,
+  CheckCircle2Icon,
+  XCircleIcon,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
@@ -19,6 +22,8 @@ import {
 } from "@/shared/services/imageKit/uploadToImageKit";
 import { useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
+import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
+import { validateUsername } from "@/shared/utils/validateUsername";
 
 interface ProfileDrawerProps {
   show: boolean;
@@ -46,8 +51,10 @@ const ProfileDrawer = ({
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const [imgFile, setImgFile] = useState<File | null>(null);
   const profileImgRef = useRef<HTMLInputElement | null>(null);
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const { status } = useUsernameCheck(formData.username);
 
-  //sync state with user data onchange
+  // sync state with user data onchange
   useEffect(() => {
     if (user) {
       setFormData({
@@ -62,8 +69,16 @@ const ProfileDrawer = ({
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    if (name == "username") {
+      const usernameErr = validateUsername(value);
+      setUsernameError(usernameErr);
+    }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
+
+  // const validateName = (e: ChangeEvent<HTMLInputElement>) => {
+    
+  // }
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -74,6 +89,7 @@ const ProfileDrawer = ({
 
   const handleProfileEdit = async () => {
     setLoading(true);
+    setUsernameError(null);
 
     try {
       let imgUrl;
@@ -184,25 +200,54 @@ const ProfileDrawer = ({
 
               <div className="flex flex-col justify-center items-center min-h-max mt-5 p-2">
                 {editMode ? (
-                  <>
+                  <div className="w-full ">
                     <label
                       htmlFor="username"
-                      className="w-full mt-2 text-gray-700"
+                      className="flex gap-2 w-full mt-2 text-gray-600"
                     >
+                      <User size={20} className=" text-gray-400" />
                       Username
                     </label>
-                    <input
-                      type="text"
-                      name="username"
-                      value={formData.username}
-                      onChange={handleChange}
-                      placeholder="Username"
-                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                    <p className="hidden w-full text-red-500 text-[13px]">
-                      Username already taken!
-                    </p>
-                  </>
+
+                    <div className="relative">
+                      <input
+                        type="text"
+                        name="username"
+                        value={formData.username}
+                        onChange={handleChange}
+                        placeholder="Username"
+                        className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+
+                      {status === "checking" ? (
+                        <Loader2
+                          size={18}
+                          className={`animate-spin absolute ${
+                            usernameError && "hidden"
+                          } top-3 right-3 text-gray-500`}
+                        />
+                      ) : status === "available" ? (
+                        <CheckCircle2Icon
+                          size={18}
+                          className={`absolute ${
+                            usernameError && "hidden"
+                          } top-3 right-3 text-green-500`}
+                        />
+                      ) : status === "taken" ? (
+                        <XCircleIcon
+                          size={18}
+                          className="absolute top-3 right-3 text-red-500"
+                        />
+                      ) : null}
+                    </div>
+
+                    {usernameError && (
+                      <p className="text-red-500 mt-1 text-sm">
+                        {usernameError}
+                      </p>
+                    )}
+
+                  </div>
                 ) : (
                   <h1 className="text-xl font-semibold mt-2">
                     @{user?.username}
@@ -236,7 +281,11 @@ const ProfileDrawer = ({
 
                 {editMode ? (
                   <>
-                    <label htmlFor="bio" className="w-full mt-2 text-gray-500">
+                    <label
+                      htmlFor="bio"
+                      className="flex gap-2 w-full mt-4 text-gray-600"
+                    >
+                      <Pencil size={20} className="text-gray-400" />
                       Bio
                     </label>
                     <textarea

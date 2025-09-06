@@ -22,23 +22,23 @@ const MessageCard = ({
 
   return (
     <div
-      onClick={() => navigate(`view/${messageId}`)}
+      onClick={() => navigate(`/view/${messageId}`)}
       className="relative rounded-xl bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200 shadow"
     >
       {isRead && inDashboard && (
-        <div className="absolute top-0 left-0 w-full h-full opacity-[0.5] bg-gray-50 rounded-lg z-50">
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.2] bg-gray-50 rounded-lg z-50">
           {/* opaque bg for read messages */}
         </div>
       )}
       <div className="flex justify-between px-1 py-2">
         <div className="flex items-center gap-2">
           <div
-            className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-100 outline-2 rounded-full"
+            className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-100 outline-2 rounded-full shrink-0"
             style={{ outlineColor: themeColor }}
           >
             <p className="text-sm sm:text-base" style={{ color: themeColor }}>{topic?.charAt(0) || "J"}</p>
           </div>
-          <h1 className="text-sm sm:text-lg text-gray-600 rounded-xl bg-gray-100 px-2 sm:px-3 truncate">
+          <h1 className="text-sm sm:text-lg text-gray-600 rounded-xl bg-gray-100 px-2 sm:px-3 truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-[290px]">
             {topic ? topic : "anonymous"}
           </h1>
         </div>

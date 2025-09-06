@@ -23,6 +23,15 @@ import { validateUsername } from "@/shared/utils/validateUsername";
 import { useAuth } from "@/context/AuthContext";
 import axios from "@/api/axios";
 
+interface errors {
+  username?: string;
+  available?: string;
+  email?: string;
+  password?: string;
+  confirmPassword?: string;
+  general?: string;
+}
+
 const Register = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -33,14 +42,7 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [errors, setErrors] = useState<{
-    username?: string;
-    available?: string;
-    email?: string;
-    password?: string;
-    confirmPassword?: string;
-    general?: string;
-  }>({});
+  const [errors, setErrors] = useState<errors>({});
 
   const validate = () => {
     const newErrors: typeof errors = {};

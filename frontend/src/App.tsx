@@ -19,12 +19,12 @@ const App = () => {
     <>
       <Toaster position="top-right" />
       <Routes>
-        <Route path="/dashboard" element={<MainLayout />}>
-          <Route index element={<DashboardPage />} />
-          <Route path="new-topic" element={<NewTopicPage />} />
-          <Route path="view/:messageId" element={<ViewMessagePage />} />
-          <Route path="topics" element={<TopicsListPage />} />
-          <Route path="topic/:topicId/messages" element={<TopicMessagesListPage />} />
+        <Route element={<MainLayout />}>
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/new-topic" element={<NewTopicPage />} />
+          <Route path="/view/:messageId" element={<ViewMessagePage />} />
+          <Route path="/topics" element={<TopicsListPage />} />
+          <Route path="/topic/:topicId/messages" element={<TopicMessagesListPage />} />
         </Route>
 
         <Route path="/" element={<LandingPage />} />

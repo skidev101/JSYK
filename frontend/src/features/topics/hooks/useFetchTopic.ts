@@ -1,62 +1,55 @@
-// import { useAuth } from "@/context/AuthContext";
-// import axios from "axios";
-// import { useState } from "react";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
+import { useEffect, useState } from "react";
 
-// interface FetchProps {
-//     topicId: string;
-//     page: number;
-//     limit: number;
-// }
+interface TopicImage {
+  _id: string;
+  expiresAt: string;
+  fileId: string;
+  url: string;
+}
 
-// export const useFetchTopic = () => {
-//   const { user } = useAuth();
-//   const [loading, setLoading] = useState(false);
-//   const [success, setSuccess] = useState<boolean | null>(null);
-//   const [error, setError] = useState<string | null>(null);
+interface TopicDetails {
+  topic: string;
+  topicLink: string;
+  themeColor: string;
+  topicImgUrls: TopicImage[];
+  createdAt: string;
+  messageCount: number;
+}
 
-//   const fetchTopic = async ({ topicId, page, limit }: FetchProps) => {
-//     if (!topicId) {
-//       setSuccess(false);
-//       setError("MessageId is required");
-//       return ;
-//     }
+export const useFetchTopic = (topicId: string) => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const axiosPrivate = useAxiosPrivate();
+  const [topicDetails, setTopicDetails] = useState<TopicDetails | null>(null);
 
-//     try {
-//       setLoading(true);
-//       setError(null);
+  useEffect(() => {
+    if (!topicId) return;
 
-//     //   const response = await axios.get(
-//     //     `http://127.0.0.1:3000/api/topic/${topicId}`,
-//     //     {
-//     //       headers: {
-//     //         Authorization: `Bearer ${user?.idToken}`,
-//     //       },
-//     //     }
-//     //   );
+    const controller = new AbortController();
 
-//     const config = {
-//         headers: {
-//         Authorization: `Bearer ${user?.idToken}`,
-//         },
-//     };
+    const fetchTopic = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-//     const [topicsRes, messagesRes] = await Promise.all([
-//         axios.get(`http://127.0.0.1:3000/api/topic/${topicId}`, config),
-//         axios.get(`http://127.0.0.1:3000/api/message?page=${page}&limit=${limit}&topicId=${topicId}`, config)
-//     ]);
+        const response = await axiosPrivate.get(`/topic/${topicId}`, {
+          signal: controller.signal,
+        });
+        setTopicDetails(response.data.data);
+      } catch (err: any) {
+        if (err.name === "CancelledError") return;
+        console.error("Failed to fetch topic data:", err);
+        return false;
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//     const topicInfo = topicsRes.data.data;
-//     const topicMessages = messagesRes.data.data;
+    fetchTopic();
 
-//     } catch (err: any) {
-//       setError("Failed to delete message");
-//       setSuccess(false);
-//       console.error("Failed to fetch message data:", err);
-//       return false;
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+    return () => controller.abort();
+  }, [topicId, axiosPrivate]);
 
-//   return { fetchTopic, topicInfo, topicMessages, loading, success, error };
-// };
+  return { topicDetails, loading, error };
+};

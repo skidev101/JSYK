@@ -13,14 +13,14 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
 
   return (
     <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between py-2">
         <div className="flex items-center gap-1 ml-1">
           <Link2 size={UI_CONSTANTS.ICON_SIZES.LARGE} />
-          <h1 className="text-lg sm:text-xl rounded-xl">Recent Links</h1>
+          <h1 className="text-lg sm:text-xl rounded-xl">Recent topics</h1>
         </div>
 
         <button
-          onClick={() => navigate("topics")}
+          onClick={() => navigate("/topics")}
           className="text-sm px-2 py-1 hover:bg-gray-100 text-gray-700 rounded-md transition-all active:scale-95 cursor-pointer outline-0"
         >
           see all

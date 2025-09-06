@@ -96,7 +96,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
-          <div className="flex items-center gap-1 mt-2 ml-1">
+          <div className="flex items-center gap-1 py-1 ml-1">
             <MessageCircle size={20} />
             <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
           </div>
