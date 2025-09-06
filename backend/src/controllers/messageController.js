@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Message from "../models/Message.js";
 import User from "../models/User.js";
 import Topic from "../models/Topic.js";
@@ -137,6 +138,11 @@ export const getMessage = async (req, res) => {
   try {
     const { uid } = req.user;
     const { messageId } = req.params;
+    console.log("req.user.uid:", uid);
+    console.log("message in DB:", await Message.findById(messageId));
+    if (!mongoose.Types.ObjectId.isValid(messageId)) {
+      return res.status(400).json({ error: "Invalid ID" });
+    }
 
     const message = await Message.findOne({ uid, _id: messageId });
     if (!message) {
@@ -146,15 +152,17 @@ export const getMessage = async (req, res) => {
         code: "MESSAGE_NOT_FOUND",
       });
     }
-    
-    const topicId = message.topicId;
-    const topic = await Topic.findOne({ topicId });
-    if (!topic) {
-      return res.status(404).json({
-        success: false,
-        message: "topic does not exist",
-        code: "TOPIC_NOT_FOUND",
-      });
+
+    let topic = null;
+    if (message.topicId) {
+      topic = await Topic.findOne({ topicId: message.topicId });
+      if (!topic) {
+        return res.status(404).json({
+          success: false,
+          message: "topic does not exist",
+          code: "TOPIC_NOT_FOUND",
+        });
+      }
     }
 
     if (!message.isRead) {
@@ -174,7 +182,7 @@ export const getMessage = async (req, res) => {
         createdAt: message.createdAt,
         isRead: message.isRead,
         themeColor: message.themeColor,
-        topicImgUrls: topic.topicImgUrls
+        topicImgUrls: topic?.topicImgUrls || [],
       },
     });
   } catch (err) {

@@ -76,7 +76,7 @@ export const getOgPage = async (req, res) => {
       return res.status(404).send("Message not found");
     }
 
-    const imageUrl = `${process.env.BASE_URL}/og-image/${messageId}`;
+    const imageUrl = `${process.env.BASE_URL}/api/og-image/${messageId}`;
 
     res.send(`
       <!DOCTYPE html>
@@ -86,12 +86,12 @@ export const getOgPage = async (req, res) => {
           <meta property="og:description" content="${message.content}" />
           <meta property="og:image" content="${imageUrl}" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="${process.env.BASE_URL}/share/${messageId}" />
+          <meta property="og:url" content="${process.env.BASE_URL}/api/share/${messageId}" />
         </head>
         <body>
           <p>Redirecting...</p>
           <script>
-            window.location.href = "${process.env.FRONTEND_URL}/m/${messageId}";
+            window.location.href = "${process.env.FRONTEND_URL}";
           </script>
         </body>
       </html>
