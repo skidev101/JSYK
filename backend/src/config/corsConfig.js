@@ -7,8 +7,7 @@ const corsConfig = {
     // allow requests with no origin (like Postman or curl)
     if (
       !origin ||
-      allowedOrigins.includes(origin) ||
-      origin.includes("ngrok-free.app")
+      allowedOrigins.includes(origin)
     ) {
       callback(null, true);
     } else {
