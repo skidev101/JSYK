@@ -15,15 +15,15 @@ const Dashboard = () => {
   const { data, error, refetch, loadMore, loadingData } = useDashboardData();
   const messages = data.messages;
 
-  const [showEmojiExplosion, setShowEmojiExplosion] = useState(false);
+  // const [showEmojiExplosion, setShowEmojiExplosion] = useState(false);
   const [page, setPage] = useState(1);
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    setShowEmojiExplosion(true);
+  // useEffect(() => {
+  //   setShowEmojiExplosion(true);
 
-    return (() => setShowEmojiExplosion(false))
-  }, [])
+  //   return (() => setShowEmojiExplosion(false))
+  // }, [])
 
   useEffect(() => {
     if (!data.messages.length) {
@@ -124,7 +124,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Emoji Explosion */}
+      {/* Emoji Explosion
       {showEmojiExplosion && (
         <div className="fixed inset-0 pointer-events-none z-50">
           {["💬", "🎉", "✨", "👻", "🔥", "💫", "🚀", "💝", "🌟", "🎊", "💭", "⚡"].map((emoji, index) => (
@@ -141,7 +141,7 @@ const Dashboard = () => {
             </div>
           ))}
         </div>
-      )}
+      )} */}
     </FadeDown>
 
     

@@ -22,9 +22,9 @@ const UserProfile = () => {
             {user?.username || "loading..."}
           </h1>
           <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-600 hover:text-gray-900 truncate">
-            <p>{`${APP_CONFIG.BASE_URL}/${user?.jsykLink}` || "loading..."}</p>
+            <p>{`jsyk/u/${user?.jsykLink}` || "loading..."}</p>
             <button
-              onClick={() => copyToClipboard(`${user?.jsykLink}`)}
+              onClick={() => copyToClipboard(`u/${user?.jsykLink}`)}
               title="copy link"
               className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all outline-0"
             >
