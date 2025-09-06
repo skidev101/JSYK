@@ -24,7 +24,7 @@ router
     validateRequest,
     getTopicInfo
   )
-  .get("/:topicId", validateTopicId, validateRequest, getTopic)
+  .get("/:topicId", verifyToken, validateTopicId, validateRequest, getTopic)
   .post("/", verifyToken, validateCreateTopic, validateRequest, createTopic)
   .delete(
     "/:topicId",
