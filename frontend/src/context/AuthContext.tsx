@@ -21,7 +21,7 @@ interface AuthContextType {
   firebaseUser: FirebaseUser | null;
   loading: boolean;
   login: (user: User) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
   updateToken: (newToken: string) => void;
   refetchUser: () => Promise<void>;
 }

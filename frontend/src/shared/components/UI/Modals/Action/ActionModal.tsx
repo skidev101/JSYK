@@ -1,8 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Loader2, X } from "lucide-react";
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useAuth } from "../../../../../context/AuthContext";
 
 interface LogoutProps {
   isOpen: boolean;
@@ -12,7 +9,7 @@ interface LogoutProps {
   header: string;
   btnAction: string;
   friendlyText?: string;
-  handleAction?: () => void;
+  handleAction: () => Promise<void>;
 }
 
 const ActionModal = ({
@@ -96,9 +93,9 @@ const ActionModal = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  onClick={() => handleAction}
+                  onClick={handleAction}
                   className={`flex justify-center items-center p-2 sm:p-3 text-white rounded-md cursor-pointer ${
-                    loading ? "bg-red-500" : "bg-red-600"
+                    loading ? "bg-red-400 opacity-70 cursor-not-allowed" : "bg-red-600"
                   } hover:bg-red-500 active:scale-[0.97] transition duration-200`}
                 >
                   {loading ? (

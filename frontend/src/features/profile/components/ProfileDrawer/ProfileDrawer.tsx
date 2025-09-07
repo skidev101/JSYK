@@ -24,6 +24,7 @@ import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateUsername";
 import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
+import { useDeleteAccount } from "../../hooks/useDeleteAccount";
 
 interface ProfileDrawerProps {
   show: boolean;
@@ -34,7 +35,8 @@ const ProfileDrawer = ({
   show,
   onClose,
 }: ProfileDrawerProps) => {
-  const { user, refetchUser } = useAuth();
+  const { user, logout, refetchUser } = useAuth();
+  const { deleteAccount } = useDeleteAccount();
   const navigate = useNavigate();
   const axiosPrivate = useAxiosPrivate();
 
@@ -53,6 +55,7 @@ const ProfileDrawer = ({
   const [action, setAction] = useState("");
   const [header, setHeader] = useState("");
   const [warning, setWarning] = useState("");
+  const [loadingAction, setLoadingAction] = useState(false);
 
   // sync state with user data onchange
   useEffect(() => {
@@ -134,6 +137,28 @@ const ProfileDrawer = ({
     setHeader("Delete account😪");
     setWarning("Are you sure? All data will be lost");
   };
+
+  const handleConfirmAction = async () => {
+    setLoadingAction(true);
+
+    try {
+      if (action === "Logout") {
+        await logout();
+        navigate("/login");
+      } else if(action === "Delete") {
+        const success = await deleteAccount();
+        if (success) {
+          navigate("/");
+        }
+      }
+    }  catch (err) {
+      console.error("Action error:", err);
+      toast.error("Something went wrong");
+    } finally {
+      setLoadingAction(false);
+      setShowActionModal(false);
+    }
+  }
 
   return (
     <AnimatePresence>
@@ -362,6 +387,8 @@ const ProfileDrawer = ({
               warning={warning}
               header={header}
               btnAction={action}
+              loading={loadingAction}
+              handleAction={handleConfirmAction}
             />
           </FadeRight>
         </>
