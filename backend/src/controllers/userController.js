@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import Topic from "../models/Topic.js";
 import Message from "../models/Message.js";
-import admin from "firebase-admin";
+import admin from "../config/firebase.js";
 
 export const checkUsername = async (req, res) => {
   try {
@@ -49,7 +49,7 @@ export const deleteUser = async (req, res) => {
 
     const topics = await Topic.find({ uid });
     topics.forEach((topic) => {
-      if (topic.fileId) fileIdstoDelete.push(topic.fileId);
+      if (topic.fileId) fileIdsToDelete.push(topic.fileId);
     });
 
     for (const fileId of fileIdsToDelete) {
@@ -67,11 +67,23 @@ export const deleteUser = async (req, res) => {
     ]);
 
     try {
-      await admin.auth.deleteUser(uid);
+      await admin.auth().getUser(uid);
+      console.log("user found");
+      await admin.auth().deleteUser(uid);
       console.log("user now deleted from firebase");
     } catch (err) {
-      console.error("Firebase delete failed:", err.message);
+      if (err.code === "auth/user-not-found") {
+        console.warn(`Firebase user ${uid} already deleted`);
+      } else {
+        console.error("Firebase delete failed:", err.message);
+      }
     }
+
+    return res.status(200).json({
+      success: true,
+      message: "Account deleted successfully"
+    });
+    
   } catch (err) {
     console.error("Error deleting user:", err);
     res.status(500).json({
