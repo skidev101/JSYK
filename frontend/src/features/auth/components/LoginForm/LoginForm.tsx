@@ -183,18 +183,14 @@ const Login = () => {
             )}
           </div>
 
-          <p className="text-right text-gray-600 mt-2">
-            <a
-              href="/forgot-password"
-              className="text-blue-600 text-sm hover:underline"
-            >
+          <button className="text-sm text-blue-600 mt-2 outline-0 hover:underline">
+           
               Forgot Password?
-            </a>
-          </p>
+            
+          </button>
 
           <button
             type="submit"
-            onClick={handleEmailSignin}
             disabled={loading}
             className={`flex justify-center items-center w-full ${
               loading

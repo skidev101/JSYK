@@ -112,12 +112,15 @@ const Dashboard = () => {
                 inDashboard={true}
               />
             ))}
-            <div ref={loaderRef} className="flex justify-center p-4">
+            <div
+              ref={loaderRef}
+              className="flex justify-center items-center p-4 min-h-[32px]"
+            >
               {loadingData && (
                 <Loader2 size={25} className="animate-spin text-blue-500" />
               )}
               {!data.pagination?.hasNextPage && !loadingData && (
-                <span className="text-sm text-gray-700">No more messages</span>
+                <span className="text-sm text-gray-500">No more messages</span>
               )}
             </div>
           </div>
@@ -143,8 +146,6 @@ const Dashboard = () => {
         </div>
       )} */}
     </FadeDown>
-
-    
   );
 };
 

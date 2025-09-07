@@ -44,7 +44,7 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
                 </div>
               </div>
               <button
-                onClick={() => copyToClipboard(link.url)}
+                onClick={() => copyToClipboard(`m/${link.url}`)}
                 className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
               >
                 <Copy size={UI_CONSTANTS.ICON_SIZES.MEDIUM} />

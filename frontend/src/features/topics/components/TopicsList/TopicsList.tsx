@@ -19,9 +19,9 @@ const TopicsList = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-      if (!data.topics.length) {
-        refetch();
-      }
+    if (!data.topics.length) {
+      refetch();
+    }
   }, [user]);
 
   useEffect(() => {
@@ -56,8 +56,8 @@ const TopicsList = () => {
   //     </div>
   //   );
   // }
-  
-  if (data.topics.length === 0) { 
+
+  if (data.topics.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center text-center min-h-[100vh] px-8">
         <img
@@ -155,14 +155,15 @@ const TopicsList = () => {
                 </div>
               ))}
 
-              <div ref={loaderRef} className="flex justify-center p-4">
+              <div
+                ref={loaderRef}
+                className="flex justify-center items-center p-4 min-h-[32px]"
+              >
                 {loadingData && (
                   <Loader2 size={25} className="animate-spin text-blue-500" />
                 )}
                 {!data.pagination?.hasNextPage && !loadingData && (
-                  <span className="text-sm text-gray-700">
-                    No more topics
-                  </span>
+                  <span className="text-sm text-gray-500">No more topics</span>
                 )}
               </div>
             </div>

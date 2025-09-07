@@ -12,6 +12,7 @@ import ViewMessagePage from "./pages/ViewMessagePage";
 import TopicsListPage from "./pages/TopicsListPage";
 import TopicMessagesListPage from "./pages/TopicMessagesListPage";
 import LandingPage from "./pages/LandingPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/m/:profileSlug" element={<SendMessagePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/reset-password" element={<ForgotPasswordPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>

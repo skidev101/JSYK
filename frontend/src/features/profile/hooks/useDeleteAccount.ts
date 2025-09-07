@@ -12,7 +12,8 @@ export const useDeleteAccount = () => {
     setError(null);
 
     try {
-      await axiosPrivate.delete("/profile");
+      const response = await axiosPrivate.delete("/user");
+      console.log("response to account delete:", response.data)
       return true;
     } catch (err: any) {
       console.error("Delete account failed:", err);
