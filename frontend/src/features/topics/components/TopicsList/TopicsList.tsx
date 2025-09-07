@@ -57,7 +57,7 @@ const TopicsList = () => {
   //   );
   // }
   
-  if (data.topics.length !== 0) { // change back to ===
+  if (data.topics.length === 0) { 
     return (
       <div className="flex flex-col items-center justify-center text-center min-h-[100vh] px-8">
         <img
