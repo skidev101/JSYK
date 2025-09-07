@@ -96,7 +96,7 @@ const ActionModal = ({
                 <button
                   type="submit"
                   disabled={loading}
-                  onClick={() => handleAction?.()}
+                  onClick={() => handleAction}
                   className={`flex justify-center items-center p-2 sm:p-3 text-white rounded-md cursor-pointer ${
                     loading ? "bg-red-500" : "bg-red-600"
                   } hover:bg-red-500 active:scale-[0.97] transition duration-200`}

@@ -6,7 +6,6 @@ import {
   X,
   Loader2,
   Upload,
-  Link2,
   LogOut,
   User,
   CheckCircle2Icon,
@@ -15,7 +14,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
 import toast from "react-hot-toast";
-import { useAuth } from "../../../../context/AuthContext";
+import { useAuth } from "@/context/AuthContext";
 import {
   uploadToImageKit,
   type UploadResult,
@@ -24,19 +23,16 @@ import { useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateUsername";
+import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
 
 interface ProfileDrawerProps {
   show: boolean;
   onClose: () => void;
-  onLogoutClick?: () => void;
-  onDeleteClick?: () => void;
 }
 
 const ProfileDrawer = ({
   show,
   onClose,
-  onLogoutClick,
-  onDeleteClick,
 }: ProfileDrawerProps) => {
   const { user, refetchUser } = useAuth();
   const navigate = useNavigate();
@@ -52,7 +48,11 @@ const ProfileDrawer = ({
   const [imgFile, setImgFile] = useState<File | null>(null);
   const profileImgRef = useRef<HTMLInputElement | null>(null);
   const [usernameError, setUsernameError] = useState<string | null>(null);
-  const { status } = useUsernameCheck(formData.username);
+  const { status } = useUsernameCheck(formData.username, user?.username);
+  const [showActionModal, setShowActionModal] = useState(false);
+  const [action, setAction] = useState("");
+  const [header, setHeader] = useState("");
+  const [warning, setWarning] = useState("");
 
   // sync state with user data onchange
   useEffect(() => {
@@ -75,10 +75,6 @@ const ProfileDrawer = ({
     }
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  // const validateName = (e: ChangeEvent<HTMLInputElement>) => {
-    
-  // }
 
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -125,6 +121,20 @@ const ProfileDrawer = ({
     }
   };
 
+  const handleLogout = () => {
+    setShowActionModal(true);
+    setAction("Logout");
+    setHeader("Logout");
+    setWarning("Are you sure you want to logout?");
+  };
+
+  const handleDelete = () => {
+    setShowActionModal(true);
+    setAction("Delete");
+    setHeader("Delete account😪");
+    setWarning("Are you sure? All data will be lost");
+  };
+
   return (
     <AnimatePresence>
       {show && (
@@ -140,7 +150,7 @@ const ProfileDrawer = ({
           <FadeRight className="fixed top-0 right-0 max-w-sm w-full h-full bg-white z-60 p-4 shadow-lg flex flex-col">
             <div className="flex-grow overflow-y-auto overflow-x-hidden">
               <div className="flex justify-between items-center mb-4 py-2 border-b-2 border-gray-300">
-                <h2 className="text-lg font-semibold">Profile</h2>
+                <h2 className="text-lg text-gray-700 font-semibold">Profile</h2>
                 <button
                   onClick={onClose}
                   className={`${
@@ -246,7 +256,6 @@ const ProfileDrawer = ({
                         {usernameError}
                       </p>
                     )}
-
                   </div>
                 ) : (
                   <h1 className="text-xl font-semibold mt-2">
@@ -254,25 +263,6 @@ const ProfileDrawer = ({
                   </h1>
                 )}
 
-                {/* {editMode ? (
-                  <>
-                    <label
-                      htmlFor="email"
-                      className="w-full mt-2 text-gray-700"
-                    >
-                      Email
-                    </label>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Email"
-                      className="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </>
-                ) : (
-                )} */}
                 {!editMode && (
                   <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 sm:px-4 sm:py-1 rounded-full">
                     {user?.email}
@@ -302,17 +292,17 @@ const ProfileDrawer = ({
                   </p>
                 )}
 
-                {!editMode && (
+                {/* {!editMode && (
                   <div className="flex justify-center items-center flex-col mt-4">
                     <div className="flex items-center gap-1 text-gray-600">
                       <Link2 size={15} />
                       <p>Profile Link</p>
                     </div>
                     <p className="text-sm text-gray-700 bg-gray-100 max-w-max mt-1 px-3 py-1 sm:px-4 sm:py-2 rounded-full">
-                      {`jsyk.com/${user?.jsykLink}`}
+                      {`${user?.jsykLink}`}
                     </p>
                   </div>
-                )}
+                )} */}
               </div>
 
               {editMode && (
@@ -346,7 +336,7 @@ const ProfileDrawer = ({
               <div>
                 <div className="py-1 flex items-center border-t-1 border-gray-300">
                   <button
-                    onClick={onLogoutClick}
+                    onClick={handleLogout}
                     className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150"
                   >
                     <LogOut size={18} />
@@ -355,7 +345,7 @@ const ProfileDrawer = ({
                 </div>
                 <div className="py-1 text-red-500 flex items-center border-t-1 border-gray-300">
                   <button
-                    onClick={onDeleteClick}
+                    onClick={handleDelete}
                     className="flex items-center p-2 rounded-md cursor-pointer hover:bg-gray-200 active:scale-[0.98] transition duration-150"
                   >
                     <AlertTriangle size={18} />
@@ -364,6 +354,15 @@ const ProfileDrawer = ({
                 </div>
               </div>
             )}
+
+            {/* Action modal */}
+            <ActionModal
+              isOpen={showActionModal}
+              onClose={() => setShowActionModal(false)}
+              warning={warning}
+              header={header}
+              btnAction={action}
+            />
           </FadeRight>
         </>
       )}

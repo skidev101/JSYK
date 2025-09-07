@@ -50,7 +50,7 @@ export const useDashboardData = () => {
         setError(null);
 
         const [topicsRes, messagesRes] = await Promise.all([
-          axiosPrivate.get("/topic"),
+          axiosPrivate.get(`/topic?page=${page}&limit=${limit}`),
           axiosPrivate.get(
             `/message?page=${page}&limit=${limit}${
               topicId ? `&topic=${topicId}` : ""
@@ -59,7 +59,7 @@ export const useDashboardData = () => {
         ]);
 
         const topics = topicsRes.data.topics || [];
-        
+
         console.log("topics gotten from server:", topics);
         const transformedTopics = topics.map((topic: any) => ({
           _id: topic._id,
@@ -67,14 +67,14 @@ export const useDashboardData = () => {
           url: topic.topicLink,
           createdAt: topic.createdAt,
           topic: topic.topic,
-          messageCount: topic.messageCount
+          messageCount: topic.messageCount,
         }));
 
         const newMessages = messagesRes.data.messages || [];
         console.log("newMessages from server:", newMessages);
 
         setData({
-          topics: transformedTopics,
+          topics: append ? [...data.topics, ...transformedTopics] : transformedTopics,
           messages: append ? [...data.messages, ...newMessages] : newMessages,
           unreadCount: messagesRes.data.unreadCount || "0",
           pagination: messagesRes.data.pagination || "",

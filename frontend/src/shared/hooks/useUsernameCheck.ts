@@ -1,7 +1,7 @@
 import axios from "@/api/axios";
 import { useState, useEffect } from "react";
 
-export const useUsernameCheck = (username: string) => {
+export const useUsernameCheck = (username: string, currentUsername?: string) => {
   const [status, setStatus] = useState<
     "idle" | "checking" | "available" | "taken" | "error"
   >("idle");
@@ -11,6 +11,12 @@ export const useUsernameCheck = (username: string) => {
     if (!username || username.trim().length < 3) {
       setStatus("idle");
       setMessage("Enter at least 3 characters");
+      return;
+    }
+
+    if (username === currentUsername) {
+      setStatus("available");
+      setMessage("Current username");
       return;
     }
 
