@@ -182,12 +182,13 @@ const Login = () => {
               <p className="text-red-500 text-sm mt-1">{errors.password}</p>
             )}
           </div>
-
-          <button className="text-sm text-blue-600 mt-2 outline-0 hover:underline">
-           
+          <div className="flex justify-end mb-4">
+            <button 
+            onClick={() => navigate("/reset-password")}
+            className="text-sm text-blue-600 outline-0 hover:underline">
               Forgot Password?
-            
-          </button>
+            </button>
+          </div>
 
           <button
             type="submit"

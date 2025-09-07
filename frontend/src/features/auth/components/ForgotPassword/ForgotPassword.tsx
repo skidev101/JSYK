@@ -26,7 +26,8 @@ const ForgotPassword = () => {
   return (
     <div className="flex items-center justify-center min-h-screen px-2 sm:px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
       <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto">
+        <h1 className="text-xl mb-6 text-gray-700">Reset Password</h1>
+        <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto mt-2">
           <div className="my-4">
             {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
@@ -55,7 +56,7 @@ const ForgotPassword = () => {
                 loading
                   ? "bg-blue-300 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700"
-              } text-white font-bold py-2 my-2 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
+              } text-white font-bold py-2 my-4 cursor-pointer rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />
