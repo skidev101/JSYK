@@ -72,8 +72,8 @@ export const createTopic = async (req, res) => {
 export const getUserTopics = async (req, res) => {
   try {
     const { uid } = req.user;
-    const page = parseInt(req.query.page || 1);
-    const limit = parseInt(req.query.limit || 10);
+    const page = parseInt(req.query.page, 10) || 1;
+    const limit = parseInt(req.query.limit, 10) || 20;
 
     const skip = (page - 1) * limit;
 

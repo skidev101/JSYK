@@ -16,12 +16,12 @@ export const getPublicProfile = async (req, res) => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    let viewsDate = user.viewsDate ? new Date(user.viewsDate) : null;
+    if (viewsDate) viewsDate.setHours(0, 0, 0, 0);
+
     let updatedUser;
 
-    if (
-      !user.viewsDate ||
-      new Date(user.viewsDate).setHours(0, 0, 0, 0) !== today.getTime()
-    ) {
+    if (!viewsDate || viewsDate.getTime() !== today.getTime()) {
       // reset new day
       updatedUser = await User.findByIdAndUpdate(
         user._id,
@@ -43,11 +43,11 @@ export const getPublicProfile = async (req, res) => {
     res.status(200).json({
       success: true,
       data: {
-        username: user.username,
-        profileImgUrl: user.profileImgUrl,
-        jsykLink: user.profileSlug,
-        bio: user.bio,
-        profileSlug: user.profileSlug,
+        username: updatedUser.username,
+        profileImgUrl: updatedUser.profileImgUrl,
+        jsykLink: updatedUser.profileSlug,
+        bio: updatedUser.bio,
+        profileSlug: updatedUser.profileSlug,
       },
     });
   } catch (err) {
