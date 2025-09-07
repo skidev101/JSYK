@@ -19,15 +19,21 @@ app.get("/", (req, res) => {
   res.send("jsyk backend is now live!");
 });
 
-// app.get("/api/cleanup-images", async (req, res) => {
-//   try {
-//     await imageCleanupJob();
-//     console.log("cleanup done");
-//     res.json({ success: true, message: "Cleanup executed" });
-//   } catch (error) {
-//     res.status(500).json({ success: false, error: error.message });
-//   }
-// });
+app.get("/api/cleanup-images", async (req, res) => {
+  try {
+    const { secret } = req.query;
+
+    if (secret !== process.env.CRON_SECRET) {
+      return res.status(403).json({ success: false, message: "Forbidden" });
+    }
+    
+    await imageCleanupJob();
+    console.log("cleanup done");
+    res.json({ success: true, message: "Cleanup executed" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
 
 app.use(cors(corsConfig));
 app.use(express.json());
