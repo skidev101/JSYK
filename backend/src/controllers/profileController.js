@@ -22,23 +22,13 @@ export const getPublicProfile = async (req, res) => {
     let updatedUser;
 
     if (!viewsDate || viewsDate.getTime() !== today.getTime()) {
-      // reset new day
-      updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        {
-          $set: { viewsToday: 1, viewsDate: today },
-        },
-        { new: true }
-      );
-    } else {
-      updatedUser = await User.findByIdAndUpdate(
-        user._id,
-        {
-          $inc: { viewsToday: 1 },
-        },
-        { new: true }
-      );
+      user.viewsToday = 0;
+      user.viewsDate = today;
+      await user.save();
     }
+
+    user.viewsToday += 1;
+    await user.save();
 
     res.status(200).json({
       success: true,

@@ -9,6 +9,7 @@ import {
 import { auth } from "@/shared/services/firebase/config";
 // import { useAuth } from "@/context/AuthContext";
 import toast from "react-hot-toast";
+import { getFirebaseErrorMessage } from "@/shared/utils/firebaseErrors";
 // import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 
 const Login = () => {
@@ -62,7 +63,7 @@ const Login = () => {
       navigate("/dashboard");
       toast.success("Login successful");
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(getFirebaseErrorMessage(err.code));
       console.log("google signin error", err.message);
     } finally {
       setLoading(false);
@@ -98,7 +99,7 @@ const Login = () => {
       navigate("/dashboard");
     } catch (err: any) {
       //setErrors({ general: err });
-      toast.error("Login failed");
+      toast.error(getFirebaseErrorMessage(err.code));
       console.error("login error", err);
     } finally {
       setLoading(false);
@@ -183,9 +184,10 @@ const Login = () => {
             )}
           </div>
           <div className="flex justify-end mb-4">
-            <button 
-            onClick={() => navigate("/reset-password")}
-            className="text-sm text-blue-600 outline-0 hover:underline">
+            <button
+              onClick={() => navigate("/reset-password")}
+              className="text-sm text-blue-600 outline-0 hover:underline"
+            >
               Forgot Password?
             </button>
           </div>

@@ -32,8 +32,7 @@ app.use("/api/message", messageRoutes);
 app.use("/api/topic", topicRoutes);
 app.use("/api/image/sign", imageRoute);
 app.use("/api/user", userRoutes);
-app.use("/api/og-image", ogRoutes);
-app.use("/api/share", ogRoutes);
+app.use("/api/image", ogRoutes);
 
 app.get("/api/cleanup-images", async (req, res) => {
   try {

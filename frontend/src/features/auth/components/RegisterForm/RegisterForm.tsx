@@ -22,6 +22,7 @@ import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateUsername";
 import { useAuth } from "@/context/AuthContext";
 import axios from "@/api/axios";
+import { getFirebaseErrorMessage } from "@/shared/utils/firebaseErrors";
 
 interface errors {
   username?: string;
@@ -82,7 +83,9 @@ const Register = () => {
       const result = await signInWithPopup(auth, provider);
       const idToken = await result.user.getIdToken();
 
-      const response = await axios.post("/auth", {
+      console.log("idToken at register:", idToken);
+
+      const response = await axios.post("/auth", {}, {
         headers: {
           Authorization: `Bearer ${idToken}`,
         },
@@ -94,7 +97,7 @@ const Register = () => {
       navigate("/dashboard");
       toast.success("Sign up successful");
     } catch (err: any) {
-      toast.error(err.message);
+      toast.error(getFirebaseErrorMessage(err.code));
       setLoading(false);
       console.error("google sign up error:", err);
     }
@@ -147,7 +150,7 @@ const Register = () => {
       if (result?.user) {
         await result.user.delete(); // delete the user if signup fails
       }
-      toast.error(err.message || "Sign up failed");
+      toast.error(getFirebaseErrorMessage(err.code));
       console.error("signup error:", err);
     } finally {
       setLoading(false);

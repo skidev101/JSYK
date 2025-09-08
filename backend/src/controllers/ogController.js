@@ -5,8 +5,8 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const fontPath = path.join(__dirname, "../assets/fonts/Poppins-Regular.ttf");
 const fontData = fs.readFileSync(fontPath);
 
@@ -33,7 +33,7 @@ export const generateOgImage = async (req, res) => {
             alignItems: "center",
             color: "white",
             fontSize: 36,
-            fontFamily: "Inter",
+            fontFamily: "Poppins",
             padding: "40px",
             textAlign: "center",
           },
@@ -76,23 +76,20 @@ export const getOgPage = async (req, res) => {
       return res.status(404).send("Message not found");
     }
 
-    const imageUrl = `${process.env.BASE_URL}/api/og-image/${messageId}`;
+    const imageUrl = `${process.env.API_BASE_URL}/api/image/generate/${messageId}`;
 
     res.send(`
       <!DOCTYPE html>
       <html lang="en">
         <head>
-          <meta property="og:title" content="Anonymous Message" />
-          <meta property="og:description" content="${message.content}" />
+          <meta property="og:title" content="JSYK" />
+          <meta property="og:description" content="send me messages anonymously 🤫🌚" />
           <meta property="og:image" content="${imageUrl}" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="${process.env.BASE_URL}/api/share/${messageId}" />
+          <meta property="og:url" content="${process.env.FRONTEND_URL}" />
         </head>
         <body>
-          <p>Redirecting...</p>
-          <script>
-            window.location.href = "${process.env.FRONTEND_URL}";
-          </script>
+          <p>This is a page...</p>
         </body>
       </html>
     `);
@@ -101,4 +98,3 @@ export const getOgPage = async (req, res) => {
     res.status(500).send("Failed to render OG page");
   }
 };
-

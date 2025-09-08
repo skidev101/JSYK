@@ -5,8 +5,8 @@ interface ShareProps {
 
 const SocialShareButtons = ({ messageId }: ShareProps) => {
   if (!messageId) return;
-  const url = `${import.meta.env.VITE_API_BASE_URL}/share/${messageId}`;
-  const text = "Send me anonymous messages";
+  const url = `${import.meta.env.VITE_API_BASE_URL}/image/share/${messageId}`;
+  const text = "send me anonymous message";
 
   const encodedUrl = encodeURIComponent(url);
   const encodedText = encodeURIComponent(text);
@@ -20,7 +20,7 @@ const SocialShareButtons = ({ messageId }: ShareProps) => {
         break;
 
       case "twitter":
-        shareUrl = `https://twitter.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
+        shareUrl = `https://x.com/intent/tweet?text=${encodedText}&url=${encodedUrl}`;
         break;
 
       case "facebook":
