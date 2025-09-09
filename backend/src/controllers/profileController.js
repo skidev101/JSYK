@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import imageKit from "../config/imageKit.js"
 
 export const getPublicProfile = async (req, res) => {
   try {
@@ -98,7 +99,7 @@ export const updateProfile = async (req, res) => {
     if (profileImgUrl !== undefined && fileId !== undefined) {
       if (user.profileImgFileId && user.profileImgFileId !== fileId) {
         try {
-          await imagekit.deleteFile(user.profileImgFileId);
+          await imageKit.deleteFile(user.profileImgFileId);
           console.log("Deleted old profile image:", user.profileImgFileId);
         } catch (err) {
           console.error("Failed to delete old profile image:", err);
