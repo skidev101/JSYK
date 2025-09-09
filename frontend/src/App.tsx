@@ -13,6 +13,7 @@ import TopicsListPage from "./pages/TopicsListPage";
 import TopicMessagesListPage from "./pages/TopicMessagesListPage";
 import LandingPage from "./pages/LandingPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage/AdminDashboardPage";
 // import ProtectedRoute from "./components/ProtectedRoute";
 
 const App = () => {
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/view/:messageId" element={<ViewMessagePage />} />
           <Route path="/topics" element={<TopicsListPage />} />
           <Route path="/topic/:topicId/messages" element={<TopicMessagesListPage />} />
+          <Route path="/dashboard/admin" element={<AdminDashboardPage />} />
         </Route>
 
         <Route path="/" element={<LandingPage />} />

@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent, useRef } from "react";
-import { Pencil, X, Plus, Loader2 } from "lucide-react";
+import { Pencil, X, Plus, Loader2, Tag } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FadeDown } from "@/shared/components/Motion/MotionWrappers";
 import toast from "react-hot-toast";
@@ -117,7 +117,10 @@ NewTopicFormProps) => {
       <FadeDown>
         <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white shadow">
           <div className="flex justify-between items-center py-2">
-            <h1 className="text-2xl sm:text-3xl">New topic</h1>
+            <div className="flex items-center gap-2 text-gray-700">
+              <Tag size={20} />
+              <h1 className="text-2xl sm:text-3xl">New topic</h1>
+            </div>
             <button
               onClick={() => navigate("/dashboard")}
               className="grid place-items-center p-2 sm:p-2 cursor-pointer rounded-xl text-gray-600 font-semibold hover:bg-gray-200 transition duration-200 outline-0"
@@ -163,9 +166,10 @@ NewTopicFormProps) => {
             </div>
 
             <div className="flex flex-col mb-4">
-              <label className="block text-sm font-medium mb-1 text-gray-700">
+              
+              <p className="block text-sm font-medium mb-1 text-gray-700">
                 Pick a color
-              </label>
+              </p>
               <div className="relative">
                 <input
                   type="color"
@@ -223,7 +227,9 @@ NewTopicFormProps) => {
               </div>
             </div>
 
-              <p className="sm:hidden text-sm text-center text-gray-700">*see preview below</p>
+            <p className="sm:hidden text-sm text-center text-gray-700">
+              *see preview below
+            </p>
 
             <button
               disabled={loading}

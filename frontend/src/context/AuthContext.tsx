@@ -14,6 +14,7 @@ interface User {
   bio?: string;
   profileViews: number;
   idToken: string;
+  roles: string;
 }
 
 interface AuthContextType {
