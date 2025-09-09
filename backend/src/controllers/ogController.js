@@ -98,6 +98,7 @@ export const getOgPage = async (req, res) => {
 
     const imageUrl =
       message.ogImageUrl || "https://ik.imagekit.io/yo9tu00cr/jsyk.png";
+    const shareUrl = `${process.env.FRONTEND_URL}/m/${message.profileSlug}`
 
     res.send(`
       <!DOCTYPE html>
@@ -107,7 +108,7 @@ export const getOgPage = async (req, res) => {
           <meta property="og:description" content="send me messages anonymously 🤫🌚" />
           <meta property="og:image" content="${imageUrl}" />
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="${process.env.FRONTEND_URL}" />
+          <meta property="og:url" content="${shareUrl}" />
         </head>
         <body></body>
       </html>

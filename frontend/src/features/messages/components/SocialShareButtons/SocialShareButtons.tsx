@@ -1,4 +1,4 @@
-import axios from "@/api/axios";
+import toast from "react-hot-toast";
 
 interface ShareProps {
   messageId: string;
@@ -9,11 +9,10 @@ const SocialShareButtons = ({ messageId }: ShareProps) => {
 
   const handleShare = async (platform: "whatsapp" | "twitter" | "facebook") => {
     try {
-      const response = await axios.get(`/image/generate/${messageId}`);
-      const imageUrl = response.data.imageUrl;
+      const sharePageUrl = `${import.meta.env.VITE_API_BASE_URL}/image/share/${messageId}`;
       const text = "Send me anonymous message 🤫🌚";
 
-      const encodedImageUrl = encodeURIComponent(imageUrl);
+      const encodedImageUrl = encodeURIComponent(sharePageUrl);
       const encodedText = encodeURIComponent(text);
 
       let shareUrl;
@@ -35,7 +34,7 @@ const SocialShareButtons = ({ messageId }: ShareProps) => {
       window.open(shareUrl, "_blank", "noopener,noreferrer");
     } catch (err) {
       console.error("Sharing failed:", err);
-      alert("Failed to share. Try again later.");
+      toast.error("Failed to share. Try again later.");
     }
   };
 
