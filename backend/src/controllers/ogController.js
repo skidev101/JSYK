@@ -4,6 +4,7 @@ import { Resvg } from "@resvg/resvg-js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import imageKit from "../config/imageKit";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,12 @@ export const generateOgImage = async (req, res) => {
     const message = await Message.findById(messageId);
     if (!message) {
       return res.status(404).send("Message not found");
+    }
+
+    if (message.ogImageUrl) {
+      return res.status(200).json({
+        imageUrl: message.ogImageUrl,
+      });
     }
 
     const svg = await satori(
@@ -59,8 +66,18 @@ export const generateOgImage = async (req, res) => {
     });
     const pngBuffer = resvg.render().asPng();
 
-    res.setHeader("Content-Type", "image/png");
-    res.send(pngBuffer);
+    const uploadResult = await imageKit.upload({
+      file: pngBuffer,
+      fileName: `og-message-${messageId}.png`,
+      folder: "/og-images/",
+    });
+
+    message.ogImageUrl = uploadResult.url;
+    await message.save();
+
+    res.status(200).json({
+      imageUrl: uploadResult.url,
+    });
   } catch (err) {
     console.error("OG Image Error:", err);
     res.status(500).send("Failed to generate OG image");
@@ -70,13 +87,17 @@ export const generateOgImage = async (req, res) => {
 export const getOgPage = async (req, res) => {
   try {
     const { messageId } = req.params;
+    if (!messageId) {
+      return res.status(400).send("Message ID is required");
+    }
 
     const message = await Message.findById(messageId);
     if (!message) {
       return res.status(404).send("Message not found");
     }
 
-    const imageUrl = `${process.env.API_BASE_URL}/api/image/generate/${messageId}`;
+    const imageUrl =
+      message.ogImageUrl || "https://ik.imagekit.io/yo9tu00cr/jsyk.png";
 
     res.send(`
       <!DOCTYPE html>
@@ -88,9 +109,7 @@ export const getOgPage = async (req, res) => {
           <meta property="og:type" content="website" />
           <meta property="og:url" content="${process.env.FRONTEND_URL}" />
         </head>
-        <body>
-          <p>This is a page...</p>
-        </body>
+        <body></body>
       </html>
     `);
   } catch (err) {
