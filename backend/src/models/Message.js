@@ -34,6 +34,10 @@ const messageSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    ogImageUrl: {
+      type: String,
+      default: null
+    },
     senderInfo: {
       ipHash: {
         type: String,

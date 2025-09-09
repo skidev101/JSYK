@@ -171,7 +171,7 @@ export const getMessage = async (req, res) => {
       console.log("Message marked as read");
     }
 
-    console.log("message requested:", message);
+    // console.log("message requested:", message);
 
     res.status(200).json({
       success: true,
