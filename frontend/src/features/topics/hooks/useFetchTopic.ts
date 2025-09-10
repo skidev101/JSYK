@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 interface TopicImage {
   _id: string;
   expiresAt: string;
-  fileId: string;
+  publicId: string;
   url: string;
 }
 

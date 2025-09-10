@@ -3,6 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const AdminProfile = () => {
   const { user } = useAuth();
+  
 
   return (
     <div className="flex flex-col bg-white w-full max-w-md max-h-max p-4 sm:p-6 rounded-xl shadow">

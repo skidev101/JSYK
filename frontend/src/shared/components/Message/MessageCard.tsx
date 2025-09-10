@@ -45,7 +45,7 @@ const MessageCard = ({
   };
 
   return (
-    <div className="relative w-full bg-white rounded-3xl shadow-md p-4">
+    <div className="relative w-full min-h-[170px] bg-white rounded-3xl shadow-md p-4">
       <div
         className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 rounded-t-3xl "
         style={{ backgroundColor: themeColor }}

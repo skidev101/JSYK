@@ -1,12 +1,9 @@
-import {
-  uploadToImageKit,
-  type UploadResult,
-} from "../services/imageKit/uploadToImageKit";
+import { uploadToCloudinary, type UploadResult } from "../services/imageKit/uploadToCloudinary";
 import toast from "react-hot-toast";
 
 export interface SuccessfulUploadsProps {
   url: string;
-  fileId: string;
+  publicId: string;
 }
 
 export const uploadImage = async (files: File[], folder: string) => {
@@ -14,16 +11,17 @@ export const uploadImage = async (files: File[], folder: string) => {
 
   try {
     const results = await Promise.all(
-      files.map((file) => uploadToImageKit({ file, folder }))
+      files.map((file) => uploadToCloudinary({ file, folder }))
     );
+
     const successfulUploads: SuccessfulUploadsProps[] = [];
     const failedUploads: UploadResult[] = [];
 
     for (const res of results) {
-      if (res.success && res.url && res.fileId) {
+      if (res.success && res.url && res.publicId) {
         successfulUploads.push({
           url: res.url,
-          fileId: res.fileId,
+          publicId: res.publicId,
         });
       } else {
         failedUploads.push(res);
