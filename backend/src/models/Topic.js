@@ -35,7 +35,7 @@ const topicSchema = new mongoose.Schema(
       type: [
         {
           url: String,
-          fileId: String,
+          publicId: String,
           expiresAt: Date,
         },
       ],

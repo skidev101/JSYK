@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
-import { getImageUploadSignature } from "../controllers/imageController.js";
+import { getCloudinaryUploadSignature } from "../controllers/imageController.js";
 
-router.get("/", getImageUploadSignature);
+router.get("/", getCloudinaryUploadSignature);
 
 export default router;

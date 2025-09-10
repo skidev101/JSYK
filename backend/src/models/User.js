@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    profileImgFileId: {
+    profileImgPublicId: {
       type: String,
       default: "",
     },

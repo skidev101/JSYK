@@ -34,7 +34,7 @@ export const createTopic = async (req, res) => {
       const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
       topicImgUrlsWithExpiry = imgUrls.map((img) => ({
         url: img.url,
-        fileId: img.fileId,
+        publicId: img.publicId,
         expiresAt: expiryDate,
       }));
     }
@@ -208,7 +208,7 @@ export const deleteTopic = async (req, res) => {
     if (deletedTopic.topicImgUrls?.length) {
       for (const img of deletedTopic.topicImgUrls) {
         try {
-          imageKit.deleteFile(img.fileId);
+          imageKit.deleteFile(img.publicId);
         } catch (err) {
           console.error("Failed to delete image:", img.url, err.message);
         }
@@ -230,4 +230,3 @@ export const deleteTopic = async (req, res) => {
     });
   }
 };
-

@@ -11,6 +11,7 @@ import topicRoutes from "./routes/topicRoutes.js";
 import imageRoute from "./routes/imageRoute.js";
 import userRoutes from "./routes/userRoutes.js";
 import ogRoutes from "./routes/ogRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import { imageCleanupJob } from "./jobs/imageCleaner.js";
 
 const app = express();
@@ -33,6 +34,7 @@ app.use("/api/topic", topicRoutes);
 app.use("/api/image/sign", imageRoute);
 app.use("/api/user", userRoutes);
 app.use("/api/image", ogRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/api/cleanup-images", async (req, res) => {
   try {
