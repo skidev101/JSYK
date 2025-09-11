@@ -44,19 +44,22 @@ export const deleteUser = async (req, res) => {
       });
     }
 
-    const fileIdsToDelete = [];
-    if (user.fileId) fileIdsToDelete.push(user.fileId);
+    const publicIdsToDelete = [];
+    if (user.publicId) publicIdsToDelete.push(user.publicId);
 
     const topics = await Topic.find({ uid });
     topics.forEach((topic) => {
-      if (topic.fileId) fileIdsToDelete.push(topic.fileId);
+      if (topic.publicId) publicIdsToDelete.push(topic.publicId);
     });
 
-    for (const fileId of fileIdsToDelete) {
+    for (const publicId of publicIdsToDelete) {
       try {
-        await imagekit.deleteFile(fileId);
+        await imagekit.deleteFile(publicId);
       } catch (err) {
-        console.warn(`Failed to delete ImageKit file ${fileId}:`, err.message);
+        console.warn(
+          `Failed to delete ImageKit file ${publicId}:`,
+          err.message
+        );
       }
     }
 
@@ -81,9 +84,8 @@ export const deleteUser = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      message: "Account deleted successfully"
+      message: "Account deleted successfully",
     });
-    
   } catch (err) {
     console.error("Error deleting user:", err);
     res.status(500).json({

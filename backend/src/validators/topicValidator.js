@@ -23,11 +23,11 @@ export const validateCreateTopic = [
     .isURL()
     .withMessage("Each image must have a valid URL"),
 
-  body("topicImgUrls.*.fileId")
+  body("topicImgUrls.*.publicId")
     .if(body("topicImgUrls").exists())
     .optional()
     .isString()
-    .withMessage("FileId must be a string if provided"),
+    .withMessage("publicId must be a string if provided"),
 ];
 
 export const validateTopicId = [
@@ -40,8 +40,5 @@ export const validateTopicId = [
 ];
 
 export const validateProfileSlug = [
-  param("profileSlug")
-    .trim()
-    .notEmpty()
-    .withMessage("Pofile slug is required"),
+  param("profileSlug").trim().notEmpty().withMessage("Pofile slug is required"),
 ];

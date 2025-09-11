@@ -34,7 +34,7 @@ export const createTopic = async (req, res) => {
       const expiryDate = new Date(now.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 days
       topicImgUrlsWithExpiry = imgUrls.map((img) => ({
         url: img.url,
-        fileId: img.fileId,
+        publicId: img.publicId,
         expiresAt: expiryDate,
       }));
     }
@@ -48,6 +48,7 @@ export const createTopic = async (req, res) => {
       topicLink,
       themeColor: themeColor || null,
       topicImgUrls: topicImgUrlsWithExpiry,
+      hadImages: imgUrls && imgUrls.length > 0
     });
 
     console.log("new topic created:", newTopic);
@@ -137,6 +138,7 @@ export const getTopic = async (req, res) => {
         topicImgUrls: topic.topicImgUrls,
         createdAt: topic.createdAt,
         messageCount: messageCount,
+        hadImages: topic.hadImages
       },
     });
   } catch (err) {
@@ -208,7 +210,7 @@ export const deleteTopic = async (req, res) => {
     if (deletedTopic.topicImgUrls?.length) {
       for (const img of deletedTopic.topicImgUrls) {
         try {
-          imageKit.deleteFile(img.fileId);
+          imageKit.deleteFile(img.publicId);
         } catch (err) {
           console.error("Failed to delete image:", img.url, err.message);
         }
@@ -230,4 +232,3 @@ export const deleteTopic = async (req, res) => {
     });
   }
 };
-

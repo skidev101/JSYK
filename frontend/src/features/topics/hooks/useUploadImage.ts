@@ -1,7 +1,7 @@
 import {
   uploadToImageKit,
   type UploadResult,
-} from "@/shared/services/imageKit/uploadToImageKit";
+} from "@/shared/services/imageKit/uploadToCloudinary";
 import toast from "react-hot-toast";
 
 export const useUploadImage = async (files: File[]) => {
@@ -11,14 +11,14 @@ export const useUploadImage = async (files: File[]) => {
     const results = await Promise.all(
       files.map((file) => uploadToImageKit({ file, folder: "/topicImages" }))
     );
-    const successfulUploads: { url: string; fileId: string }[] = [];
+    const successfulUploads: { url: string; publicId: string }[] = [];
     const failedUploads: UploadResult[] = [];
 
     for (const res of results) {
-      if (res.success && res.url && res.fileId) {
+      if (res.success && res.url && res.publicId) {
         successfulUploads.push({
           url: res.url,
-          fileId: res.fileId,
+          publicId: res.publicId,
         });
       } else {
         failedUploads.push(res);

@@ -86,9 +86,13 @@ NewTopicFormProps) => {
           topicImgFiles,
           "/jsyk/topicImages"
         );
-        if (uploadResult) {
-          uploadedImgUrls = uploadResult;
+        if (!uploadResult || uploadResult.length === 0) {
+          toast.error("Image upload failed");
+          return;
         }
+
+        uploadedImgUrls = uploadResult;
+
         console.log("result from image upload at topicForm:", uploadResult);
       }
 

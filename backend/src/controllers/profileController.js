@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-import imageKit from "../config/imageKit.js"
+import cloudinary from "../config/cloudinary.js";
 
 export const getPublicProfile = async (req, res) => {
   try {
@@ -79,8 +79,9 @@ export const checkUsernameAvailability = async (req, res) => {
   }
 };
 
+
 export const updateProfile = async (req, res) => {
-  const { username, email, bio, profileImgUrl, fileId } = req.body;
+  const { username, email, bio, profileImgUrl, publicId } = req.body;
   const { uid } = req.user;
 
   try {
@@ -93,25 +94,28 @@ export const updateProfile = async (req, res) => {
       });
     }
 
+    // update fields if provided
     if (username !== undefined) user.username = username;
     if (email !== undefined) user.email = email;
     if (bio !== undefined) user.bio = bio;
-    if (profileImgUrl !== undefined && fileId !== undefined) {
-      if (user.profileImgFileId && user.profileImgFileId !== fileId) {
+
+    // update profile image if new one provided
+    if (profileImgUrl !== undefined && publicId !== undefined) {
+      if (user.profileImgPublicId && user.profileImgPublicId !== publicId) {
         try {
-          await imageKit.deleteFile(user.profileImgFileId);
-          console.log("Deleted old profile image:", user.profileImgFileId);
+          await cloudinary.uploader.destroy(user.profileImgPublicId);
+          console.log("Deleted old profile image:", user.profileImgPublicId);
         } catch (err) {
           console.error("Failed to delete old profile image:", err);
         }
       }
 
       user.profileImgUrl = profileImgUrl;
-      user.profileImgFileId = fileId;
+      user.profileImgPublicId = publicId;
     }
 
     await user.save();
-    console.log("successfully updated user");
+    console.log("Successfully updated user");
 
     res.status(200).json({
       success: true,

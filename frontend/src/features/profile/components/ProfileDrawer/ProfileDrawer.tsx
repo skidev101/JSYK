@@ -16,9 +16,9 @@ import { FadeRight } from "@/shared/components/Motion";
 import toast from "react-hot-toast";
 import { useAuth } from "@/context/AuthContext";
 import {
-  uploadToImageKit,
+  uploadToCloudinary,
   type UploadResult,
-} from "@/shared/services/imageKit/uploadToImageKit";
+} from "@/shared/services/imageKit/uploadToCloudinary";
 import { useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
@@ -31,10 +31,7 @@ interface ProfileDrawerProps {
   onClose: () => void;
 }
 
-const ProfileDrawer = ({
-  show,
-  onClose,
-}: ProfileDrawerProps) => {
+const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   const { user, logout, refetchUser } = useAuth();
   const { deleteAccount } = useDeleteAccount();
   const navigate = useNavigate();
@@ -92,14 +89,14 @@ const ProfileDrawer = ({
 
     try {
       let imgUrl;
-      let fileId;
+      let publicId;
       if (imgFile) {
-        const result: UploadResult = await uploadToImageKit({
+        const result: UploadResult = await uploadToCloudinary({
           file: imgFile,
-          folder: "jsyk/profileImgs",
+          folder: "/jsyk/profileImgs",
         });
         imgUrl = result.url;
-        fileId = result.fileId;
+        publicId = result.publicId;
       }
 
       console.log("profileimgUrl:", imgUrl);
@@ -108,7 +105,7 @@ const ProfileDrawer = ({
         username: formData.username,
         bio: formData.bio,
         profileImgUrl: imgUrl,
-        fileId: fileId,
+        publicId: publicId,
       });
 
       await refetchUser();
@@ -145,20 +142,20 @@ const ProfileDrawer = ({
       if (action === "Logout") {
         await logout();
         navigate("/login");
-      } else if(action === "Delete") {
+      } else if (action === "Delete") {
         const success = await deleteAccount();
         if (success) {
           navigate("/");
         }
       }
-    }  catch (err) {
+    } catch (err) {
       console.error("Action error:", err);
       toast.error("Something went wrong");
     } finally {
       setLoadingAction(false);
       setShowActionModal(false);
     }
-  }
+  };
 
   return (
     <AnimatePresence>

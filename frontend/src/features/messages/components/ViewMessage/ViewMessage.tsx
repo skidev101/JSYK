@@ -12,7 +12,7 @@ import MessageCard from "@/shared/components/Message/MessageCard";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useViewMessage } from "../../hooks/useViewMessage";
 // import { HashLoader } from "react-spinners";
-import SocialShareButtons from "../SocialShareButtons";
+// import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
 import { useDashboardStore } from "@/store/dashboardStore";
@@ -176,7 +176,7 @@ const ViewMessage = () => {
             <p className="text-gray-700 p-4 text-sm">jsyk by monaski</p>
           </div>
 
-          <SocialShareButtons messageId={messageId} />
+          {/* <SocialShareButtons messageId={messageId} /> */}
         </div>
       </FadeIn>
     </div>
