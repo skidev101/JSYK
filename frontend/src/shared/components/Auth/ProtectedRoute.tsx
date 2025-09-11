@@ -1,6 +1,7 @@
 import { type ReactNode } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { Navigate } from "react-router-dom";
+import NotFoundPage from "../../../pages/NotFoundPage";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -19,7 +20,7 @@ const ProtectedRoute = ({ children, adminOnly = false }: ProtectedRouteProps) =>
   }
 
   if (adminOnly && user.role !== "Admin") {
-    return <Navigate to="/dashboard" replace />;
+    return <NotFoundPage />;
   }
 
   return <>{children}</>;
