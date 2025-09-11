@@ -1,7 +1,8 @@
 import { FadeDown, FadeLeft } from "@/shared/components/Motion";
 import AdminProfile from "../AdminProfile";
 import Analytics from "../Analytics/Analytics";
-import ActivityGraph from "../ActivityGraph";
+import ActivityGraph from "../MessageActivityGraph";
+import UsersActivityGraph from "../UsersActivityGraph";
 
 const AdminDashboard = () => {
   return (
@@ -15,11 +16,18 @@ const AdminDashboard = () => {
         </FadeDown>
       </div>
 
-      <div className="w-full">
+      <div className="w-full flex flex-col gap-4">
+        <div className="w-full">
+          <FadeDown>
+            <Analytics />
+          </FadeDown>
+        </div>
 
-      <FadeDown>
-        <Analytics />
-      </FadeDown>
+        <div className="w-full">
+          <FadeDown>
+            <UsersActivityGraph />
+          </FadeDown>
+        </div>
       </div>
     </div>
   );

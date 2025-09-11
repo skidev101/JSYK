@@ -8,13 +8,14 @@ interface TopicImage {
   url: string;
 }
 
-interface TopicDetails {
+export interface TopicDetails {
   topic: string;
   topicLink: string;
   themeColor: string;
   topicImgUrls: TopicImage[];
   createdAt: string;
   messageCount: number;
+  hadImages: boolean;
 }
 
 export const useFetchTopic = (topicId: string) => {
@@ -26,29 +27,28 @@ export const useFetchTopic = (topicId: string) => {
   useEffect(() => {
     if (!topicId) return;
 
-    const controller = new AbortController();
+    let isMounted = true;
 
     const fetchTopic = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await axiosPrivate.get(`/topic/${topicId}`, {
-          signal: controller.signal,
-        });
-        setTopicDetails(response.data.data);
+        const response = await axiosPrivate.get(`/topic/${topicId}`);
+        console.log("topic res:", response)
+        isMounted && setTopicDetails(response.data.data);
       } catch (err: any) {
-        if (err.name === "CancelledError") return;
         console.error("Failed to fetch topic data:", err);
-        return false;
       } finally {
-        setLoading(false);
+        isMounted && setLoading(false);
       }
     };
 
     fetchTopic();
 
-    return () => controller.abort();
+    return () => {
+      isMounted = false;
+    };
   }, [topicId, axiosPrivate]);
 
   return { topicDetails, loading, error };

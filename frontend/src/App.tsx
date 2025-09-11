@@ -14,7 +14,7 @@ import TopicMessagesListPage from "./pages/TopicMessagesListPage";
 import LandingPage from "./pages/LandingPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage/AdminDashboardPage";
-// import ProtectedRoute from "./components/ProtectedRoute";
+import { ProtectedRoute } from "./shared/components/Auth";
 
 const App = () => {
   return (
@@ -22,12 +22,54 @@ const App = () => {
       <Toaster position="top-right" />
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/dashboard" element={<DashboardPage />} />
-          <Route path="/new-topic" element={<NewTopicPage />} />
-          <Route path="/view/:messageId" element={<ViewMessagePage />} />
-          <Route path="/topics" element={<TopicsListPage />} />
-          <Route path="/topic/:topicId/messages" element={<TopicMessagesListPage />} />
-          <Route path="/dashboard/admin" element={<AdminDashboardPage />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/new-topic"
+            element={
+              <ProtectedRoute>
+                <NewTopicPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/view/:messageId"
+            element={
+              <ProtectedRoute>
+                <ViewMessagePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/topics"
+            element={
+              <ProtectedRoute>
+                <TopicsListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/topic/:topicId/messages"
+            element={
+              <ProtectedRoute>
+                <TopicMessagesListPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
         </Route>
 
         <Route path="/" element={<LandingPage />} />

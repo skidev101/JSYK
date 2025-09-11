@@ -93,7 +93,7 @@ const TopicsList = () => {
 
   return (
     <FadeDown>
-      <div className="w-full h-full min-h-screen mt-16 pt-3 ">
+      <div className="w-full h-full min-h-screen mt-16 pt-3 bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100 relative overflow-hidden">
         <div className="flex items-center w-full flex-col">
           <div className="w-full max-w-4xl ">
             <div className="flex justify-between items-center w-full px-2">
@@ -101,8 +101,8 @@ const TopicsList = () => {
                 <h1 className="text-xl sm:text-2xl bg-white max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
                   Your Topics
                 </h1>
-                <p className="text-sm text-gray-700 bg-gray-100 max-w-max px-3 py-1 mt-2 sm:px-4 rounded-xl ">
-                  Topics with images will be automatically deleted in 15 days to
+                <p className="text-sm text-gray-600 bg-white border border-gray-200 max-w-max px-3 py-1 mt-2 sm:px-4 rounded-xl ">
+                  Images will be automatically deleted in 15 days to
                   save storage
                 </p>
               </div>

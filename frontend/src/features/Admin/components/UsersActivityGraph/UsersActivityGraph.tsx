@@ -1,27 +1,26 @@
-import { Activity } from "lucide-react";
+import { AreaChartIcon, Loader2 } from "lucide-react";
 import { useAdminAnalytics } from "../../hooks/useAdminAnalytics";
 import Card from "@/shared/components/Card";
 import {
-  LineChart,
-  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
+  AreaChart,
+  Area,
 } from "recharts";
 
-const ActivityGraph = () => {
+const UsersActivityGraph = () => {
   const { data, loading, error } = useAdminAnalytics();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader2 size={20} className="animate-spin" />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!data) return null;
 
-  // 👇 Format per-day data into something recharts can consume
   const messageTrend =
-    data.messages.perDay?.map((d) => ({
-      date: d._id, // your backend probably returns "YYYY-MM-DD"
+    data.users.perDay?.map((d) => ({
+      date: d._id,
       count: d.count,
     })) || [];
 
@@ -29,27 +28,30 @@ const ActivityGraph = () => {
     <div className="w-full">
       <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4 shadow">
         <div className="flex items-center gap-1 py-1 ml-1 text-gray-700">
-          <Activity size={20} />
-          <h1 className="text-lg sm:text-xl rounded-xl">Activity</h1>
+          <AreaChartIcon size={20} />
+          <h1 className="text-lg sm:text-xl rounded-xl">
+            Active users per day
+          </h1>
         </div>
 
-        <Card>
-          <h2 className="text-lg font-semibold mb-4">Message Trend</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={messageTrend}>
+        <Card className="w-full">
+          <ResponsiveContainer width="100%" height={250}>
+            <AreaChart data={messageTrend} margin={{ top: 10, right: 10, left: -40, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" />
+              <XAxis
+                dataKey="date"
+                tick={{ fontSize: 12 }}
+                tickFormatter={(value) => value.slice(5)}
+              />
               <YAxis allowDecimals={false} />
               <Tooltip />
-              <Line
+              <Area
                 type="monotone"
                 dataKey="count"
-                stroke="#4f46e5" // Tailwind indigo-600
-                strokeWidth={3}
-                dot={{ r: 4, strokeWidth: 2, fill: "#fff" }}
-                activeDot={{ r: 6 }}
+                stroke="#4f46e5"
+                fill="#c7d2fe"
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </Card>
       </div>
@@ -57,4 +59,4 @@ const ActivityGraph = () => {
   );
 };
 
-export default ActivityGraph;
+export default UsersActivityGraph;

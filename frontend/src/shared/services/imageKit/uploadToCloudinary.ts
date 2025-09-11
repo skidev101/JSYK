@@ -66,10 +66,10 @@ export interface UploadResult {
     try {
       // Get signature and params from backend
       const { data } = await axios.get(
-        `${APP_CONFIG.API_BASE_URL}/image/sign`
+        `${APP_CONFIG.API_BASE_URL}/image/sign`, { params: { folder } }
       );
       const { timestamp, signature, cloudName, apiKey } = data;
-      console.log("img upload res:", data)
+      console.log("cloudinary upload sign res:", data)
 
       const formData = new FormData();
       formData.append("file", file);

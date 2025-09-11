@@ -14,7 +14,7 @@ interface User {
   bio?: string;
   profileViews: number;
   idToken: string;
-  roles: string;
+  role: string;
 }
 
 interface AuthContextType {
@@ -85,8 +85,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               }
             );
 
+
             setUser({ ...response.data.data, idToken });
             setFirebaseUser(firebaseUser);
+
+            
             console.log("user from server:", response.data.data);
           } catch (err: any) {
             console.error("Error fetching user data:", err);

@@ -1,6 +1,6 @@
 import Card from "@/shared/components/Card";
 import { FadeIn } from "@/shared/components/Motion";
-import { DatabaseZap, MemoryStick, Tags, User, UserPlus } from "lucide-react";
+import { DatabaseZap, Globe, MemoryStick, Tags, User, UserPlus } from "lucide-react";
 import { useAdminAnalytics } from "../../hooks/useAdminAnalytics";
 import { formatBytes } from "@/shared/utils/formatBytes";
 
@@ -21,7 +21,7 @@ const Analytics = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-3 gap-2">
         <FadeIn delay={0.1}>
-          <Card className="hover:bg-gray-200 transition-all">
+          <Card>
             <div className="flex items-center gap-3">
               <div className="bg-gray-200 text-gray-700 p-4 rounded-2xl">
                 <UserPlus size={21} />
@@ -47,7 +47,7 @@ const Analytics = () => {
         <Card>
           <div className="flex items-center gap-3">
             <div className="bg-gray-200 text-gray-700 p-4 rounded-2xl">
-              <DatabaseZap size={21} />
+              <Globe size={21} />
             </div>
             <div className="flex flex-col">
               <p className="text-base text-gray-700">Bandwidth used</p>
@@ -65,7 +65,7 @@ const Analytics = () => {
             <div className="flex flex-col">
               <p className="text-base text-gray-700">Storage used</p>
               <h1 className="text-xl font-black text-blue-600">
-                 {formatBytes(Number(data.cloudinary.storage?.usage ?? 0))} / {formatBytes(Number(data.cloudinary.storage?.limit ?? 0))}
+                 {formatBytes(Number(data.cloudinary.storage ?? 0))}
               </h1>
             </div>
           </div>
