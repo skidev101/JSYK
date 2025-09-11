@@ -41,6 +41,10 @@ const topicSchema = new mongoose.Schema(
       ],
       default: undefined,
     },
+    hadImages: {
+      type: Boolean,
+      default: false
+    },
     messageCount: {
       type: Number,
       default: 0,

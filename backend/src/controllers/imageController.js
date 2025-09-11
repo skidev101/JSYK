@@ -1,14 +1,15 @@
-import crypto from "crypto";
+import cloudinary from "../config/cloudinary.js"
 
 export const getCloudinaryUploadSignature = async (req, res) => {
   try {
+    const folder = req.query.folder || "defaultFolder";
     const timestamp = Math.round(new Date().getTime() / 1000);
 
     // sign with your secret
-    const signature = crypto
-      .createHash("sha1")
-      .update(`timestamp=${timestamp}${process.env.CLOUDINARY_API_SECRET}`)
-      .digest("hex");
+   const signature = cloudinary.utils.api_sign_request(
+      { timestamp, folder },
+      process.env.CLOUDINARY_API_SECRET
+    );
 
     res.status(200).json({
       success: true,

@@ -63,8 +63,10 @@ export const getAdminAnalytics = async (req, res) => {
         { $sort: { _id: 1 } },
       ]),
 
-      cloudinary.api.usage(), // 🔥 this replaces ImageKit’s usage API
+      cloudinary.api.usage(), 
     ]);
+
+    console.log("cloudinary usage:", cloudinaryUsage);
 
     res.status(200).json({
       users: {
@@ -85,9 +87,7 @@ export const getAdminAnalytics = async (req, res) => {
       },
       cloudinary: {
         storage: cloudinaryUsage.storage.usage,
-        storageLimit: cloudinaryUsage.storage.limit,
         bandwidth: cloudinaryUsage.bandwidth.usage,
-        bandwidthLimit: cloudinaryUsage.bandwidth.limit,
         requests: cloudinaryUsage.requests,
         transformations: cloudinaryUsage.transformations,
       },

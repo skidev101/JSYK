@@ -103,7 +103,7 @@ export const updateProfile = async (req, res) => {
     if (profileImgUrl !== undefined && publicId !== undefined) {
       if (user.profileImgPublicId && user.profileImgPublicId !== publicId) {
         try {
-          await cloudinary.v2.uploader.destroy(user.profileImgPublicId);
+          await cloudinary.uploader.destroy(user.profileImgPublicId);
           console.log("Deleted old profile image:", user.profileImgPublicId);
         } catch (err) {
           console.error("Failed to delete old profile image:", err);

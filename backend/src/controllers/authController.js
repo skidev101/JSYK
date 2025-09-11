@@ -24,6 +24,7 @@ export const getCurrentUser = async (req, res) => {
         jsykLink: user.profileSlug,
         memberSince: user.createdAt,
         profileViews: user.viewsToday,
+        role: user.role
       },
     });
   } catch (err) {
@@ -76,6 +77,7 @@ export const handleAuth = async (req, res) => {
         jsykLink: user.profileSlug,
         memberSince: user.createdAt,
         profileViews: user.viewsToday,
+        role: user.role
       },
     });
   } catch (err) {

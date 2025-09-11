@@ -3,7 +3,7 @@ import cloudinary from "../config/cloudinary.js";
 
 export const imageCleanupJob = async () => {
   const now = new Date();
-  const deleteDate = new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000); // 15 days ago
+  const deleteDate = new Date(now.getTime() - 1 * 60 * 1000); // 15 days ago
 
   try {
     console.log("Running image cleanup job...");
@@ -20,7 +20,7 @@ export const imageCleanupJob = async () => {
       for (const img of imgs) {
         if (img.publicId) {
           try {
-            await cloudinary.v2.uploader.destroy(img.publicId);
+            await cloudinary.uploader.destroy(img.publicId);
             console.log(`Deleted image: ${img.url}`);
           } catch (err) {
             console.error("Failed to delete image:", img.url, err.message);
@@ -31,6 +31,7 @@ export const imageCleanupJob = async () => {
       }
 
       // clear images from DB
+      topic.hadImages = true;
       topic.topicImgUrls = [];
       await topic.save();
     }

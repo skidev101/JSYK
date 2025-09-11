@@ -48,6 +48,7 @@ export const createTopic = async (req, res) => {
       topicLink,
       themeColor: themeColor || null,
       topicImgUrls: topicImgUrlsWithExpiry,
+      hadImages: imgUrls && imgUrls.length > 0
     });
 
     console.log("new topic created:", newTopic);
@@ -137,6 +138,7 @@ export const getTopic = async (req, res) => {
         topicImgUrls: topic.topicImgUrls,
         createdAt: topic.createdAt,
         messageCount: messageCount,
+        hadImages: topic.hadImages
       },
     });
   } catch (err) {
