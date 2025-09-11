@@ -1,5 +1,5 @@
 import {
-  uploadToImageKit,
+  uploadToCloudinary,
   type UploadResult,
 } from "@/shared/services/imageKit/uploadToCloudinary";
 import toast from "react-hot-toast";
@@ -9,7 +9,7 @@ export const useUploadImage = async (files: File[]) => {
 
   try {
     const results = await Promise.all(
-      files.map((file) => uploadToImageKit({ file, folder: "/topicImages" }))
+      files.map((file) => uploadToCloudinary({ file, folder: "/topicImages" }))
     );
     const successfulUploads: { url: string; publicId: string }[] = [];
     const failedUploads: UploadResult[] = [];
