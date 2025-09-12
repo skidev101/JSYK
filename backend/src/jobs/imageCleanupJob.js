@@ -3,7 +3,7 @@ import cloudinary from "../config/cloudinary.js";
 
 export const imageCleanupJob = async () => {
   const now = new Date();
-  const deleteDate = new Date(now.getTime() - 1 * 60 * 1000); // 15 days ago
+  const deleteDate = new Date(now.getTime() - 15 * 24 * 60 * 60 * 1000); // 15 days ago
 
   try {
     console.log("Running image cleanup job...");

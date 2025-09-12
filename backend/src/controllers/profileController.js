@@ -14,31 +14,17 @@ export const getPublicProfile = async (req, res) => {
       });
     }
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let viewsDate = user.viewsDate ? new Date(user.viewsDate) : null;
-    if (viewsDate) viewsDate.setHours(0, 0, 0, 0);
-
-    let updatedUser;
-
-    if (!viewsDate || viewsDate.getTime() !== today.getTime()) {
-      user.viewsToday = 0;
-      user.viewsDate = today;
-      await user.save();
-    }
-
     user.viewsToday += 1;
     await user.save();
 
     res.status(200).json({
       success: true,
       data: {
-        username: updatedUser.username,
-        profileImgUrl: updatedUser.profileImgUrl,
-        jsykLink: updatedUser.profileSlug,
-        bio: updatedUser.bio,
-        profileSlug: updatedUser.profileSlug,
+        username: user.username,
+        profileImgUrl: user.profileImgUrl,
+        jsykLink: user.profileSlug,
+        bio: user.bio,
+        profileSlug: user.profileSlug,
       },
     });
   } catch (err) {

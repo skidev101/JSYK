@@ -12,7 +12,8 @@ import imageRoute from "./routes/imageRoute.js";
 import userRoutes from "./routes/userRoutes.js";
 import ogRoutes from "./routes/ogRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
-import { imageCleanupJob } from "./jobs/imageCleaner.js";
+import featureRequestRoutes from "./routes/featureRequestRoutes.js";
+import jobRoutes from "./routes/jobRoutes.js";
 
 const app = express();
 
@@ -35,21 +36,7 @@ app.use("/api/image/sign", imageRoute);
 app.use("/api/user", userRoutes);
 app.use("/api/image", ogRoutes);
 app.use("/api/admin", adminRoutes);
-
-app.get("/api/cleanup-images", async (req, res) => {
-  try {
-    const { secret } = req.query;
-
-    if (secret !== process.env.CRON_SECRET) {
-      return res.status(403).json({ success: false, message: "Forbidden" });
-    }
-
-    await imageCleanupJob();
-    console.log("cleanup done");
-    res.json({ success: true, message: "Cleanup executed" });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
+app.use("/api/feature", featureRequestRoutes);
+app.use("/api/jobs", jobRoutes)
 
 export default app;
