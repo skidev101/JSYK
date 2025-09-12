@@ -10,7 +10,6 @@ import {
   User,
   CheckCircle2Icon,
   XCircleIcon,
-  Bubbles,
   MessageCircleHeart,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
