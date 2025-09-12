@@ -6,13 +6,14 @@ import { useParams } from "react-router-dom";
 import { useTopicData } from "../../hooks/useTopicData";
 import { useSendMessage } from "../../hooks/useSendMessage";
 import { HashLoader } from "react-spinners";
+import { motion } from "framer-motion";
 
 const SendMessage = () => {
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
   const [messageToSend, setMessageToSend] = useState("");
   const { data, loadingTopic } = useTopicData(profileSlug, topicId); // add topicError
-  console.log("topicdata at send message page:", data)
+  console.log("topicdata at send message page:", data);
   const { sendMessage, loading, error } = useSendMessage();
   const themeColor = "#3570F8";
 
@@ -47,13 +48,21 @@ const SendMessage = () => {
 
   return (
     <FadeIn>
-      <div className="relative w-full flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100 overflow-hidden">
-      {/* <div className="absolute inset-0 mesh-gradient"></div> */}
+      <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100 overflow-hidden">
+        {/* Subtle blurred shapes */}
+        <div className="absolute -top-32 -left-32 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-32 -right-32 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
 
-        <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl p-4 ">
-          <p className="text-sm text-gray-500">
-            Message @{data?.username} anonymously 🤫
-          </p>
+        {/* Card */}
+        <div className="relative w-full sm:max-w-md bg-white/20 backdrop-blur-md shadow-xl rounded-2xl p-6 flex flex-col items-center gap-5">
+          <h1 className="text-lg text-center font-semibold text-gray-800">
+            Send <span className="shimmer-text">@{data?.username}</span> an
+            anonymous message 🤫
+          </h1>
+          {/* <p className="text-sm text-gray-500 text-center">
+            Be honest, kind, or funny — your identity will stay hidden.
+          </p> */}
+
           <MessageCard
             username={data?.username}
             profileImgUrl={data?.profileImgUrl}
@@ -68,19 +77,29 @@ const SendMessage = () => {
             themeColor={data?.themeColor || themeColor}
             error={error}
           />
-          <div className="text-center text-gray-700">
-            {/* <p className="text-sm">
-              wanna recieve anonymous messages
-              <br /> too? 👉{" "}
-              <a href="/register" className="text-blue-600 underline">
-                Sign up
-              </a>
-            </p> */}
-            <p className="fixed bottom-2 left-1/2 -translate-x-1/2 text-sm">
-              jsyk by monaski
+
+          {/* Call to Action */}
+          <div className="mt-4 text-center">
+            <p className="text-sm text-gray-600">
+              Wanna receive anonymous messages too?
             </p>
+            <a href="/register">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                animate={{ x: [0, -3, 2, -3, 2, 0] }} // shake animation
+                transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3 }}
+                className="inline-block mt-2 px-6 py-2 text-sm font-medium text-white bg-gradient-to-r  to-blue-500 from-purple-400 rounded-full shadow-md"
+              >
+                Sign up
+              </motion.button>
+            </a>
           </div>
+        {/* Footer */}
+        <p className="text-sm text-gray-500">
+          JSYK by <a href="https://x.com/monaski_" className="text-blue-500 hover:text-blue-600 transition-colors duration-200 underline">monaski</a>
+        </p>
         </div>
+
       </div>
     </FadeIn>
   );

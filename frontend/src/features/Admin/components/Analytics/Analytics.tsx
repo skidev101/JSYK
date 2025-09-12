@@ -1,13 +1,13 @@
 import Card from "@/shared/components/Card";
 import { FadeIn } from "@/shared/components/Motion";
-import { DatabaseZap, Globe, MemoryStick, Tags, User, UserPlus } from "lucide-react";
+import { DatabaseZap, Globe, Loader2, MemoryStick, Tags, User, UserPlus } from "lucide-react";
 import { useAdminAnalytics } from "../../hooks/useAdminAnalytics";
 import { formatBytes } from "@/shared/utils/formatBytes";
 
 const Analytics = () => {
   const { data, loading, error } = useAdminAnalytics();
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loader2 size={20} className="animate-spin" />;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!data) return null;
 

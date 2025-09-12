@@ -17,61 +17,30 @@ import AdminDashboardPage from "./pages/AdminDashboardPage";
 import { ProtectedRoute } from "./shared/components/Auth";
 import FeatureRequestPage from "./pages/FeatureRequestPage";
 import FeatureRequestListPage from "./pages/FeatureRequestListPage/";
+import ScrollToTop from "./shared/components/Layout/Scroll";
 
 const App = () => {
   return (
     <>
       <Toaster position="top-right" />
+      <ScrollToTop />
       <Routes>
-        <Route element={<MainLayout />}>
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/new-topic"
-            element={
-              <ProtectedRoute>
-                <NewTopicPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/view/:messageId"
-            element={
-              <ProtectedRoute>
-                <ViewMessagePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/topics"
-            element={
-              <ProtectedRoute>
-                <TopicsListPage />
-              </ProtectedRoute>
-            }
-          />
+        <Route
+          element={
+            <ProtectedRoute>
+              <MainLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/new-topic" element={<NewTopicPage />} />
+          <Route path="/view/:messageId" element={<ViewMessagePage />} />
+          <Route path="/topics" element={<TopicsListPage />} />
           <Route
             path="/topic/:topicId/messages"
-            element={
-              <ProtectedRoute>
-                <TopicMessagesListPage />
-              </ProtectedRoute>
-            }
+            element={<TopicMessagesListPage />}
           />
-          <Route
-            path="/feature-request"
-            element={
-              <ProtectedRoute>
-                <FeatureRequestPage />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="/feature-request" element={<FeatureRequestPage />} />
           <Route
             path="/admin/dashboard"
             element={

@@ -101,7 +101,7 @@ const TopicsList = () => {
                 <h1 className="text-xl sm:text-2xl bg-white max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
                   Your Topics
                 </h1>
-                <p className="text-sm text-gray-600 bg-white border border-gray-200 max-w-max px-3 py-1 mt-2 sm:px-4 rounded-xl ">
+                <p className="text-xs sm:text-sm text-gray-600 bg-white border border-gray-200 max-w-max px-3 py-1 mt-2 sm:px-4 rounded-xl ">
                   Images will be automatically deleted in 15 days to save
                   storage
                 </p>

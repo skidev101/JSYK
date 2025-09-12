@@ -98,7 +98,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex flex-col bg-white w-full max-h-max rounded-xl p-2 sm:p-4 shadow">
-          <div className="flex items-center gap-1 py-1 ml-1">
+          <div className="flex items-center gap-1 py-2 ml-1">
             <MessageCircle size={20} />
             <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
           </div>
@@ -133,6 +133,8 @@ const Dashboard = () => {
           )}
 
           {!messages.length && (
+            <div className="px-2 py-1">
+
             <Card>
               <div className="flex flex-col items-center justify-center text-center px-8 py-4">
                 <img
@@ -154,6 +156,7 @@ const Dashboard = () => {
                 </button>
               </div>
             </Card>
+            </div>
           )}
         </div>
       </div>

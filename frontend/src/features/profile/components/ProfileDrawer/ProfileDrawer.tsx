@@ -55,7 +55,6 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   const [warning, setWarning] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
 
-
   // sync state with user data onchange
   useEffect(() => {
     if (user) {
@@ -67,7 +66,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
     }
   }, [user]);
 
-  // if (!user) return;
+  if (!user) return;
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -136,7 +135,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
     setShowActionModal(true);
     setAction("Delete");
     setHeader("Delete account😪");
-    setWarning("Are you sure? All data will be lost");
+    setWarning("Are you sure? All messages will be lost");
   };
 
   const handleConfirmAction = async () => {
@@ -360,10 +359,14 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
 
             {!editMode && (
               <div className="flex justify-end mb-2">
-                <button 
-                onClick={() => navigate("/feature-request")}
-                className="flex items-center gap-2 p-2 rounded-full bg-gray-100 border border-purple-300 hover:cursor-pointer hover:scale-105 active:scale-95 transition-all">
-                  <MessageCircleHeart size={20} className="text-purple-400"/>
+                <button
+                  onClick={() => {
+                    onClose();
+                    navigate("/feature-request");
+                  }}
+                  className="flex items-center gap-2 p-2 rounded-full bg-gray-100 border border-purple-300 hover:cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                >
+                  <MessageCircleHeart size={20} className="text-purple-400" />
                   {/* <p>Request feature</p> */}
                 </button>
               </div>

@@ -22,29 +22,7 @@ const ActionModal = ({
   friendlyText,
   handleAction
 }: LogoutProps) => {
-  // const { logout } = useAuth();
-
-  // const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
-  // const [friendlyText, setFriendlyText] = useState("");
-
-  // const handleAction = () => {
-  //   if (action === "Logout") {
-  //     setLoading(true);
-  //     setFriendlyText("See U later 😘");
-  //     setTimeout(() => {
-  //       logout();
-  //       setLoading(false);
-  //       navigate("/login");
-  //     }, 3000);
-  //   } else if (action === "Delete") {
-  //     setLoading(true);
-  //     setTimeout(() => {
-  //       setLoading(false);
-  //       navigate("/login");
-  //     }, 3000);
-  //   }
-  // };
+  
 
   return (
     <AnimatePresence>
@@ -59,7 +37,7 @@ const ActionModal = ({
           />
 
           <motion.div
-            className="fixed inset-0 z-[999] flex items-center justify-center p-4"
+            className="fixed inset-0 z-[999] flex items-center justify-center"
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}

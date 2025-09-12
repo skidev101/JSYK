@@ -45,7 +45,7 @@ const MessageCard = ({
   };
 
   return (
-    <div className="relative w-full min-h-[170px] bg-white rounded-3xl shadow-md p-4">
+    <div className="relative w-full min-h-[170px] bg-white/80 rounded-3xl shadow-md p-4">
       <div
         className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 rounded-t-3xl "
         style={{ backgroundColor: themeColor }}
@@ -67,7 +67,7 @@ const MessageCard = ({
               @{username}
             </h1>
           </div>
-          <p className="text-sm sm:text-base text-neutral-200">jsyk</p>
+          <p className="text-sm sm:text-base text-neutral-200">JSYK</p>
         </div>
       </div>
 

@@ -18,6 +18,8 @@ import toast from "react-hot-toast";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { toBlob } from "html-to-image";
 import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
+import { HashLoader } from "react-spinners";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const ViewMessage = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -27,7 +29,7 @@ const ViewMessage = () => {
   const { messageId } = useParams();
   if (!messageId) return <div>oops... no message ID</div>;
 
-  const { data } = useViewMessage(messageId); // add error, add loadingMessage
+  const { data, loadingMessage, error } = useViewMessage(messageId); // add error
   console.log("topic img urls at view message:", data?.topicImgUrls);
 
   const messageRef = useRef<HTMLDivElement>(null);
@@ -35,19 +37,23 @@ const ViewMessage = () => {
   const removeMessage = useDashboardStore((state) => state.removeMessage);
   const themeColor = "#3570F8";
 
-  // if (loadingMessage) {
-  //   return (
-  //     <div className="flex justify-center items-center min-h-[100vh]">
-  //       <HashLoader size={40} color="#000" />
-  //     </div>
-  //   );
-  // }
-  // if (error) return <div className="text-md mt-40 mr-20">An error occured</div>;
+  if (loadingMessage) {
+    return (
+      <div className="flex justify-center items-center min-h-[100vh]">
+        <HashLoader size={40} color="#000" />
+      </div>
+    );
+  }
+
+  if (error) {
+    <ErrorState message="An unknown error occured" src="/empty-box.png" />;
+  }
 
   const handleImageDownload = async () => {
     if (!messageRef.current) return;
 
     try {
+      const toastId = toast.loading("Downloading");
       await (document as any).fonts.ready;
 
       const options = {
@@ -65,6 +71,8 @@ const ViewMessage = () => {
       link.download = "message.png";
       link.click();
       URL.revokeObjectURL(url);
+
+      toast.success("Downloaded", { id: toastId })
     } catch (err) {
       toast.error("Failed to download image");
       console.error("Image capture failed:", err);
@@ -87,7 +95,6 @@ const ViewMessage = () => {
         toast.error("Failed to delete");
         console.log("failed to delete message");
       }
-
     } catch (err) {
       console.error("error in delete function call", err);
     }
@@ -133,7 +140,7 @@ const ViewMessage = () => {
           </div> */}
 
           <button
-            onClick={() => handleDelete()}
+            onClick={() => setShowDeleteModal(true)}
             className="text-sm flex items-center active:bg-white active:scale-95 w-full p-3 transition-all duration-100 gap-1 text-red-500"
           >
             <Trash size={18} />
@@ -161,7 +168,7 @@ const ViewMessage = () => {
       </div>
 
       <FadeIn>
-        <div className="w-full flex flex-col justify-center items-center mt-5">
+        <div className="w-full flex flex-col justify-center items-center mt-5 mb-16">
           <div
             ref={messageRef}
             className="w-full max-w-sm h-full flex justify-center flex-col items-center gap-3 rounded-xl p-2 sm:p-4 bg-gray-100 shadow-md"
@@ -177,7 +184,15 @@ const ViewMessage = () => {
               themeColor={data?.themeColor || themeColor}
             />
 
-            <p className="text-gray-700 p-4 text-sm">jsyk by monaski</p>
+            <p className="text-sm text-gray-400">
+              JSYK by{" "}
+              <a
+                href="https://x.com/monaski_"
+                className="hover:text-blue-600 transition-colors duration-200"
+              >
+                monaski
+              </a>
+            </p>
           </div>
 
           {/* <SocialShareButtons messageId={messageId} /> */}
@@ -194,7 +209,6 @@ const ViewMessage = () => {
         loading={loadingDelete}
         handleAction={handleDelete}
       />
-
     </div>
   );
 };

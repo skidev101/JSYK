@@ -20,17 +20,17 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
           <h1 className="text-lg sm:text-xl rounded-xl">Recent topics</h1>
         </div>
 
-        {groupedTopicLinks.length && (
+        {Object.keys(groupedTopicLinks).length > 0 && (
           <button
             onClick={() => navigate("/topics")}
-            className="text-sm px-2 py-1 hover:bg-gray-100 text-gray-700 rounded-md transition-all active:scale-95 cursor-pointer outline-0"
+            className="text-xs px-2 py-1 hover:bg-gray-100 text-gray-700 rounded-md transition-all active:scale-95 cursor-pointer outline-0"
           >
             see all
           </button>
         )}
       </div>
 
-      {groupedTopicLinks.length &&
+      {Object.keys(groupedTopicLinks).length > 0 &&
         Object.entries(groupedTopicLinks).map(([date, links]) => (
           <div key={date}>
             <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
@@ -58,9 +58,9 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
           </div>
         ))}
 
-      {!groupedTopicLinks.length && (
+      {Object.keys(groupedTopicLinks).length === 0 && (
         <Card>
-          <div className="flex flex-col items-center justify-center text-center px-8 py-2">
+          <div className="flex flex-col items-center justify-center text-center px-6 py-2">
             <img
               src="/box.png"
               alt="No links"

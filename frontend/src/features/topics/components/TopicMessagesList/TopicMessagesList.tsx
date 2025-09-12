@@ -23,14 +23,22 @@ import { useFetchTopic } from "../../hooks/useFetchTopic";
 import { copyToClipboard } from "@/shared/utils/clipboard";
 import { formatDate } from "@/shared/utils/formatDate";
 import { timeUntil } from "@/shared/utils/timeUntil";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
+import { HashLoader } from "react-spinners";
 
 const TopicMessagesList = () => {
   const { topicId } = useParams();
   // console.log("topicId at useTopicMessages hook:", topicId);
   const navigate = useNavigate();
 
-  const { messages, pagination, loadMore, error, loading, fetchTopicMessages } =
-    useTopicMessages();
+  const {
+    messages,
+    pagination,
+    loadMore,
+    error: messageError,
+    loading,
+    fetchTopicMessages,
+  } = useTopicMessages();
   const { handleDelete, loadingDelete } = useDeleteTopic();
   const {
     topicDetails,
@@ -91,25 +99,16 @@ const TopicMessagesList = () => {
   };
 
   if (topicLoading) {
-    return <div>Loading...</div>;
-  }
-  if (topicError) {
-    return <div>An Error occured...</div>;
+    return (
+      <div className="flex justify-center items-center min-h-[100vh]">
+        <HashLoader size={40} color="#000" />
+      </div>
+    );
   }
 
-  if (error) {
-    console.log("hello world");
-    // return (
-    //   <ErrorState
-    //     message="An unknown error occured"
-    //     src="/empty-box.png"
-    //     onRetry={() => fetchTopicMessages({ page: 1 })}
-    //   />
-    // );
+  if (topicError) {
+    <ErrorState message="An unknown error occured" src="/empty-box.png" />;
   }
-  // if (messages.length === 0 && !loading) {
-  //   return <ErrorState message="No messages yet..." src="/empty-box.png" />;
-  // }
 
   return (
     <FadeDown>
@@ -118,7 +117,7 @@ const TopicMessagesList = () => {
           <div className="w-full max-w-4xl ">
             <div className="flex flex-col sm:flex-row justify-between w-full items-center bg-white rounded-xl p-2">
               <div className="flex flex-col sm:px-2 gap-1 mt-2 w-full sm:border-r sm:border-gray-300">
-                <div className="flex flex-col min-w-0 flex-1">
+                <div className="flex flex-col min-w-0 flex-1 border-b border-gray-300 pb-4 sm:border-0">
                   <div className="flex justify-between w-full">
                     <div className="flex items-center gap-2 text-xl sm:text-2xl sm:py-1 max-w-xl">
                       <Tag size={18} className="text-gray-700" />
@@ -136,11 +135,11 @@ const TopicMessagesList = () => {
                     </button>
                   </div>
 
-                  <div className="flex gap-2 items-center mt-1">
+                  <div className="flex gap-3 items-center mt-1">
                     <div className="flex items-center gap-2">
                       <Link2 size={16} className="text-gray-700 shrink-0" />
 
-                      <div className="text-sm bg-gray-50 px-2 py-1 sm:px-2 sm:py-1 rounded-lg border border-gray-200 min-w-0 max-w-[200px] sm:max-w-md">
+                      <div className="text-xs sm:text-sm bg-gray-50 px-2 py-1 sm:px-2 sm:py-1 rounded-lg border border-gray-200 min-w-0 max-w-[200px] sm:max-w-md">
                         <p className="text-gray-600 overflow-hidden text-ellipsis whitespace-nowrap">
                           {topicDetails?.topicLink}
                         </p>
@@ -153,7 +152,7 @@ const TopicMessagesList = () => {
                       }
                       className="text-gray-500 outline-0 shrink-0 hover:cursor-pointer active:scale-95"
                     >
-                      <Copy size={16} />
+                      <Copy size={15} />
                     </button>
                   </div>
                 </div>
@@ -161,14 +160,14 @@ const TopicMessagesList = () => {
                 <div className="flex flex-col gap-2 my-3">
                   <div className="flex items-center gap-2">
                     <MessageCircleCode size={14} className="text-gray-700" />
-                    <p className="text-gray-700 text-sm">
+                    <p className="text-gray-700 text-xs sm:text-sm">
                       Messages: {topicDetails?.messageCount}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Calendar size={14} className="text-gray-700" />
+                    <Calendar size={14} className="text-gray-700 sm:text-sm" />
 
-                    <p className="text-gray-700 text-sm">
+                    <p className="text-gray-700 text-xs">
                       Created: {formatDate(topicDetails?.createdAt)}
                     </p>
                   </div>
@@ -204,12 +203,11 @@ const TopicMessagesList = () => {
                 )}
 
                 {topicDetails?.hadImages &&
-                  
-                    topicDetails?.topicImgUrls?.length === 0 && (
-                      <div className="flex items-center gap-2 text-gray-700 text-sm mt-4 sm:ml-2">
-                        <Camera size={15} />
-                        <p>Images expired after 15 days</p>
-                      </div>
+                  topicDetails?.topicImgUrls?.length === 0 && (
+                    <div className="flex items-center gap-2 text-gray-700 text-sm mt-4 sm:ml-2">
+                      <Camera size={15} />
+                      <p>Images expired after 15 days</p>
+                    </div>
                   )}
               </div>
             </div>
@@ -231,19 +229,29 @@ const TopicMessagesList = () => {
                       inDashboard={false}
                     />
                   ))}
-                  <div ref={loaderRef} className=" pt-1">
+                  <div
+                    ref={loaderRef}
+                    className="flex justify-center items-center p-4"
+                  >
                     {loading && (
                       <Loader2
                         size={25}
                         className="animate-spin text-blue-500"
                       />
                     )}
-                    {messages.length === 0 && !loading && (
-                      <span className="text-sm text-gray-700">
+                    {!pagination?.hasNextPage && !loading && !messageError && (
+                      <span className="text-sm text-gray-500">
                         No more messages
                       </span>
                     )}
+
+                    {messageError && (
+                      <p className="text-xs text-red-500">
+                        An error occured while loading messages
+                      </p>
+                    )}
                   </div>
+                  
                 </div>
               </div>
             </div>
@@ -259,7 +267,7 @@ const TopicMessagesList = () => {
         handleAction={deleteTopic}
         loading={loadingDelete}
         header="Delete Topic"
-        warning="Are you sure you want to delete this topic? This action cannot be undone."
+        warning="Are you sure? All topic data will be lost!"
         btnAction="Delete"
       />
 

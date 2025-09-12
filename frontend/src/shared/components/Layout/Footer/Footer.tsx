@@ -14,7 +14,7 @@ const Footer = () => {
           <p className="text-gray-600 mb-6">
             Built with ❤️ by{" "}
             <a
-              href="#"
+              href="https://x.com/monaski_"
               className="text-blue-500 hover:text-blue-600 transition-colors duration-200 underline"
             >
               monaski
