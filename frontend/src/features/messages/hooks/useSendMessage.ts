@@ -17,26 +17,34 @@ export const useSendMessage = () => {
     profileSlug,
     topicId,
     messageToSend,
-    themeColor
-  }: sendMessageProps) => {
+    themeColor,
+  }: sendMessageProps): Promise<Boolean> => {
     if (!messageToSend.trim()) {
       setError("Message cannot be empty");
       setSuccess(false);
-      return;
+      return false;
     }
 
     try {
       setLoading(true);
       setError("");
 
-      await axios.post("/message", {
+      const response = await axios.post("/message", {
         profileSlug,
         topicId,
         content: messageToSend,
-        themeColor
+        themeColor,
       });
 
-      setSuccess(true);
+      if (response.data.success) {
+        setSuccess(true);
+        return true;
+      } else {
+        setSuccess(true);
+        return true;
+      }
+
+      
     } catch (err: any) {
       console.log("Error sending message:", err);
       setError("An error occured");
@@ -45,9 +53,10 @@ export const useSendMessage = () => {
         setError("Yo... slow down a bit");
         setSuccess(false);
       } else {
-        setError("An error occured😔. Please try again");
+        setError("An error occured. Please try again");
         setSuccess(false);
       }
+      return false;
     } finally {
       setLoading(false);
     }

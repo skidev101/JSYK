@@ -13,8 +13,10 @@ import TopicsListPage from "./pages/TopicsListPage";
 import TopicMessagesListPage from "./pages/TopicMessagesListPage";
 import LandingPage from "./pages/LandingPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
-import AdminDashboardPage from "./pages/AdminDashboardPage/AdminDashboardPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import { ProtectedRoute } from "./shared/components/Auth";
+import FeatureRequestPage from "./pages/FeatureRequestPage";
+import FeatureRequestListPage from "./pages/FeatureRequestListPage/";
 
 const App = () => {
   return (
@@ -63,10 +65,26 @@ const App = () => {
             }
           />
           <Route
+            path="/feature-request"
+            element={
+              <ProtectedRoute>
+                <FeatureRequestPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/admin/dashboard"
             element={
               <ProtectedRoute adminOnly={true}>
                 <AdminDashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/feature-requests"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <FeatureRequestListPage />
               </ProtectedRoute>
             }
           />

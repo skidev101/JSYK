@@ -30,7 +30,7 @@ export const useTopicData = (profileSlug?: string, topicId?: string) => {
       try {
         setLoadingTopic(true);
         const url = topicId
-          ? `topic/${profileSlug}/${topicId}`
+          ? `/topic/${profileSlug}/${topicId}`
           : `/profile/${profileSlug}`;
         const response = await axios.get(url);
         console.log("topic details:", response);

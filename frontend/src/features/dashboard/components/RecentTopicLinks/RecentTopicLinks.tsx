@@ -3,6 +3,7 @@ import { Copy, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Topic } from "@/store/dashboardStore";
 import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
+import Card from "@/shared/components/Card";
 
 interface RecentTopicLinksProps {
   groupedTopicLinks: Record<string, Topic[]>;
@@ -19,40 +20,67 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
           <h1 className="text-lg sm:text-xl rounded-xl">Recent topics</h1>
         </div>
 
-        <button
-          onClick={() => navigate("/topics")}
-          className="text-sm px-2 py-1 hover:bg-gray-100 text-gray-700 rounded-md transition-all active:scale-95 cursor-pointer outline-0"
-        >
-          see all
-        </button>
+        {groupedTopicLinks.length && (
+          <button
+            onClick={() => navigate("/topics")}
+            className="text-sm px-2 py-1 hover:bg-gray-100 text-gray-700 rounded-md transition-all active:scale-95 cursor-pointer outline-0"
+          >
+            see all
+          </button>
+        )}
       </div>
 
-      {Object.entries(groupedTopicLinks).map(([date, links]) => (
-        <div key={date}>
-          <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
-            {date}
-          </p>
-          {links.map((link) => (
-            <div
-              key={link._id}
-              className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
-            >
-              <div className="w-full pr-8">
-                <div className="flex items-center gap-2">
-                  {/* <Link2 size={18} /> */}
-                  <p className="text-sm sm:text-base truncate">{link.url}</p>
-                </div>
-              </div>
-              <button
-                onClick={() => copyToClipboard(`m/${link.url}`)}
-                className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
+      {groupedTopicLinks.length &&
+        Object.entries(groupedTopicLinks).map(([date, links]) => (
+          <div key={date}>
+            <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl truncate">
+              {date}
+            </p>
+            {links.map((link) => (
+              <div
+                key={link._id}
+                className="relative flex justify-between items-center w-full text-gray-700 bg-gray-100 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden"
               >
-                <Copy size={UI_CONSTANTS.ICON_SIZES.MEDIUM} />
-              </button>
-            </div>
-          ))}
-        </div>
-      ))}
+                <div className="w-full pr-8">
+                  <div className="flex items-center gap-2">
+                    {/* <Link2 size={18} /> */}
+                    <p className="text-sm sm:text-base truncate">{link.url}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => copyToClipboard(`m/${link.url}`)}
+                  className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300"
+                >
+                  <Copy size={UI_CONSTANTS.ICON_SIZES.MEDIUM} />
+                </button>
+              </div>
+            ))}
+          </div>
+        ))}
+
+      {!groupedTopicLinks.length && (
+        <Card>
+          <div className="flex flex-col items-center justify-center text-center px-8 py-2">
+            <img
+              src="/box.png"
+              alt="No links"
+              className="w-36 h-36 mb-4 opacity-80"
+            />
+            <h2 className="text-lg font-semibold text-gray-700">
+              No topics yet
+            </h2>
+            <p className="text-sm text-gray-500 max-w-xs mt-2">
+              Create an anonymous link to see topics here
+            </p>
+            <button
+              onClick={() => navigate("/new-topic")}
+              className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+            >
+              Create New topic
+            </button>
+          </div>
+        </Card>
+      )}
     </div>
   );
 };

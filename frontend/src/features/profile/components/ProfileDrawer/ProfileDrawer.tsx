@@ -10,6 +10,8 @@ import {
   User,
   CheckCircle2Icon,
   XCircleIcon,
+  Bubbles,
+  MessageCircleHeart,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
@@ -54,6 +56,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   const [warning, setWarning] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
 
+
   // sync state with user data onchange
   useEffect(() => {
     if (user) {
@@ -64,6 +67,8 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
       setPreviewImg(user?.profileImgUrl || null);
     }
   }, [user]);
+
+  // if (!user) return;
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -353,6 +358,17 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                 </>
               )}
             </div>
+
+            {!editMode && (
+              <div className="flex justify-end mb-2">
+                <button 
+                onClick={() => navigate("/feature-request")}
+                className="flex items-center gap-2 p-2 rounded-full bg-gray-100 border border-purple-300 hover:cursor-pointer hover:scale-105 active:scale-95 transition-all">
+                  <MessageCircleHeart size={20} className="text-purple-400"/>
+                  {/* <p>Request feature</p> */}
+                </button>
+              </div>
+            )}
 
             {!editMode && (
               <div>

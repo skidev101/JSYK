@@ -17,18 +17,23 @@ import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
 import { useDashboardStore } from "@/store/dashboardStore";
 import { toBlob } from "html-to-image";
+import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
 
 const ViewMessage = () => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const navigate = useNavigate();
+
   const { messageId } = useParams();
   if (!messageId) return <div>oops... no message ID</div>;
+
   const { data } = useViewMessage(messageId); // add error, add loadingMessage
   console.log("topic img urls at view message:", data?.topicImgUrls);
+
   const messageRef = useRef<HTMLDivElement>(null);
-  const navigate = useNavigate();
-  const themeColor = "#3570F8";
-  const { deleteMessage } = useDeleteMessage(); // add loading
+  const { deleteMessage, loadingDelete } = useDeleteMessage(); // add loading
   const removeMessage = useDashboardStore((state) => state.removeMessage);
+  const themeColor = "#3570F8";
 
   // if (loadingMessage) {
   //   return (
@@ -61,6 +66,7 @@ const ViewMessage = () => {
       link.click();
       URL.revokeObjectURL(url);
     } catch (err) {
+      toast.error("Failed to download image");
       console.error("Image capture failed:", err);
     }
   };
@@ -81,11 +87,9 @@ const ViewMessage = () => {
         toast.error("Failed to delete");
         console.log("failed to delete message");
       }
-      // if (loadingDelete) {
-      //   toast.loading("Deleting messages");
-      // }
+
     } catch (err) {
-      console.error("error in delete func", err);
+      console.error("error in delete function call", err);
     }
   };
 
@@ -148,7 +152,7 @@ const ViewMessage = () => {
             <Download size={20} />
           </button>
           <button
-            onClick={() => handleDelete()}
+            onClick={() => setShowDeleteModal(true)}
             className="bg-gray-200 text-gray-800 hover:text-red-500 rounded-full p-2 hover:scale-105 active:scale-95 cursor-pointer transition-all hover:bg-gray-300"
           >
             <Trash size={20} />
@@ -179,6 +183,18 @@ const ViewMessage = () => {
           {/* <SocialShareButtons messageId={messageId} /> */}
         </div>
       </FadeIn>
+
+      {/* Action modal */}
+      <ActionModal
+        isOpen={showDeleteModal}
+        onClose={() => setShowDeleteModal(false)}
+        warning="Are you sure you want to delete this message"
+        header="Delete message"
+        btnAction="Delete"
+        loading={loadingDelete}
+        handleAction={handleDelete}
+      />
+
     </div>
   );
 };

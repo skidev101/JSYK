@@ -9,6 +9,8 @@ import ErrorState from "@/shared/components/UI/ErrorBoundary";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { FadeDown } from "@/shared/components/Motion";
+import Card from "@/shared/components/Card";
+import { copyToClipboard } from "@/shared/utils/clipboard";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -95,35 +97,64 @@ const Dashboard = () => {
           <RecentTopicLinks groupedTopicLinks={groupedTopics} />
         </div>
 
-        <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
+        <div className="flex flex-col bg-white w-full max-h-max rounded-xl p-2 sm:p-4 shadow">
           <div className="flex items-center gap-1 py-1 ml-1">
             <MessageCircle size={20} />
             <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
           </div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
-            {messages.map((message) => (
-              <MessageCard
-                key={message._id}
-                message={message.content}
-                messageId={message._id}
-                topic={message.topic}
-                isRead={message.isRead}
-                themeColor={message.themeColor}
-                inDashboard={true}
-              />
-            ))}
-            <div
-              ref={loaderRef}
-              className="flex justify-center items-center p-4 min-h-[32px]"
-            >
-              {loadingData && (
-                <Loader2 size={25} className="animate-spin text-blue-500" />
-              )}
-              {!data.pagination?.hasNextPage && !loadingData && (
-                <span className="text-sm text-gray-500">No more messages</span>
-              )}
+
+          {messages.length > 0 && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+              {messages.map((message) => (
+                <MessageCard
+                  key={message._id}
+                  message={message.content}
+                  messageId={message._id}
+                  topic={message.topic}
+                  isRead={message.isRead}
+                  themeColor={message.themeColor}
+                  inDashboard={true}
+                />
+              ))}
+              <div
+                ref={loaderRef}
+                className="flex justify-center items-center p-4"
+              >
+                {loadingData && (
+                  <Loader2 size={25} className="animate-spin text-blue-500" />
+                )}
+                {!data.pagination?.hasNextPage && !loadingData && (
+                  <span className="text-sm text-gray-500">
+                    No more messages
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
+          )}
+
+          {!messages.length && (
+            <Card>
+              <div className="flex flex-col items-center justify-center text-center px-8 py-4">
+                <img
+                  src="/box.png"
+                  alt="No links"
+                  className="w-36 h-36 mb-4 opacity-80"
+                />
+                <h2 className="text-lg font-semibold text-gray-700">
+                  No messages yet
+                </h2>
+                <p className="text-sm text-gray-500 max-w-xs mt-2">
+                  Share your anonymous link to get started
+                </p>
+                <button
+                  onClick={() => copyToClipboard(`m/${user?.jsykLink}`)}
+                  className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+                >
+                  Copy link
+                </button>
+              </div>
+            </Card>
+          )}
         </div>
       </div>
 
