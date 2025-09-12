@@ -245,7 +245,7 @@ const TopicMessagesList = () => {
                       </span>
                     )}
 
-                    {messageError && (
+                    {messageError && !loading &&(
                       <p className="text-xs text-red-500">
                         An error occured while loading messages
                       </p>
