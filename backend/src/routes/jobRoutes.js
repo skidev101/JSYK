@@ -5,8 +5,8 @@ import { resetDailyViews } from "../jobs/resetViewsJob.js";
 
 const router = express.Router();
 
-// POST /api/jobs/cleanup-images
-router.post("/cleanup-images", async (req, res) => {
+// GET /api/jobs/cleanup-images
+router.get("/cleanup-images", async (req, res) => {
   try {
     const { secret } = req.query;
 
@@ -21,8 +21,8 @@ router.post("/cleanup-images", async (req, res) => {
   }
 });
 
-// POST /api/jobs/reset-views
-router.post("/reset-views", async (req, res) => {
+// GET /api/jobs/reset-views
+router.get("/reset-views", async (req, res) => {
   try {
     const { secret } = req.query;
 
