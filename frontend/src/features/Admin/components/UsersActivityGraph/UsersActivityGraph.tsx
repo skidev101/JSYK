@@ -1,6 +1,5 @@
 import { AreaChartIcon, Loader2 } from "lucide-react";
 import { useAdminAnalytics } from "../../hooks/useAdminAnalytics";
-import Card from "@/shared/components/Card";
 import {
   XAxis,
   YAxis,
@@ -34,9 +33,12 @@ const UsersActivityGraph = () => {
           </h1>
         </div>
 
-        <Card className="w-full">
+        <div className="w-full bg-gray-100 rounded-xl p-2 shadow mt-2">
           <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={messageTrend} margin={{ top: 10, right: 10, left: -40, bottom: 0 }}>
+            <AreaChart
+              data={messageTrend}
+              margin={{ top: 10, right: 10, left: -40, bottom: 0 }}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="date"
@@ -53,7 +55,7 @@ const UsersActivityGraph = () => {
               />
             </AreaChart>
           </ResponsiveContainer>
-        </Card>
+        </div>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
-import axios from "@/api/axios";
 import { useEffect, useState } from "react";
+import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
+
 
 interface Analytics {
   users: {
@@ -23,12 +24,12 @@ interface Analytics {
   };
   cloudinary: {
     storage: {
-      usage: string; // e.g. "123 MB"
-      limit: string; // e.g. "10 GB"
+      usage: string; 
+      limit: string; 
     };
     bandwidth: {
-      usage: string; // e.g. "456 MB"
-      limit: string; // e.g. "5 GB"
+      usage: string; 
+      limit: string; 
     };
     requests: number;
     transformations: number;
@@ -36,6 +37,7 @@ interface Analytics {
 }
 
 export const useAdminAnalytics = () => {
+  const axiosPrivate = useAxiosPrivate();
   const [data, setData] = useState<Analytics | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,7 +48,7 @@ export const useAdminAnalytics = () => {
     const fetchAnalytics = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("/admin/analytics");
+        const res = await axiosPrivate.get("/admin/analytics");
         console.log("cloudinary usage analytics:", res)
         if (isMounted) setData(res.data);
       } catch (err) {
