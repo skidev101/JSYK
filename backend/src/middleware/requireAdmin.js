@@ -6,7 +6,7 @@ export const requireAdmin = async (req, res, next) => {
     console.log("uid for admin:", uid);
     if (!uid) {
       return res.status(401).json({
-        message: "Unauthorized",
+        message: "you are Unauthorized",
       });
     }
 

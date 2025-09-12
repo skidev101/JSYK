@@ -7,7 +7,7 @@ import {
   getTopic,
   getTopicInfo,
 } from "../controllers/topicController.js";
-import verifyToken from "../middleware/verifyToken.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 import {
   validateCreateTopic,
   validateTopicId,

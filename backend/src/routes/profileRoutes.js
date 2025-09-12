@@ -5,7 +5,7 @@ import {
   checkUsernameAvailability,
   updateProfile,
 } from "../controllers/profileController.js";
-import verifyToken from "../middleware/verifyToken.js";
+import { verifyToken } from "../middleware/verifyToken.js";
 import validateRequest from "../middleware/validateRequest.js";
 import { logSenderInfo } from "../middleware/logSenderInfo.js";
 import { limitSendMessage } from "../middleware/rateLimiter.js";

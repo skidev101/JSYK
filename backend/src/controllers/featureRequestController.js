@@ -40,7 +40,6 @@ export const sendFeatureRequest = async (req, res) => {
 export const getFeatureRequests = async (req, res) => {
   try {
     const requests = await FeatureRequest.find().sort({ createdAt: -1 });
-    console.log("all feature requests:", requests)
 
     return res.status(200).json({
         success: true,
