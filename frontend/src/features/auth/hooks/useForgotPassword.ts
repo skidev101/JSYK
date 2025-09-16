@@ -13,7 +13,6 @@ export const useForgotPassword = () => {
       console.log("auth at forgot pwd:", auth)
       await sendPasswordResetEmail(auth, email, {
         url: `${APP_CONFIG.BASE_URL}/login`,
-        handleCodeInApp: true,
       });
 
       console.log("pwd email sent");

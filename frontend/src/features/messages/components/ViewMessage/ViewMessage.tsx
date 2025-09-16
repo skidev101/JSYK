@@ -1,17 +1,9 @@
 import { useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  // AlertTriangle,
-  ChevronLeft,
-  Download,
-  Ellipsis,
-  Trash,
-  X,
-} from "lucide-react";
+import { ChevronLeft, Download, Ellipsis, Trash, X } from "lucide-react";
 import MessageCard from "@/shared/components/Message/MessageCard";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import { useViewMessage } from "../../hooks/useViewMessage";
-// import { HashLoader } from "react-spinners";
 // import SocialShareButtons from "../SocialShareButtons";
 import { useDeleteMessage } from "../../hooks/useDeleteMessage";
 import toast from "react-hot-toast";
@@ -29,11 +21,11 @@ const ViewMessage = () => {
   const { messageId } = useParams();
   if (!messageId) return <div>oops... no message ID</div>;
 
-  const { data, loadingMessage, error } = useViewMessage(messageId); // add error
+  const { data, loadingMessage, error } = useViewMessage(messageId);
   console.log("topic img urls at view message:", data?.topicImgUrls);
 
   const messageRef = useRef<HTMLDivElement>(null);
-  const { deleteMessage, loadingDelete } = useDeleteMessage(); // add loading
+  const { deleteMessage, loadingDelete } = useDeleteMessage();
   const removeMessage = useDashboardStore((state) => state.removeMessage);
   const themeColor = "#3570F8";
 
@@ -46,7 +38,15 @@ const ViewMessage = () => {
   }
 
   if (error) {
-    <ErrorState message="An unknown error occured" src="/empty-box.png" />;
+    return (
+      <ErrorState message="An unknown error occured" src="/empty-box.png" />
+    );
+  }
+
+  if (!data) {
+    return (
+      <ErrorState message="An unknown error occured" src="/empty-box.png" />
+    );
   }
 
   const handleImageDownload = async () => {
@@ -72,7 +72,7 @@ const ViewMessage = () => {
       link.click();
       URL.revokeObjectURL(url);
 
-      toast.success("Downloaded", { id: toastId })
+      toast.success("Downloaded", { id: toastId });
     } catch (err) {
       toast.error("Failed to download image");
       console.error("Image capture failed:", err);
@@ -102,13 +102,26 @@ const ViewMessage = () => {
 
   return (
     <div className="relative ">
-      <div className="w-full flex justify-end sm:justify-between items-center p-2 sm:p-4 mt-20">
+      <div className="w-full flex justify-between items-center p-2 sm:p-4 mt-20">
         <button
-          onClick={() => navigate("/dashboard")}
+          onClick={() => window.history.back()}
           className="hidden sm:grid place-items-center rounded-2xl p-1 sm:p-3 bg-gray-200 hover:bg-gray-300 cursor-pointer transition duration-200"
         >
           <ChevronLeft size={22} />
         </button>
+
+        <p className="text-sm text-gray-400">
+          {new Date(data?.createdAt || "2025").toLocaleString("en-US", {
+            month: "short",
+            day: "numeric",
+            year: "numeric",
+          })}{" "}
+          ·{" "}
+          {new Date(data?.createdAt || "2025").toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </p>
 
         <div
           onClick={() => setShowDropdown((prev) => !prev)}
@@ -171,7 +184,7 @@ const ViewMessage = () => {
         <div className="w-full flex flex-col justify-center items-center mt-5 mb-16">
           <div
             ref={messageRef}
-            className="w-full max-w-sm h-full flex justify-center flex-col items-center gap-3 rounded-xl p-2 sm:p-4 bg-gray-100 shadow-md"
+            className="w-full max-w-sm h-full flex justify-center flex-col items-center gap-3 rounded-xl px-2 py-6   sm:p-4 bg-gray-100 shadow-md"
           >
             <MessageCard
               username="anonymous"

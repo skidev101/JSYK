@@ -23,7 +23,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
-import { validateUsername } from "@/shared/utils/validateUsername";
+import { validateUsername } from "@/shared/utils/validateInputField";
 import ActionModal from "@/shared/components/UI/Modals/Action/ActionModal";
 import { useDeleteAccount } from "../../hooks/useDeleteAccount";
 
@@ -105,7 +105,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
       console.log("profileimgUrl:", imgUrl);
 
       const response = await axiosPrivate.patch("/profile", {
-        username: formData.username,
+        username: formData.username.toLowerCase(),
         bio: formData.bio,
         profileImgUrl: imgUrl,
         publicId: publicId,

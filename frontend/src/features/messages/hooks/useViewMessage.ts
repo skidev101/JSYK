@@ -24,6 +24,9 @@ export const useViewMessage = (messageId: string) => {
     let isMounted = true;
 
     const fetchMessage = async () => {
+      setLoadingMessage(true);
+      setError("");
+      
       try {
         const response = await axiosPrivate.get(`/message/${messageId}`);
         const messageData = response.data.data;

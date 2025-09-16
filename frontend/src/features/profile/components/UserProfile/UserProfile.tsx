@@ -5,13 +5,13 @@ import { copyToClipboard } from "@/shared/utils/clipboard";
 import { HashLoader } from "react-spinners";
 import { APP_CONFIG } from "@/shared/constants/config";
 import { motion } from "framer-motion";
-// import ErrorState from "@/shared/components/UI/ErrorBoundary";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const UserProfile = () => {
   const { profileSlug } = useParams();
   if (!profileSlug) return <div>Oops... that must be an error</div>;
   const navigate = useNavigate();
-  const { userProfile, loading } = useFetchUserProfile(profileSlug); // add error
+  const { userProfile, loading, error } = useFetchUserProfile(profileSlug); // add error
   console.log("userprofile:", userProfile);
 
   if (loading) {
@@ -21,14 +21,15 @@ const UserProfile = () => {
       </div>
     );
   }
-  // if (error) {
-  //   return (
-  //     <ErrorState
-  //       message="An unknown error occured"
-  //       src="/empty-box.png"
-  //     />
-  //   );
-  // }
+
+  if (error) {
+    return (
+      <ErrorState
+        message="An unknown error occured"
+        src="/empty-box.png"
+      />
+    );
+  }
 
   return (
     <FadeIn>
@@ -49,8 +50,8 @@ const UserProfile = () => {
           <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-2 py-1 sm:px-4 mb-2 rounded-full">
             {`${APP_CONFIG.BASE_URL}/${userProfile?.profileSlug}`}
           </p>
-          <p className="text-sm text-gray-700 bg-gray-100 text-center max-w-max px-3 py-2 mb-5 sm:px-3 sm:py-2 rounded-lg">
-            {userProfile?.bio}
+          <p className="text-sm text-gray-600 bg-gray-100 text-center max-w-max px-3 py-2 mb-5 sm:px-3 sm:py-2 rounded-lg">
+            {userProfile?.bio || "No bio yet"}
           </p>
           <div className="flex items-center gap-2 w-full mt-5">
             <button
@@ -64,7 +65,7 @@ const UserProfile = () => {
               whileHover={{ scale: 1.05 }}
               animate={{ x: [0, -3, 2, -3, 2, 0] }} // shake animation
               transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3 }}
-              className="flex justify-center items-center flex-1/2 py-2 text-sm font-medium text-white bg-gradient-to-r  to-blue-500 from-purple-400 rounded-full shadow-md"
+              className="flex justify-center items-center flex-1/2 py-2 text-sm sm:text-base font-medium text-white bg-gradient-to-r  to-blue-500 from-purple-400 rounded-full shadow-md hover:cursor-pointer"
             >
               Message
             </motion.button>

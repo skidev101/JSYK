@@ -1,4 +1,4 @@
-const reservedWords = [
+export const reservedWords = [
   "admin",
   "login",
   "logout",
@@ -15,6 +15,7 @@ export const sanitizeDisplayName = (displayName) => {
 
   return displayName
     .trim()
+    .toLowerCase()
     .split(/\s+/)[0] // First word only
     .substring(0, 10); // Max 10 chars
 };

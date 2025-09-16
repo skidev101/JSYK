@@ -7,12 +7,13 @@ import { useTopicData } from "../../hooks/useTopicData";
 import { useSendMessage } from "../../hooks/useSendMessage";
 import { HashLoader } from "react-spinners";
 import { motion } from "framer-motion";
+import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const SendMessage = () => {
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
   const [messageToSend, setMessageToSend] = useState("");
-  const { data, loadingTopic } = useTopicData(profileSlug, topicId); // add topicError
+  const { data, loadingTopic, topicError } = useTopicData(profileSlug, topicId);
   console.log("topicdata at send message page:", data);
   const { sendMessage, loading, error } = useSendMessage();
   const themeColor = "#3570F8";
@@ -21,11 +22,15 @@ const SendMessage = () => {
     return (
       <div className="flex justify-center items-center min-h-[100vh] p-8">
         <HashLoader size={40} color="#000" />
-        {/* <div className="text-lg">Loading dashboard...</div> */}
       </div>
     );
   }
-  // if (topicError) return <div>An error occured</div>
+
+  if (topicError) {
+    return (
+      <ErrorState message="An unknown error occured" src="/empty-box.png" />
+    );
+  }
 
   const handleSendMessage = async () => {
     if (!profileSlug) return <div>Oops... That's not right</div>;
@@ -94,12 +99,17 @@ const SendMessage = () => {
               </motion.button>
             </a>
           </div>
-        {/* Footer */}
-        <p className="text-sm text-gray-500">
-          JSYK by <a href="https://x.com/monaski_" className="text-blue-500 hover:text-blue-600 transition-colors duration-200 underline">monaski</a>
-        </p>
+          {/* Footer */}
+          <p className="text-sm text-gray-500">
+            JSYK by{" "}
+            <a
+              href="https://x.com/monaski_"
+              className="text-blue-500 hover:text-blue-600 transition-colors duration-200 underline"
+            >
+              monaski
+            </a>
+          </p>
         </div>
-
       </div>
     </FadeIn>
   );

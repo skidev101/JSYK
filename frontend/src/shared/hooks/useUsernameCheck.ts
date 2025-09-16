@@ -1,9 +1,13 @@
 import axios from "@/api/axios";
+import { isAxiosError } from "axios";
 import { useState, useEffect } from "react";
 
-export const useUsernameCheck = (username: string, currentUsername?: string) => {
+export const useUsernameCheck = (
+  username: string,
+  currentUsername?: string
+) => {
   const [status, setStatus] = useState<
-    "idle" | "checking" | "available" | "taken" | "error"
+    "idle" | "checking" | "available" | "taken" | "error" | "forbidden"
   >("idle");
   const [message, setMessage] = useState("");
 
@@ -24,26 +28,25 @@ export const useUsernameCheck = (username: string, currentUsername?: string) => 
       setStatus("checking");
 
       try {
-        const response = await axios.get(
-          "/profile",
-          {
-            params: { username },
-          }
-        );
+        const response = await axios.get("/profile", {
+          params: { username },
+        });
 
         if (response.data.available === true) {
           setStatus("available");
           setMessage("Username is available");
-
         } else {
           setStatus("taken");
           setMessage("Username is already taken");
-
         }
-
-      } catch (error) {
-        console.error("Error checking username:", error);
-        setStatus("error");
+      } catch (error: any) {
+        if (isAxiosError(error) && error.response?.status === 403) {
+          setStatus("forbidden");
+          setMessage("Username not allowed");
+        } else {
+          console.error("Error checking username:", error);
+          setStatus("error");
+        }
       }
     }, 800);
 

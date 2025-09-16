@@ -25,6 +25,7 @@ import { formatDate } from "@/shared/utils/formatDate";
 import { timeUntil } from "@/shared/utils/timeUntil";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
 import { HashLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 const TopicMessagesList = () => {
   const { topicId } = useParams();
@@ -82,12 +83,19 @@ const TopicMessagesList = () => {
   }, [page, loading, pagination, loadMore]);
 
   const deleteTopic = async () => {
-    if (!topicId) return;
+    try {
+      if (!topicId) return;
+      const success = await handleDelete(topicId);
+      if (success) {
+        setIsModalOpen(false);
+        navigate("/dashboard");
+        toast.success("Topic deleted");
+      } else {
+        toast.error("An error occured");
 
-    const success = await handleDelete(topicId);
-    if (success) {
-      setIsModalOpen(false);
-      navigate("/dashboard");
+      }
+    } catch (err) {
+      console.error("error deleting topic:", err);
     }
   };
 
@@ -245,13 +253,12 @@ const TopicMessagesList = () => {
                       </span>
                     )}
 
-                    {messageError && !loading &&(
+                    {messageError && !loading && (
                       <p className="text-xs text-red-500">
                         An error occured while loading messages
                       </p>
                     )}
                   </div>
-                  
                 </div>
               </div>
             </div>
@@ -267,7 +274,7 @@ const TopicMessagesList = () => {
         handleAction={deleteTopic}
         loading={loadingDelete}
         header="Delete Topic"
-        warning="Are you sure? All topic data will be lost!"
+        warning="Are you sure? All topic's messages will be lost!"
         btnAction="Delete"
       />
 
