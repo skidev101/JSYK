@@ -20,13 +20,13 @@ const ProtectedRoute = ({ children, adminOnly = false }: ProtectedRouteProps) =>
     );
   }
 
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
+  // if (!user) {
+  //   return <Navigate to="/login" replace />;
+  // }
 
-  if (adminOnly && user.role !== "Admin") {
-    return <NotFoundPage />;
-  }
+  // if (adminOnly && user.role !== "Admin") {
+  //   return <NotFoundPage />;
+  // }
 
   return <>{children}</>;
 };

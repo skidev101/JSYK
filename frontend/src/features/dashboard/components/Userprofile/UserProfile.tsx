@@ -21,20 +21,20 @@ const UserProfile = () => {
           <h1 className="text-lg sm:text-xl font-bold">
             {user?.username || "loading..."}
           </h1>
-          <div className="flex justify-between items-center w-full text-sm sm:text-base text-gray-600 hover:text-gray-900 truncate">
+          <div className="flex justify-between items-center w-full text-sm text-gray-500 hover:text-gray-800 truncate">
             <p>{`jsyk/u/${user?.jsykLink}` || "loading..."}</p>
             <button
               onClick={() => copyToClipboard(`u/${user?.jsykLink}`)}
               title="copy link"
               className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all outline-0"
             >
-              <Copy size={18} />
+              <Copy size={16} />
             </button>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-between items-center px-2 py-1 bg-gray-50 rounded-lg mt-2 text-sm">
+      <div className="flex justify-between items-center px-2 py-1 bg-gray-50 rounded-lg mt-3 text-sm">
         <div className="flex items-center gap-2 text-gray-500">
           <Eye size={20} />
           <p>Profile views today</p>
@@ -44,7 +44,7 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <p className="pt-2 text-sm sm:text-base text-gray-700">
+      <p className="pt-2  text-sm sm:text-base text-gray-700">
         Click on a card to create preferred anonymous link
       </p>
 

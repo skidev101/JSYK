@@ -19,7 +19,10 @@ import {
 import { auth } from "@/shared/services/firebase/config";
 import toast from "react-hot-toast";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
-import { validateUsername } from "@/shared/utils/validateUsername";
+import {
+  validateEmail,
+  validateUsername,
+} from "@/shared/utils/validateInputField";
 import { useAuth } from "@/context/AuthContext";
 import axios from "@/api/axios";
 import { getFirebaseErrorMessage } from "@/shared/utils/firebaseErrors";
@@ -51,9 +54,9 @@ const Register = () => {
     const usernameError = validateUsername(username);
     if (usernameError) newErrors.username = usernameError;
 
-    // const emailError = validateEmail(email);
-    if (!email.trim()) {
-      newErrors.email = "Email is required"; //temporary validation. fix later
+    const emailError = validateEmail(email);
+    if (emailError) {
+      newErrors.email = emailError;
     }
 
     if (!password.trim()) {
@@ -85,11 +88,15 @@ const Register = () => {
 
       console.log("idToken at register:", idToken);
 
-      const response = await axios.post("/auth", {}, {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
+      const response = await axios.post(
+        "/auth",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        }
+      );
 
       // console.log("Response to email signin from backend:", response.data);
       login({ ...response.data.data, idToken });
@@ -131,7 +138,7 @@ const Register = () => {
       const response = await axios.post(
         "/auth",
         {
-          username: username,
+          username: username.toLowerCase(),
         },
         {
           headers: {
@@ -223,11 +230,23 @@ const Register = () => {
               ) : status === "taken" ? (
                 <XCircleIcon
                   size={18}
-                  className="absolute top-3 right-3 text-red-500"
+                  className={`absolute ${
+                    errors.username && "hidden"
+                  } top-3 right-3 text-red-500`}
+                />
+              ) : status === "forbidden" ? (
+                <XCircleIcon
+                  size={18}
+                  className={`absolute ${
+                    errors.username && "hidden"
+                  } top-3 right-3 text-red-500`}
                 />
               ) : null}
             </div>
             {status === "taken" && (
+              <p className="text-red-500 text-sm mt-1">{message}</p>
+            )}
+            {status === "forbidden" && (
               <p className="text-red-500 text-sm mt-1">{message}</p>
             )}
             {errors.username && (
@@ -304,7 +323,7 @@ const Register = () => {
                   errors.confirmPassword
                     ? "border-red-500 focus:border-blue-500"
                     : "border-gray-300"
-                }  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                }  rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3`}
                 placeholder="Confirm password"
               />
               <span
@@ -321,15 +340,6 @@ const Register = () => {
             )}
           </div>
 
-          <p className="text-right text-gray-600 mt-2">
-            <a
-              href="/forgot-password"
-              className="text-blue-600 text-sm hover:underline"
-            >
-              Forgot Password?
-            </a>
-          </p>
-
           <button
             type="submit"
             disabled={loading || status === "checking" || status === "taken"}
@@ -337,7 +347,7 @@ const Register = () => {
               loading
                 ? "bg-blue-300 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
-            } text-white font-bold py-2 my-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
+            } text-white font-bold py-2 mt-4 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200`}
           >
             {loading ? (
               <Loader2 size={18} className="animate-spin" />

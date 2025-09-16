@@ -3,12 +3,19 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { useSendFeatureRequest } from "../../hooks/useSendFeatureRequest";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const NewFeatureRequest = () => {
   const [messageToSend, setMessageToSend] = useState("");
-  const { sendFeatureRequest, loading, error } = useSendFeatureRequest();
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { sendFeatureRequest, loading } = useSendFeatureRequest();
 
-  const sendRequest = async () => {    
+  const sendRequest = async () => {
+    if (!messageToSend) {
+      setError("Content is required");
+      return;
+    }    
     
     try {
       const success = await sendFeatureRequest(messageToSend);
@@ -16,6 +23,7 @@ const NewFeatureRequest = () => {
       if (success) {
         toast.success("Request sent");
         setMessageToSend("");
+        navigate("/dashboard");
       } else {
         toast.error("An error occured");
       }
@@ -35,7 +43,7 @@ const NewFeatureRequest = () => {
               Want a new feature?
             </h1>
             <p className="text-gray-600 mt-2">
-              Share your ideas — we’d love to hear from you 💡
+              Share your ideas — we'd love to hear from you 💡
             </p>
           </div>
 

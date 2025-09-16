@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import cloudinary from "../config/cloudinary.js";
+import { generateUniqueSlug, reservedWords } from "../utils/usernameUtils.js";
 
 export const getPublicProfile = async (req, res) => {
   try {
@@ -39,21 +40,29 @@ export const getPublicProfile = async (req, res) => {
 
 export const checkUsernameAvailability = async (req, res) => {
   try {
-    const username = req.query.username?.trim();
+    const username = req.query.username?.trim().toLowerCase();
 
     const user = await User.findOne({ username });
     if (user) {
       return res.status(200).json({
         success: true,
         available: false,
-        message: "username is already taken",
+        message: "Username is already taken",
+      });
+    }
+
+    if (reservedWords.includes(username)) {
+      return res.status(403).json({
+        success: false,
+        message: "Username not allowed",
+        code: "FORBIDDEN_USERNAME"
       });
     }
 
     res.status(200).json({
       success: true,
       available: true,
-      message: "username is available",
+      message: "Username is available",
     });
   } catch (err) {
     console.error("Error checking username availability:", err);
@@ -81,7 +90,11 @@ export const updateProfile = async (req, res) => {
     }
 
     // update fields if provided
-    if (username !== undefined) user.username = username;
+    if (username !== undefined) {
+      const newProfileSlug = await generateUniqueSlug(username, User);
+      user.username = username;
+      user.profileSlug = newProfileSlug;
+    }
     if (email !== undefined) user.email = email;
     if (bio !== undefined) user.bio = bio;
 

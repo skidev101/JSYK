@@ -12,7 +12,7 @@ export const useSendFeatureRequest = () => {
   const sendFeatureRequest = async (message: string): Promise<boolean> => {
     if (!user || !message) {
       setSuccess(false);
-      setError("Message content is required");
+      // setError("Message content is required");
       return false;
     }
 

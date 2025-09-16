@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import { generateUniqueSlug } from "../utils/usernameUtils.js";
+import { sendWelcomeEmail } from "../services/email.js";
 
 export const getCurrentUser = async (req, res) => {
   const { uid } = req.user;
@@ -62,6 +63,10 @@ export const handleAuth = async (req, res) => {
         profileImgUrl,
         profileSlug,
       });
+
+       // send welcome email (non-blocking)
+      sendWelcomeEmail(email, username)
+        .catch(err => console.error("Failed to send welcome email:", err));
     }
 
     console.log("User authenticated:", user);

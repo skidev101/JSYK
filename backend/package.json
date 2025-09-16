@@ -12,6 +12,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@getbrevo/brevo": "^3.0.1",
     "@resvg/resvg-js": "^2.6.2",
     "@supabase/supabase-js": "^2.50.2",
     "@upstash/redis": "^1.35.3",
