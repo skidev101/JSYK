@@ -1,5 +1,6 @@
 "use client";
 
+import { Sparkles } from "lucide-react";
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
@@ -45,14 +46,10 @@ const LandingPage: React.FC = () => {
   }, []);
 
   const handleLoginClick = () => {
-    // Navigate to login page - you'll implement this with your router
-    console.log("Navigate to /login");
     navigate("/login");
   };
 
   const handleSignupClick = () => {
-    // Navigate to signup page - you'll implement this with your router
-    console.log("Navigate to /register");
     navigate("/register");
   };
 
@@ -161,6 +158,11 @@ const LandingPage: React.FC = () => {
             </div>
           ))}
 
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-pink-200 rounded-full px-4 py-2 sm:px-6 sm:py-3 text-purple-600 text-xs sm:text-sm font-medium hover:from-blue-200 hover:to-purple-200 transition-all duration-300 border border-blue-200">
+              <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
+              <span className="font-semibold">JSYK</span> - Just so You know
+            </div>
+
           <h1 className="text-5xl md:text-8xl font-black mb-8 leading-tight">
             <span className="shimmer-text">anonymous</span>
             <br />
@@ -173,7 +175,7 @@ const LandingPage: React.FC = () => {
             {/* <span className="shimmer-text">~ jsyk ~</span> */}
           </h1>
 
-          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-md md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
             Share your thoughts anonymously. Get honest feedback.
             <br />
             <span className="font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -184,7 +186,7 @@ const LandingPage: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <button 
             onClick={handleSignupClick}
-            className="px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-lg font-semibold rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border-0 outline-0 shadow-2xl hover:shadow-blue-500/25 hover:scale-105 hover:cursor-pointer">
+            className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-md sm:text-lg font-semibold rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border-0 outline-0 shadow-2xl hover:shadow-blue-500/25 hover:scale-105 hover:cursor-pointer">
               Start Messaging
             </button>
             {/* <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 text-lg font-semibold rounded-full hover:bg-white transition-all duration-300 shadow-xl border-0 outline-0 border-white/30 hover:scale-105">
