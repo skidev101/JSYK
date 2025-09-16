@@ -11,6 +11,7 @@ import {
   CheckCircle2Icon,
   XCircleIcon,
   MessageCircleHeart,
+  Shield,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { FadeRight } from "@/shared/components/Motion";
@@ -20,7 +21,7 @@ import {
   uploadToCloudinary,
   type UploadResult,
 } from "@/shared/services/imageKit/uploadToCloudinary";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAxiosPrivate } from "@/shared/hooks/useAxiosPrivate";
 import { useUsernameCheck } from "@/shared/hooks/useUsernameCheck";
 import { validateUsername } from "@/shared/utils/validateInputField";
@@ -36,6 +37,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   const { user, logout, refetchUser } = useAuth();
   const { deleteAccount } = useDeleteAccount();
   const navigate = useNavigate();
+  const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
 
   const [editMode, setEditMode] = useState(false);
@@ -54,6 +56,8 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   const [header, setHeader] = useState("");
   const [warning, setWarning] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
+
+  const isInAdmin = location.pathname.startsWith("/admin");
 
   // sync state with user data onchange
   useEffect(() => {
@@ -273,6 +277,13 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                           size={18}
                           className="absolute top-3 right-3 text-red-500"
                         />
+                      ) : status === "forbidden" ? (
+                        <XCircleIcon
+                          size={18}
+                          className={`absolute ${
+                            usernameError && "hidden"
+                          } top-3 right-3 text-red-500`}
+                        />
                       ) : null}
                     </div>
 
@@ -333,7 +344,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
               {editMode && (
                 <>
                   <button
-                    disabled={loading}
+                    disabled={loading || status === "forbidden" || status === "taken" || status === "idle" || status === "checking"}
                     onClick={handleProfileEdit}
                     className={`${
                       loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"
@@ -357,7 +368,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
               )}
             </div>
 
-            {!editMode && (
+            {!editMode && user?.role !== "Admin" && (
               <div className="flex justify-end mb-2">
                 <button
                   onClick={() => {
@@ -368,6 +379,27 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                 >
                   <MessageCircleHeart size={20} className="text-purple-400" />
                   {/* <p>Request feature</p> */}
+                </button>
+              </div>
+            )}
+
+            {!editMode && user?.role == "Admin" && (
+              <div className="flex justify-end mb-2">
+                <button
+                  onClick={() => {
+                    onClose();
+                    navigate(isInAdmin ? "/dashboard" : "/admin/dashboard");
+                  }}
+                  className="flex items-center gap-2 p-2 rounded-xl bg-gray-100 hover:cursor-pointer hover:scale-105 active:scale-95 transition-all"
+                >
+                  {isInAdmin ? (
+                    <User size={20} className="text-gray-400" />
+                  ) : (
+                    <Shield size={20} className="text-gray-400" />
+                  )}
+                  <p className="text-gray-700">
+                    {isInAdmin ? "To User panel" : "To Admin panel"}
+                  </p>
                 </button>
               </div>
             )}

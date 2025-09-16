@@ -186,7 +186,7 @@ const Register = () => {
 
         <p className="text-center text-gray-500 pt-1">or</p>
 
-        <form onSubmit={handleEmailSignup} className="">
+        <form onSubmit={handleEmailSignup} noValidate>
           <div className="my-4">
             {/* <label htmlFor="username" className="block text-gray-700 py-1">
               Username

@@ -84,19 +84,9 @@ const Login = () => {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      // const idToken = await result.user.getIdToken();
-
-      // console.log("User logged in:", result.user);
-
-      // const response = await axiosPrivate.post("/auth");
-
-      // console.log("Response to email signin from backend:", response.data);
-
-      // login(response.data.data);
-
+      
       toast.success("login successful");
 
-      navigate("/dashboard");
     } catch (err: any) {
       //setErrors({ general: err });
       toast.error(getFirebaseErrorMessage(err.code));
@@ -185,6 +175,7 @@ const Login = () => {
           </div>
           <div className="flex justify-end mb-4">
             <button
+              type="button"
               onClick={() => navigate("/reset-password")}
               className="text-sm text-blue-600 outline-0 hover:underline"
             >

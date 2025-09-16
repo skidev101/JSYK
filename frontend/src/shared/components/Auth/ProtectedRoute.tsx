@@ -28,10 +28,6 @@ const ProtectedRoute = ({ children, adminOnly = false }: ProtectedRouteProps) =>
     return <NotFoundPage />;
   }
 
-  if (user.role === "Admin") {
-    return <Navigate to="/admin/dashboard" />;
-  }
-
 
   return <>{children}</>;
 };
