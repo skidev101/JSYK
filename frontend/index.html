@@ -2,19 +2,32 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/banner.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>JSYK - Send and recieve anonymous messages</title>
 
+    <!-- Primary SEO Meta Tags -->
+    <title>JSYK - Send and Receive Anonymous Messages</title>
+    <meta
+      name="description"
+      content="JSYK lets you send and receive anonymous messages safely. Share thoughts, confessions, or questions privately and have fun connecting!"
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://jsyk.pxxl.click" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="Send me anonymous messages!" />
     <meta
       property="og:description"
-      content="Drop your questions and confessions anonymously 👀"
+      content="Connect, share, and confess anonymously with JSYK! Safe, private, and fun messaging for friends, classmates, or anyone online."
     />
     <meta
       property="og:image"
-      content="https://ik.imagekit.io/yo9tu00cr/jsyk.png"
+      content="https://res.cloudinary.com/dgmql6smc/image/upload/v1758063001/cover5_bhdcpa.jpg"
     />
     <meta property="og:url" content="https://jsyk.pxxl.click" />
 
@@ -23,13 +36,29 @@
     <meta name="twitter:title" content="Send me anonymous messages!" />
     <meta
       name="twitter:description"
-      content="Drop your questions and confessions 👀"
+      content="Connect, share, and confess anonymously with JSYK! Safe, private, and fun messaging for friends, classmates, or anyone online."
     />
     <meta
       name="twitter:image"
-      content="https://ik.imagekit.io/yo9tu00cr/jsyk.png"
+      content="https://res.cloudinary.com/dgmql6smc/image/upload/v1758063001/cover5_bhdcpa.jpg"
     />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "JSYK",
+        "url": "https://jsyk.pxxl.click",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://jsyk.pxxl.click/?s={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
