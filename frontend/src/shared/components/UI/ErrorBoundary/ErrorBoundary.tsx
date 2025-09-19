@@ -1,5 +1,5 @@
 import { RefreshCcw } from "lucide-react";
-import { UI_CONSTANTS } from "../../../constants/ui.constants";
+import { UI_CONSTANTS } from "../../../constants/UIConstants";
 
 interface ErrorStateProps {
   src?: string;

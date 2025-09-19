@@ -2,7 +2,7 @@ import { copyToClipboard } from "@/shared/utils/clipboard";
 import { Copy, Link2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import type { Topic } from "@/store/dashboardStore";
-import { UI_CONSTANTS } from "@/shared/constants/ui.constants";
+import { UI_CONSTANTS } from "@/shared/constants/UIConstants";
 import Card from "@/shared/components/Card";
 
 interface RecentTopicLinksProps {

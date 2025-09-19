@@ -1,5 +1,5 @@
-"use client";
-
+import Particles from "@/shared/components/UI/Particles";
+import { features } from "@/shared/constants/features";
 import { Sparkles } from "lucide-react";
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
@@ -15,7 +15,7 @@ const LandingPage: React.FC = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowNavbar(true);
-    }, 500);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, []);
@@ -32,7 +32,7 @@ const LandingPage: React.FC = () => {
 
       if (scrollTop + clientHeight >= scrollHeight - 100) {
         setShowEmojiExplosion(true);
-        setTimeout(() => setShowEmojiExplosion(false), 3000);
+        setTimeout(() => setShowEmojiExplosion(false), 1000);
       }
     };
 
@@ -66,20 +66,9 @@ const LandingPage: React.FC = () => {
       <div className="absolute top-1/2 left-1/2 w-56 h-56 bg-gradient-radial from-orange-200/20 to-transparent rounded-full blur-3xl"></div>
 
       {/* Floating Particles */}
-      {[...Array(20)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute w-2 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full opacity-60 animate-pulse"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animationDelay: `${Math.random() * 3}s`,
-            animationDuration: `${3 + Math.random() * 2}s`,
-            filter: "blur(1px)",
-            boxShadow: "0 0 10px rgba(59, 130, 246, 0.5)",
-          }}
-        />
-      ))}
+      <div className="absolute inset-0">
+        <Particles />
+      </div>
 
       {/* Navbar */}
       <nav
@@ -93,13 +82,13 @@ const LandingPage: React.FC = () => {
             <div className="flex gap-4">
               <button
                 onClick={handleLoginClick}
-                className="px-5 py-2 text-gray-700 hover:text-blue-600 hover:cursor-pointer font-medium transition-colors duration-200"
+                className="hidden sm:flex px-5 py-2 text-gray-700 hover:text-blue-600 hover:cursor-pointer font-medium transition-colors duration-200"
               >
                 Login
               </button>
               <button
                 onClick={handleSignupClick}
-                className="px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 hover:cursor-pointer transition-all duration-200 shadow-lg hover:shadow-md"
+                className="px-4 sm:px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 hover:cursor-pointer transition-all duration-200 shadow-lg hover:shadow-md"
               >
                 Sign Up
               </button>
@@ -159,9 +148,9 @@ const LandingPage: React.FC = () => {
           ))}
 
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-pink-200 rounded-full px-4 py-2 sm:px-6 sm:py-3 text-purple-600 text-xs sm:text-sm font-medium hover:from-blue-200 hover:to-purple-200 transition-all duration-300 border border-blue-200">
-              <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
-              <span className="font-semibold">JSYK</span> - Just so You know
-            </div>
+            <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
+            <span className="font-semibold">JSYK</span> - Just so You know
+          </div>
 
           <h1 className="text-5xl md:text-8xl font-black mb-8 leading-tight">
             <span className="shimmer-text">anonymous</span>
@@ -184,9 +173,10 @@ const LandingPage: React.FC = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button 
-            onClick={handleSignupClick}
-            className="px-6 py-3 sm:px-8 sm:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-md sm:text-lg font-semibold rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border-0 outline-0 shadow-2xl hover:shadow-blue-500/25 hover:scale-105 hover:cursor-pointer">
+            <button
+              onClick={handleSignupClick}
+              className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-md sm:text-lg font-semibold rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border-0 outline-0 shadow-2xl hover:shadow-blue-500/25 hover:scale-105 hover:cursor-pointer"
+            >
               Start Messaging
             </button>
             {/* <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 text-lg font-semibold rounded-full hover:bg-white transition-all duration-300 shadow-xl border-0 outline-0 border-white/30 hover:scale-105">
@@ -204,49 +194,7 @@ const LandingPage: React.FC = () => {
           </h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {[
-              {
-                title: "100% Anonymous",
-                description:
-                  "No names, no profiles. Just pure, honest communication.",
-                icon: "👻",
-                gradient: "from-blue-500 to-cyan-500",
-              },
-              {
-                title: "Safe Space",
-                description:
-                  "Share your thoughts without fear of judgment or consequences.",
-                icon: "🛡️",
-                gradient: "from-purple-500 to-pink-500",
-              },
-              {
-                title: "Real Conversations",
-                description: "Get authentic feedback and genuine connections.",
-                icon: "💬",
-                gradient: "from-green-500 to-emerald-500",
-              },
-              {
-                title: "Easy to Use",
-                description:
-                  "Simple, clean interface. No complicated setup required.",
-                icon: "⚡",
-                gradient: "from-orange-500 to-red-500",
-              },
-              {
-                title: "Privacy First",
-                description:
-                  "Your data stays private. We don't track or store personal info.",
-                icon: "🔒",
-                gradient: "from-indigo-500 to-purple-500",
-              },
-              {
-                title: "Fun & Engaging",
-                description:
-                  "Discover new perspectives and enjoy meaningful interactions.",
-                icon: "🎉",
-                gradient: "from-pink-500 to-rose-500",
-              },
-            ].map((feature, index) => (
+            {features.map((feature, index) => (
               <div
                 key={index}
                 className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/30 hover:bg-white/80 transition-all duration-300 hover:scale-105 hover:shadow-2xl group"
@@ -296,17 +244,20 @@ const LandingPage: React.FC = () => {
       <footer className="py-10 px-6 bg-white/40 backdrop-blur-sm border-t border-white/30">
         <div className="max-w-6xl mx-auto text-center">
           <div className="text-2xl font-bold shimmer-text mb-2">JSYK</div>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 mb-4">
             Built with ❤️ by{" "}
             <a
-              href="#"
-              className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
+              href="https://x.com/monaski_"
+              className="text-blue-500 hover:text-gray-500 transition-colors duration-100 underline"
             >
               monaski
             </a>
           </p>
           <div className="flex justify-center gap-6">
-            <a
+            <p className="text-sm mt-2 text-gray-500">
+              &copy;{new Date().getFullYear()}
+            </p>
+            {/* <a
               href="#"
               className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
             >
@@ -318,7 +269,7 @@ const LandingPage: React.FC = () => {
             >
               Terms
             </a>
-            {/* <a
+            <a
               href="#"
               className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
             >
@@ -330,7 +281,7 @@ const LandingPage: React.FC = () => {
 
       {/* Emoji Explosion */}
       {showEmojiExplosion && (
-        <div className="fixed inset-0 pointer-events-none z-50">
+        <div className="fixed inset-0 pointer-events-none z-50  opacity-[35%]">
           {[
             "💬",
             "🎉",
@@ -351,7 +302,7 @@ const LandingPage: React.FC = () => {
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 0.5}s`,
+                animationDelay: `0.5s`,
               }}
             >
               {emoji}

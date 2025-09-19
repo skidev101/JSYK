@@ -93,7 +93,7 @@ const SendMessage = () => {
                 whileHover={{ scale: 1.05 }}
                 animate={{ x: [0, -3, 2, -3, 2, 0] }} // shake animation
                 transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3 }}
-                className="inline-block mt-2 px-6 py-2 text-sm font-medium text-white bg-gradient-to-r  to-blue-500 from-purple-400 rounded-full shadow-md"
+                className="inline-block mt-2 px-6 py-2 text-sm font-medium text-gray-600 border border-purple-300 bg-gray-100 rounded-full shadow-md"
               >
                 Sign up
               </motion.button>
