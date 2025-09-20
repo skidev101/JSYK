@@ -20,7 +20,7 @@ const Footer = () => {
               monaski
             </a>
           </p>
-          <div className="flex justify-center gap-6">
+          {/* <div className="flex justify-center gap-6">
             <a
               href="#"
               className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
@@ -33,13 +33,13 @@ const Footer = () => {
             >
               Terms
             </a>
-            {/* <a
+            <a
               href="#"
               className="text-gray-500 hover:text-blue-600 transition-colors duration-200"
             >
               Support
-            </a> */}
-          </div>
+            </a>
+          </div> */}
           <p className="text-sm mt-2 text-gray-500">
             &copy;{new Date().getFullYear()}
           </p>

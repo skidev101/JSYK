@@ -48,6 +48,12 @@ NewTopicFormProps) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    const allowedTypes = ["image/png", "image/jpg", "image/jpeg"];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error("Invalid file type");
+      return;
+    }
+
     const maxFileSize = 2 * 1024 * 1024;
     if (file.size > maxFileSize) {
       toast.error("Image size exceeds 2MB limit.");
@@ -222,7 +228,7 @@ NewTopicFormProps) => {
                     <input
                       type="file"
                       ref={topicImageRef}
-                      accept="image/*"
+                      accept=".png, .jpg, .jpeg"
                       onChange={handleImageChange}
                       className="hidden"
                     />
