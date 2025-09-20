@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import type { Topic } from "@/store/dashboardStore";
 import { UI_CONSTANTS } from "@/shared/constants/UIConstants";
 import Card from "@/shared/components/Card";
+import OpenBoxIcon from "@/shared/components/UI/OpenBoxIcon";
 
 interface RecentTopicLinksProps {
   groupedTopicLinks: Record<string, Topic[]>;
@@ -61,11 +62,7 @@ const RecentTopicLinks = ({ groupedTopicLinks }: RecentTopicLinksProps) => {
       {Object.keys(groupedTopicLinks).length === 0 && (
         <Card>
           <div className="flex flex-col items-center justify-center text-center px-6 py-2">
-            <img
-              src="/box.png"
-              alt="No links"
-              className="w-36 h-36 mb-4 opacity-80"
-            />
+            <OpenBoxIcon size={120} />
             <h2 className="text-lg font-semibold text-gray-700">
               No topics yet
             </h2>

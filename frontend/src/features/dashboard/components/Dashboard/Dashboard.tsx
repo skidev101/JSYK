@@ -11,6 +11,7 @@ import { useAuth } from "@/context/AuthContext";
 import { FadeDown } from "@/shared/components/Motion";
 import Card from "@/shared/components/Card";
 import { copyToClipboard } from "@/shared/utils/clipboard";
+import OpenBoxIcon from "@/shared/components/UI/OpenBoxIcon";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -134,28 +135,24 @@ const Dashboard = () => {
 
           {!messages.length && (
             <div className="px-2 py-1">
+              <Card>
+                <div className="flex flex-col items-center justify-center text-center px-8 py-4">
+                  <OpenBoxIcon size={120} />
 
-            <Card>
-              <div className="flex flex-col items-center justify-center text-center px-8 py-4">
-                <img
-                  src="/box.png"
-                  alt="No links"
-                  className="w-36 h-36 mb-4 opacity-80"
-                />
-                <h2 className="text-lg font-semibold text-gray-700">
-                  No messages yet
-                </h2>
-                <p className="text-sm text-gray-500 max-w-xs mt-2">
-                  Share your anonymous link to get started
-                </p>
-                <button
-                  onClick={() => copyToClipboard(`m/${user?.jsykLink}`)}
-                  className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
-                >
-                  Copy link
-                </button>
-              </div>
-            </Card>
+                  <h2 className="text-lg font-semibold text-gray-700">
+                    No messages yet
+                  </h2>
+                  <p className="text-sm text-gray-500 max-w-xs mt-2">
+                    Share your anonymous link to get started
+                  </p>
+                  <button
+                    onClick={() => copyToClipboard(`m/${user?.jsykLink}`)}
+                    className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+                  >
+                    Copy link
+                  </button>
+                </div>
+              </Card>
             </div>
           )}
         </div>
