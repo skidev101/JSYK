@@ -1,3 +1,4 @@
+import EmojiBurst from "@/shared/components/UI/EmojiBurst";
 import Particles from "@/shared/components/UI/Particles";
 import { features } from "@/shared/constants/features";
 import { Sparkles } from "lucide-react";
@@ -8,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const LandingPage: React.FC = () => {
   const navigate = useNavigate();
   const [showNavbar, setShowNavbar] = useState(false);
+  const [burstKey, setBurstKey] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [showEmojiExplosion, setShowEmojiExplosion] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -53,6 +55,10 @@ const LandingPage: React.FC = () => {
     navigate("/register");
   };
 
+  const handleHover = () => {
+    setBurstKey((prev) => prev + 1);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
       {/* Animated Background Elements */}
@@ -88,7 +94,7 @@ const LandingPage: React.FC = () => {
               </button>
               <button
                 onClick={handleSignupClick}
-                className="px-4 sm:px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 hover:cursor-pointer transition-all duration-200 shadow-lg hover:shadow-md"
+                className="relative px-4 sm:px-5 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full hover:from-blue-600 hover:to-purple-700 hover:cursor-pointer transition-all duration-200 shadow-lg hover:shadow-md"
               >
                 Sign Up
               </button>
@@ -147,9 +153,13 @@ const LandingPage: React.FC = () => {
             </div>
           ))}
 
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-pink-200 rounded-full px-4 py-2 sm:px-6 sm:py-3 text-purple-600 text-xs sm:text-sm font-medium hover:from-blue-200 hover:to-purple-200 transition-all duration-300 border border-blue-200">
+          <div
+          onMouseEnter={handleHover}
+           className="relative z-10 hover:cursor-pointer inline-flex items-center gap-2 bg-gradient-to-r from-blue-100 to-pink-200 rounded-full px-4 py-2 sm:px-6 sm:py-3 text-purple-600 text-xs sm:text-sm font-medium hover:from-blue-200 hover:to-purple-200 transition-all duration-300 border border-blue-200">
             <Sparkles className="w-4 h-4 text-purple-600 animate-pulse" />
             <span className="font-semibold">JSYK</span> - Just so You know
+                <EmojiBurst triggerKey={burstKey} />
+
           </div>
 
           <h1 className="text-5xl md:text-8xl font-black mb-8 leading-tight">
@@ -219,13 +229,13 @@ const LandingPage: React.FC = () => {
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 relative">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-12 shadow-2xl relative overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-12 shadow- xl relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20 backdrop-blur-sm"></div>
             <div className="relative z-10">
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 Ready to Start?
               </h2>
-              <p className="text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
+              <p className="text-md sm:text-lg text-blue-100 mb-8 max-w-2xl mx-auto">
                 Join thousands of people sharing their thoughts anonymously.
                 Your voice matters, and your privacy is protected.
               </p>

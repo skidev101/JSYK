@@ -1,5 +1,5 @@
 const particlePositions = [
-  { top: "20%", left: "30%" },
+  { top: "1.7%", left: "30%" },
   { top: "35%", left: "50%" },
   { top: "8%", left: "90%" },
   { top: "30%", right: "5%" },

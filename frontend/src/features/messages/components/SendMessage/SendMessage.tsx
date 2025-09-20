@@ -2,14 +2,15 @@ import { useState } from "react";
 import MessageCard from "@/shared/components/Message/MessageCard";
 import { FadeIn } from "@/shared/components/Motion/MotionWrappers";
 import toast from "react-hot-toast";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTopicData } from "../../hooks/useTopicData";
 import { useSendMessage } from "../../hooks/useSendMessage";
 import { HashLoader } from "react-spinners";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const SendMessage = () => {
+  const navigate = useNavigate();
   const { profileSlug, slug } = useParams();
   const topicId = slug?.split("-").pop();
   const [messageToSend, setMessageToSend] = useState("");
@@ -42,8 +43,9 @@ const SendMessage = () => {
     });
 
     if (res) {
-      toast.success("Message sent");
+      // toast.success("Message sent");
       setMessageToSend("");
+      navigate("/sent", { state: { username: data?.username }});
     }
 
     if (error) {
@@ -59,7 +61,7 @@ const SendMessage = () => {
         <div className="absolute -bottom-32 -right-32 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
 
         {/* Card */}
-        <div className="relative w-full sm:max-w-md bg-white/20 backdrop-blur-md shadow-xl rounded-2xl p-6 flex flex-col items-center gap-5">
+        <div className="relative w-full sm:max-w-md lg:max-w-lg bg-white/20 backdrop-blur-md shadow-xl rounded-2xl px-2 sm:px-6 lg:px-8 py-6 flex flex-col items-center gap-5">
           <h1 className="text-lg text-center font-semibold text-gray-800">
             Send <span className="shimmer-text">@{data?.username}</span> an
             anonymous message 🤫
@@ -84,7 +86,7 @@ const SendMessage = () => {
           />
 
           {/* Call to Action */}
-          <div className="mt-4 text-center">
+          {/* <div className="mt-4 text-center">
             <p className="text-sm text-gray-600">
               Wanna receive anonymous messages too?
             </p>
@@ -93,13 +95,13 @@ const SendMessage = () => {
                 whileHover={{ scale: 1.05 }}
                 animate={{ x: [0, -3, 2, -3, 2, 0] }} // shake animation
                 transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3 }}
-                className="inline-block mt-2 px-6 py-2 text-sm font-medium text-gray-600 border border-purple-300 bg-gray-100 rounded-full shadow-md"
+                className="inline-block mt-2 px-6 py-2 text-sm font-medium text-blue-500"
               >
                 Sign up
               </motion.button>
             </a>
-          </div>
-          {/* Footer */}
+          </div> */}
+
           <p className="text-sm text-gray-500">
             JSYK by{" "}
             <a

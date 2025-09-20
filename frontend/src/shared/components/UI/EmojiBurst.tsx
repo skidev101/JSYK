@@ -14,7 +14,7 @@ const EmojiBurst: React.FC<EmojiBurstProps> = ({ triggerKey }) => {
           {EMOJIS.map((emoji, i) => (
             <motion.span
               key={`${triggerKey}-${i}`}
-              className="absolute bottom-10 left-1/2 text-2xl"
+              className="absolute left-1/2 text-2xl"
               initial={{ opacity: 1, y: 0, x: 0, rotate: 0 }}
               animate={{
                 opacity: 0,

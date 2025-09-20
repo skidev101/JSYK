@@ -18,6 +18,7 @@ import { ProtectedRoute } from "./shared/components/Auth";
 import FeatureRequestPage from "./pages/FeatureRequestPage";
 import FeatureRequestListPage from "./pages/FeatureRequestListPage/";
 import ScrollToTop from "./shared/components/Layout/Scroll";
+import MessageSentPage from "./pages/MessageSentPage";
 
 const App = () => {
   return (
@@ -63,6 +64,7 @@ const App = () => {
         <Route path="/u/:profileSlug" element={<UserProfilePage />} />
         <Route path="/m/:profileSlug/:slug" element={<SendMessagePage />} />
         <Route path="/m/:profileSlug" element={<SendMessagePage />} />
+        <Route path="/sent" element={<MessageSentPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/reset-password" element={<ForgotPasswordPage />} />
