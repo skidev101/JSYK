@@ -48,7 +48,7 @@ const NewFeatureRequest = () => {
           </div>
 
           {/* Card */}
-          <div className="w-full bg-white rounded-2xl shadow-lg p-6 border border-gray-200">
+          <div className="w-full bg-white rounded-2xl shadow-lg px-5 py-6 border border-gray-200">
             <div className="flex flex-col">
               <label
                 htmlFor="message"
@@ -61,7 +61,7 @@ const NewFeatureRequest = () => {
                 id="message"
                 value={messageToSend}
                 onChange={(e) => setMessageToSend(e.target.value)}
-                placeholder="Describe the feature you’d like to see..."
+                placeholder="Describe the feature you'd like to see..."
                 className="w-full min-h-[120px] p-3 text-sm rounded-lg border border-gray-300 bg-gray-50 
                            focus:bg-gray-100 focus:ring-2 focus:ring-blue-500 
                            outline-none transition-all resize-none"

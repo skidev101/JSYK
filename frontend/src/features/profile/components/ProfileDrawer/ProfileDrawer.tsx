@@ -56,6 +56,7 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   const [header, setHeader] = useState("");
   const [warning, setWarning] = useState("");
   const [loadingAction, setLoadingAction] = useState(false);
+  const [showBtnLabel, setShowBtnLabel] = useState(false);
 
   const isInAdmin = location.pathname.startsWith("/admin");
 
@@ -71,6 +72,16 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
   }, [user]);
 
   if (!user) return;
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setShowBtnLabel(true), 1000); // show after 2s
+    const t2 = setTimeout(() => setShowBtnLabel(false), 8000); // hide after 5s
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, [show]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -344,7 +355,13 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
               {editMode && (
                 <>
                   <button
-                    disabled={loading || status === "forbidden" || status === "taken" || status === "idle" || status === "checking"}
+                    disabled={
+                      loading ||
+                      status === "forbidden" ||
+                      status === "taken" ||
+                      status === "idle" ||
+                      status === "checking"
+                    }
                     onClick={handleProfileEdit}
                     className={`${
                       loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"
@@ -378,7 +395,20 @@ const ProfileDrawer = ({ show, onClose }: ProfileDrawerProps) => {
                   className="flex items-center gap-2 p-2 rounded-full bg-gray-100 border border-purple-300 hover:cursor-pointer hover:scale-105 active:scale-95 transition-all"
                 >
                   <MessageCircleHeart size={20} className="text-purple-400" />
-                  {/* <p>Request feature</p> */}
+
+                  <AnimatePresence>
+                    {showBtnLabel && (
+                      <motion.span
+                        initial={{ x: 80, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: 20, opacity: 0 }}
+                        transition={{ duration: 0.4 }}
+                        className="text-sm text-purple-500 whitespace-nowrap"
+                      >
+                        Feature Request
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </button>
               </div>
             )}
