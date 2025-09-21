@@ -8,6 +8,7 @@ import { useSendMessage } from "../../hooks/useSendMessage";
 import { HashLoader } from "react-spinners";
 // import { motion } from "framer-motion";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
+import OpenBoxIcon from "@/shared/components/UI/OpenBoxIcon";
 
 const SendMessage = () => {
   const navigate = useNavigate();
@@ -24,6 +25,16 @@ const SendMessage = () => {
       <div className="flex justify-center items-center min-h-[100vh] p-8">
         <HashLoader size={40} color="#000" />
       </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="w-full h-screen flex justify-center items-center flex-col">
+        <OpenBoxIcon size={120} />
+        <p className="text-gray-700 text-md mt-3">Topic does not exist</p>
+      </div>
+      // <ErrorState message="Topic does not exist" src="/box.png" />
     );
   }
 

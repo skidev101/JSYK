@@ -85,7 +85,7 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       
-      toast.success("login successful");
+      // toast.success("login successful");
 
     } catch (err: any) {
       //setErrors({ general: err });

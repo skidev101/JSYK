@@ -102,7 +102,7 @@ const Register = () => {
       login({ ...response.data.data, idToken });
 
       navigate("/dashboard");
-      toast.success("Sign up successful");
+      // toast.success("Sign up successful");
     } catch (err: any) {
       toast.error(getFirebaseErrorMessage(err.code));
       setLoading(false);
