@@ -187,7 +187,7 @@ const LandingPage: React.FC = () => {
               onClick={handleSignupClick}
               className="px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white text-md sm:text-lg font-semibold rounded-full hover:from-blue-600 hover:to-purple-700 transition-all duration-300 border-0 outline-0 shadow-2xl hover:shadow-blue-500/25 hover:scale-105 hover:cursor-pointer"
             >
-              Start Messaging
+              Get Started
             </button>
             {/* <button className="px-8 py-4 bg-white/80 backdrop-blur-sm text-gray-700 text-lg font-semibold rounded-full hover:bg-white transition-all duration-300 shadow-xl border-0 outline-0 border-white/30 hover:scale-105">
               Learn More
