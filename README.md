@@ -39,7 +39,7 @@ JSYK is a modern, full-stack web application designed for sending and receiving 
 
 ## Getting Started
 
-Follow these steps to set up and run the JSYK project locally.
+Follow these steps to set up and run JSYK project locally.
 
 ### ⚙️ Prerequisites
 
