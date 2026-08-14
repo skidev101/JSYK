@@ -10,23 +10,23 @@ const UserProfile = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="workspace-panel profile-panel">
-      <div className="profile-panel-head">
+    <section className="min-w-0 border border-[#d9dcd4] bg-[#fffefa] p-5">
+      <div className="flex min-w-0 items-center gap-3">
         <img
           src={user?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
           alt="profile"
-          className="w-8 h-8 sm:w-12 sm:h-12 rounded-full object-cover object-center"
+          className="h-11 w-11 shrink-0 rounded-full border border-[#d9dcd4] object-cover"
         />
         <div className="flex flex-col flex-grow min-w-0">
-          <h2>
+          <h2 className="truncate text-base font-semibold tracking-[-0.03em]">
             {user?.username || "loading..."}
           </h2>
-          <div className="profile-link">
-            <p>{`jsyk/u/${user?.jsykLink}` || "loading..."}</p>
+          <div className="mt-1 flex min-w-0 items-center justify-between gap-2">
+            <p className="truncate font-mono text-[10px] text-[#7b837c]">{`jsyk/u/${user?.jsykLink}` || "loading..."}</p>
             <button
               onClick={() => copyToClipboard(`u/${user?.jsykLink}`)}
               title="copy link"
-              className="text-gray-400 hover:text-gray-800 cursor-pointer active:scale-[0.90] transition-all outline-0"
+              className="shrink-0 text-[#7b837c] transition hover:text-[#275d49] active:scale-95"
             >
               <Copy size={16} />
             </button>
@@ -34,23 +34,23 @@ const UserProfile = () => {
         </div>
       </div>
 
-      <div className="profile-views">
+      <div className="my-5 flex items-center justify-between border-y border-[#d9dcd4] py-3 text-xs text-[#707871]">
         <div className="flex items-center gap-2">
-          <Eye size={20} />
+          <Eye size={16} />
           <p>Profile views today</p>
         </div>
-        <strong>{user?.profileViews || "0"}</strong>
+        <strong className="font-mono text-sm text-[#1f2421]">{user?.profileViews || "0"}</strong>
       </div>
 
-      <p>
-        Click on a card to create preferred anonymous link
+      <p className="mb-4 text-xs leading-5 text-[#707871]">
+        Share your general link, or create a focused topic for better replies.
       </p>
 
       <ActionButtons
         onCopy={() => copyToClipboard(`m/${user?.jsykLink}`)}
         onCreateWithTopic={() => navigate("/new-topic")}
       />
-    </div>
+    </section>
   );
 };
 

@@ -10,10 +10,10 @@ const ActionButtons = ({
   onCreateWithTopic,
 }: ActionButtonsProps) => {
   return (
-    <div className="app-action-buttons">
+    <div className="grid gap-2">
       <button
         onClick={onCopy}
-        className=""
+        className="flex h-10 w-full items-center justify-center gap-2 bg-[#275d49] px-3 text-xs font-semibold text-white transition hover:bg-[#1d4435] active:translate-y-px"
       >
         <Copy size={15} />
         <span>Copy anonymous link</span>
@@ -21,7 +21,7 @@ const ActionButtons = ({
 
       <button
         onClick={onCreateWithTopic}
-        className=""
+        className="flex h-10 w-full items-center justify-center gap-2 border border-[#275d49] px-3 text-xs font-semibold text-[#275d49] transition hover:bg-[#e8eee8] active:translate-y-px"
       >
         <Plus size={15} />
         <span>Create a topic link</span>

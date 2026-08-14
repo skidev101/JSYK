@@ -9,9 +9,7 @@ import ErrorState from "@/shared/components/UI/ErrorBoundary";
 import { useEffect, useRef, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { FadeDown } from "@/shared/components/Motion";
-import Card from "@/shared/components/Card";
 import { copyToClipboard } from "@/shared/utils/clipboard";
-import OpenBoxIcon from "@/shared/components/UI/OpenBoxIcon";
 
 const Dashboard = () => {
   const { user, loading } = useAuth();
@@ -91,26 +89,33 @@ const Dashboard = () => {
 
   return (
     <FadeDown>
-      <div className="workspace-page">
-        <div className="workspace-heading">
-          <div><p className="workspace-kicker">Your private workspace</p><h1>Good messages<br />start here.</h1></div>
-          <p>Keep your link in the world. Keep the replies in this room.</p>
+      <div className="min-h-[calc(100vh-70px)] px-4 py-10 sm:px-6 lg:px-8 lg:py-14">
+        <div className="mx-auto max-w-6xl">
+        <div className="mb-8 flex flex-col gap-4 border-b border-[#d9dcd4] pb-7 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="mb-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#275d49]">Your private workspace</p>
+            <h1 className="text-4xl font-semibold leading-none tracking-[-0.06em] text-[#1f2421] sm:text-5xl">Good messages start here.</h1>
+          </div>
+          <p className="max-w-xs text-sm leading-6 text-[#707871]">Keep your link in the world. Keep the replies in this room.</p>
         </div>
-        <div className="workspace-grid">
-        <div className="workspace-sidebar">
+        <div className="grid items-start gap-6 lg:grid-cols-[320px_minmax(0,1fr)]">
+        <aside className="grid min-w-0 gap-5">
           <UserProfile />
 
           <RecentTopicLinks groupedTopicLinks={groupedTopics} />
-        </div>
+        </aside>
 
-        <div className="message-panel workspace-panel">
-          <div className="message-panel-header">
-            <MessageCircle size={20} />
-            <h2>Latest messages</h2>
+        <section className="min-w-0 border border-[#d9dcd4] bg-[#fffefa] p-4 sm:p-6">
+          <div className="mb-5 flex items-center justify-between border-b border-[#d9dcd4] pb-4">
+            <div className="flex items-center gap-2">
+              <MessageCircle size={18} className="text-[#e86b3c]" />
+              <h2 className="text-lg font-semibold tracking-[-0.03em]">Latest messages</h2>
+            </div>
+            <span className="font-mono text-[10px] uppercase tracking-[0.08em] text-[#8b938c]">{messages.length} total</span>
           </div>
 
           {messages.length > 0 && (
-            <div className="message-grid-wrap"><div className="message-grid">
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
               {messages.map((message) => (
                 <MessageCard
                   key={message._id}
@@ -124,7 +129,7 @@ const Dashboard = () => {
               ))}
               <div
                 ref={loaderRef}
-                className="flex justify-center items-center p-4 col-span-full"
+                className="col-span-full flex min-h-10 items-center justify-center p-2"
               >
                 {loadingData && (
                   <Loader2 size={25} className="animate-spin text-blue-500" />
@@ -135,31 +140,27 @@ const Dashboard = () => {
                   </span>
                 )}
               </div>
-              </div></div>
+            </div>
           )}
 
           {!messages.length && (
-            <div className="empty-state">
-              <Card>
-                <div>
-                  <OpenBoxIcon size={120} />
-
-                  <h2>
-                    No messages yet
-                  </h2>
-                  <p>
-                    Share your anonymous link to get started
-                  </p>
+            <div className="flex min-h-[360px] items-center justify-center border border-dashed border-[#cdd2ca] bg-[#f8f7f2] px-6 py-12 text-center">
+                <div className="flex max-w-xs flex-col items-center">
+                  <span className="mb-5 grid h-12 w-12 place-items-center border border-[#d9dcd4] bg-[#fffefa] text-[#e86b3c]">
+                    <MessageCircle size={21} />
+                  </span>
+                  <h2 className="text-lg font-semibold tracking-[-0.03em]">No messages yet</h2>
+                  <p className="mt-2 text-sm leading-6 text-[#707871]">Share your anonymous link to open your inbox.</p>
                   <button
                     onClick={() => copyToClipboard(`m/${user?.jsykLink}`)}
-                    className="app-primary-button"
+                    className="mt-6 inline-flex h-10 items-center justify-center gap-2 bg-[#275d49] px-4 text-xs font-semibold text-white transition hover:bg-[#1d4435] active:translate-y-px"
                   >
                     Copy link
                   </button>
                 </div>
-              </Card>
             </div>
           )}
+        </section>
         </div>
         </div>
       </div>

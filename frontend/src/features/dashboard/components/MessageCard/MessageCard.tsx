@@ -23,22 +23,22 @@ const MessageCard = ({
   return (
     <div
       onClick={() => navigate(`/view/${messageId}`)}
-      className="dashboard-message-card"
+      className="relative min-w-0 cursor-pointer border border-[#d9dcd4] bg-[#fffefa] p-4 transition hover:-translate-y-0.5 hover:border-[#275d49]"
     >
       {isRead && inDashboard && (
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.2] bg-gray-50 rounded-lg z-50">
           {/* opaque bg for read messages */}
         </div>
       )}
-      <div className="dashboard-message-head">
+      <div className="flex items-center justify-between gap-3 border-b border-[#e2e4de] pb-3">
         <div className="flex items-center gap-2">
           <div
-            className="dashboard-message-topic"
+            className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-[#d9dcd4] bg-[#f0f1eb] text-sm"
             style={{ outlineColor: themeColor }}
           >
             <p style={{ color: themeColor }}>{topic?.charAt(0) || "J"}</p>
           </div>
-          <h1 className="dashboard-message-label">
+          <h1 className="max-w-[220px] truncate font-mono text-[10px] font-medium text-[#707871]">
             {topic ? topic : "anonymous"}
           </h1>
         </div>
@@ -47,7 +47,7 @@ const MessageCard = ({
         </button> */}
 
         {!isRead && (
-          <span className="dashboard-unread-dot"></span>
+          <span className="h-2 w-2 shrink-0 rounded-full bg-[#e86b3c]"></span>
         )}
       </div>
 
@@ -55,8 +55,8 @@ const MessageCard = ({
         {/* <p className="text-base sm:text-md max-w-max rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">
           {topic}
         </p> */}
-        <div className="dashboard-message-content">
-          <p>{message}</p>
+        <div className="mt-3 border-l-2 border-[#e86b3c] bg-[#f0f1eb] p-3">
+          <p className="truncate text-sm leading-5 text-[#343b36]">{message}</p>
         </div>
         {/* future updates */}
         {/* <div className="flex items-center gap-2 mt-2">

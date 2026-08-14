@@ -19,26 +19,29 @@ const TopicPreview = ({
   const { user } = useAuth();
 
   return (
-    <div className="preview-panel">
+    <section className="min-w-0 border border-[#d9dcd4] bg-[#e9eee8] p-5 sm:p-7">
       <FadeDown>
         <div>
-          <div className="flex items-center gap-2 border-b-1 border-gray-200">
-            <Palette size={20} />
-            <h2>Preview</h2>
+          <div className="mb-7 flex items-center justify-between border-b border-[#cfd6cd] pb-5">
+            <div className="flex items-center gap-3">
+              <span className="grid h-9 w-9 place-items-center border border-[#cfd6cd] bg-[#fffefa] text-[#e86b3c]"><Palette size={17} /></span>
+              <div><p className="font-mono text-[9px] uppercase tracking-[0.1em] text-[#7b837c]">Live preview</p><h2 className="mt-1 text-lg font-semibold tracking-[-0.04em]">Your message card</h2></div>
+            </div>
+            <span className="hidden font-mono text-[9px] uppercase tracking-[0.08em] text-[#8a928b] sm:block">Updates as you type</span>
           </div>
 
-          <div className="flex justify-center items-center w-full mt-4">
-            <div className="flex flex-col w-full max-w-sm h-auto bg-gray-100 rounded-2xl px-2 py-3 sm:p-4">
-              <div className="flex justify-center items-center gap-4 border-b-1 pb-2 border-gray-300">
-                <Home size={20} className="text-gray-600" />
-                <div className="w-full px-2 py-2 bg-gray-200 rounded-full min-w-[150px] max-w-[250px]">
-                  <p className="text-gray-600 text-sm truncate">
+          <div className="flex min-h-[440px] items-center justify-center border border-[#d0d8cf] bg-[#f4f5ef] p-4 sm:p-8">
+            <div className="w-full max-w-[390px] border border-[#d9dcd4] bg-[#fffefa] p-3 shadow-[8px_9px_0_rgba(39,93,73,0.08)] sm:p-4">
+              <div className="mb-4 flex items-center gap-3 border-b border-[#e2e4de] pb-3">
+                <Home size={16} className="shrink-0 text-[#707871]" />
+                <div className="min-w-0 flex-1 border border-[#e2e4de] bg-[#f0f1eb] px-3 py-2">
+                  <p className="truncate font-mono text-[10px] text-[#707871]">
                     {`${APP_CONFIG.BASE_URL}/${toSlug(topic)}`}
                   </p>
                 </div>
-                <EllipsisVertical size={20} className="text-gray-600" />
+                <EllipsisVertical size={16} className="shrink-0 text-[#707871]" />
               </div>
-              <div className="w-full mt-5">
+              <div className="w-full">
                 <MessageCard
                   username={user?.username}
                   profileImgUrl={user?.profileImgUrl}
@@ -53,7 +56,7 @@ const TopicPreview = ({
           </div>
         </div>
       </FadeDown>
-    </div>
+    </section>
   );
 };
 
