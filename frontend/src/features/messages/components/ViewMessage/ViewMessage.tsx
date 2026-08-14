@@ -101,8 +101,12 @@ const ViewMessage = () => {
   };
 
   return (
-    <div className="relative ">
-      <div className="w-full flex justify-between items-center p-2 sm:p-4 mt-20">
+    <div className="workspace-page">
+      <div className="workspace-heading">
+        <div><p className="workspace-kicker">Message detail</p><h1>One message,<br />worth keeping.</h1></div>
+        <p>Read it, save it, or clear it from your inbox.</p>
+      </div>
+      <div className="w-full flex justify-between items-center p-2 sm:p-4">
         <button
           onClick={() => window.history.back()}
           className="hidden sm:grid place-items-center rounded-2xl p-1 sm:p-3 bg-gray-200 hover:bg-gray-300 cursor-pointer transition duration-200"
@@ -184,7 +188,7 @@ const ViewMessage = () => {
         <div className="w-full flex flex-col justify-center items-center mt-5 mb-16">
           <div
             ref={messageRef}
-            className="w-full max-w-sm h-full flex justify-center flex-col items-center gap-3 rounded-xl px-2 py-6   sm:p-4 bg-gray-100 shadow-md"
+            className="public-card"
           >
             <MessageCard
               username="anonymous"

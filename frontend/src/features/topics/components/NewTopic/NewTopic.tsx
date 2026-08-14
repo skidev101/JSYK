@@ -10,8 +10,9 @@ const NewTopic = () => {
   const [topicImgPreviews, setTopicImgPreviews] = useState<string[]>([]);
 
   return (
-    <div className="flex flex-col sm:flex-row items-start mt-16 mb-4 px-1 py-2 sm:px-2 sm:py-4 gap-6 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      
+    <div className="workspace-page">
+      <div className="workspace-heading"><div><p className="workspace-kicker">Build a better prompt</p><h1>Start a new topic.</h1></div><p>Give people a clear door into the conversation.</p></div>
+      <div className="topic-form-layout">
         <NewTopicForm
           topic={topic}
           setTopic={setTopic}
@@ -29,7 +30,7 @@ const NewTopic = () => {
           themeColor={themeColor}
           topicImgPreviews={topicImgPreviews}
         />
-      
+      </div>
     </div>
   );
 };

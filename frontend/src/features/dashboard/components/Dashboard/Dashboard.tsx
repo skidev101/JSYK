@@ -91,21 +91,26 @@ const Dashboard = () => {
 
   return (
     <FadeDown>
-      <div className="mt-16 mb-8 flex flex-col md:flex-row gap-3 p-2 sm:p-4 rounded-md bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
-        <div className="flex flex-col gap-2 pt-2">
+      <div className="workspace-page">
+        <div className="workspace-heading">
+          <div><p className="workspace-kicker">Your private workspace</p><h1>Good messages<br />start here.</h1></div>
+          <p>Keep your link in the world. Keep the replies in this room.</p>
+        </div>
+        <div className="workspace-grid">
+        <div className="workspace-sidebar">
           <UserProfile />
 
           <RecentTopicLinks groupedTopicLinks={groupedTopics} />
         </div>
 
-        <div className="flex flex-col bg-white w-full max-h-max rounded-xl p-2 sm:p-4 shadow">
-          <div className="flex items-center gap-1 py-2 ml-1">
+        <div className="message-panel workspace-panel">
+          <div className="message-panel-header">
             <MessageCircle size={20} />
-            <h1 className="text-lg sm:text-xl rounded-xl">Messages</h1>
+            <h2>Latest messages</h2>
           </div>
 
           {messages.length > 0 && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+            <div className="message-grid-wrap"><div className="message-grid">
               {messages.map((message) => (
                 <MessageCard
                   key={message._id}
@@ -119,7 +124,7 @@ const Dashboard = () => {
               ))}
               <div
                 ref={loaderRef}
-                className="flex justify-center items-center p-4"
+                className="flex justify-center items-center p-4 col-span-full"
               >
                 {loadingData && (
                   <Loader2 size={25} className="animate-spin text-blue-500" />
@@ -130,24 +135,24 @@ const Dashboard = () => {
                   </span>
                 )}
               </div>
-            </div>
+              </div></div>
           )}
 
           {!messages.length && (
-            <div className="px-2 py-1">
+            <div className="empty-state">
               <Card>
-                <div className="flex flex-col items-center justify-center text-center px-8 py-4">
+                <div>
                   <OpenBoxIcon size={120} />
 
-                  <h2 className="text-lg font-semibold text-gray-700">
+                  <h2>
                     No messages yet
                   </h2>
-                  <p className="text-sm text-gray-500 max-w-xs mt-2">
+                  <p>
                     Share your anonymous link to get started
                   </p>
                   <button
                     onClick={() => copyToClipboard(`m/${user?.jsykLink}`)}
-                    className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+                    className="app-primary-button"
                   >
                     Copy link
                   </button>
@@ -155,6 +160,7 @@ const Dashboard = () => {
               </Card>
             </div>
           )}
+        </div>
         </div>
       </div>
 

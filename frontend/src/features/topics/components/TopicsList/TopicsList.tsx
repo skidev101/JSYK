@@ -59,19 +59,19 @@ const TopicsList = () => {
 
   if (data.topics.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center text-center min-h-[100vh] px-8">
+      <div className="empty-state">
         <img
           src="/box.png"
           alt="No links"
           className="w-36 h-36 mb-4 opacity-80"
         />
-        <h2 className="text-lg font-semibold text-gray-700">No topics yet</h2>
-        <p className="text-sm text-gray-500 max-w-xs mt-2">
+        <h2>No topics yet</h2>
+        <p>
           Create an anonymous link to see topics here
         </p>
         <button
           onClick={() => navigate("/new-topic")}
-          className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+          className="app-primary-button"
         >
           Create New topic
         </button>
@@ -93,15 +93,16 @@ const TopicsList = () => {
 
   return (
     <FadeDown>
-      <div className="w-full h-full min-h-screen mt-16 pt-3 bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100 relative overflow-hidden">
+      <div className="workspace-page">
+        <div className="workspace-heading"><div><p className="workspace-kicker">Your prompts</p><h1>Your topics.</h1></div><p>Every topic is a new way for someone to start talking.</p></div>
         <div className="flex items-center w-full flex-col">
-          <div className="w-full max-w-4xl ">
+          <div className="workspace-panel w-full max-w-4xl">
             <div className="flex justify-between items-center w-full px-2">
               <div>
-                <h1 className="text-xl sm:text-2xl bg-white max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-200">
-                  Your Topics
-                </h1>
-                <p className="text-xs sm:text-sm text-gray-600 bg-white border border-gray-200 max-w-max px-3 py-1 mt-2 sm:px-4 rounded-xl ">
+                <p className="workspace-kicker">
+                  Topic library
+                </p>
+                <p className="text-xs sm:text-sm text-gray-600">
                   Images will be automatically deleted in 15 days to save
                   storage
                 </p>
@@ -116,10 +117,10 @@ const TopicsList = () => {
                   />
                 </button> */}
             </div>
-            <div className="w-full rounded-2xl p-4 border-1 border-gray-100 shadow-md mt-5 bg-white">
+            <div className="w-full mt-5">
               {Object.entries(groupedTopics).map(([date, topics]) => (
                 <div key={date} className="mb-5">
-                  <p className="text-sm text-gray-500 bg-gray-100 max-w-max px-3 mt-2 sm:px-4 sm:py-1 rounded-xl border border-gray-100">
+                  <p className="topic-date">
                     {date}
                   </p>
                   {topics.map((topic) => (
@@ -128,7 +129,7 @@ const TopicsList = () => {
                       onClick={() =>
                         navigate(`/topic/${topic.topicId}/messages`)
                       }
-                      className="relative flex justify-between items-center w-full bg-gray-50 hover:bg-gray-100 hover:cursor-pointer hover:shadow-sm transition-all duration-200 p-2.5 my-2 sm:px-3 sm:py-2.5 rounded-xl overflow-hidden border border-gray-200 active:scale-99"
+                      className="topic-card"
                     >
                       <div className="flex flex-col justify-center gap-4">
                         <div className="flex items-center gap-2">
@@ -147,7 +148,7 @@ const TopicsList = () => {
                           </p>
                         </div>
                       </div>
-                      <span className="absolute right-2 w-8 h-8 grid place-items-center bg-gray-200 rounded-xl cursor-pointer active:scale-[0.90] transition-all hover:bg-gray-300">
+                      <span>
                         <ChevronRight size={17} className="text-gray-700" />
                       </span>
                     </div>

@@ -97,17 +97,22 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-2 sm:px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      {/* <div className="absolute inset-0 mesh-gradient"></div> */}
-
-      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm">
-        <h1 className="text-2xl sm:text-3xl font-bold my-2">Welcome back</h1>
-        <h2 className="text-lg sm:text-xl my-1">Login to continue</h2>
+    <div className="auth-page">
+      <div className="auth-aside">
+        <a className="app-brand" href="/" aria-label="JSYK home"><span className="app-brand-mark">J</span><span>jsyk</span></a>
+        <div><p className="auth-aside-kicker">The honest inbox</p><h1>Come back to the messages that matter.</h1><p>Private questions, real feedback, and the little things people only say when their name is out of the room.</p></div>
+        <span className="auth-aside-foot">JSYK, just so you know.</span>
+      </div>
+      <div className="auth-content">
+        <div className="auth-form-shell">
+          <p className="auth-eyebrow">Welcome back</p>
+          <h2>Log in to your inbox.</h2>
+          <p className="auth-subtitle">Pick up where you left off.</p>
 
         <button
           disabled={loading}
           onClick={handleGoogleSignin}
-          className={`flex justify-center items-center w-full ${
+          className={`auth-social-button ${
             loading ? "cursor-not-allowed" : "cursor-pointer"
           } bg-transparent hover:bg-gray-100 text-gray-500 font-bold py-2 mt-10 mb-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
         >
@@ -119,28 +124,28 @@ const Login = () => {
           Continue with Google
         </button>
 
-        <p className="text-center text-gray-500 pt-1">or</p>
+          <div className="auth-divider"><span>or continue with email</span></div>
 
         <form onSubmit={handleEmailSignin}>
           <div className="my-4">
             {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
             </label> */}
-            <div className="relative">
+              <div className="auth-input-wrap">
               <Mail size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   errors.email ? "border-red-500" : "border-gray-300"
                 } rounded-md outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Enter your email"
               />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="auth-error">{errors.email}</p>
             )}
           </div>
 
@@ -148,14 +153,14 @@ const Login = () => {
             {/* <label htmlFor="password" className="block text-gray-700 py-1">
               Password
             </label> */}
-            <div className="relative">
+              <div className="auth-input-wrap">
               <Lock size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   errors.password
                     ? "border-red-500 focus:border-blue-500"
                     : "border-gray-300"
@@ -163,21 +168,21 @@ const Login = () => {
                 placeholder="Enter your password"
               />
               <span
-                className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-blue-500 transition duration-200"
+                className="auth-password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </span>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="auth-error">{errors.password}</p>
             )}
           </div>
-          <div className="flex justify-end mb-4">
+          <div className="auth-forgot-row">
             <button
               type="button"
               onClick={() => navigate("/reset-password")}
-              className="text-sm text-blue-600 outline-0 hover:underline"
+              className="auth-link-button"
             >
               Forgot Password?
             </button>
@@ -186,7 +191,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`flex justify-center items-center w-full ${
+            className={`auth-submit-button ${
               loading
                 ? "bg-blue-300 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
@@ -217,12 +222,13 @@ const Login = () => {
           Continue with Google
         </button> */}
 
-        <p className="text-center text-gray-600 mt-5">
+        <p className="auth-switch">
           Don't have an account?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
+          <a href="/register" className="auth-link">
             Register
           </a>
         </p>
+        </div>
       </div>
     </div>
   );

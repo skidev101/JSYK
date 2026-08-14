@@ -8,10 +8,10 @@ const MainLayout = () => {
   const [showProfileDrawer, setShowProfileDrawer] = useState(false);
 
   return (
-    <div className="flex flex-col min-h-screen relative">
+    <div className="app-shell">
       <Header onShowProfile={() => setShowProfileDrawer(true)} />
 
-      <main className="flex-grow">
+      <main className="app-main">
         <Outlet />
       </main>
 

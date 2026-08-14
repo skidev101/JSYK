@@ -4,7 +4,6 @@ import { useFetchUserProfile } from "../../hooks/useFetchUserProfile";
 import { copyToClipboard } from "@/shared/utils/clipboard";
 import { HashLoader } from "react-spinners";
 import { APP_CONFIG } from "@/shared/constants/config";
-import { motion } from "framer-motion";
 import ErrorState from "@/shared/components/UI/ErrorBoundary";
 
 const UserProfile = () => {
@@ -33,12 +32,12 @@ const UserProfile = () => {
 
   return (
     <FadeIn>
-      <div className="w-full flex flex-col justify-center items-center min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
+      <div className="public-page">
         {/* <div className="absolute inset-1 mesh-gradient"></div> */}
-        <div className="absolute -top-32 -left-32 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-32 -right-32 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="public-shell">
+          <div className="public-brand"><a className="app-brand" href="/"><span className="app-brand-mark">J</span><span>jsyk</span></a><span>public profile</span></div>
 
-        <div className="w-full max-w-[375px] h-full flex justify-center flex-col items-center gap-3 rounded-xl px-4 py-6 bg-white shadow-xl border border-gray-100">
+        <div className="public-card text-center">
           <img
             src={userProfile?.profileImgUrl || APP_CONFIG.DEFAULT_AVATAR}
             alt="user"
@@ -56,19 +55,16 @@ const UserProfile = () => {
           <div className="flex items-center gap-2 w-full mt-5">
             <button
               onClick={() => copyToClipboard(`${profileSlug}`)}
-              className="flex flex-1/2 justify-center items-center gap-2 bg-gray-100 text-gray-800 rounded-full px-3 py-2 text-sm sm:text-base cursor-pointer transition-all active:scale-95"
+             className="app-secondary-button flex-1"
             >
               Copy profile
             </button>
-            <motion.button
+            <button
               onClick={() => navigate(`/m/${profileSlug}`)}
-              whileHover={{ scale: 1.05 }}
-              animate={{ x: [0, -3, 2, -3, 2, 0] }} // shake animation
-              transition={{ duration: 0.6, repeat: Infinity, repeatDelay: 3 }}
-              className="flex justify-center items-center flex-1/2 py-2 text-sm sm:text-base font-medium text-white bg-gradient-to-r  to-blue-500 from-purple-400 rounded-full shadow-md hover:cursor-pointer"
+               className="app-primary-button flex-1 mt-0"
             >
               Message
-            </motion.button>
+            </button>
             {/* <button
               onClick={() => navigate(`/m/${profileSlug}`)}
               className="flex flex-1/2 justify-center items-center bg-blue-500 hover:bg-blue-400 text-white rounded-full px-3 py-2 text:sm sm:text-base cursor-pointer transition-all active:scale-95"
@@ -76,7 +72,7 @@ const UserProfile = () => {
               Message
             </button> */}
           </div>
-        </div>
+        </div></div>
       </div>
     </FadeIn>
   );

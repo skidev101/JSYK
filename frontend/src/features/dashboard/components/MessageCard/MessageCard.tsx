@@ -23,22 +23,22 @@ const MessageCard = ({
   return (
     <div
       onClick={() => navigate(`/view/${messageId}`)}
-      className="relative rounded-xl bg-white p-2 sm:p-4 cursor-pointer hover:scale-[1.01] transition-all duration-200 shadow"
+      className="dashboard-message-card"
     >
       {isRead && inDashboard && (
         <div className="absolute top-0 left-0 w-full h-full opacity-[0.2] bg-gray-50 rounded-lg z-50">
           {/* opaque bg for read messages */}
         </div>
       )}
-      <div className="flex justify-between px-1 py-2">
+      <div className="dashboard-message-head">
         <div className="flex items-center gap-2">
           <div
-            className="grid place-items-center w-6 h-6 sm:w-8 sm:h-8 bg-gray-100 outline-2 rounded-full shrink-0"
+            className="dashboard-message-topic"
             style={{ outlineColor: themeColor }}
           >
-            <p className="text-sm sm:text-base" style={{ color: themeColor }}>{topic?.charAt(0) || "J"}</p>
+            <p style={{ color: themeColor }}>{topic?.charAt(0) || "J"}</p>
           </div>
-          <h1 className="text-sm sm:text-lg text-gray-600 rounded-xl bg-gray-100 px-2 sm:px-3 truncate overflow-hidden text-ellipsis whitespace-nowrap max-w-[200px] sm:max-w-[290px]">
+          <h1 className="dashboard-message-label">
             {topic ? topic : "anonymous"}
           </h1>
         </div>
@@ -47,7 +47,7 @@ const MessageCard = ({
         </button> */}
 
         {!isRead && (
-          <span className="w-2 h-2 rounded-full bg-red-300"></span>
+          <span className="dashboard-unread-dot"></span>
         )}
       </div>
 
@@ -55,8 +55,8 @@ const MessageCard = ({
         {/* <p className="text-base sm:text-md max-w-max rounded-xl text-gray-800 bg-gray-100 px-2 sm:px-3">
           {topic}
         </p> */}
-        <div className="w-full bg-gray-100 p-3 mt-1 rounded-xl">
-          <p className="text-sm sm:text-base truncate">{message}</p>
+        <div className="dashboard-message-content">
+          <p>{message}</p>
         </div>
         {/* future updates */}
         {/* <div className="flex items-center gap-2 mt-2">

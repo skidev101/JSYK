@@ -115,15 +115,16 @@ const TopicMessagesList = () => {
   }
 
   if (topicError) {
-    <ErrorState message="An unknown error occured" src="/empty-box.png" />;
+    return <ErrorState message="An unknown error occured" src="/empty-box.png" />;
   }
 
   return (
     <FadeDown>
-      <div className="w-full h-full min-h-screen mt-16 pt-3 bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100 relative overflow-hidden">
+      <div className="workspace-page">
+        <div className="workspace-heading"><div><p className="workspace-kicker">Topic inbox</p><h1>Everything said<br />in one place.</h1></div><p>Review the conversation, keep the useful parts, and clear the rest when you are ready.</p></div>
         <div className="flex items-center w-full flex-col">
-          <div className="w-full max-w-4xl ">
-            <div className="flex flex-col sm:flex-row justify-between w-full items-center bg-white rounded-xl p-2">
+          <div className="workspace-panel w-full max-w-4xl">
+            <div className="flex flex-col sm:flex-row justify-between w-full items-center">
               <div className="flex flex-col sm:px-2 gap-1 mt-2 w-full sm:border-r sm:border-gray-300">
                 <div className="flex flex-col min-w-0 flex-1 border-b border-gray-300 pb-4 sm:border-0">
                   <div className="flex justify-between w-full">
@@ -220,12 +221,12 @@ const TopicMessagesList = () => {
               </div>
             </div>
 
-            <div className="text-xl sm:text-2xl bg-white max-w-max px-3 sm:px-4 sm:py-1 mt-4  rounded-xl border border-gray-200">
+            <div className="workspace-panel-title mt-6">
               <h1 className="text-gray-800">Messages</h1>
             </div>
             <div className="w-full rounded-2xl my-2">
               <div className="flex flex-col bg-white w-full rounded-xl p-2 sm:p-4">
-                <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-2 mt-2 p-2 sm:p-4 bg-gray-200 rounded-xl sm:max-h-[100vh] sm:overflow-y-auto">
+              <div className="message-grid-wrap"><div className="message-grid">
                   {messages.map((message) => (
                     <MessageCard
                       key={message._id}
@@ -260,7 +261,7 @@ const TopicMessagesList = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </div></div>
             </div>
           </div>
         </div>

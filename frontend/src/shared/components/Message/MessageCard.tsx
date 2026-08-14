@@ -45,18 +45,18 @@ const MessageCard = ({
   };
 
   return (
-    <div className="relative w-full min-h-[170px] bg-white/80 rounded-3xl shadow-md p-4">
+    <div className="public-message-card">
       <div
-        className="absolute top-0 left-0 z-10 w-full h-16 px-4 py-4 rounded-t-3xl "
+        className="public-message-header"
         style={{ backgroundColor: themeColor }}
       >
-        <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center">
           <div className="flex items-center gap-2 mt-1">
             {!inView && (
               <img
                 src={profileImgUrl || "/default-pfp.webp"}
                 alt=""
-                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 p-[1.4px] border-white"
+                className="w-8 h-8 sm:w-10 sm:h-10 rounded-full object-cover border-2 p-[1.4px] border-white"
               />
             )}
             <h1
@@ -71,10 +71,10 @@ const MessageCard = ({
         </div>
       </div>
 
-      <div className="mt-18">
+      <div className="public-message-body">
         {topic && (
           <>
-            <div className="max-w-max px-2 py-1 sm:px-3 bg-gray-100 rounded-xl">
+              <div className="public-message-topic">
               <p className="text-sm sm:text-base text-gray-800 ">
                 {topic}
               </p>
@@ -98,7 +98,7 @@ const MessageCard = ({
         )}
 
         {message ? (
-            <div className="w-full max-h-max text-center p-2 sm:p-3 mt-2 bg-gray-100 rounded-2xl">
+              <div className="public-message-content">
               <p className="text-sm sm:text-base">{message}</p>
             </div>
         ) : (
@@ -120,7 +120,7 @@ const MessageCard = ({
             <button
               onClick={onSend}
               disabled={preview || loading}
-              className={`flex justify-center items-center w-full py-2 ${
+              className={`public-message-send ${
                 loading ? "cursor-not-allowed" : "cursor-pointer"
               } ${
                 inView ? "hidden" : ""

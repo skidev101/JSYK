@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./product.css";
 
 @font-face {
   font-family: "Poppins";

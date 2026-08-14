@@ -66,17 +66,14 @@ const SendMessage = () => {
 
   return (
     <FadeIn>
-      <div className="relative w-full min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100 overflow-hidden">
+      <div className="public-page">
         {/* Subtle blurred shapes */}
-        <div className="absolute -top-32 -left-32 w-80 h-80 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
-        <div className="absolute -bottom-32 -right-32 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="public-shell">
+          <div className="public-brand"><a className="app-brand" href="/"><span className="app-brand-mark">J</span><span>jsyk</span></a><span>anonymous message</span></div>
 
         {/* Card */}
-        <div className="relative w-full sm:max-w-md lg:max-w-lg bg-white/20 backdrop-blur-md shadow-xl rounded-2xl px-2 sm:px-6 lg:px-8 py-6 flex flex-col items-center gap-5">
-          <h1 className="text-lg text-center font-semibold text-gray-800">
-            Send <span className="shimmer-text">@{data?.username}</span> an
-            anonymous message 🤫
-          </h1>
+        <div className="public-card">
+          <h1>Send <span>@{data?.username}</span> a note.</h1>
           {/* <p className="text-sm text-gray-500 text-center">
             Be honest, kind, or funny — your identity will stay hidden.
           </p> */}
@@ -113,7 +110,7 @@ const SendMessage = () => {
             </a>
           </div> */}
 
-          <p className="text-sm text-gray-500">
+          <p className="public-card-footer">
             JSYK by{" "}
             <a
               href="https://x.com/monaski_"
@@ -122,7 +119,7 @@ const SendMessage = () => {
               monaski
             </a>
           </p>
-        </div>
+        </div></div>
       </div>
     </FadeIn>
   );

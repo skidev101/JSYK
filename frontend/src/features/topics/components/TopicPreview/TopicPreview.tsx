@@ -19,12 +19,12 @@ const TopicPreview = ({
   const { user } = useAuth();
 
   return (
-    <div className="w-full h-full">
+    <div className="preview-panel">
       <FadeDown>
-        <div className="bg-white rounded-xl py-4 px-2 sm:p-5 sm:w-full md:max-h-[100vh] md:overflow-y-auto shadow">
+        <div>
           <div className="flex items-center gap-2 border-b-1 border-gray-200">
             <Palette size={20} />
-            <h1 className="text-2xl">Preview</h1>
+            <h2>Preview</h2>
           </div>
 
           <div className="flex justify-center items-center w-full mt-4">

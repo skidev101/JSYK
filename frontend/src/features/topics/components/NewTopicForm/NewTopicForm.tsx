@@ -123,11 +123,11 @@ NewTopicFormProps) => {
   };
 
   return (
-    <div className="w-full h-full sm:max-w-md">
+    <div className="form-panel">
       <FadeDown>
-        <div className="w-full sm:max-w-sm rounded-xl p-4 sm:p-6 md:min-w-sm xl:min-w-md bg-white shadow">
+        <div>
           <div className="flex justify-between items-center py-2">
-            <div className="flex items-center gap-2 text-gray-700">
+              <div className="workspace-panel-title">
               <Tag size={20} />
               <h1 className="text-2xl sm:text-3xl">New topic</h1>
             </div>
@@ -244,11 +244,7 @@ NewTopicFormProps) => {
             <button
               disabled={loading}
               onClick={handleCreateTopic}
-              className={`flex justify-center items-center w-full text-white font-semibold px-4 py-2 mt-4 rounded-lg shadow-lg ${
-                loading
-                  ? "bg-gradient-to-r from-blue-400 to-purple-300 cursor-not-allowed"
-                  : "bg-gradient-to-r from-blue-500 to-purple-400 hover:bg-blue-600 cursor-pointer"
-              } hover:scale-[1.01] active:scale-[0.98] transition duration-200`}
+              className={`app-primary-button ${loading ? "cursor-not-allowed" : ""}`}
             >
               {loading ? (
                 <Loader2 size={18} className="animate-spin" />

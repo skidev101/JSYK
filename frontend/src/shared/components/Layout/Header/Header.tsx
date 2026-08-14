@@ -1,4 +1,4 @@
-import { User2  } from "lucide-react";
+import { UserRound } from "lucide-react";
 
 interface HeaderProps {
   onShowProfile?: () => void;
@@ -6,16 +6,20 @@ interface HeaderProps {
 
 const Header = ({ onShowProfile }: HeaderProps) => {
   return (
-    <header className="fixed top-0 z-50 w-full flex items-center justify-between shadow-sm p-4 backdrop-blur-md ">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 colored-text">JSYK</h1>
+    <header className="app-header">
+      <a className="app-brand" href="/dashboard" aria-label="JSYK dashboard">
+        <span className="app-brand-mark">J</span>
+        <span>jsyk</span>
+      </a>
 
-      <div className="flex items-center gap-4 sm:gap-8">
+      <div className="app-header-actions">
+        <span className="app-header-caption">your anonymous inbox</span>
         <button
           onClick={onShowProfile}
-          title="profile"
-          className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-gray-100 shadow flex items-center justify-center hover:cursor-pointer active:scale-[0.95] hover:bg-gray-300 transition duration-200 outline-0"
+          title="Open profile"
+          className="app-profile-button"
         >
-          <User2 size={25} className="text-gray-600 px-0.5" />
+          <UserRound size={18} />
         </button>
 
       </div>

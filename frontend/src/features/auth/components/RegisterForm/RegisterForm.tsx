@@ -165,14 +165,22 @@ const Register = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-2 sm:px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm my-6">
-        <h1 className="text-2xl font-bold mt-2">Sign up to continue</h1>
+    <div className="auth-page">
+      <div className="auth-aside">
+        <a className="app-brand" href="/" aria-label="JSYK home"><span className="app-brand-mark">J</span><span>jsyk</span></a>
+        <div><p className="auth-aside-kicker">Make room for honesty</p><h1>Your inbox, without the performance.</h1><p>Create one link people can use to send questions, feedback, and things they would not say out loud.</p></div>
+        <span className="auth-aside-foot">JSYK, just so you know.</span>
+      </div>
+      <div className="auth-content">
+      <div className="auth-form-shell">
+        <p className="auth-eyebrow">Create your space</p>
+        <h2>Make your link.</h2>
+        <p className="auth-subtitle">A private inbox for the honest stuff.</p>
 
         <button
           disabled={loading}
           onClick={handleGoogleSignup}
-          className={`flex justify-center items-center w-full ${
+          className={`auth-social-button ${
             loading ? "cursor-not-allowed" : "cursor-pointer"
           } bg-transparent hover:bg-gray-100 text-gray-500 font-bold py-2 mt-10 mb-2 shadow-sm border border-gray-300 cursor-pointer active:scale-[0.98] rounded-md transition duration-200`}
         >
@@ -184,14 +192,14 @@ const Register = () => {
           Continue with Google
         </button>
 
-        <p className="text-center text-gray-500 pt-1">or</p>
+        <div className="auth-divider"><span>or sign up with email</span></div>
 
         <form onSubmit={handleEmailSignup} noValidate>
           <div className="my-4">
             {/* <label htmlFor="username" className="block text-gray-700 py-1">
               Username
             </label> */}
-            <div className="relative">
+              <div className="auth-input-wrap">
               <User size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type="text"
@@ -206,7 +214,7 @@ const Register = () => {
                     username: usernameErrors || undefined,
                   }));
                 }}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   errors.username
                     ? "border-red-500 focus:border-blue-500"
                     : "border-gray-300"
@@ -244,13 +252,13 @@ const Register = () => {
               ) : null}
             </div>
             {status === "taken" && (
-              <p className="text-red-500 text-sm mt-1">{message}</p>
+              <p className="auth-error">{message}</p>
             )}
             {status === "forbidden" && (
-              <p className="text-red-500 text-sm mt-1">{message}</p>
+              <p className="auth-error">{message}</p>
             )}
             {errors.username && (
-              <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+              <p className="auth-error">{errors.username}</p>
             )}
           </div>
 
@@ -258,14 +266,14 @@ const Register = () => {
             {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
             </label> */}
-            <div className="relative">
+              <div className="auth-input-wrap">
               <Mail size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   errors.email
                     ? "border-red-500 focus:border-blue-500"
                     : "border-gray-300"
@@ -274,7 +282,7 @@ const Register = () => {
               />
             </div>
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="auth-error">{errors.email}</p>
             )}
           </div>
 
@@ -282,14 +290,14 @@ const Register = () => {
             {/* <label htmlFor="password" className="block text-gray-700 py-1">
               Password
             </label> */}
-            <div className="relative">
+              <div className="auth-input-wrap">
               <Lock size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   errors.password
                     ? "border-red-500 focus:border-blue-500"
                     : "border-gray-300"
@@ -297,14 +305,14 @@ const Register = () => {
                 placeholder="Create a password"
               />
               <span
-                className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-blue-500 transition duration-200"
+                className="auth-password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </span>
             </div>
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="auth-error">{errors.password}</p>
             )}
           </div>
 
@@ -312,14 +320,14 @@ const Register = () => {
             {/* <label htmlFor="confirm-password" className="block text-gray-700 py-1">
               Confirm Password
             </label> */}
-            <div className="relative">
+              <div className="auth-input-wrap">
               <Lock size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type={showPassword ? "text" : "password"}
                 id="confirm-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   errors.confirmPassword
                     ? "border-red-500 focus:border-blue-500"
                     : "border-gray-300"
@@ -327,14 +335,14 @@ const Register = () => {
                 placeholder="Confirm password"
               />
               <span
-                className="absolute top-3 right-3 cursor-pointer text-gray-500 hover:text-blue-500 transition duration-200"
+                className="auth-password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </span>
             </div>
             {errors.confirmPassword && (
-              <p className="text-red-500 text-sm mt-1">
+                <p className="auth-error">
                 {errors.confirmPassword}
               </p>
             )}
@@ -343,7 +351,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={loading || status === "checking" || status === "taken"}
-            className={`flex justify-center items-center w-full ${
+            className={`auth-submit-button ${
               loading
                 ? "bg-blue-300 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700 cursor-pointer"
@@ -357,12 +365,13 @@ const Register = () => {
           </button>
         </form>
 
-        <p className="text-center text-gray-600 mt-5">
+        <p className="auth-switch">
           Already a member?{" "}
-          <a href="/login" className="text-blue-600 hover:underline">
+          <a href="/login" className="auth-link">
             Login
           </a>
         </p>
+      </div>
       </div>
     </div>
   );

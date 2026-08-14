@@ -5,13 +5,13 @@ const NotFoundPage = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   return (
-    <section className="flex flex-col justify-center items-center min-h-screen p-4 text-center">
+    <section className="not-found-page"><div className="not-found-shell">
       <img
         src="/404-error.png"
         alt="Not found"
         className="w-36 h-36 mb-4 opacity-80"
       />
-      <h1 className="text-2xl font-bold text-blue-500">Not found</h1>
+      <h1>That page wandered off.</h1>
       <p className="mt-2 text-gray-600">
         The page you're looking for doesn't exist.
       </p>
@@ -19,19 +19,19 @@ const NotFoundPage = () => {
       {user ? (
         <button
           onClick={() => navigate("/dashboard")}
-          className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+          className="app-primary-button"
         >
           Back to Dashboard
         </button>
       ) : (
         <button
           onClick={() => navigate("/")}
-          className="mt-4 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-all duration-200 cursor-pointer active:scale-[0.95]"
+          className="app-primary-button"
         >
           Home
         </button>
       )}
-    </section>
+    </div></section>
   );
 };
 

@@ -15,33 +15,33 @@ const MessageSentPage = () => {
   };
 
   return (
-    <div className="flex h-screen w-full flex-col items-center justify-center bg-gradient-to-b from-pink-100 to-purple-200 text-center px-4">
+    <div className="success-page">
+      <div className="success-shell">
       <AnimatedCheckmark />
 
       <h1 className="mt-6 text-2xl font-semibold text-gray-800">
         Message Sent!
       </h1>
       <p className="mt-2 text-gray-600">
-        Your message was delivered to{" "}
-        <span className="shimmer-text">@{username}</span> anonymously.
+        Your message was delivered to <strong>@{username}</strong> anonymously.
       </p>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-4">
+      <div className="success-actions">
         <button
           onClick={handleSendAnother}
-          className="rounded-full bg-black px-6 py-3 text-white font-medium shadow hover:bg-gray-800 transition hover:cursor-pointer"
+          className="app-primary-button"
         >
           Send Another
         </button>
         <button
           onClick={handleSignUp}
-          className="rounded-full bg-gray-400 px-6 py-3 text-white font-medium shadow hover:bg-pink-700 transition hover:cursor-pointer"
+          className="app-secondary-button"
         >
           Sign Up
         </button>
       </div>
 
-      <p className="fixed bottom-3 text-sm text-gray-500">
+      <p className="public-card-footer">
         JSYK by{" "}
         <a
           href="https://x.com/monaski_"
@@ -49,7 +49,7 @@ const MessageSentPage = () => {
         >
           monaski
         </a>
-      </p>
+      </p></div>
     </div>
   );
 };

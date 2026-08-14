@@ -24,35 +24,42 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-2 sm:px-4 bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 relative overflow-hidden">
-      <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-md w-full max-w-sm">
-        <h1 className="text-xl mb-6 text-gray-700">Reset Password</h1>
+    <div className="auth-page">
+      <div className="auth-aside">
+        <a className="app-brand" href="/" aria-label="JSYK home"><span className="app-brand-mark">J</span><span>jsyk</span></a>
+        <div><p className="auth-aside-kicker">A small reset</p><h1>Back to the conversations.</h1><p>We will send a fresh link to the email connected to your account.</p></div>
+        <span className="auth-aside-foot">JSYK, just so you know.</span>
+      </div>
+      <div className="auth-content"><div className="auth-form-shell">
+        <p className="auth-eyebrow">Account access</p>
+        <h2>Reset your password.</h2>
+        <p className="auth-subtitle">Enter your email and we will take it from here.</p>
         <form onSubmit={handleSubmit} className="space-y-4 max-w-sm mx-auto mt-2">
           <div className="my-4">
             {/* <label htmlFor="email" className="block text-gray-700 py-1">
               Email
             </label> */}
-            <div className="relative">
+            <div className="auth-input-wrap">
               <Mail size={20} className="absolute top-3 left-3 text-gray-500" />
               <input
                 type="email"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 border ${
+                className={`auth-input ${
                   error ? "border-red-500" : "border-gray-300"
                 } rounded-md outline-none focus:ring-2 focus:ring-blue-500`}
                 placeholder="Enter your email"
               />
             </div>
             {error && (
-              <p className="text-red-500 text-sm mt-1">{error}</p>
+              <p className="auth-error">{error}</p>
             )}
 
             <button
               type="submit"
               disabled={loading}
-              className={`flex justify-center items-center w-full ${
+              className={`auth-submit-button ${
                 loading
                   ? "bg-blue-300 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700"
@@ -66,7 +73,7 @@ const ForgotPassword = () => {
             </button>
           </div>
         </form>
-      </div>
+      </div></div>
     </div>
   );
 };

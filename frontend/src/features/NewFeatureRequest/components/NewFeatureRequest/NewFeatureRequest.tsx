@@ -34,21 +34,14 @@ const NewFeatureRequest = () => {
 
   return (
   <FadeDown>
-    <div className="w-full min-h-screen mt-16 px-2 bg-gradient-to-br from-pink-50 via-blue-50 to-pink-100">
-      <div className="flex justify-center items-start">
-        <div className="w-full max-w-2xl mt-12">
+    <div className="workspace-page">
+      <div className="workspace-heading"><div><p className="workspace-kicker">Help shape JSYK</p><h1>Tell us what is missing.</h1></div><p>The best product ideas usually start with a small annoyance.</p></div>
+        <div className="form-panel" style={{ maxWidth: "680px", margin: "0 auto" }}>
           {/* Header */}
-          <div className="text-center mb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
-              Want a new feature?
-            </h1>
-            <p className="text-gray-600 mt-2">
-              Share your ideas — we'd love to hear from you 💡
-            </p>
-          </div>
+          <div className="workspace-panel-title"><h2>Feature request</h2></div>
 
           {/* Card */}
-          <div className="w-full bg-white rounded-2xl shadow-lg px-5 py-6 border border-gray-200">
+          <div>
             <div className="flex flex-col">
               <label
                 htmlFor="message"
@@ -62,24 +55,19 @@ const NewFeatureRequest = () => {
                 value={messageToSend}
                 onChange={(e) => setMessageToSend(e.target.value)}
                 placeholder="Describe the feature you'd like to see..."
-                className="w-full min-h-[120px] p-3 text-sm rounded-lg border border-gray-300 bg-gray-50 
-                           focus:bg-gray-100 focus:ring-2 focus:ring-blue-500 
-                           outline-none transition-all resize-none"
+                className="auth-input"
               />
 
               {error && (
-                <p className="text-sm text-red-500 mt-2">{error}</p>
+                <p className="auth-error">{error}</p>
               )}
 
               <button
                 disabled={loading}
                 onClick={sendRequest}
-                className={`flex justify-center items-center gap-2 w-full text-white font-semibold 
-                            px-4 py-3 mt-5 rounded-lg shadow-md transition-all duration-200 hover:cursor-pointer
+                className={`app-primary-button
                             ${
-                              loading
-                                ? "bg-gradient-to-r from-blue-300 to-purple-300 cursor-not-allowed"
-                                : "bg-gradient-to-r from-blue-500 to-purple-500 hover:scale-[1.02] active:scale-[0.98]"
+                              loading ? "cursor-not-allowed" : ""
                             }`}
               >
                 {loading ? (
@@ -94,7 +82,6 @@ const NewFeatureRequest = () => {
             </div>
           </div>
         </div>
-      </div>
     </div>
   </FadeDown>
 );
